@@ -12,6 +12,12 @@
     text-shadow: 0 0 1px rgba(51,51,51,0.5);
 }
 
+.simple-text {
+    font-family:Arial, Helvetica, sans-serif; 
+    font-size: 28px;
+    color:#0C3B69; 
+}
+
 img.center {   
     display: block;   
     margin-left: auto;   
@@ -63,8 +69,85 @@ body {
     background: #EEF0F7;
 }
 
-#contenido {
+.marco {
     background: #FFFFFF;
     box-shadow: 2px 2px 5px #6C6D70;
-    border-radius:5px;  
+    border-radius:5px;
+    background-image: url('../img/icons/background.png');
+    background-position: bottom right;
+    background-repeat: no-repeat;  
+    padding-top: 2em;
+    padding-bottom: 4em;
+    padding-left: 2em;
+    padding-right: 2em;
 }
+
+.cabecera {
+    background-image: url('../img/icons/logo_iso.jpg');
+    background-position: top left; 
+    background-repeat: no-repeat;
+}
+
+.cuerpo {
+  padding-top: 2em;
+}
+
+.items_encuesta {
+   padding-top: 10px;
+}
+
+.items_encuesta  li {
+    list-style: none;
+}
+
+
+.checkbox {
+  width: 34px;
+  height: 34px;
+}	
+
+input[type=checkbox] {
+  display: none;
+}
+
+input[type=checkbox] + label {
+  width: 34px;
+  height: 34px;
+  background: transparent url('../img/icons/check_field.png') no-repeat -34px 0;
+    font-family:Arial, Helvetica, sans-serif; 
+    font-size: 28px;
+    color:#0C3B69;
+    cursor: pointer;
+    padding-top: 6px;
+}
+
+input[type=checkbox]:checked + label {
+  background-position: 0px 0;
+}
+
+
+
+.radiobutton {
+  width: 34px;
+  height: 34px;
+}	
+
+input[type=radio] {
+  display: none;
+}
+
+input[type=radio] + label {
+  width: 34px;
+  height: 34px;
+  background: transparent url('../img/icons/radio_field.png') no-repeat -34px 0;
+    font-family:Arial, Helvetica, sans-serif; 
+    font-size: 28px;
+    color:#0C3B69;
+    cursor: pointer;
+    padding-top: 6px;
+}
+
+input[type=radio]:checked + label {
+  background-position: 0px 0;
+}
+
