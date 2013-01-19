@@ -113,7 +113,7 @@ input[type=checkbox] {
 input[type=checkbox] + label {
   width: 34px;
   height: 34px;
-  background: transparent url('../img/icons/field_check.png') no-repeat -34px 0;
+  background: transparent url('../img/icons/field_check2.png') no-repeat -34px 0;
     font-family:Arial, Helvetica, sans-serif; 
     font-size: 28px;
     color:#0C3B69;
@@ -139,7 +139,7 @@ input[type=radio] {
 input[type=radio] + label {
   width: 34px;
   height: 34px;
-  background: transparent url('../img/icons/field_radio.png') no-repeat -34px 0;
+  background: transparent url('../img/icons/field_radio2.png') no-repeat -34px 0;
     font-family:Arial, Helvetica, sans-serif; 
     font-size: 28px;
     color:#0C3B69;
