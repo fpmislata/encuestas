@@ -21,31 +21,31 @@
                     <li style="text-align: left">
                         <div class=".radiobutton">
                             <input type="radio" value="1" id="op1" name="option1" checked="checked" />
-                            <label for="op1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Obtindre&nbsp;un&nbsp;titol</label>
+                            <label class="checkedd">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Obtindre&nbsp;un&nbsp;titol</label>
                         </div>  
                     </li>
                     <li style="text-align: left">
                         <div class=".radiobutton">
                             <input type="radio" value="2" id="op2"  name="option1" />
-                            <label for="op2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tindre&nbsp;una&nbsp;bona&nbsp;formació</label>
+                            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tindre&nbsp;una&nbsp;bona&nbsp;formació</label>
                         </div>  
                     </li>
                     <li style="text-align: left">
                         <div class=".radiobutton">
                             <input type="radio" value="3" id="op3"  name="option1"  />
-                            <label for="op3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Trobar&nbsp;treball&nbsp;relacionat&nbsp;ams&nbsp;els&nbsp;estudis&nbsp;cursats</label>
+                            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Trobar&nbsp;treball&nbsp;relacionat&nbsp;ams&nbsp;els&nbsp;estudis&nbsp;cursats</label>
                         </div>  
                     </li>
                     <li style="text-align: left">
                         <div class=".radiobutton">
                             <input type="radio" value="4" id="op4"  name="option1"  />
-                            <label for="op4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Continuar&nbsp;estudis&nbsp;per&nbsp;completar&nbsp;la&nbsp;meua&nbsp;formació</label>
+                            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Continuar&nbsp;estudis&nbsp;per&nbsp;completar&nbsp;la&nbsp;meua&nbsp;formació</label>
                         </div>  
                     </li>
                     <li style="text-align: left">
                         <div class=".radiobutton">
                             <input type="radio" value="5"  id="op5" name="option1"  />
-                            <label for="op5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Altres&nbsp;(indicar&nbsp;quines):</label>
+                            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Altres&nbsp;(indicar&nbsp;quines):</label>
                             <input class="input-xxlarge" type="text" placeholder="Altres expectatives">
                         </div>  
                     </li>                     

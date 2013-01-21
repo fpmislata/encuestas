@@ -5,3 +5,4 @@
         <script src="js/jquery-1.9.0.js"></script>
         <script src="js/jquery-ui.js"></script>
         <script src="js/bootstrap.js"></script>
+        <script src="js/widgets.js"></script>
