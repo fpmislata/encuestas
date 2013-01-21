@@ -73,7 +73,7 @@ body {
     background: #FFFFFF;
     box-shadow: 2px 2px 5px #6C6D70;
     border-radius:5px;
-    background-image: url('../img/icons/background.png');
+    background-image: url('../img/icons/gva_escudo.png');
     background-position: bottom right;
     background-repeat: no-repeat;  
     padding-top: 2em;
@@ -83,7 +83,7 @@ body {
 }
 
 .cabecera {
-    background-image: url('../img/icons/logo_iso.jpg');
+    background-image: url('../img/icons/logo_instituto.png');
     background-position: top left; 
     background-repeat: no-repeat;
 }
