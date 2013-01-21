@@ -20,7 +20,7 @@
 
                     <li style="text-align: left">
                         <div class=".radiobutton">
-                            <input type="radio" value="1" id="op1" name="option1"  />
+                            <input type="radio" value="1" id="op1" name="option1" checked="checked" />
                             <label for="op1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Obtindre&nbsp;un&nbsp;titol</label>
                         </div>  
                     </li>
