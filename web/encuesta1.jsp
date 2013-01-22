@@ -52,16 +52,15 @@
                 </ul>
             </div>
         </div>
-    </div>
-    <div class="row-fluid" style="margin-top: 2em;">
-        <div class="span11" style="text-align: right" >
-            <a href="index.jsp" class="btn btn-large "><i class="icon-arrow-left" ></i> Anterior</a>
-            <a href="encuesta2.jsp" class="btn btn-large btn-primary ">Siguiente <i class="icon-arrow-right icon-white" ></i></a>
+        <div class="row-fluid" style="margin-top: 2em;">
+            <div class="span11" style="text-align: right" >
+                <a href="index.jsp" class="btn btn-large "><i class="icon-arrow-left" ></i> Anterior</a>
+                <a href="encuesta2.jsp" class="btn btn-large btn-primary ">Siguiente <i class="icon-arrow-right icon-white" ></i></a>
+            </div>
+            <div class="span1" >
+            </div>                    
         </div>
-        <div class="span1" >
-        </div>                    
-    </div>
 
-    <%@ include file="/template/bottom.jsp" %>
-</body>
+        <%@ include file="/template/bottom.jsp" %>
+    </body>
 </html>

@@ -49,8 +49,6 @@
                 </div>                
             </div>
         </div>        
-        
-    </div>
     <div class="row-fluid" style="margin-top: 2em;">
         <div class="span11" style="text-align: right" >
             <a href="encuesta1.jsp" class="btn btn-large "><i class="icon-arrow-left" ></i> Anterior</a>
