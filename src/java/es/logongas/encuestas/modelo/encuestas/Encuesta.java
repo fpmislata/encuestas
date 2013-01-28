@@ -14,6 +14,7 @@ import java.util.List;
 public class Encuesta {
     private int idEncuesta;
     private String nombre;
+    private boolean habilitada;
     private Date fechaInicio;
     private Date fechaFin;
     private List<Pregunta> preguntas;
@@ -86,5 +87,19 @@ public class Encuesta {
      */
     public void setPreguntas(List<Pregunta> preguntas) {
         this.preguntas = preguntas;
+    }
+
+    /**
+     * @return the habilitada
+     */
+    public boolean isHabilitada() {
+        return habilitada;
+    }
+
+    /**
+     * @param habilitada the habilitada to set
+     */
+    public void setHabilitada(boolean habilitada) {
+        this.habilitada = habilitada;
     }
 }
