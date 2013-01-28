@@ -11,7 +11,7 @@ import java.util.List;
  * @author Lorenzo González
  */
 public class Pregunta {
-    private int IdPregunta;
+    private int idPregunta;
     private String pregunta;
     private List<Item> items;
     private TipoPregunta tipoPregunta;
@@ -20,14 +20,14 @@ public class Pregunta {
      * @return the IdPregunta
      */
     public int getIdPregunta() {
-        return IdPregunta;
+        return idPregunta;
     }
 
     /**
      * @param IdPregunta the IdPregunta to set
      */
-    public void setIdPregunta(int IdPregunta) {
-        this.IdPregunta = IdPregunta;
+    public void setIdPregunta(int idPregunta) {
+        this.idPregunta = idPregunta;
     }
 
     /**

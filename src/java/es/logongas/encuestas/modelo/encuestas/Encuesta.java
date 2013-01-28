@@ -12,7 +12,7 @@ import java.util.List;
  * @author Lorenzo González
  */
 public class Encuesta {
-    private int IdEncuesta;
+    private int idEncuesta;
     private String nombre;
     private Date fechaInicio;
     private Date fechaFin;
@@ -22,14 +22,14 @@ public class Encuesta {
      * @return the IdEncuesta
      */
     public int getIdEncuesta() {
-        return IdEncuesta;
+        return idEncuesta;
     }
 
     /**
      * @param IdEncuesta the IdEncuesta to set
      */
-    public void setIdEncuesta(int IdEncuesta) {
-        this.IdEncuesta = IdEncuesta;
+    public void setIdEncuesta(int idEncuesta) {
+        this.idEncuesta = idEncuesta;
     }
 
     /**
