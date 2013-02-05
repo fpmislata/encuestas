@@ -26,6 +26,7 @@ public class Pregunta {
     private String pregunta;
     private List<Item> items;
     private TipoPregunta tipoPregunta;
+    private boolean ultimoItemIncluyeOtros;
 
     /**
      * @return the IdPregunta
@@ -81,5 +82,19 @@ public class Pregunta {
      */
     public void setTipoPregunta(TipoPregunta tipoPregunta) {
         this.tipoPregunta = tipoPregunta;
+    }
+
+    /**
+     * @return the ultimoItemIncluyeOtros
+     */
+    public boolean isUltimoItemIncluyeOtros() {
+        return ultimoItemIncluyeOtros;
+    }
+
+    /**
+     * @param ultimoItemIncluyeOtros the ultimoItemIncluyeOtros to set
+     */
+    public void setUltimoItemIncluyeOtros(boolean ultimoItemIncluyeOtros) {
+        this.ultimoItemIncluyeOtros = ultimoItemIncluyeOtros;
     }
 }
