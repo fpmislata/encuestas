@@ -24,6 +24,7 @@ import java.util.List;
 public class Pregunta {
     private int idPregunta;
     private String pregunta;
+    private Encuesta encuesta;
     private List<Item> items;
     private TipoPregunta tipoPregunta;
     private boolean ultimoItemIncluyeOtros;
@@ -56,6 +57,21 @@ public class Pregunta {
         this.pregunta = pregunta;
     }
 
+
+    /**
+     * @return the encuesta
+     */
+    public Encuesta getEncuesta() {
+        return encuesta;
+    }
+
+    /**
+     * @param encuesta the encuesta to set
+     */
+    public void setEncuesta(Encuesta encuesta) {
+        this.encuesta = encuesta;
+    }    
+    
     /**
      * @return the items
      */
@@ -97,4 +113,33 @@ public class Pregunta {
     public void setUltimoItemIncluyeOtros(boolean ultimoItemIncluyeOtros) {
         this.ultimoItemIncluyeOtros = ultimoItemIncluyeOtros;
     }
+    
+    public boolean isPrimera() {
+        int index=encuesta.getPreguntas().indexOf(this);
+        
+        if (index<0) {
+            throw new RuntimeException("No existe la pregunta en la encuesta");
+        }
+        
+        if (index==0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean isUltima() {
+        int index=encuesta.getPreguntas().indexOf(this);
+        
+        if (index<0) {
+            throw new RuntimeException("No existe la pregunta en la encuesta");
+        }
+        
+        if ((index+1)==encuesta.getPreguntas().size()) {
+            return true;
+        } else {
+            return false;
+        }        
+    }    
+    
 }

@@ -6,6 +6,9 @@
             <generator class="identity" />
         </id>
         <property name="pregunta" />
+        <many-to-one name="encuesta">
+            <column name="idEncuesta"  />
+        </many-to-one>        
         <property name="tipoPregunta" >
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">es.logongas.encuestas.modelo.encuestas.TipoPregunta</param>
