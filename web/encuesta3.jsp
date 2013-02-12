@@ -46,7 +46,7 @@
                         <div class=".radiobutton">
                             <input type="radio" value="5"  id="op5" name="option1"  />
                             <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Altres&nbsp;(indicar&nbsp;quines):</label>
-                            <input class="input-xxlarge" type="text" placeholder="Altres expectatives">
+                            <input class="input-xxlarge" type="text" placeholder="Altres expectatives" style="visibility:hidden">
                         </div>  
                     </li>                     
                 </ul>

@@ -46,7 +46,7 @@
                         <div class=".checkbox">
                             <input type="checkbox" value="1" id="option5"  name="option5" />
                             <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Altres&nbsp;(indicar&nbsp;quines):</label>
-                            <input class="input-xxlarge" type="text" placeholder="Altres expectatives">
+                            <input class="input-xxlarge" type="text" placeholder="Altres expectatives" style="visibility:hidden">
                         </div>  
                     </li>                     
                 </ul>

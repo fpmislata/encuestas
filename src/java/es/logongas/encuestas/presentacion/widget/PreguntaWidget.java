@@ -83,7 +83,7 @@ public class PreguntaWidget implements Widget {
             if (i+1==pregunta.getItems().size()) {
                 //Estamos en el último
                 if (pregunta.isUltimoItemIncluyeOtros()==true) {
-                    sb.append("          <input class=\"input-xxlarge\" type=\"text\" id=\"otros\" name=\"otros\" placeholder=\"Altres\">");
+                    sb.append("          <input class=\"input-xxlarge\" type=\"text\" id=\"otros\" name=\"otros\" placeholder=\"Altres\"  style=\"visibility:hidden\">");
                 }
             }
             sb.append("        </div>  ");
