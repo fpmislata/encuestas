@@ -12,7 +12,7 @@
                         <div class="span12"><img src="img/icons/pie_chart.png" alt="grafica" class="center" ></div>
                     </div> 
                     <div class="row-fluid" style="margin-top: 5em;">
-                        <div class="span12 main-text" style="text-align: center">¿Que tipo de alumno eres?</div>
+                        <div class="span12 main-text" style="text-align: center;font-size:40px;">¿Que tipo de alumno eres?</div>
                     </div>         
                     <div class="row-fluid" style="margin-top: 3em;">
 
