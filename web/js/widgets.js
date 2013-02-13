@@ -67,7 +67,11 @@ function changeCheck(inputCheck) {
     } else {
         alert("tipo desconocido");
     }
-    
-   
 
+}
+
+
+function select_click(element) {
+    $(element).parent().parent().prev("button").html($(element).text()+"&nbsp;&nbsp;<span class=\"caret\"></span>");
+    $(element).parent().parent().next("input").val($(element).text());
 }

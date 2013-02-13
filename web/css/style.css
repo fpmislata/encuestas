@@ -154,3 +154,10 @@ input[type=radio] + label {
     background-position: -34px 0;
 }
 
+dropdownlist. input {      
+  position: absolute;
+  left: -9999px;   
+
+}
+
+

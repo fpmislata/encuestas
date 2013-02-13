@@ -18,16 +18,17 @@
             <div class="span10 simple-text" style="padding-left: 20px;padding-top: 0.5em;" ><img src="img/icons/bullet.png" /> El procés de matricula:</div>
             <div class="span2" >
                 <div class="btn-group">
-                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                    <button id="opcion1" class="btn dropdown-toggle" data-toggle="dropdown">
                         5&nbsp;&nbsp;<span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
+                        <li><a href="javascript:void(0)" onclick="select_click(this)" >1</a></li>
+                        <li><a href="javascript:void(0)" onclick="select_click(this)" >2</a></li>
+                        <li><a href="javascript:void(0)" onclick="select_click(this)" >3</a></li>
+                        <li><a href="javascript:void(0)" onclick="select_click(this)" >4</a></li>
+                        <li><a href="javascript:void(0)" onclick="select_click(this)" >pepe</a></li>
                     </ul>
+                    <input type="text" />
                 </div>                
             </div>
         </div>
@@ -40,12 +41,13 @@
                         5&nbsp;&nbsp;<span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
+                        <li><a href="javascript:void(0)" onclick="select_click(this)" >1</a></li>
+                        <li><a href="javascript:void(0)" onclick="select_click(this)" >2</a></li>
+                        <li><a href="javascript:void(0)" onclick="select_click(this)" >3</a></li>
+                        <li><a href="javascript:void(0)" onclick="select_click(this)" >4</a></li>
+                        <li><a href="javascript:void(0)" onclick="select_click(this)" >5</a></li>
                     </ul>
+                    <input type="text" />
                 </div>                
             </div>
         </div>        
