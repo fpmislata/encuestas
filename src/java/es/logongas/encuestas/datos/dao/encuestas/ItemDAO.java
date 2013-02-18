@@ -4,13 +4,13 @@
  */
 package es.logongas.encuestas.datos.dao.encuestas;
 
-import es.logongas.encuestas.modelo.encuestas.Encuesta;
+import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.ix3.persistencia.services.dao.GenericDAO;
 
 /**
  *
  * @author Lorenzo González
  */
-public interface DAOEncuesta extends GenericDAO<Encuesta,Integer>  {
+public interface ItemDAO extends GenericDAO<Item,Integer>  {
     
 }
