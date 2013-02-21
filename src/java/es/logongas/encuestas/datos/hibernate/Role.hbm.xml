@@ -13,11 +13,11 @@
             <one-to-many class="es.logongas.encuestas.modelo.seguridad.Privilege" />
         </set>     
         
-        <set name="users" table="UserRole" lazy="true" cascade="all" inverse="false"  >
+        <set name="users"  cascade="all" inverse="true"  >
             <key>
                 <column name="idRole"  />
-            </key>
-            <many-to-many column="IdUser" class="es.logongas.encuestas.modelo.seguridad.User" />
+            </key>            
+            <one-to-many  class="es.logongas.encuestas.modelo.seguridad.UserRole" />
         </set>
     </class>
 </hibernate-mapping>

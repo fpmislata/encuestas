@@ -11,5 +11,6 @@
     <mapping resource="es/logongas/encuestas/datos/hibernate/User.hbm.xml"/>
     <mapping resource="es/logongas/encuestas/datos/hibernate/Role.hbm.xml"/>
     <mapping resource="es/logongas/encuestas/datos/hibernate/Privilege.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/datos/hibernate/UserRole.hbm.xml"/>    
   </session-factory>
 </hibernate-configuration>

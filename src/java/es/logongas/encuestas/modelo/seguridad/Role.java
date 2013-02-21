@@ -27,7 +27,7 @@ public class Role {
     private String name;
     private Set<Privilege> privileges=new HashSet<Privilege>();
 
-    private Set<User> users=new HashSet<User>();
+    private Set<UserRole> users=new HashSet<UserRole>();
     
     /**
      * @return the idRole
@@ -79,14 +79,14 @@ public class Role {
     /**
      * @return the users
      */
-    public Set<User> getUsers() {
+    public Set<UserRole> getUsers() {
         return users;
     }
 
     /**
      * @param users the users to set
      */
-    public void setUsers(Set<User> users) {
+    public void setUsers(Set<UserRole> users) {
         this.users = users;
     }
 

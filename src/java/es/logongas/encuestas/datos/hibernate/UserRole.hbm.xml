@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="es.logongas.encuestas.modelo.seguridad.UserRole" >
+        <id name="idUserRole" >
+            <generator class="identity" />
+        </id>
+        <many-to-one name="user">
+            <column name="idUser"  />
+        </many-to-one>
+        <many-to-one name="role" lazy="false">
+            <column name="idRole"  />
+        </many-to-one>        
+    </class>
+</hibernate-mapping>

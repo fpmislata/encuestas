@@ -7,9 +7,11 @@
         </id>
         <property name="login" />
         <property name="enabled" />
-        <set name="roles"  cascade="all" inverse="true" lazy="false" table="UserRole" >
-            <key column="idUser"  />
-            <many-to-many column="idRole" class="es.logongas.encuestas.modelo.seguridad.Role" />
+        <set name="roles"  cascade="all" inverse="true"   >
+            <key>
+                <column name="idUser"  />
+            </key>            
+            <one-to-many  class="es.logongas.encuestas.modelo.seguridad.UserRole" />
         </set>        
     </class>
 </hibernate-mapping>

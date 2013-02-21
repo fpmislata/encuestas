@@ -25,7 +25,7 @@ import java.util.Set;
 public class User {
     private int idUser;
     private String login;
-    private Set<Role> roles=new HashSet<Role>();
+    private Set<UserRole> roles=new HashSet<UserRole>();
     private boolean enabled;
 
     /**
@@ -59,14 +59,14 @@ public class User {
     /**
      * @return the roles
      */
-    public Set<Role> getRoles() {
+    public Set<UserRole> getRoles() {
         return roles;
     }
 
     /**
      * @param roles the roles to set
      */
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Set<UserRole> roles) {
         this.roles = roles;
     }
 
