@@ -25,7 +25,7 @@ import java.util.Set;
 public class Role {
     private int idRole;
     private String name;
-    private Set<Privilege> privileges=new HashSet<Privilege>();
+    private Set<Permission> permissions=new HashSet<Permission>();
 
     private Set<UserRole> users=new HashSet<UserRole>();
     
@@ -60,15 +60,15 @@ public class Role {
     /**
      * @return the privileges
      */
-    public Set<Privilege> getPrivileges() {
-        return privileges;
+    public Set<Permission> getPermissions() {
+        return permissions;
     }
 
     /**
      * @param privileges the privileges to set
      */
-    public void setPrivileges(Set<Privilege> privileges) {
-        this.privileges = privileges;
+    public void setPermissions(Set<Permission> permissions) {
+        this.permissions = permissions;
     }
 
     @Override

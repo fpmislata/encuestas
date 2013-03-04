@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="es.logongas.encuestas.modelo.seguridad.Permission">
+    <id name="idPrivilege">
+      <generator class="identity"/>
+    </id>
+    <property name="entityName"/>
+    <property column="createRow" name="create">
+             <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">es.logongas.encuestas.modelo.seguridad.PermissionType</param>
+                 <param name="type">12</param>
+             </type>
+    </property>
+    <property column="insertRow" name="insert">
+             <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">es.logongas.encuestas.modelo.seguridad.PermissionType</param>
+                 <param name="type">12</param>
+             </type>
+    </property>
+    <property column="updateRow" name="update">
+             <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">es.logongas.encuestas.modelo.seguridad.PermissionType</param>
+                 <param name="type">12</param>
+             </type>
+    </property>
+    <property column="deleteRow" name="delete">
+             <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">es.logongas.encuestas.modelo.seguridad.PermissionType</param>
+                 <param name="type">12</param>
+             </type>
+    </property>
+    <property column="readRow" name="read">
+             <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">es.logongas.encuestas.modelo.seguridad.PermissionType</param>
+                 <param name="type">12</param>
+             </type>
+    </property>
+    <property name="search">
+             <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">es.logongas.encuestas.modelo.seguridad.PermissionType</param>
+                 <param name="type">12</param>
+             </type>
+    </property>
+    <property name="namedSearch">
+             <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">es.logongas.encuestas.modelo.seguridad.PermissionType</param>
+                 <param name="type">12</param>
+             </type>
+    </property>
+    <property name="metadata">
+             <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">es.logongas.encuestas.modelo.seguridad.PermissionType</param>
+                 <param name="type">12</param>
+             </type>
+    </property>
+  </class>
+</hibernate-mapping>

@@ -19,17 +19,17 @@ package es.logongas.encuestas.modelo.seguridad;
  *
  * @author Lorenzo González
  */
-public class Privilege {
+public class Permission {
     private int idPrivilege;
     private String entityName;
-    private boolean create;
-    private boolean insert;
-    private boolean update;
-    private boolean delete;
-    private boolean read;
-    private boolean search;
-    private boolean namedSearch;
-    private boolean metadata;
+    private PermissionType create;
+    private PermissionType insert;
+    private PermissionType update;
+    private PermissionType delete;
+    private PermissionType read;
+    private PermissionType search;
+    private PermissionType namedSearch;
+    private PermissionType metadata;
 
     /**
      * @return the idPrivilege
@@ -62,119 +62,113 @@ public class Privilege {
     /**
      * @return the create
      */
-    public boolean isCreate() {
+    public PermissionType getCreate() {
         return create;
     }
 
     /**
      * @param create the create to set
      */
-    public void setCreate(boolean create) {
+    public void setCreate(PermissionType create) {
         this.create = create;
     }
 
     /**
      * @return the insert
      */
-    public boolean isInsert() {
+    public PermissionType getInsert() {
         return insert;
     }
 
     /**
      * @param insert the insert to set
      */
-    public void setInsert(boolean insert) {
+    public void setInsert(PermissionType insert) {
         this.insert = insert;
     }
 
     /**
      * @return the update
      */
-    public boolean isUpdate() {
+    public PermissionType getUpdate() {
         return update;
     }
 
     /**
      * @param update the update to set
      */
-    public void setUpdate(boolean update) {
+    public void setUpdate(PermissionType update) {
         this.update = update;
     }
 
     /**
      * @return the delete
      */
-    public boolean isDelete() {
+    public PermissionType getDelete() {
         return delete;
     }
 
     /**
      * @param delete the delete to set
      */
-    public void setDelete(boolean delete) {
+    public void setDelete(PermissionType delete) {
         this.delete = delete;
     }
 
     /**
      * @return the read
      */
-    public boolean isRead() {
+    public PermissionType getRead() {
         return read;
     }
 
     /**
      * @param read the read to set
      */
-    public void setRead(boolean read) {
+    public void setRead(PermissionType read) {
         this.read = read;
     }
 
     /**
      * @return the search
      */
-    public boolean isSearch() {
+    public PermissionType getSearch() {
         return search;
     }
 
     /**
      * @param search the search to set
      */
-    public void setSearch(boolean search) {
+    public void setSearch(PermissionType search) {
         this.search = search;
     }
 
     /**
      * @return the namedSearch
      */
-    public boolean isNamedSearch() {
+    public PermissionType getNamedSearch() {
         return namedSearch;
     }
 
     /**
      * @param namedSearch the namedSearch to set
      */
-    public void setNamedSearch(boolean namedSearch) {
+    public void setNamedSearch(PermissionType namedSearch) {
         this.namedSearch = namedSearch;
     }
 
     /**
      * @return the metadata
      */
-    public boolean isMetadata() {
+    public PermissionType getMetadata() {
         return metadata;
     }
 
     /**
      * @param metadata the metadata to set
      */
-    public void setMetadata(boolean metadata) {
+    public void setMetadata(PermissionType metadata) {
         this.metadata = metadata;
     }
-
-    @Override
-    public String toString() {
-        return ""+idPrivilege;
-    }
-
 
 }
