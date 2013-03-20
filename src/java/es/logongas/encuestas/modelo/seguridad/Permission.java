@@ -20,7 +20,7 @@ package es.logongas.encuestas.modelo.seguridad;
  * @author Lorenzo González
  */
 public class Permission {
-    private int idPrivilege;
+    private int idPermission;
     private String entityName;
     private PermissionType create;
     private PermissionType insert;
@@ -32,17 +32,17 @@ public class Permission {
     private PermissionType metadata;
 
     /**
-     * @return the idPrivilege
+     * @return the idPermission
      */
-    public int getIdPrivilege() {
-        return idPrivilege;
+    public int getIdPermission() {
+        return idPermission;
     }
 
     /**
-     * @param idPrivilege the idPrivilege to set
+     * @param idPermission the idPermission to set
      */
-    public void setIdPrivilege(int idPrivilege) {
-        this.idPrivilege = idPrivilege;
+    public void setIdPermission(int idPermission) {
+        this.idPermission = idPermission;
     }
 
     /**

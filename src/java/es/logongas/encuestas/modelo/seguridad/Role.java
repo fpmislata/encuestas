@@ -58,14 +58,14 @@ public class Role {
     }
 
     /**
-     * @return the privileges
+     * @return the Permissions
      */
     public Set<Permission> getPermissions() {
         return permissions;
     }
 
     /**
-     * @param privileges the privileges to set
+     * @param permissions the Permissions to set
      */
     public void setPermissions(Set<Permission> permissions) {
         this.permissions = permissions;
