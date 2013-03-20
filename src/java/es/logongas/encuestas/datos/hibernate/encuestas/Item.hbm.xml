@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="es.logongas.encuestas.modelo.encuestas.Item" >
+        <id name="idItem" >
+            <generator class="identity" />
+        </id>
+        <property name="nombre" />
+        <property name="tipoItem" >
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">es.logongas.encuestas.modelo.encuestas.TipoItem</param>
+                <param name="type">4</param>
+            </type>
+        </property>  
+        <list name="listaValores"  table="ListaValoresItem"  >
+            <key column="idItem"  />
+            <list-index column="Idx"  />
+            <element column="valor" type="java.lang.String"/>
+        </list>
+    </class>
+</hibernate-mapping>

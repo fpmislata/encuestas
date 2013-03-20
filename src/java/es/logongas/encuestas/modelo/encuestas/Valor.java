@@ -15,30 +15,42 @@
  */
 package es.logongas.encuestas.modelo.encuestas;
 
-import java.util.List;
-
 /**
- *
+ * Cada uno de los valores de la lista de valores
  * @author Lorenzo González
  */
-public class Item {
-    private int idItem;
+class Valor {
+    private int idValor;
+    private String codigo;
     private String nombre;
-    private TipoItem tipoItem;
     private ListaValores listaValores;
 
     /**
-     * @return the idItem
+     * @return the idValor
      */
-    public int getIdItem() {
-        return idItem;
+    public int getIdValor() {
+        return idValor;
     }
 
     /**
-     * @param idItem the idItem to set
+     * @param idValor the idValor to set
      */
-    public void setIdItem(int idItem) {
-        this.idItem = idItem;
+    public void setIdValor(int idValor) {
+        this.idValor = idValor;
+    }
+
+    /**
+     * @return the codigo
+     */
+    public String getCodigo() {
+        return codigo;
+    }
+
+    /**
+     * @param codigo the codigo to set
+     */
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     /**
@@ -53,20 +65,6 @@ public class Item {
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    /**
-     * @return the tipoItem
-     */
-    public TipoItem getTipoItem() {
-        return tipoItem;
-    }
-
-    /**
-     * @param tipoItem the tipoItem to set
-     */
-    public void setTipoItem(TipoItem tipoItem) {
-        this.tipoItem = tipoItem;
     }
 
     /**

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="es.logongas.encuestas.modelo.encuestas.Valor" >
+        <id name="idValor" >
+            <generator class="identity" />
+        </id>
+        <property name="codigo" />
+        <property name="nombre" />  
+        <many-to-one name="listaValores">
+            <column name="idListaValores"  />
+        </many-to-one>  
+    </class>
+</hibernate-mapping>

@@ -15,30 +15,30 @@
  */
 package es.logongas.encuestas.modelo.encuestas;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author Lorenzo González
  */
-public class Item {
-    private int idItem;
+public class ListaValores {
+    private int idListaValores;
     private String nombre;
-    private TipoItem tipoItem;
-    private ListaValores listaValores;
+    private List<Valor> valores=new ArrayList<Valor>();
 
     /**
-     * @return the idItem
+     * @return the idListaValores
      */
-    public int getIdItem() {
-        return idItem;
+    public int getIdListaValores() {
+        return idListaValores;
     }
 
     /**
-     * @param idItem the idItem to set
+     * @param idListaValores the idListaValores to set
      */
-    public void setIdItem(int idItem) {
-        this.idItem = idItem;
+    public void setIdListaValores(int idListaValores) {
+        this.idListaValores = idListaValores;
     }
 
     /**
@@ -56,30 +56,16 @@ public class Item {
     }
 
     /**
-     * @return the tipoItem
+     * @return the valores
      */
-    public TipoItem getTipoItem() {
-        return tipoItem;
+    public List<Valor> getValores() {
+        return valores;
     }
 
     /**
-     * @param tipoItem the tipoItem to set
+     * @param valores the valores to set
      */
-    public void setTipoItem(TipoItem tipoItem) {
-        this.tipoItem = tipoItem;
-    }
-
-    /**
-     * @return the listaValores
-     */
-    public ListaValores getListaValores() {
-        return listaValores;
-    }
-
-    /**
-     * @param listaValores the listaValores to set
-     */
-    public void setListaValores(ListaValores listaValores) {
-        this.listaValores = listaValores;
+    public void setValores(List<Valor> valores) {
+        this.valores = valores;
     }
 }

@@ -5,12 +5,20 @@
     <property name="connection.datasource">java:/comp/env/jdbc/encuestas</property>
     <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
     <property name="hibernate.show_sql">true</property>
-    <mapping resource="es/logongas/encuestas/datos/hibernate/Encuesta.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/datos/hibernate/Pregunta.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/datos/hibernate/Item.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/datos/hibernate/User.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/datos/hibernate/Role.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/datos/hibernate/Permission.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/datos/hibernate/UserRole.hbm.xml"/>    
+    
+    <!-- Definición de las encuestas -->
+    <mapping resource="es/logongas/encuestas/datos/hibernate/encuestas/Encuesta.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/datos/hibernate/encuestas/Pregunta.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/datos/hibernate/encuestas/Item.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/datos/hibernate/encuestas/ListaValores.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/datos/hibernate/encuestas/Valor.hbm.xml"/> 
+    
+    <!-- Respuestas de las encuestas -->    
+    
+    <!-- Sistema de seguridad -->
+    <mapping resource="es/logongas/encuestas/datos/hibernate/seguridad/User.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/datos/hibernate/seguridad/Role.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/datos/hibernate/seguridad/Permission.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/datos/hibernate/seguridad/UserRole.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

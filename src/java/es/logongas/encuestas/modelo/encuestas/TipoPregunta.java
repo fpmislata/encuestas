@@ -22,7 +22,7 @@ package es.logongas.encuestas.modelo.encuestas;
 public enum TipoPregunta {
     SiNo,
     EleccionMultiple,
-    ListadeValores,
+    ListaValores,
     EspecificoPorItem,
     CajaTexto;      
 }
