@@ -44,7 +44,7 @@ public class PreguntaWidget implements Widget {
             case EleccionMultiple:
                 generateHTMLEleccionMultiple(pregunta, sb);
                 break;
-            case ListadeValores:
+            case ListaValores:
                 generateHTMLListadeValores(pregunta, sb);
                 break;
             case EspecificoPorItem:
