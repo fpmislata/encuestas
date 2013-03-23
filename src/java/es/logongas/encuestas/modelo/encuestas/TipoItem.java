@@ -20,7 +20,8 @@ package es.logongas.encuestas.modelo.encuestas;
  * @author Lorenzo González
  */
 public enum TipoItem {
-    Texto,
+    Sino,
     ListaValores,
+    Texto,
     Fecha
 }

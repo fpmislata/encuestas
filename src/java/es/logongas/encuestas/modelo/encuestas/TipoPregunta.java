@@ -20,9 +20,6 @@ package es.logongas.encuestas.modelo.encuestas;
  * @author Lorenzo González
  */
 public enum TipoPregunta {
-    SiNo,
-    EleccionMultiple,
-    ListaValores,
-    EspecificoPorItem,
-    CajaTexto;      
+    Radio,
+    EspecificoPorItem;
 }

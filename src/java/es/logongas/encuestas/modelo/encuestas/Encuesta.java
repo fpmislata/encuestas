@@ -15,6 +15,7 @@
  */
 package es.logongas.encuestas.modelo.encuestas;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class Encuesta {
     private boolean habilitada;
     private Date fechaInicio;
     private Date fechaFin;
-    private List<Pregunta> preguntas;
+    private List<Pregunta> preguntas=new ArrayList<Pregunta>();
 
     /**
      * @return the IdEncuesta

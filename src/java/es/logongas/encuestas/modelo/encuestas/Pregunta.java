@@ -114,6 +114,30 @@ public class Pregunta {
         this.ultimoItemIncluyeOtros = ultimoItemIncluyeOtros;
     }
     
+    public Pregunta siguiente() {
+        int index=encuesta.getPreguntas().indexOf(this);
+        
+        index++;
+        
+        if (index<encuesta.getPreguntas().size()) {
+            return encuesta.getPreguntas().get(index);
+        } else {
+            return null;
+        }
+    }    
+    
+    public Pregunta anterior() {
+        int index=encuesta.getPreguntas().indexOf(this);
+        
+        index--;
+        
+        if (index>=0) {
+            return encuesta.getPreguntas().get(index);
+        } else {
+            return null;
+        }
+    }
+    
     public boolean isPrimera() {
         int index=encuesta.getPreguntas().indexOf(this);
         

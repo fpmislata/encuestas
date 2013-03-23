@@ -12,10 +12,8 @@
                 <param name="type">4</param>
             </type>
         </property>  
-        <list name="listaValores"  table="ListaValoresItem"  >
-            <key column="idItem"  />
-            <list-index column="Idx"  />
-            <element column="valor" type="java.lang.String"/>
-        </list>
+        <many-to-one name="listaValores">
+            <column name="idListaValores"  />
+        </many-to-one> 
     </class>
 </hibernate-mapping>

@@ -15,8 +15,6 @@
  */
 package es.logongas.encuestas.modelo.encuestas;
 
-import java.util.List;
-
 /**
  *
  * @author Lorenzo González

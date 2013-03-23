@@ -20,6 +20,6 @@
             <list-index column="Idx"  />
             <one-to-many class="es.logongas.encuestas.modelo.encuestas.Item" />
         </list>
-
+        <property name="ultimoItemIncluyeOtros" />
     </class>
 </hibernate-mapping>

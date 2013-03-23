@@ -17,6 +17,8 @@ package es.logongas.encuestas.presentacion.widget;
 
 import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
+import es.logongas.encuestas.presentacion.HTMLUtil;
+import java.net.URL;
 
 /**
  * Genera el HTML relativo a una pregunta de una encuesta
@@ -28,6 +30,10 @@ public class PreguntaWidget implements Widget {
     private Pregunta pregunta;
 
     public PreguntaWidget(Pregunta pregunta) {
+        if (pregunta == null) {
+            throw new IllegalArgumentException("pregunta no puede ser null");
+        }
+
         this.pregunta = pregunta;
     }
 
@@ -38,39 +44,28 @@ public class PreguntaWidget implements Widget {
         generateCabecera(pregunta, sb);
 
         switch (pregunta.getTipoPregunta()) {
-            case SiNo:
-                generateHTMLSiNo(pregunta, sb);
-                break;
-            case EleccionMultiple:
-                generateHTMLEleccionMultiple(pregunta, sb);
-                break;
-            case ListaValores:
-                generateHTMLListadeValores(pregunta, sb);
+            case Radio:
+                generateHTMLRadio(pregunta, sb);
                 break;
             case EspecificoPorItem:
                 generateHTMLEspecificoPorItem(pregunta, sb);
                 break;
-            case CajaTexto:
-                generateHTMLCajaTexto(pregunta, sb);
-                break;
             default:
-                throw new RuntimeException("El tipo de preguntaes desconocido:" + pregunta.getTipoPregunta());
+                throw new RuntimeException("El tipo de pregunta es desconocido:" + pregunta.getTipoPregunta());
         }
+
+        generateBotones(pregunta, sb);
+
         return sb.toString();
     }
 
     private void generateCabecera(Pregunta pregunta, StringBuilder sb) {
-        //@TODO: Usar HTMLUtils.htmlEscape de Spring
         sb.append("<div class=\"row-fluid\" style=\"margin-top: 2em;\">\n");
-        sb.append("  <div class=\"span12 main-text\" >" + pregunta.getPregunta() + ":</div>");
+        sb.append("  <div class=\"span12 main-text\" >" + HTMLUtil.toHTML(pregunta.getPregunta()) + ":</div>");
         sb.append("</div>");
     }
 
-    private void generateHTMLCajaTexto(Pregunta pregunta, StringBuilder sb) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    private void generateHTMLSiNo(Pregunta pregunta, StringBuilder sb) {
+    private void generateHTMLRadio(Pregunta pregunta, StringBuilder sb) {
         sb.append("<div class=\"row-fluid\">");
         sb.append("  <div class=\"span12\" >");
         sb.append("    <ul class=\"items_encuesta\">");
@@ -79,10 +74,10 @@ public class PreguntaWidget implements Widget {
             sb.append("      <li style=\"text-align: left\">");
             sb.append("        <div class=\".checkbox\">");
             sb.append("          <input type=\"checkbox\" value=\"" + item.getIdItem() + "\" id=\"option" + item.getIdItem() + "\"  name=\"option" + item.getIdItem() + "\" />");
-            sb.append("          <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + item.getNombre() + "</label>");
-            if (i+1==pregunta.getItems().size()) {
+            sb.append("          <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + HTMLUtil.toHTML(item.getNombre()) + "</label>");
+            if (i + 1 == pregunta.getItems().size()) {
                 //Estamos en el último
-                if (pregunta.isUltimoItemIncluyeOtros()==true) {
+                if (pregunta.isUltimoItemIncluyeOtros() == true) {
                     sb.append("          <input class=\"input-xxlarge\" type=\"text\" id=\"otros\" name=\"otros\" placeholder=\"Altres\"  style=\"visibility:hidden\">");
                 }
             }
@@ -94,15 +89,47 @@ public class PreguntaWidget implements Widget {
         sb.append("</div>");
     }
 
-    private void generateHTMLEleccionMultiple(Pregunta pregunta, StringBuilder sb) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    private void generateHTMLListadeValores(Pregunta pregunta, StringBuilder sb) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
     private void generateHTMLEspecificoPorItem(Pregunta pregunta, StringBuilder sb) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        sb.append("<div class=\"row-fluid\">");
+        sb.append("  <div class=\"span12\" >");
+        sb.append("    <ul class=\"items_encuesta\">");
+        for (int i = 0; i < pregunta.getItems().size(); i++) {
+            Item item = pregunta.getItems().get(i);
+            switch (item.getTipoItem()) {
+                case Sino:
+                    generateItemSino(item, sb);
+                    break;
+                case ListaValores:
+                    generateItemListaValores(item, sb);
+                    break;
+                case Texto:
+                    break;
+                case Fecha:
+                    break;
+                default:
+                    throw new RuntimeException("El tipo de item es desconocido:" + item.getTipoItem());
+            }
+        }
+        sb.append("    </ul>");
+        sb.append("  </div>");
+        sb.append("</div>");
+    }
+
+    private void generateItemSino(Item item, StringBuilder sb) {
+        
+    }   
+    private void generateItemListaValores(Item item, StringBuilder sb) {
+        
+    }      
+    
+    private void generateBotones(Pregunta pregunta, StringBuilder sb) {
+        sb.append("        <div class=\"row-fluid\" style=\"margin-top: 2em;\">");
+        sb.append("            <div class=\"span11\" style=\"text-align: right\" >");
+        sb.append("                <a href=\"anterior.html?idPregunta=" + pregunta.getIdPregunta() + "\" class=\"btn btn-large \"><i class=\"icon-arrow-left\" ></i> Anterior</a>");
+        sb.append("                <a href=\"siguiente.html?idPregunta=" + pregunta.getIdPregunta() + "\" class=\"btn btn-large btn-primary \">Següent <i class=\"icon-arrow-right icon-white\" ></i></a>");
+        sb.append("            </div>");
+        sb.append("            <div class=\"span1\" >");
+        sb.append("            </div>                    ");
+        sb.append("        </div>");
     }
 }
