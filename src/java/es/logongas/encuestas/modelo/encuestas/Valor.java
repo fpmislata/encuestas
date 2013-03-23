@@ -21,7 +21,6 @@ package es.logongas.encuestas.modelo.encuestas;
  */
 class Valor {
     private int idValor;
-    private String codigo;
     private String nombre;
     private ListaValores listaValores;
 
@@ -37,20 +36,6 @@ class Valor {
      */
     public void setIdValor(int idValor) {
         this.idValor = idValor;
-    }
-
-    /**
-     * @return the codigo
-     */
-    public String getCodigo() {
-        return codigo;
-    }
-
-    /**
-     * @param codigo the codigo to set
-     */
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
     }
 
     /**

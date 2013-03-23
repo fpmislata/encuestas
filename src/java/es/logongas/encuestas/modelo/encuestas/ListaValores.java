@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Lista con los posibles valores de una respuesta de un Item
  * @author Lorenzo González
  */
 public class ListaValores {

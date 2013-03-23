@@ -18,7 +18,7 @@ package es.logongas.encuestas.modelo.encuestas;
 import java.util.List;
 
 /**
- *
+ * Cada una de las preguntas de una encuesta. Cada Pregunta tiene varios Items a responder.
  * @author Lorenzo González
  */
 public class Pregunta {

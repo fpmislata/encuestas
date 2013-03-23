@@ -5,7 +5,6 @@
         <id name="idValor" >
             <generator class="identity" />
         </id>
-        <property name="codigo" />
         <property name="nombre" />  
         <many-to-one name="listaValores">
             <column name="idListaValores"  />

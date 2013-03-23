@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *
+ * Definición de los datos de una encuesta
  * @author Lorenzo González
  */
 public class Encuesta {

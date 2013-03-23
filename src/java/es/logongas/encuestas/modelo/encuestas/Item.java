@@ -16,7 +16,7 @@
 package es.logongas.encuestas.modelo.encuestas;
 
 /**
- *
+ * Cada uno de los Item a los que se puede responder de una pregunta de la encuesta
  * @author Lorenzo González
  */
 public class Item {
