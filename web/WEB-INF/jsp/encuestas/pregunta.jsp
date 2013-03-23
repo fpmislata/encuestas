@@ -1,7 +1,5 @@
-<%@page import="es.logongas.encuestas.modelo.resultados.RespuestaPregunta"%>
+<%@page import="es.logongas.encuestas.modelo.respuestas.RespuestaPregunta"%>
 <%@page import="es.logongas.encuestas.presentacion.widget.RespuestaPreguntaWidget"%>
-<%@page import="es.logongas.encuestas.presentacion.widget.RespuestaPreguntaWidget"%>
-<%@page import="es.logongas.encuestas.modelo.resultados.RespuestaPregunta"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 RespuestaPregunta respuestaPregunta=(RespuestaPregunta)request.getAttribute("respuestaPregunta");

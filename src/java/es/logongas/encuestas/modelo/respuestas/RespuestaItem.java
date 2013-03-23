@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package es.logongas.encuestas.modelo.resultados;
+package es.logongas.encuestas.modelo.respuestas;
 
 import es.logongas.encuestas.modelo.encuestas.Item;
 
@@ -25,7 +25,7 @@ public class RespuestaItem {
     private int idRespuestaItem;
     private Item item;
     private RespuestaPregunta respuestaPregunta;
-    private Boolean check;
+    private boolean check;
     private String valor;
 
     private RespuestaItem() {
@@ -38,7 +38,7 @@ public class RespuestaItem {
         this.valor = null;
 
         //Hacemos ésto para que se cargen los valores
-        //Pq sino luego no hay sesión. 
+        //Pq sino luego no hay sesión.
         //@TODO:Que no sea necesaria esta linea.
         if (this.item.getListaValores()!=null) {
             int i=this.item.getListaValores().getValores().size();
@@ -95,14 +95,14 @@ public class RespuestaItem {
     /**
      * @return the check
      */
-    public Boolean isCheck() {
+    public boolean isCheck() {
         return check;
     }
 
     /**
      * @param check the check to set
      */
-    public void setCheck(Boolean check) {
+    public void setCheck(boolean check) {
         this.check = check;
     }
 

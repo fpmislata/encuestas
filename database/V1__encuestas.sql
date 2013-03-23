@@ -3,7 +3,7 @@
 -- Server version:               5.5.27 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2013-03-23 20:24:14
+-- Date/time:                    2013-03-23 21:49:43
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `item` (
   CONSTRAINT `FK22EF3336E0A389` FOREIGN KEY (`idListaValores`) REFERENCES `listavalores` (`idListaValores`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
--- Dumping data for table encuestas.item: ~7 rows (approximately)
+-- Dumping data for table encuestas.item: ~18 rows (approximately)
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
 INSERT INTO `item` (`idItem`, `nombre`, `tipoItem`, `idListaValores`, `idPregunta`, `Idx`) VALUES
 	(1, 'La consellería d\'educació', NULL, NULL, 1, 0),
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `listavalores` (
   PRIMARY KEY (`idListaValores`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Dumping data for table encuestas.listavalores: ~1 rows (approximately)
+-- Dumping data for table encuestas.listavalores: ~2 rows (approximately)
 /*!40000 ALTER TABLE `listavalores` DISABLE KEYS */;
 INSERT INTO `listavalores` (`idListaValores`, `nombre`) VALUES
 	(1, 'Valoracion 1-5'),
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `pregunta` (
   CONSTRAINT `FKB7202F0A926153F7` FOREIGN KEY (`idEncuesta`) REFERENCES `encuesta` (`idEncuesta`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- Dumping data for table encuestas.pregunta: ~2 rows (approximately)
+-- Dumping data for table encuestas.pregunta: ~4 rows (approximately)
 /*!40000 ALTER TABLE `pregunta` DISABLE KEYS */;
 INSERT INTO `pregunta` (`idPregunta`, `pregunta`, `idEncuesta`, `tipoPregunta`, `ultimoItemIncluyeOtros`, `Idx`) VALUES
 	(1, 'Has conegut l\'oferta formativa del centre per', 1, 0, 1, 3),
@@ -137,6 +137,111 @@ INSERT INTO `pregunta` (`idPregunta`, `pregunta`, `idEncuesta`, `tipoPregunta`, 
 	(3, 'En matricular-te en aquest centre les teues expectatives son', 1, 1, 1, 1),
 	(4, 'Dades Académiques', 1, 1, 0, 0);
 /*!40000 ALTER TABLE `pregunta` ENABLE KEYS */;
+
+
+-- Dumping structure for table encuestas.respuestaencuesta
+DROP TABLE IF EXISTS `respuestaencuesta`;
+CREATE TABLE IF NOT EXISTS `respuestaencuesta` (
+  `idRespuestaEncuesta` int(11) NOT NULL AUTO_INCREMENT,
+  `idEncuesta` int(11) DEFAULT NULL,
+  `fechaRespuesta` datetime DEFAULT NULL,
+  PRIMARY KEY (`idRespuestaEncuesta`),
+  KEY `FK3AA724B6926153F7` (`idEncuesta`),
+  CONSTRAINT `FK3AA724B6926153F7` FOREIGN KEY (`idEncuesta`) REFERENCES `encuesta` (`idEncuesta`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table encuestas.respuestaencuesta: ~0 rows (approximately)
+/*!40000 ALTER TABLE `respuestaencuesta` DISABLE KEYS */;
+INSERT INTO `respuestaencuesta` (`idRespuestaEncuesta`, `idEncuesta`, `fechaRespuesta`) VALUES
+	(2, 1, NULL),
+	(3, 1, NULL);
+/*!40000 ALTER TABLE `respuestaencuesta` ENABLE KEYS */;
+
+
+-- Dumping structure for table encuestas.respuestaitem
+DROP TABLE IF EXISTS `respuestaitem`;
+CREATE TABLE IF NOT EXISTS `respuestaitem` (
+  `idRespuestaItem` int(11) NOT NULL AUTO_INCREMENT,
+  `idItem` int(11) DEFAULT NULL,
+  `idRespuestaPregunta` int(11) DEFAULT NULL,
+  `checkk` tinyint(1) DEFAULT NULL,
+  `valor` varchar(255) DEFAULT NULL,
+  `Idx` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idRespuestaItem`),
+  KEY `FK7FE22AD3E9805DB1` (`idItem`),
+  KEY `FK7FE22AD3145E699D` (`idRespuestaPregunta`),
+  CONSTRAINT `FK7FE22AD3145E699D` FOREIGN KEY (`idRespuestaPregunta`) REFERENCES `respuestapregunta` (`idRespuestaPregunta`),
+  CONSTRAINT `FK7FE22AD3E9805DB1` FOREIGN KEY (`idItem`) REFERENCES `item` (`idItem`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table encuestas.respuestaitem: ~0 rows (approximately)
+/*!40000 ALTER TABLE `respuestaitem` DISABLE KEYS */;
+INSERT INTO `respuestaitem` (`idRespuestaItem`, `idItem`, `idRespuestaPregunta`, `checkk`, `valor`, `Idx`) VALUES
+	(1, 13, 2, 0, '', 0),
+	(2, 14, 2, 0, '', 1),
+	(3, 15, 2, 0, '', 2),
+	(4, 16, 2, 0, '', 3),
+	(5, 17, 2, 0, '', 4),
+	(6, 18, 2, 0, '', 5),
+	(7, 8, 3, 0, NULL, 0),
+	(8, 9, 3, 0, NULL, 1),
+	(9, 10, 3, 0, NULL, 2),
+	(10, 11, 3, 0, NULL, 3),
+	(11, 12, 3, 0, '', 4),
+	(12, 6, 4, 0, '', 0),
+	(13, 7, 4, 0, '', 1),
+	(14, 1, 5, 0, NULL, 0),
+	(15, 2, 5, 0, NULL, 1),
+	(16, 3, 5, 0, NULL, 2),
+	(17, 4, 5, 0, NULL, 3),
+	(18, 5, 5, 0, '', 4),
+	(19, 13, 6, 0, 'Modalitat d\'accÃ©s', 0),
+	(20, 14, 6, 0, 'Ãltims estudis cursats', 1),
+	(21, 15, 6, 0, 'Ãltim centre acadÃ©mic', 2),
+	(22, 16, 6, 0, 'PoblaciÃ³', 3),
+	(23, 17, 6, 0, 'Codi postal', 4),
+	(24, 18, 6, 0, 'Valencia', 5),
+	(25, 8, 7, 1, NULL, 0),
+	(26, 9, 7, 1, NULL, 1),
+	(27, 10, 7, 1, NULL, 2),
+	(28, 11, 7, 1, NULL, 3),
+	(29, 12, 7, 1, 'Altres (indicar quines):Check', 4),
+	(30, 6, 8, 0, '3', 0),
+	(31, 7, 8, 0, '5', 1),
+	(32, 1, 9, 0, NULL, 0),
+	(33, 2, 9, 0, NULL, 1),
+	(34, 3, 9, 0, NULL, 2),
+	(35, 4, 9, 0, NULL, 3),
+	(36, 5, 9, 1, 'Altres (indicar quines):Radio', 4);
+/*!40000 ALTER TABLE `respuestaitem` ENABLE KEYS */;
+
+
+-- Dumping structure for table encuestas.respuestapregunta
+DROP TABLE IF EXISTS `respuestapregunta`;
+CREATE TABLE IF NOT EXISTS `respuestapregunta` (
+  `idRespuestaPregunta` int(11) NOT NULL AUTO_INCREMENT,
+  `idRespuestaEncuesta` int(11) DEFAULT NULL,
+  `idPregunta` int(11) DEFAULT NULL,
+  `Idx` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idRespuestaPregunta`),
+  KEY `FK87989AAA7A7B7DB5` (`idRespuestaEncuesta`),
+  KEY `FK87989AAA2C443FDF` (`idPregunta`),
+  CONSTRAINT `FK87989AAA2C443FDF` FOREIGN KEY (`idPregunta`) REFERENCES `pregunta` (`idPregunta`),
+  CONSTRAINT `FK87989AAA7A7B7DB5` FOREIGN KEY (`idRespuestaEncuesta`) REFERENCES `respuestaencuesta` (`idRespuestaEncuesta`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+-- Dumping data for table encuestas.respuestapregunta: ~0 rows (approximately)
+/*!40000 ALTER TABLE `respuestapregunta` DISABLE KEYS */;
+INSERT INTO `respuestapregunta` (`idRespuestaPregunta`, `idRespuestaEncuesta`, `idPregunta`, `Idx`) VALUES
+	(2, 2, 4, 0),
+	(3, 2, 3, 1),
+	(4, 2, 2, 2),
+	(5, 2, 1, 3),
+	(6, 3, 4, 0),
+	(7, 3, 3, 1),
+	(8, 3, 2, 2),
+	(9, 3, 1, 3);
+/*!40000 ALTER TABLE `respuestapregunta` ENABLE KEYS */;
 
 
 -- Dumping structure for table encuestas.role
@@ -196,7 +301,7 @@ CREATE TABLE IF NOT EXISTS `valor` (
   CONSTRAINT `FK4E9A0A436E0A389` FOREIGN KEY (`idListaValores`) REFERENCES `listavalores` (`idListaValores`)
 ) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
 
--- Dumping data for table encuestas.valor: ~5 rows (approximately)
+-- Dumping data for table encuestas.valor: ~57 rows (approximately)
 /*!40000 ALTER TABLE `valor` DISABLE KEYS */;
 INSERT INTO `valor` (`idValor`, `nombre`, `idListaValores`, `Idx`) VALUES
 	(1, '1', 1, 0),

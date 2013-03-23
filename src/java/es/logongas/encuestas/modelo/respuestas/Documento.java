@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.logongas.encuestas.modelo.resultados;
+package es.logongas.encuestas.modelo.respuestas;
 
 /**
  *
@@ -17,8 +17,8 @@ public class Documento {
         this.datos = datos;
         this.mimetype = mimetype;
         this.fileName = fileName;
-    }    
-    
+    }
+
     /**
      * @return the datos
      */

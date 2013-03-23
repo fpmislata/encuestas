@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="es.logongas.encuestas.modelo.respuestas.RespuestaItem" >
+        <id name="idRespuestaItem" >
+            <generator class="identity" />
+        </id>
+        <many-to-one name="item">
+            <column name="idItem"  />
+        </many-to-one>
+        <many-to-one name="respuestaPregunta">
+            <column name="idRespuestaPregunta"  />
+        </many-to-one>
+        <property name="check" column="checkk" />
+        <property name="valor" />
+
+    </class>
+</hibernate-mapping>

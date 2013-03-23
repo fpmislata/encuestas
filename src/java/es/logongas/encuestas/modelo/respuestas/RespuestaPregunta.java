@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package es.logongas.encuestas.modelo.resultados;
+package es.logongas.encuestas.modelo.respuestas;
 
 import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
@@ -36,29 +36,29 @@ public class RespuestaPregunta {
     public RespuestaPregunta(RespuestaEncuesta respuestaEncuesta,Pregunta pregunta) {
         if (respuestaEncuesta==null) {
             throw new IllegalArgumentException("El argumento respuestaEncuesta no puede ser null");
-        }    
+        }
         if (pregunta==null) {
             throw new IllegalArgumentException("El argumento pregunta no puede ser null");
-        }         
+        }
         this.respuestaEncuesta=respuestaEncuesta;
         this.pregunta=pregunta;
-          
+
         for(Item item:this.pregunta.getItems()) {
             RespuestaItem respuestaItem=new RespuestaItem(this,item);
-            
+
             this.respuestaItems.add(respuestaItem);
-        }        
-        
-    }    
-    
+        }
+
+    }
+
    public Pregunta siguiente() {
         return this.pregunta.siguiente();
     }
 
     public Pregunta anterior() {
         return this.pregunta.anterior();
-    }    
-    
+    }
+
     /**
      * @return the idRespuestaPregunta
      */

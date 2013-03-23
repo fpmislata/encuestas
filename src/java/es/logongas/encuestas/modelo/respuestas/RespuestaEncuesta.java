@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package es.logongas.encuestas.modelo.resultados;
+package es.logongas.encuestas.modelo.respuestas;
 
 import es.logongas.encuestas.modelo.encuestas.Encuesta;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
@@ -37,20 +37,20 @@ public class RespuestaEncuesta {
     public RespuestaEncuesta(Encuesta encuesta) {
         if (encuesta==null) {
             throw new IllegalArgumentException("El argumento encuesta no puede ser null");
-        }        
+        }
         this.encuesta=encuesta;
-        
+
         for(Pregunta pregunta:this.encuesta.getPreguntas()) {
             RespuestaPregunta respuestaPregunta=new RespuestaPregunta(this,pregunta);
-            
+
             this.respuestaPreguntas.add(respuestaPregunta);
         }
-        
+
     }
 
-    
-    
-    
+
+
+
     /**
      * @return the idRespuestaEncuesta
      */
@@ -106,35 +106,35 @@ public class RespuestaEncuesta {
     public void setFechaRespuesta(Date fechaRespuesta) {
         this.fechaRespuesta = fechaRespuesta;
     }
-    
+
     public boolean isPreguntaValida(Pregunta pregunta) {
         if (getRespuestaPregunta(pregunta)!=null) {
             return true;
         } else {
             return false;
         }
-    }    
-    
+    }
+
     public RespuestaPregunta getRespuestaPregunta(Pregunta pregunta) {
         for(RespuestaPregunta respuestaPregunta:this.respuestaPreguntas) {
             if (respuestaPregunta.getPregunta().equals(pregunta)) {
                 return respuestaPregunta;
             }
         }
-        
+
         return null;
     }
-    
+
     public Documento getDocumento() {
         return null;
-    }    
-    
+    }
+
     public Pregunta getPrimeraPregunta() {
-        return encuesta.getPrimeraPregunta(); 
-    }     
-    
+        return encuesta.getPrimeraPregunta();
+    }
+
     public Pregunta getUltimaPregunta() {
-        return encuesta.getUltimaPregunta(); 
-    } 
-    
+        return encuesta.getUltimaPregunta();
+    }
+
 }

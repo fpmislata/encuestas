@@ -17,12 +17,10 @@ package es.logongas.encuestas.presentacion.widget;
 
 import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.encuestas.modelo.encuestas.ListaValores;
-import es.logongas.encuestas.modelo.encuestas.Pregunta;
 import es.logongas.encuestas.modelo.encuestas.Valor;
-import es.logongas.encuestas.modelo.resultados.RespuestaItem;
-import es.logongas.encuestas.modelo.resultados.RespuestaPregunta;
+import es.logongas.encuestas.modelo.respuestas.RespuestaItem;
+import es.logongas.encuestas.modelo.respuestas.RespuestaPregunta;
 import es.logongas.encuestas.presentacion.util.HTMLUtil;
-import org.springframework.stereotype.Component;
 
 /**
  * Genera el HTML relativo a una pregunta de una encuesta
@@ -208,12 +206,12 @@ public class RespuestaPreguntaWidget {
     private void generateItemTexto(RespuestaItem respuestaItem, StringBuilder sb) {
         sb.append("      <li style=\"text-align: left\">\n");
         sb.append("        <div class=\"row-fluid\">\n");
-        sb.append("            <div class=\"span5 simple-text\" style=\"padding-left: 20px\" >");
-        sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":");
-        sb.append("            </div >");
-        sb.append("            <div class=\"span7\">                 ");
-        sb.append("                <input type=\"text\" class=\"input-xxlarge\" style=\"margin-top: 0px;\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\"  value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />");
-        sb.append("            </div>");
+        sb.append("            <div class=\"span5 simple-text\" style=\"padding-left: 20px\" >\n");
+        sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":\n");
+        sb.append("            </div >\n");
+        sb.append("            <div class=\"span7\">\n");
+        sb.append("                <input type=\"text\" class=\"input-xxlarge\" style=\"margin-top: 0px;\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\"  value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
+        sb.append("            </div>\n");
         sb.append("        </div>\n");
         sb.append("      </li>\n");
     }
@@ -221,12 +219,12 @@ public class RespuestaPreguntaWidget {
     private void generateItemFecha(RespuestaItem respuestaItem, StringBuilder sb) {
         sb.append("      <li style=\"text-align: left\">\n");
         sb.append("        <div class=\"row-fluid\">\n");
-        sb.append("            <div class=\"span5 simple-text\" style=\"padding-left: 20px\" >");
-        sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":");
-        sb.append("            </div >");
-        sb.append("            <div class=\"span7\">                 ");
-        sb.append("                <input type=\"text\" id=\"valor" + respuestaItem.getItem().getIdItem() + "\" class=\"input-xxlarge\" style=\"margin-top: 0px;\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\"  value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />");
-        sb.append("            </div>");
+        sb.append("            <div class=\"span5 simple-text\" style=\"padding-left: 20px\" >\n");
+        sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":\n");
+        sb.append("            </div >\n");
+        sb.append("            <div class=\"span7\">\n");
+        sb.append("                <input type=\"text\" id=\"valor" + respuestaItem.getItem().getIdItem() + "\" class=\"input-xxlarge\" style=\"margin-top: 0px;\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\"  value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
+        sb.append("            </div>\n");
         sb.append("        </div>\n");
         sb.append("      </li>\n");
         sb.append("      <script>\n");

@@ -4,7 +4,7 @@
  */
 package es.logongas.encuestas.presentacion.controller;
 
-import es.logongas.encuestas.modelo.resultados.RespuestaEncuesta;
+import es.logongas.encuestas.modelo.respuestas.RespuestaEncuesta;
 import java.net.URI;
 import java.net.URL;
 
@@ -23,11 +23,11 @@ public class EncuestaState {
         if (backURI==null) {
             throw new IllegalArgumentException("El argumento backURL no puede ser null");
         }
-        
+
         this.respuestaEncuesta = respuestaEncuesta;
         this.backURI = backURI;
     }
-    
+
     /**
      * @return the respuestaEncuesta
      */

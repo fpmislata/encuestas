@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="es.logongas.encuestas.modelo.respuestas.RespuestaEncuesta" >
+        <id name="idRespuestaEncuesta" >
+            <generator class="identity" />
+        </id>
+        <many-to-one name="encuesta">
+            <column name="idEncuesta"  />
+        </many-to-one>
+        <list name="respuestaPreguntas"  cascade="all" inverse="false"  >
+            <key column="idRespuestaEncuesta"  />
+            <list-index column="Idx"  />
+            <one-to-many class="es.logongas.encuestas.modelo.respuestas.RespuestaPregunta" />
+        </list>
+        <property name="fechaRespuesta" type="timestamp" />
+    </class>
+</hibernate-mapping>

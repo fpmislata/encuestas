@@ -18,16 +18,19 @@ package es.logongas.encuestas.presentacion.controller;
 import es.logongas.encuestas.modelo.encuestas.Encuesta;
 import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
-import es.logongas.encuestas.modelo.resultados.Documento;
-import es.logongas.encuestas.modelo.resultados.RespuestaEncuesta;
-import es.logongas.encuestas.modelo.resultados.RespuestaItem;
-import es.logongas.encuestas.modelo.resultados.RespuestaPregunta;
+import es.logongas.encuestas.modelo.respuestas.Documento;
+import es.logongas.encuestas.modelo.respuestas.RespuestaEncuesta;
+import es.logongas.encuestas.modelo.respuestas.RespuestaItem;
+import es.logongas.encuestas.modelo.respuestas.RespuestaPregunta;
 import es.logongas.ix3.persistencia.services.dao.BussinessException;
 import es.logongas.ix3.persistencia.services.dao.BussinessMessage;
 import es.logongas.ix3.persistencia.services.dao.DAOFactory;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +52,14 @@ public class EncuestaController {
     public ModelAndView encuesta(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> model = new HashMap<String, Object>();
         String viewName;
+
+        if (request.getCharacterEncoding() == null) {
+            try {
+                request.setCharacterEncoding("utf-8");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(EncuestaController.class.getName()).log(Level.WARNING, "no existe el juego de caracteres utf-8", ex);
+            }
+        }
 
         try {
             int idEncuesta;
@@ -99,6 +110,15 @@ public class EncuestaController {
     public ModelAndView pregunta(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> model = new HashMap<String, Object>();
         String viewName;
+
+        if (request.getCharacterEncoding() == null) {
+            try {
+                request.setCharacterEncoding("utf-8");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(EncuestaController.class.getName()).log(Level.WARNING, "no existe el juego de caracteres utf-8", ex);
+            }
+        }
+
         try {
             int idPregunta;
             try {
@@ -131,6 +151,16 @@ public class EncuestaController {
     public ModelAndView siguiente(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> model = new HashMap<String, Object>();
         String viewName;
+
+        if (request.getCharacterEncoding() == null) {
+            try {
+                request.setCharacterEncoding("utf-8");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(EncuestaController.class.getName()).log(Level.WARNING, "no existe el juego de caracteres utf-8", ex);
+            }
+        }
+
+
         try {
             int idPregunta;
             try {
@@ -180,6 +210,15 @@ public class EncuestaController {
     public ModelAndView anterior(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> model = new HashMap<String, Object>();
         String viewName;
+
+        if (request.getCharacterEncoding() == null) {
+            try {
+                request.setCharacterEncoding("utf-8");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(EncuestaController.class.getName()).log(Level.WARNING, "no existe el juego de caracteres utf-8", ex);
+            }
+        }
+
         try {
             int idPregunta;
             try {
@@ -225,6 +264,15 @@ public class EncuestaController {
     public ModelAndView ultima(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> model = new HashMap<String, Object>();
         String viewName;
+
+        if (request.getCharacterEncoding() == null) {
+            try {
+                request.setCharacterEncoding("utf-8");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(EncuestaController.class.getName()).log(Level.WARNING, "no existe el juego de caracteres utf-8", ex);
+            }
+        }
+
         try {
 
             Pregunta ultimaPregunta;
@@ -248,6 +296,14 @@ public class EncuestaController {
         Map<String, Object> model = new HashMap<String, Object>();
         String viewName;
 
+        if (request.getCharacterEncoding() == null) {
+            try {
+                request.setCharacterEncoding("utf-8");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(EncuestaController.class.getName()).log(Level.WARNING, "no existe el juego de caracteres utf-8", ex);
+            }
+        }
+
         viewName = "encuestas/imprimir";
 
         return new ModelAndView(viewName, model);
@@ -257,6 +313,15 @@ public class EncuestaController {
     public ModelAndView finalizar(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> model = new HashMap<String, Object>();
         String viewName;
+
+        if (request.getCharacterEncoding() == null) {
+            try {
+                request.setCharacterEncoding("utf-8");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(EncuestaController.class.getName()).log(Level.WARNING, "no existe el juego de caracteres utf-8", ex);
+            }
+        }
+
         try {
             RespuestaEncuesta respuestaEncuesta=getEncuestaState(request).getRespuestaEncuesta();
 
@@ -337,16 +402,16 @@ public class EncuestaController {
             switch (respuestaPregunta.getPregunta().getTipoPregunta()) {
                 case Radio:
                     if ((""+item.getIdItem()).equals(request.getParameter("check1"))) {
-                        respuestaItem.setCheck(Boolean.TRUE);
+                        respuestaItem.setCheck(true);
                     } else {
-                        respuestaItem.setCheck(Boolean.FALSE);
+                        respuestaItem.setCheck(false);
                     }
                     break;
                 case EspecificoPorItem:
                     if ((""+item.getIdItem()).equals(request.getParameter("check"+item.getIdItem()))) {
-                        respuestaItem.setCheck(Boolean.TRUE);
+                        respuestaItem.setCheck(true);
                     } else {
-                        respuestaItem.setCheck(Boolean.FALSE);
+                        respuestaItem.setCheck(false);
                     }
                     break;
                 default:
