@@ -79,16 +79,31 @@ public class RespuestaPreguntaWidget {
         sb.append("  <div class=\"span12\" >\n");
         sb.append("    <ul class=\"items_encuesta\">\n");
 
-        for (int i = 0; i < respuestaPregunta.getPregunta().getItems().size(); i++) {
-            Item item = respuestaPregunta.getPregunta().getItems().get(i);
+        for (int i = 0; i < respuestaPregunta.getRespuestaItems().size(); i++) {
+            RespuestaItem respuestaItem = respuestaPregunta.getRespuestaItems().get(i);
+            Item item = respuestaItem.getItem();
+
+            String checked;
+            String cssClassChecked;
+            String cssStyleVisibility;
+            if (respuestaItem.isCheck() == true) {
+                checked = "checked=\"checked\"";
+                cssClassChecked = "checkedd";
+                cssStyleVisibility = "visible";
+            } else {
+                checked = "";
+                cssClassChecked = "uncheckedd";
+                cssStyleVisibility = "hidden";
+            }
+
             sb.append("      <li style=\"text-align: left\">\n");
             sb.append("        <div class=\".radiobutton\">\n");
-            sb.append("          <input type=\"radio\" value=\"" + respuestaPregunta.getPregunta().getItems().get(i).getIdItem() + "\"  name=\"check1\" />\n");
-            sb.append("          <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + HTMLUtil.toHTML(item.getNombre()) + "</label>\n");
+            sb.append("          <input type=\"radio\" value=\"" + respuestaPregunta.getPregunta().getItems().get(i).getIdItem() + "\"  name=\"check1\" " + checked + " />\n");
+            sb.append("          <label class=\"" + cssClassChecked + "\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + HTMLUtil.toHTML(item.getNombre()) + "</label>\n");
             if ((i + 1) == respuestaPregunta.getPregunta().getItems().size()) {
                 //Estamos en el último
                 if (respuestaPregunta.getPregunta().isUltimoItemIncluyeOtros() == true) {
-                    sb.append("          <input class=\"input-xxlarge\" type=\"text\" name=\"valor" + respuestaPregunta.getPregunta().getItems().get(i).getIdItem() + "\" placeholder=\"Altres\"  style=\"visibility:hidden\">\n");
+                    sb.append("          <input class=\"input-xxlarge\" type=\"text\" name=\"valor" + respuestaPregunta.getPregunta().getItems().get(i).getIdItem() + "\" placeholder=\"Altres\"  style=\"visibility:" + cssStyleVisibility + "\" value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\">\n");
                 }
             }
             sb.append("        </div>\n");
@@ -133,35 +148,37 @@ public class RespuestaPreguntaWidget {
     }
 
     private void generateItemSino(RespuestaItem respuestaItem, boolean showText, StringBuilder sb) {
+        String checked;
+        String cssClassChecked;
+        String cssStyleVisibility;
+        if (respuestaItem.isCheck() == true) {
+            checked = "checked=\"checked\"";
+            cssClassChecked = "checkedd";
+            cssStyleVisibility = "visible";
+        } else {
+            checked = "";
+            cssClassChecked = "uncheckedd";
+            cssStyleVisibility = "hidden";
+        }
+
         sb.append("      <li style=\"text-align: left\">\n");
         sb.append("        <div class=\".checkbox\">\n");
-        sb.append("          <input type=\"checkbox\" value=\"" + respuestaItem.getItem().getIdItem() + "\"  name=\"check" + respuestaItem.getItem().getIdItem() + "\" />\n");
-        sb.append("          <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":</label>\n");
+        sb.append("          <input type=\"checkbox\" value=\"" + respuestaItem.getItem().getIdItem() + "\"  name=\"check" + respuestaItem.getItem().getIdItem() + "\"  " + checked + " />\n");
+        sb.append("          <label class=\"" + cssClassChecked + "\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":</label>\n");
         if (showText == true) {
-            sb.append("          <input class=\"input-xxlarge\" type=\"text\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\" placeholder=\"Altres expectatives\" style=\"visibility:hidden\">\n");
+            sb.append("          <input class=\"input-xxlarge\" type=\"text\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\" placeholder=\"Altres expectatives\" style=\"visibility:" + cssStyleVisibility + "\" value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" >\n");
         }
         sb.append("        </div>\n");
         sb.append("      </li>\n");
     }
 
     private void generateItemListaValores(RespuestaItem respuestaItem, StringBuilder sb) {
-        ListaValores listaValores=respuestaItem.getItem().getListaValores();
-        if (listaValores==null) {
+        ListaValores listaValores = respuestaItem.getItem().getListaValores();
+        if (listaValores == null) {
             throw new RuntimeException("listaValores no puede ser null");
         }
 
-        boolean allowNull=false;
-        String defaultValue;
-
-        if (allowNull==true) {
-            defaultValue=" ";
-        } else {
-            if (listaValores.getValores().size()>0) {
-                defaultValue=listaValores.getValores().get(0).getNombre();
-            } else {
-               defaultValue=" ";
-            }
-        }
+        boolean allowNull = false;
 
         sb.append("      <li style=\"text-align: left\">\n");
         sb.append("        <div class=\"row-fluid\">\n");
@@ -170,18 +187,18 @@ public class RespuestaPreguntaWidget {
         sb.append("            <div class=\"span2\" >\n");
         sb.append("                <div class=\"btn-group\">\n");
         sb.append("                    <button class=\"btn dropdown-toggle\" data-toggle=\"dropdown\">\n");
-        sb.append("                        " + HTMLUtil.toHTML(defaultValue) + "&nbsp;&nbsp;<span class=\"caret\"></span>\n");
+        sb.append("                        " + HTMLUtil.toHTML(respuestaItem.getValor()) + "&nbsp;&nbsp;<span class=\"caret\"></span>\n");
         sb.append("                    </button>\n");
         sb.append("                    <ul class=\"dropdown-menu\">\n");
-        if (allowNull==true) {
+        if (allowNull == true) {
             sb.append("                        <li><a href=\"javascript:void(0)\" onclick=\"select_click(this)\" >&nbsp;</a></li>\n");
         }
 
-        for(Valor valor:listaValores.getValores()) {
+        for (Valor valor : listaValores.getValores()) {
             sb.append("                        <li><a href=\"javascript:void(0)\" onclick=\"select_click(this)\" >" + valor.getNombre() + "</a></li>\n");
         }
         sb.append("                    </ul>\n");
-        sb.append("                    <input type=\"text\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\" />\n");
+        sb.append("                    <input type=\"text\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\" value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
         sb.append("                </div>\n");
         sb.append("            </div>\n");
         sb.append("        </div>\n");

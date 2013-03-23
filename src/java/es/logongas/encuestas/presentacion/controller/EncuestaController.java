@@ -16,9 +16,11 @@
 package es.logongas.encuestas.presentacion.controller;
 
 import es.logongas.encuestas.modelo.encuestas.Encuesta;
+import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
 import es.logongas.encuestas.modelo.resultados.Documento;
 import es.logongas.encuestas.modelo.resultados.RespuestaEncuesta;
+import es.logongas.encuestas.modelo.resultados.RespuestaItem;
 import es.logongas.encuestas.modelo.resultados.RespuestaPregunta;
 import es.logongas.ix3.persistencia.services.dao.BussinessException;
 import es.logongas.ix3.persistencia.services.dao.BussinessMessage;
@@ -147,6 +149,9 @@ public class EncuestaController {
                 throw new BussinessException(new BussinessMessage(null, "La pregunta solicitada no es válida en esta encuesta"));
             }
 
+            RespuestaPregunta respuestaPregunta=respuestaEncuesta.getRespuestaPregunta(pregunta);
+            populateRespuestaFromRequest(request, respuestaPregunta);
+
             Pregunta siguientePregunta = respuestaEncuesta.getRespuestaPregunta(pregunta).siguiente();
 
             if (siguientePregunta != null) {
@@ -193,6 +198,8 @@ public class EncuestaController {
                 throw new BussinessException(new BussinessMessage(null, "La pregunta solicitada no es válida en esta encuesta"));
             }
 
+            RespuestaPregunta respuestaPregunta=respuestaEncuesta.getRespuestaPregunta(pregunta);
+            populateRespuestaFromRequest(request, respuestaPregunta);
 
             Pregunta anteriorPregunta = respuestaEncuesta.getRespuestaPregunta(pregunta).anterior();
 
@@ -319,4 +326,36 @@ public class EncuestaController {
     private void clearEncuestaState(HttpServletRequest request) throws BussinessException {
         request.getSession().setAttribute("encuestaState", null);
     }
+
+    private void populateRespuestaFromRequest(HttpServletRequest request,RespuestaPregunta respuestaPregunta) {
+
+        for(RespuestaItem respuestaItem:respuestaPregunta.getRespuestaItems()) {
+            Item item=respuestaItem.getItem();
+
+            respuestaItem.setValor(request.getParameter("valor"+item.getIdItem()));
+
+            switch (respuestaPregunta.getPregunta().getTipoPregunta()) {
+                case Radio:
+                    if ((""+item.getIdItem()).equals(request.getParameter("check1"))) {
+                        respuestaItem.setCheck(Boolean.TRUE);
+                    } else {
+                        respuestaItem.setCheck(Boolean.FALSE);
+                    }
+                    break;
+                case EspecificoPorItem:
+                    if ((""+item.getIdItem()).equals(request.getParameter("check"+item.getIdItem()))) {
+                        respuestaItem.setCheck(Boolean.TRUE);
+                    } else {
+                        respuestaItem.setCheck(Boolean.FALSE);
+                    }
+                    break;
+                default:
+                    throw new RuntimeException("El tipo de pregunta es desconocido:" + respuestaPregunta.getPregunta().getTipoPregunta());
+            }
+        }
+
+
+    }
+
+
 }
