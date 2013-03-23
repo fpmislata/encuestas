@@ -9,6 +9,7 @@
         <property name="habilitada" />
         <property name="fechaInicio" />
         <property name="fechaFin" />
+        <property name="imprimir" />
         <list name="preguntas"  cascade="all" inverse="false"  >
             <key column="idEncuesta"  />
             <list-index column="Idx"  />

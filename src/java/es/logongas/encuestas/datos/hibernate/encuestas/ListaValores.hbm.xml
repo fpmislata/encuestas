@@ -6,10 +6,10 @@
             <generator class="identity" />
         </id>
         <property name="nombre" />
-        <list name="valores"  cascade="all" inverse="false"  >
+        <list name="valores"  cascade="all" inverse="false" lazy="false" fetch="select"  >
             <key column="idListaValores"  />
             <list-index column="Idx"  />
             <one-to-many class="es.logongas.encuestas.modelo.encuestas.Valor" />
-        </list>        
+        </list>
     </class>
 </hibernate-mapping>

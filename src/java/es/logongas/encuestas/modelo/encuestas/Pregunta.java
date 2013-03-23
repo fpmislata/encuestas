@@ -16,12 +16,16 @@
 package es.logongas.encuestas.modelo.encuestas;
 
 import java.util.List;
+import org.hibernate.Hibernate;
 
 /**
- * Cada una de las preguntas de una encuesta. Cada Pregunta tiene varios Items a responder.
+ * Cada una de las preguntas de una encuesta. Cada Pregunta tiene varios Items a
+ * responder.
+ *
  * @author Lorenzo González
  */
 public class Pregunta {
+
     private int idPregunta;
     private String pregunta;
     private Encuesta encuesta;
@@ -57,7 +61,6 @@ public class Pregunta {
         this.pregunta = pregunta;
     }
 
-
     /**
      * @return the encuesta
      */
@@ -70,8 +73,8 @@ public class Pregunta {
      */
     public void setEncuesta(Encuesta encuesta) {
         this.encuesta = encuesta;
-    }    
-    
+    }
+
     /**
      * @return the items
      */
@@ -113,57 +116,69 @@ public class Pregunta {
     public void setUltimoItemIncluyeOtros(boolean ultimoItemIncluyeOtros) {
         this.ultimoItemIncluyeOtros = ultimoItemIncluyeOtros;
     }
-    
+
     public Pregunta siguiente() {
-        int index=encuesta.getPreguntas().indexOf(this);
-        
+        int index = encuesta.getPreguntas().indexOf(this);
+
         index++;
-        
-        if (index<encuesta.getPreguntas().size()) {
+
+        if (index < encuesta.getPreguntas().size()) {
             return encuesta.getPreguntas().get(index);
         } else {
             return null;
         }
-    }    
-    
+    }
+
     public Pregunta anterior() {
-        int index=encuesta.getPreguntas().indexOf(this);
-        
+        int index = encuesta.getPreguntas().indexOf(this);
+
         index--;
-        
-        if (index>=0) {
+
+        if (index >= 0) {
             return encuesta.getPreguntas().get(index);
         } else {
             return null;
         }
     }
-    
-    public boolean isPrimera() {
-        int index=encuesta.getPreguntas().indexOf(this);
-        
-        if (index<0) {
-            throw new RuntimeException("No existe la pregunta en la encuesta");
+
+ 
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
         }
-        
-        if (index==0) {
+        if (obj == null) {
+            return false;
+        }
+        if (Hibernate.getClass(this) != Hibernate.getClass(obj)) {
+            return false;
+        }
+
+        Pregunta usuario = (Pregunta) obj;
+        int dato1 = getIdPregunta();
+        int dato2 = usuario.getIdPregunta();
+
+        if (dato1 <= 0) {
+            if (dato2 <= 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (dato1 == dato2) {
             return true;
         } else {
             return false;
         }
     }
-    
-    public boolean isUltima() {
-        int index=encuesta.getPreguntas().indexOf(this);
-        
-        if (index<0) {
-            throw new RuntimeException("No existe la pregunta en la encuesta");
-        }
-        
-        if ((index+1)==encuesta.getPreguntas().size()) {
-            return true;
-        } else {
-            return false;
-        }        
-    }    
-    
+
+    @Override
+    public int hashCode() {
+        int dato1 = getIdPregunta();
+        int resultado = 45;
+
+        resultado = 31 * resultado + dato1;
+
+        return resultado;
+    }
 }

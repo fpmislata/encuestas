@@ -24,7 +24,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
  * 
  */
-package es.logongas.encuestas.presentacion;
+package es.logongas.encuestas.presentacion.util;
 
 import java.text.*;
 

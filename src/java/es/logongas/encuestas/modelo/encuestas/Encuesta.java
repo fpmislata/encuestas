@@ -29,6 +29,7 @@ public class Encuesta {
     private boolean habilitada;
     private Date fechaInicio;
     private Date fechaFin;
+    private boolean imprimir;
     private List<Pregunta> preguntas=new ArrayList<Pregunta>();
 
     /**
@@ -114,4 +115,57 @@ public class Encuesta {
     public void setHabilitada(boolean habilitada) {
         this.habilitada = habilitada;
     }
+
+    /**
+     * @return the imprimir
+     */
+    public boolean isImprimir() {
+        return imprimir;
+    }
+
+    /**
+     * @param imprimir the imprimir to set
+     */
+    public void setImprimir(boolean imprimir) {
+        this.imprimir = imprimir;
+    }
+    
+    public Pregunta getPrimeraPregunta() {
+        if (preguntas.size()==0) {
+            return null;
+        } else {
+            return preguntas.get(0);
+        } 
+    }     
+    
+    public Pregunta getUltimaPregunta() {
+        if (preguntas.size()==0) {
+            return null;
+        } else {
+            return preguntas.get(preguntas.size()-1);
+        } 
+    }
+    
+   public boolean isEncuestaHabilitada() {
+       if (this.habilitada==false) {
+           return false;
+       }
+       
+       Date ahora=new Date();
+       if (this.fechaInicio!=null) {
+           if (ahora.before(this.fechaInicio)){
+               return false;
+           }
+       }
+       
+       if (this.fechaFin!=null) {
+           if (ahora.after(this.fechaFin)){
+               return false;
+           }
+       }       
+       
+       return true;
+   }
+    
+    
 }

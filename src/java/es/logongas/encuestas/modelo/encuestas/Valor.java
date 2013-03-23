@@ -19,7 +19,7 @@ package es.logongas.encuestas.modelo.encuestas;
  * Cada uno de los valores de la lista de valores
  * @author Lorenzo González
  */
-class Valor {
+public class Valor {
     private int idValor;
     private String nombre;
     private ListaValores listaValores;

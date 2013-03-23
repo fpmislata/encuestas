@@ -11,9 +11,9 @@
                 <param name="enumClass">es.logongas.encuestas.modelo.encuestas.TipoItem</param>
                 <param name="type">4</param>
             </type>
-        </property>  
+        </property>
         <many-to-one name="listaValores">
             <column name="idListaValores"  />
-        </many-to-one> 
+        </many-to-one>
     </class>
 </hibernate-mapping>

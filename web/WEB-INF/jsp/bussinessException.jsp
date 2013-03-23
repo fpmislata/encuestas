@@ -21,7 +21,7 @@ List<BussinessMessage> bussinessMessages=(List<BussinessMessage>)request.getAttr
             <div class="offset2 span8 main-text" style="text-align: center">Ups. Se ha producido algún problema</div>
         </div>  
         <div class="row-fluid">
-            <div class="offset2 span8 main-text" style="text-align: center">
+            <div class="offset2 span8 main-text">
                 <div class="alert">
                     <%
                         for(BussinessMessage bussinessMessage:bussinessMessages) {

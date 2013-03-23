@@ -15,19 +15,50 @@
  */
 package es.logongas.encuestas.modelo.resultados;
 
+import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author Lorenzo González
  */
-class RespuestaPregunta {
+public class RespuestaPregunta {
     private int idRespuestaPregunta;
     private RespuestaEncuesta respuestaEncuesta;
     private Pregunta pregunta;
-    private List<RespuestaItem> respuestaItems;
+    private List<RespuestaItem> respuestaItems=new ArrayList<RespuestaItem>();
 
+    private RespuestaPregunta() {
+    }
+
+    public RespuestaPregunta(RespuestaEncuesta respuestaEncuesta,Pregunta pregunta) {
+        if (respuestaEncuesta==null) {
+            throw new IllegalArgumentException("El argumento respuestaEncuesta no puede ser null");
+        }    
+        if (pregunta==null) {
+            throw new IllegalArgumentException("El argumento pregunta no puede ser null");
+        }         
+        this.respuestaEncuesta=respuestaEncuesta;
+        this.pregunta=pregunta;
+          
+        for(Item item:this.pregunta.getItems()) {
+            RespuestaItem respuestaItem=new RespuestaItem(this,item);
+            
+            this.respuestaItems.add(respuestaItem);
+        }        
+        
+    }    
+    
+   public Pregunta siguiente() {
+        return this.pregunta.siguiente();
+    }
+
+    public Pregunta anterior() {
+        return this.pregunta.anterior();
+    }    
+    
     /**
      * @return the idRespuestaPregunta
      */
