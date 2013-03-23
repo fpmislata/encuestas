@@ -198,20 +198,40 @@ public class RespuestaPreguntaWidget {
             sb.append("                        <li><a href=\"javascript:void(0)\" onclick=\"select_click(this)\" >" + valor.getNombre() + "</a></li>\n");
         }
         sb.append("                    </ul>\n");
-        sb.append("                    <input type=\"text\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\" value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
+        sb.append("                    <input class=\"dropdownlist\" type=\"text\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\" value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
         sb.append("                </div>\n");
         sb.append("            </div>\n");
         sb.append("        </div>\n");
-
         sb.append("      </li>\n");
     }
 
     private void generateItemTexto(RespuestaItem respuestaItem, StringBuilder sb) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        sb.append("      <li style=\"text-align: left\">\n");
+        sb.append("        <div class=\"row-fluid\">\n");
+        sb.append("            <div class=\"span5 simple-text\" style=\"padding-left: 20px\" >");
+        sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":");
+        sb.append("            </div >");
+        sb.append("            <div class=\"span7\">                 ");
+        sb.append("                <input type=\"text\" class=\"input-xxlarge\" style=\"margin-top: 0px;\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\"  value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />");
+        sb.append("            </div>");
+        sb.append("        </div>\n");
+        sb.append("      </li>\n");
     }
 
     private void generateItemFecha(RespuestaItem respuestaItem, StringBuilder sb) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        sb.append("      <li style=\"text-align: left\">\n");
+        sb.append("        <div class=\"row-fluid\">\n");
+        sb.append("            <div class=\"span5 simple-text\" style=\"padding-left: 20px\" >");
+        sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":");
+        sb.append("            </div >");
+        sb.append("            <div class=\"span7\">                 ");
+        sb.append("                <input type=\"text\" id=\"valor" + respuestaItem.getItem().getIdItem() + "\" class=\"input-xxlarge\" style=\"margin-top: 0px;\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\"  value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />");
+        sb.append("            </div>");
+        sb.append("        </div>\n");
+        sb.append("      </li>\n");
+        sb.append("      <script>\n");
+        sb.append("          $(function() { $(\"#valor" + respuestaItem.getItem().getIdItem() + "\").datepicker(); });\n");
+        sb.append("      </script>\n");
     }
 
     private void generateBotones(RespuestaPregunta respuestaPregunta, StringBuilder sb) {
