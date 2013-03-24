@@ -4,9 +4,9 @@
     <head>
         <title>Encuestas</title>
         <%@ include file="/template/header.jsp" %>
-        <script type='text/javascript' src='/encuestas/js/Chart.js'></script>
+        <script type='text/javascript' src='<%=request.getContextPath() %>/js/Chart.js'></script>
         <script type='text/javascript' src='estadisticas.js'></script>
-        <script type='text/javascript' src='/encuestas/js/angular-directives.js'></script>
+        <script type='text/javascript' src='<%=request.getContextPath() %>/js/angular-directives.js'></script>
     </head>
     <body ng-controller="EstadisticasController" >
         <%@ include file="/template/top.jsp" %>

@@ -16,19 +16,19 @@ List<BussinessMessage> bussinessMessages=(List<BussinessMessage>)request.getAttr
 
         <div class="row-fluid" >
             <div class="span12"><img src="img/icons/check.png" alt="grafica" class="center" ></div>
-        </div> 
+        </div>
         <div class="row-fluid" style="margin-top: 1em;">
             <div class="offset2 span8 main-text" style="text-align: center">Ups. Se ha producido algún problema</div>
-        </div>  
+        </div>
         <div class="row-fluid">
             <div class="offset2 span8 main-text">
                 <div class="alert">
                     <%
                         for(BussinessMessage bussinessMessage:bussinessMessages) {
                             if (bussinessMessage.getPropertyName()!=null) {
-                              out.println("<strong>" + HtmlUtils.htmlEscape(bussinessMessage.getPropertyName()) + "</strong>"+HtmlUtils.htmlEscape(bussinessMessage.getMessage()));  
+                              out.println("<strong>" + HtmlUtils.htmlEscape(bussinessMessage.getPropertyName()) + "</strong>"+HtmlUtils.htmlEscape(bussinessMessage.getMessage()));
                             } else {
-                              out.println(HtmlUtils.htmlEscape(bussinessMessage.getMessage()));  
+                              out.println(HtmlUtils.htmlEscape(bussinessMessage.getMessage()));
                             }
                         }
                     %>
@@ -38,10 +38,10 @@ List<BussinessMessage> bussinessMessages=(List<BussinessMessage>)request.getAttr
 
         <div class="row-fluid" style="margin-top: 2em;">
             <div class="span12" style="text-align: center" >
-                <a href="/encuestas" class="btn btn-large btn-primary ">Volver</a>
+                <a href="<%=request.getContextPath() %>" class="btn btn-large btn-primary ">Volver</a>
             </div>
             <div class="span1" >
-            </div>                    
+            </div>
         </div>
 
         <%@ include file="/template/bottom.jsp" %>

@@ -9,7 +9,7 @@ function EstadisticasController($scope,$http) {
 
 
 
-    $http.get('/encuestas/api/Encuesta/search').success(function(data) {
+    $http.get(getContextPath()+'/api/Encuesta/search').success(function(data) {
         $scope.encuestas = data;
     });
 
@@ -19,7 +19,7 @@ function EstadisticasController($scope,$http) {
             return;
         }
         if ( newValue!==null ) {
-            $http.get('/encuestas/api/Pregunta/search?idEncuesta='+$scope.estadistica.encuesta.idEncuesta).success(function(data) {
+            $http.get(getContextPath()+'/api/Pregunta/search?idEncuesta='+$scope.estadistica.encuesta.idEncuesta).success(function(data) {
                 $scope.preguntas = data;
             });
         }
@@ -32,7 +32,7 @@ function EstadisticasController($scope,$http) {
             return;
         }
         if ( newValue!==null ) {
-            $http.get('/encuestas/api/Item/search?pregunta.idPregunta='+$scope.estadistica.pregunta.idPregunta).success(function(data) {
+            $http.get(getContextPath()+'/api/Item/search?pregunta.idPregunta='+$scope.estadistica.pregunta.idPregunta).success(function(data) {
                 $scope.items = data;
             });
         }
