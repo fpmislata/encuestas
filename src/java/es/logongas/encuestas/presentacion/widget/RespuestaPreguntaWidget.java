@@ -48,6 +48,9 @@ public class RespuestaPreguntaWidget {
             case Radio:
                 generateHTMLRadio(respuestaPregunta, sb);
                 break;
+            case Check:
+                generateHTMLCheck(respuestaPregunta, sb);
+                break;
             case EspecificoPorItem:
                 generateHTMLEspecificoPorItem(respuestaPregunta, sb);
                 break;
@@ -107,6 +110,53 @@ public class RespuestaPreguntaWidget {
             sb.append("        </div>\n");
             sb.append("      </li>\n");
         }
+        sb.append("    </ul>\n");
+        sb.append("  </div>\n");
+        sb.append("</div>\n");
+    }
+
+    private void generateHTMLCheck(RespuestaPregunta respuestaPregunta, StringBuilder sb) {
+        sb.append("<div class=\"row-fluid\">\n");
+        sb.append("  <div class=\"span12\" >\n");
+        sb.append("    <ul class=\"items_encuesta\">\n");
+
+        for (int i = 0; i < respuestaPregunta.getRespuestaItems().size(); i++) {
+            RespuestaItem respuestaItem = respuestaPregunta.getRespuestaItems().get(i);
+            Item item = respuestaItem.getItem();
+
+            String checked;
+            String cssClassChecked;
+            String cssStyleVisibility;
+            if (respuestaItem.isCheck() == true) {
+                checked = "checked=\"checked\"";
+                cssClassChecked = "checkedd";
+                cssStyleVisibility = "visible";
+            } else {
+                checked = "";
+                cssClassChecked = "uncheckedd";
+                cssStyleVisibility = "hidden";
+            }
+
+            boolean showText = false;
+            if ((i + 1) == respuestaPregunta.getPregunta().getItems().size()) {
+                //Estamos en el último
+                if (respuestaPregunta.getPregunta().isUltimoItemIncluyeOtros() == true) {
+                    showText = true;
+                }
+            }
+
+            sb.append("      <li style=\"text-align: left\">\n");
+            sb.append("        <div class=\".checkbox\">\n");
+            sb.append("          <input type=\"checkbox\" value=\"" + respuestaItem.getItem().getIdItem() + "\"  name=\"check" + respuestaItem.getItem().getIdItem() + "\"  " + checked + " />\n");
+            sb.append("          <label class=\"" + cssClassChecked + "\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":</label>\n");
+            if (showText == true) {
+                sb.append("          <input class=\"input-xxlarge\" type=\"text\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\" placeholder=\"Altres expectatives\" style=\"visibility:" + cssStyleVisibility + "\" value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" >\n");
+            }
+            sb.append("        </div>\n");
+            sb.append("      </li>\n");
+        }
+
+
         sb.append("    </ul>\n");
         sb.append("  </div>\n");
         sb.append("</div>\n");

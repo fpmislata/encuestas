@@ -21,5 +21,6 @@ package es.logongas.encuestas.modelo.encuestas;
  */
 public enum TipoPregunta {
     Radio,
+    Check,
     EspecificoPorItem;
 }

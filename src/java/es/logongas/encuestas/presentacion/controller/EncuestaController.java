@@ -407,6 +407,7 @@ public class EncuestaController {
                         respuestaItem.setCheck(false);
                     }
                     break;
+                case Check:
                 case EspecificoPorItem:
                     if ((""+item.getIdItem()).equals(request.getParameter("check"+item.getIdItem()))) {
                         respuestaItem.setCheck(true);
