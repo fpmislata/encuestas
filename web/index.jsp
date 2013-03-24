@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>JSP Page</title>
+        <title>Encuestas</title>
         <%@ include file="/template/header.jsp" %>
     </head>
     <body>
@@ -24,7 +24,7 @@
                             </a>
                         </div>
                         <div class="span6" >
-                            <a href="#" class="main-button">
+                            <a href="encuesta.html?idEncuesta=2" class="main-button">
                                 <span class="main-text">de años anteriores</span>
                                 <br />
                                 <img src="img/icons/phonebook.png" alt="de años anteriores" class="center" >

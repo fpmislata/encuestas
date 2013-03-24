@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>JSP Page</title>
+        <title>Encuestas</title>
         <%@ include file="/template/header.jsp" %>
     </head>
     <body>
@@ -10,16 +10,16 @@
 
                     <div class="row-fluid" >
                         <div class="span12"><img src="img/icons/printer.png" alt="grafica" class="center" ></div>
-                    </div> 
+                    </div>
                     <div class="row-fluid" style="margin-top: 1em;">
                         <div class="offset2 span8 main-text" style="text-align: center">Ahora deberás imprimir la encuesta</div>
-                    </div>         
+                    </div>
                     <div class="row-fluid" >
                         <div class="offset2 span8 main-text" style="text-align: center">y</div>
-                    </div>  
+                    </div>
                     <div class="row-fluid" >
-                        <div class="offset2 span8 main-text" style="text-align: center">entregarla junto con el sobre de matrícula</div>                        
-                    </div>  
+                        <div class="offset2 span8 main-text" style="text-align: center">entregarla junto con el sobre de matrícula</div>
+                    </div>
 
 
     <div class="row-fluid" style="margin-top: 2em;">
@@ -28,7 +28,7 @@
             <a href="finalizar.html" class="btn btn-large btn-primary ">Finalizar <i class="icon-arrow-right icon-white" ></i></a>
         </div>
         <div class="span1" >
-        </div>                    
+        </div>
     </div>
 
 <%@ include file="/template/bottom.jsp" %>

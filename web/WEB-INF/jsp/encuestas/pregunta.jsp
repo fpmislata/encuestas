@@ -10,7 +10,7 @@ RespuestaPreguntaWidget respuestaPreguntaWidget=new RespuestaPreguntaWidget(resp
 <!doctype html>
 <html>
     <head>
-        <title>JSP Page</title>
+        <title>Encuestas</title>
         <%@ include file="/template/header.jsp" %>
     </head>
     <body>

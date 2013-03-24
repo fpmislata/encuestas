@@ -6,7 +6,7 @@ URI backURI=(URI)request.getAttribute("backURI");
 <!DOCTYPE html>
 <html>
     <head>
-        <title>JSP Page</title>
+        <title>Encuestas</title>
         <%@ include file="/template/header.jsp" %>
     </head>
     <body>
@@ -14,10 +14,10 @@ URI backURI=(URI)request.getAttribute("backURI");
 
         <div class="row-fluid" >
             <div class="span12"><img src="img/icons/check.png" alt="grafica" class="center" ></div>
-        </div> 
+        </div>
         <div class="row-fluid" style="margin-top: 1em;">
             <div class="offset2 span8 main-text" style="text-align: center">Gracias por ayudar a</div>
-        </div>  
+        </div>
         <div class="row-fluid">
             <div class="offset2 span8 main-text" style="text-align: center">mejorar la educación</div>
         </div>
@@ -27,7 +27,7 @@ URI backURI=(URI)request.getAttribute("backURI");
                 <a href="<%=backURI.toASCIIString() %> " class="btn btn-large btn-primary ">Volver</a>
             </div>
             <div class="span1" >
-            </div>                    
+            </div>
         </div>
 
         <%@ include file="/template/bottom.jsp" %>
