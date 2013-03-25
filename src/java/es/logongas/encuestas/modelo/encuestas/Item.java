@@ -24,6 +24,7 @@ public class Item {
     private String nombre;
     private TipoItem tipoItem;
     private ListaValores listaValores;
+    private Pregunta pregunta;
 
     /**
      * @return the idItem
@@ -79,5 +80,19 @@ public class Item {
      */
     public void setListaValores(ListaValores listaValores) {
         this.listaValores = listaValores;
+    }
+
+    /**
+     * @return the pregunta
+     */
+    public Pregunta getPregunta() {
+        return pregunta;
+    }
+
+    /**
+     * @param pregunta the pregunta to set
+     */
+    public void setPregunta(Pregunta pregunta) {
+        this.pregunta = pregunta;
     }
 }
