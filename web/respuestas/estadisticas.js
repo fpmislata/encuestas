@@ -46,23 +46,23 @@ function EstadisticasController($scope,$http) {
         }
         if ( newValue!==null ) {
             $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getEstadisticaItem&parameter0='+$scope.estadistica.item.idItem).success(function(resultados) {
-                $scope.resultados=resultados;
+                $scope.resultadosItem=resultados;
             });
         }
     });
 
-    $scope.$watch("resultados",function( newValue, oldValue ) {
+    $scope.$watch("resultadosItem",function( newValue, oldValue ) {
 
         if ( newValue === oldValue ) {
             return;
         }
         if ( newValue!==null ) {
-           $scope.showChart();
+           $scope.showChartItem();
         }
     });
 
 
-    $scope.showChart=function() {
+    $scope.showChartItem=function() {
         $('#estadistica').highcharts({
             chart: {
                 type: 'column'
@@ -71,10 +71,10 @@ function EstadisticasController($scope,$http) {
                 text: "Encuesta:"+$scope.estadistica.encuesta.nombre
             },
             subtitle: {
-                text: "Pregunta"+$scope.estadistica.pregunta.pregunta
+                text: "Pregunta:"+$scope.estadistica.pregunta.pregunta
             },
             xAxis: {
-                categories: $scope.resultados.labels
+                categories: $scope.resultadosItem.labels
             },
             yAxis: {
                 min: 0,
@@ -90,7 +90,7 @@ function EstadisticasController($scope,$http) {
             },
             series: [{
                 name: $scope.estadistica.item.nombre,
-                data: $scope.resultados.data
+                data: $scope.resultadosItem.series[0].data
 
             }]
         });

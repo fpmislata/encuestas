@@ -4,7 +4,7 @@
  */
 package es.logongas.encuestas.presentacion.controller;
 
-import es.logongas.encuestas.modelo.estadisticas.Estadistica;
+import es.logongas.encuestas.modelo.encuestas.Estadistica;
 import es.logongas.ix3.persistencia.services.dao.BussinessException;
 import es.logongas.ix3.persistencia.services.dao.BussinessMessage;
 import es.logongas.ix3.persistencia.services.dao.DAOFactory;

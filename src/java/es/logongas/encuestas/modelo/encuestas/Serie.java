@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,19 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package es.logongas.encuestas.persistencia.services.dao.encuestas;
+package es.logongas.encuestas.modelo.encuestas;
 
-import es.logongas.encuestas.modelo.encuestas.Encuesta;
-import es.logongas.encuestas.modelo.encuestas.Estadistica;
-import es.logongas.encuestas.modelo.encuestas.Item;
-import es.logongas.ix3.persistencia.services.dao.GenericDAO;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Lorenzo González
  */
-public interface EncuestaDAO extends GenericDAO<Encuesta,Integer>  {
-
-    Estadistica getEstadisticaItem(Item item);
-
+public class Serie {
+    public long numRespuestas;
+    public List<Long> rawData=new ArrayList<Long>();
+    public List<BigDecimal> data=new ArrayList<BigDecimal>();
 }
