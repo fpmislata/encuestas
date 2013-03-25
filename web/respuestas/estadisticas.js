@@ -39,39 +39,63 @@ function EstadisticasController($scope,$http) {
 
     });
 
+    $scope.$watch("estadistica.item",function( newValue, oldValue ) {
+
+        if ( newValue === oldValue ) {
+            return;
+        }
+        if ( newValue!==null ) {
+            $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getEstadisticaItem&parameter0='+$scope.estadistica.item.idItem).success(function(estadistica) {
+                $scope.resultados=estadistica;
+            });
+        }
+    });
+
+    $scope.$watch("estadistica.resultados",function( newValue, oldValue ) {
+
+        if ( newValue === oldValue ) {
+            return;
+        }
+        if ( newValue!==null ) {
+           $scope.showChart();
+        }
+    });
+
+
+    $scope.showChart=function($scope) {
+        $('#estadistica').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: "Encuesta:"+$scope.estadistica.encuesta.nombre
+            },
+            subtitle: {
+                text: "Pregunta"+$scope.estadistica.pregunta.pregunta
+            },
+            xAxis: {
+                categories: $scope.resultados.labels
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '% de respuestas'
+                }
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: $scope.estadistica.item.nombre,
+                data: $scope.resultados.data
+
+            }]
+        });
+    }
 
 }
 
-$(function() {
-    var ctx = $("#estadistica").get(0).getContext("2d");
-    var options={
-	scaleOverride : true,
 
-	//Number - The number of steps in a hard coded scale
-	scaleSteps : 11,
-	//Number - The value jump in the hard coded scale
-	scaleStepWidth : 10,
-	//Number - The scale starting value
-	scaleStartValue : 0
-    }
-    var data = {
-        labels : ["January","February","March","April","May","June","July"],
-datasets : [
-		{
-			fillColor : "rgba(220,220,220,0.5)",
-			strokeColor : "rgba(220,220,220,1)",
-			pointColor : "rgba(220,220,220,1)",
-			pointStrokeColor : "#fff",
-			data : [65,59,90,81,56,55,40]
-		},
-		{
-			fillColor : "rgba(151,187,205,0.5)",
-			strokeColor : "rgba(151,187,205,1)",
-			pointColor : "rgba(151,187,205,1)",
-			pointStrokeColor : "#fff",
-			data : [28,48,40,19,96,27,100]
-		}
-	]
-    }
-    new Chart(ctx).Bar(data,options);
-})

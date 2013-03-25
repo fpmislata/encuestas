@@ -4,7 +4,7 @@
     <head>
         <title>Encuestas</title>
         <%@ include file="/template/header.jsp" %>
-        <script type='text/javascript' src='<%=request.getContextPath() %>/js/Chart.js'></script>
+        <script type='text/javascript' src='<%=request.getContextPath() %>/js/highcharts.js'></script>
         <script type='text/javascript' src='estadisticas.js'></script>
         <script type='text/javascript' src='<%=request.getContextPath() %>/js/angular-directives.js'></script>
     </head>
@@ -30,7 +30,7 @@
         </div>
         <div class="row-fluid" >
             <div class="span12">
-                <canvas id="estadistica"  width="950px" height="600px" ></canvas>
+                <div id="estadistica" style="min-width: 400px;width: 800px; height: 400px; margin: 0 auto"></div>
             </div>
         </div>
         <%@ include file="/template/bottom.jsp" %>
