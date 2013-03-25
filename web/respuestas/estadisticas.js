@@ -9,7 +9,7 @@ function EstadisticasController($scope,$http) {
 
 
 
-    $http.get(getContextPath()+'/api/Encuesta/search').success(function(data) {
+    $http.get(getContextPath()+'/api/Encuesta/').success(function(data) {
         $scope.encuestas = data;
     });
 
@@ -19,7 +19,7 @@ function EstadisticasController($scope,$http) {
             return;
         }
         if ( newValue!==null ) {
-            $http.get(getContextPath()+'/api/Pregunta/search?idEncuesta='+$scope.estadistica.encuesta.idEncuesta).success(function(data) {
+            $http.get(getContextPath()+'/api/Pregunta/?encuesta.idEncuesta='+$scope.estadistica.encuesta.idEncuesta).success(function(data) {
                 $scope.preguntas = data;
             });
         }
@@ -32,7 +32,7 @@ function EstadisticasController($scope,$http) {
             return;
         }
         if ( newValue!==null ) {
-            $http.get(getContextPath()+'/api/Item/search?pregunta.idPregunta='+$scope.estadistica.pregunta.idPregunta).success(function(data) {
+            $http.get(getContextPath()+'/api/Item/?pregunta.idPregunta='+$scope.estadistica.pregunta.idPregunta).success(function(data) {
                 $scope.items = data;
             });
         }
@@ -41,7 +41,7 @@ function EstadisticasController($scope,$http) {
 
 
 }
-/*
+
 $(function() {
     var ctx = $("#estadistica").get(0).getContext("2d");
     var options={
@@ -75,4 +75,3 @@ datasets : [
     }
     new Chart(ctx).Bar(data,options);
 })
-*/
