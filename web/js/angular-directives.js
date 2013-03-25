@@ -1,4 +1,4 @@
-app.directive('mostrar', function() {
+angular.module('logongas.directive', []).directive('mostrar', function() {
 
     return function($scope, element, attributes) {
         function mostrar(element) {
@@ -32,9 +32,7 @@ app.directive('mostrar', function() {
 
         });
     }
-});
-
-app.directive('clear', function() {
+}).directive('clear', function() {
 
     return function($scope, element, attributes) {
         function setValue(obj,key,newValue) {

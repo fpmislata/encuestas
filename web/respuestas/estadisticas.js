@@ -1,4 +1,4 @@
-var app = angular.module('app', []);
+var app = angular.module('app', ["logongas.directive"]);
 
 function EstadisticasController($scope,$http) {
     $scope.estadistica = {
@@ -41,13 +41,12 @@ function EstadisticasController($scope,$http) {
 
 
 }
-
+/*
 $(function() {
     var ctx = $("#estadistica").get(0).getContext("2d");
     var options={
 	scaleOverride : true,
 
-	//** Required if scaleOverride is true **
 	//Number - The number of steps in a hard coded scale
 	scaleSteps : 11,
 	//Number - The value jump in the hard coded scale
@@ -76,3 +75,4 @@ datasets : [
     }
     new Chart(ctx).Bar(data,options);
 })
+*/
