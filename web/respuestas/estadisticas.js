@@ -45,13 +45,13 @@ function EstadisticasController($scope,$http) {
             return;
         }
         if ( newValue!==null ) {
-            $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getEstadisticaItem&parameter0='+$scope.estadistica.item.idItem).success(function(estadistica) {
-                $scope.resultados=estadistica;
+            $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getEstadisticaItem&parameter0='+$scope.estadistica.item.idItem).success(function(resultados) {
+                $scope.resultados=resultados;
             });
         }
     });
 
-    $scope.$watch("estadistica.resultados",function( newValue, oldValue ) {
+    $scope.$watch("resultados",function( newValue, oldValue ) {
 
         if ( newValue === oldValue ) {
             return;
@@ -62,7 +62,7 @@ function EstadisticasController($scope,$http) {
     });
 
 
-    $scope.showChart=function($scope) {
+    $scope.showChart=function() {
         $('#estadistica').highcharts({
             chart: {
                 type: 'column'
