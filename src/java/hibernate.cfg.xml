@@ -6,21 +6,19 @@
     <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
     <property name="hibernate.show_sql">true</property>
     <!-- Definición de las encuestas -->
-    <mapping resource="es/logongas/encuestas/datos/hibernate/encuestas/Encuesta.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/datos/hibernate/encuestas/Pregunta.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/datos/hibernate/encuestas/Item.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/datos/hibernate/encuestas/ListaValores.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/datos/hibernate/encuestas/Valor.hbm.xml"/>
-    
+    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/encuestas/Encuesta.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/encuestas/Pregunta.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/encuestas/Item.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/encuestas/ListaValores.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/encuestas/Valor.hbm.xml"/>
     <!-- Respuestas de las encuestas -->
-    <mapping resource="es/logongas/encuestas/datos/hibernate/respuestas/RespuestaEncuesta.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/datos/hibernate/respuestas/RespuestaPregunta.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/datos/hibernate/respuestas/RespuestaItem.hbm.xml"/>
-
+    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/respuestas/RespuestaEncuesta.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/respuestas/RespuestaPregunta.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/respuestas/RespuestaItem.hbm.xml"/>
     <!-- Sistema de seguridad -->
-    <mapping resource="es/logongas/encuestas/datos/hibernate/seguridad/User.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/datos/hibernate/seguridad/Role.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/datos/hibernate/seguridad/Permission.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/datos/hibernate/seguridad/UserRole.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/seguridad/User.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/seguridad/Role.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/seguridad/Permission.hbm.xml"/>
+    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/seguridad/UserRole.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

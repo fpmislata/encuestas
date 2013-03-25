@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package es.logongas.encuestas.datos.dao.encuestas;
+package es.logongas.encuestas.persistencia.services.dao.encuestas;
 
-import es.logongas.encuestas.modelo.encuestas.Pregunta;
+import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.ix3.persistencia.services.dao.GenericDAO;
 
 /**
  *
  * @author Lorenzo González
  */
-public interface PreguntaDAO extends GenericDAO<Pregunta,Integer> {
-    
+public interface ItemDAO extends GenericDAO<Item,Integer>  {
+
 }

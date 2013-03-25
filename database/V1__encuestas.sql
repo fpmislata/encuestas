@@ -3,7 +3,7 @@
 -- Server version:               5.5.27 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2013-03-23 21:49:43
+-- Date/time:                    2013-03-25 14:50:05
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -61,11 +61,11 @@ INSERT INTO `item` (`idItem`, `nombre`, `tipoItem`, `idListaValores`, `idPregunt
 	(5, 'Altres (indicar quines):', NULL, NULL, 1, 4),
 	(6, 'El procés de matricula', 1, 1, 2, 0),
 	(7, 'El tracte rebut pel personal del centre', 1, 1, 2, 1),
-	(8, 'Obtindre un titol', 0, NULL, 3, 0),
-	(9, 'Tindre una bona formació', 0, NULL, 3, 1),
-	(10, 'Trobar treball relacionat ams els estudis cursats', 0, NULL, 3, 2),
-	(11, 'Continuar estudis per completar la meua formació', 0, NULL, 3, 3),
-	(12, 'Altres (indicar quines)', 0, NULL, 3, 4),
+	(8, 'Obtindre un titol', NULL, NULL, 3, 0),
+	(9, 'Tindre una bona formació', NULL, NULL, 3, 1),
+	(10, 'Trobar treball relacionat ams els estudis cursats', NULL, NULL, 3, 2),
+	(11, 'Continuar estudis per completar la meua formació', NULL, NULL, 3, 3),
+	(12, 'Altres (indicar quines)', NULL, NULL, 3, 4),
 	(13, 'Modalitat d\'accés', 2, NULL, 4, 0),
 	(14, 'Últims estudis cursats', 2, NULL, 4, 1),
 	(15, 'Últim centre académic', 2, NULL, 4, 2),
@@ -133,9 +133,9 @@ CREATE TABLE IF NOT EXISTS `pregunta` (
 /*!40000 ALTER TABLE `pregunta` DISABLE KEYS */;
 INSERT INTO `pregunta` (`idPregunta`, `pregunta`, `idEncuesta`, `tipoPregunta`, `ultimoItemIncluyeOtros`, `Idx`) VALUES
 	(1, 'Has conegut l\'oferta formativa del centre per', 1, 0, 1, 3),
-	(2, 'Valora del 1 al 5 els següents aspectes', 1, 1, 0, 2),
+	(2, 'Valora del 1 al 5 els següents aspectes', 1, 2, 0, 2),
 	(3, 'En matricular-te en aquest centre les teues expectatives son', 1, 1, 1, 1),
-	(4, 'Dades Académiques', 1, 1, 0, 0);
+	(4, 'Dades Académiques', 1, 2, 0, 0);
 /*!40000 ALTER TABLE `pregunta` ENABLE KEYS */;
 
 
@@ -150,11 +150,12 @@ CREATE TABLE IF NOT EXISTS `respuestaencuesta` (
   CONSTRAINT `FK3AA724B6926153F7` FOREIGN KEY (`idEncuesta`) REFERENCES `encuesta` (`idEncuesta`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- Dumping data for table encuestas.respuestaencuesta: ~0 rows (approximately)
+-- Dumping data for table encuestas.respuestaencuesta: ~2 rows (approximately)
 /*!40000 ALTER TABLE `respuestaencuesta` DISABLE KEYS */;
 INSERT INTO `respuestaencuesta` (`idRespuestaEncuesta`, `idEncuesta`, `fechaRespuesta`) VALUES
 	(2, 1, NULL),
-	(3, 1, NULL);
+	(3, 1, NULL),
+	(4, 1, NULL);
 /*!40000 ALTER TABLE `respuestaencuesta` ENABLE KEYS */;
 
 
@@ -174,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `respuestaitem` (
   CONSTRAINT `FK7FE22AD3E9805DB1` FOREIGN KEY (`idItem`) REFERENCES `item` (`idItem`)
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
--- Dumping data for table encuestas.respuestaitem: ~0 rows (approximately)
+-- Dumping data for table encuestas.respuestaitem: ~36 rows (approximately)
 /*!40000 ALTER TABLE `respuestaitem` DISABLE KEYS */;
 INSERT INTO `respuestaitem` (`idRespuestaItem`, `idItem`, `idRespuestaPregunta`, `checkk`, `valor`, `Idx`) VALUES
 	(1, 13, 2, 0, '', 0),
@@ -212,7 +213,25 @@ INSERT INTO `respuestaitem` (`idRespuestaItem`, `idItem`, `idRespuestaPregunta`,
 	(33, 2, 9, 0, NULL, 1),
 	(34, 3, 9, 0, NULL, 2),
 	(35, 4, 9, 0, NULL, 3),
-	(36, 5, 9, 1, 'Altres (indicar quines):Radio', 4);
+	(36, 5, 9, 1, 'Altres (indicar quines):Radio', 4),
+	(37, 13, 10, 0, '', 0),
+	(38, 14, 10, 0, '', 1),
+	(39, 15, 10, 0, '', 2),
+	(40, 16, 10, 0, '', 3),
+	(41, 17, 10, 0, '', 4),
+	(42, 18, 10, 0, '', 5),
+	(43, 8, 11, 0, NULL, 0),
+	(44, 9, 11, 1, NULL, 1),
+	(45, 10, 11, 0, NULL, 2),
+	(46, 11, 11, 1, NULL, 3),
+	(47, 12, 11, 0, 'aaa', 4),
+	(48, 6, 12, 0, '3', 0),
+	(49, 7, 12, 0, '5', 1),
+	(50, 1, 13, 0, NULL, 0),
+	(51, 2, 13, 0, NULL, 1),
+	(52, 3, 13, 1, NULL, 2),
+	(53, 4, 13, 0, NULL, 3),
+	(54, 5, 13, 0, '', 4);
 /*!40000 ALTER TABLE `respuestaitem` ENABLE KEYS */;
 
 
@@ -230,7 +249,7 @@ CREATE TABLE IF NOT EXISTS `respuestapregunta` (
   CONSTRAINT `FK87989AAA7A7B7DB5` FOREIGN KEY (`idRespuestaEncuesta`) REFERENCES `respuestaencuesta` (`idRespuestaEncuesta`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
--- Dumping data for table encuestas.respuestapregunta: ~0 rows (approximately)
+-- Dumping data for table encuestas.respuestapregunta: ~8 rows (approximately)
 /*!40000 ALTER TABLE `respuestapregunta` DISABLE KEYS */;
 INSERT INTO `respuestapregunta` (`idRespuestaPregunta`, `idRespuestaEncuesta`, `idPregunta`, `Idx`) VALUES
 	(2, 2, 4, 0),
@@ -240,7 +259,11 @@ INSERT INTO `respuestapregunta` (`idRespuestaPregunta`, `idRespuestaEncuesta`, `
 	(6, 3, 4, 0),
 	(7, 3, 3, 1),
 	(8, 3, 2, 2),
-	(9, 3, 1, 3);
+	(9, 3, 1, 3),
+	(10, 4, 4, 0),
+	(11, 4, 3, 1),
+	(12, 4, 2, 2),
+	(13, 4, 1, 3);
 /*!40000 ALTER TABLE `respuestapregunta` ENABLE KEYS */;
 
 

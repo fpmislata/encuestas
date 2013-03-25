@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package es.logongas.encuestas.datos.dao.seguridad;
+package es.logongas.encuestas.persistencia.services.dao.seguridad;
 
 import es.logongas.encuestas.modelo.seguridad.User;
 import es.logongas.ix3.persistencia.services.dao.GenericDAO;
@@ -23,5 +23,5 @@ import es.logongas.ix3.persistencia.services.dao.GenericDAO;
  * @author Lorenzo González
  */
 public interface UserDAO extends GenericDAO<User,Integer>  {
-    
+
 }
