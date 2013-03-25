@@ -16,6 +16,7 @@
 package es.logongas.encuestas.persistencia.services.dao.encuestas;
 
 import es.logongas.encuestas.modelo.encuestas.Encuesta;
+import es.logongas.encuestas.modelo.estadisticas.Estadistica;
 import es.logongas.ix3.persistencia.services.dao.GenericDAO;
 
 /**
@@ -23,5 +24,7 @@ import es.logongas.ix3.persistencia.services.dao.GenericDAO;
  * @author Lorenzo González
  */
 public interface EncuestaDAO extends GenericDAO<Encuesta,Integer>  {
+
+    Estadistica getEstadisticaItem(int idItem);
 
 }
