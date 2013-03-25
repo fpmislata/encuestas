@@ -12,6 +12,8 @@ import java.util.List;
  * @author Lorenzo González
  */
 public class Estadistica {
-    List<String> labels=new ArrayList<String>();
-    List<Double> data=new ArrayList<Double>();
+    public long numRespuestas;
+    public List<String> labels=new ArrayList<String>();
+    public List<Long> rawData=new ArrayList<Long>();
+    public List<Double> data=new ArrayList<Double>();
 }
