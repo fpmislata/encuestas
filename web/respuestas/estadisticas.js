@@ -35,6 +35,12 @@ function EstadisticasController($scope,$http) {
             $http.get(getContextPath()+'/api/Item/?pregunta.idPregunta='+$scope.estadistica.pregunta.idPregunta).success(function(data) {
                 $scope.items = data;
             });
+
+            if ($scope.estadistica.pregunta.tipoPregunta=='Radio' || $scope.estadistica.pregunta.tipoPregunta=='Check') {
+                $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getEstadisticaPregunta&parameter0='+$scope.estadistica.pregunta.idPregunta).success(function(resultados) {
+                    $scope.resultadosPregunta=resultados;
+                });
+            }
         }
 
     });
@@ -51,6 +57,16 @@ function EstadisticasController($scope,$http) {
         }
     });
 
+    $scope.$watch("resultadosPregunta",function( newValue, oldValue ) {
+
+        if ( newValue === oldValue ) {
+            return;
+        }
+        if ( newValue!==null ) {
+           $scope.showChartPregunta();
+        }
+    });
+
     $scope.$watch("resultadosItem",function( newValue, oldValue ) {
 
         if ( newValue === oldValue ) {
@@ -60,6 +76,38 @@ function EstadisticasController($scope,$http) {
            $scope.showChartItem();
         }
     });
+
+
+    $scope.showChartPregunta=function() {
+        $('#estadistica').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: "Encuesta:"+$scope.estadistica.encuesta.nombre
+            },
+            xAxis: {
+                categories: $scope.resultadosPregunta.labels
+            },
+            yAxis: {
+                max:100,
+                min: 0,
+                title: {
+                    text: '% de respuestas'
+                }
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: $scope.estadistica.pregunta.pregunta,
+                data: $scope.resultadosPregunta.series[0].data
+            }]
+        });
+    }
 
 
     $scope.showChartItem=function() {
@@ -77,6 +125,7 @@ function EstadisticasController($scope,$http) {
                 categories: $scope.resultadosItem.labels
             },
             yAxis: {
+                max:100,
                 min: 0,
                 title: {
                     text: '% de respuestas'
