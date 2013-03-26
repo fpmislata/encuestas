@@ -63,7 +63,7 @@ function EstadisticasController($scope,$http) {
             return;
         }
         if ( newValue!==null ) {
-           $scope.showChartPregunta();
+            $scope.showChartPregunta();
         }
     });
 
@@ -73,7 +73,7 @@ function EstadisticasController($scope,$http) {
             return;
         }
         if ( newValue!==null ) {
-           $scope.showChartItem();
+            $scope.showChartItem();
         }
     });
 
@@ -82,6 +82,9 @@ function EstadisticasController($scope,$http) {
         $('#estadistica').highcharts({
             chart: {
                 type: 'column'
+            },
+            credits : {
+                enabled : false
             },
             title: {
                 text: "Encuesta:"+$scope.estadistica.encuesta.nombre
@@ -114,6 +117,9 @@ function EstadisticasController($scope,$http) {
         $('#estadistica').highcharts({
             chart: {
                 type: 'column'
+            },
+            credits : {
+                enabled : false
             },
             title: {
                 text: "Encuesta:"+$scope.estadistica.encuesta.nombre
