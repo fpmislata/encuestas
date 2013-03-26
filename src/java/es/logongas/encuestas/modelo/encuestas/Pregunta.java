@@ -24,7 +24,7 @@ import org.hibernate.Hibernate;
  *
  * @author Lorenzo González
  */
-public class Pregunta {
+public class Pregunta implements Comparable<Pregunta> {
 
     private int idPregunta;
     private String pregunta;
@@ -141,7 +141,7 @@ public class Pregunta {
         }
     }
 
- 
+
 
     @Override
     public boolean equals(Object obj) {
@@ -180,5 +180,24 @@ public class Pregunta {
         resultado = 31 * resultado + dato1;
 
         return resultado;
+    }
+
+    @Override
+    public int compareTo(Pregunta pregunta) {
+        if (pregunta==null) {
+            return -1;
+        }
+
+        int indexThis=this.getEncuesta().getPreguntas().indexOf(this);
+        int indexOther=pregunta.getEncuesta().getPreguntas().indexOf(pregunta);
+        if (indexThis<indexOther) {
+            return -1;
+        } else if (indexThis>indexOther) {
+            return 1;
+        } else if (indexThis==indexOther) {
+            return 0;
+        } else {
+            throw new RuntimeException("Error de lógica:"+indexThis + "  " +indexOther) ;
+        }
     }
 }

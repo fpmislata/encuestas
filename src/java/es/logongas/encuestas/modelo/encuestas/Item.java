@@ -19,7 +19,7 @@ package es.logongas.encuestas.modelo.encuestas;
  * Cada uno de los Item a los que se puede responder de una pregunta de la encuesta
  * @author Lorenzo González
  */
-public class Item {
+public class Item implements Comparable<Item> {
     private int idItem;
     private String nombre;
     private TipoItem tipoItem;
@@ -94,5 +94,24 @@ public class Item {
      */
     public void setPregunta(Pregunta pregunta) {
         this.pregunta = pregunta;
+    }
+
+    @Override
+    public int compareTo(Item item) {
+        if (item==null) {
+            return -1;
+        }
+
+        int indexThis=this.getPregunta().getItems().indexOf(this);
+        int indexOther=item.getPregunta().getItems().indexOf(item);
+        if (indexThis<indexOther) {
+            return -1;
+        } else if (indexThis>indexOther) {
+            return 1;
+        } else if (indexThis==indexOther) {
+            return 0;
+        } else {
+            throw new RuntimeException("Error de lógica:"+indexThis + "  " +indexOther) ;
+        }
     }
 }
