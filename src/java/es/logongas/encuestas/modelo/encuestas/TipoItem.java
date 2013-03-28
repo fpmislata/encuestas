@@ -23,5 +23,6 @@ public enum TipoItem {
     Sino,
     ListaValores,
     Texto,
-    Fecha
+    Fecha,
+    AreaTexto
 }

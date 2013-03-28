@@ -69,16 +69,20 @@ public class RespuestaPreguntaWidget {
         sb.append("  <div class=\"span12 main-text\" >" + HTMLUtil.toHTML(respuestaPregunta.getPregunta().getPregunta()) + ":</div>\n");
         sb.append("</div>\n");
         sb.append("<form  id=\"formRespuestas\" action=\"\" method=\"POST\">\n");
+        sb.append("<div class=\"row-fluid\">\n");
+        sb.append("  <div class=\"span12\" >\n");
+        sb.append("    <ul class=\"items_encuesta\">\n");
     }
 
     private void generatePie(RespuestaPregunta respuestaPregunta, StringBuilder sb) {
+        sb.append("    </ul>\n");
+        sb.append("  </div>\n");
+        sb.append("</div>\n");
         sb.append("</form>\n");
     }
 
     private void generateHTMLRadio(RespuestaPregunta respuestaPregunta, StringBuilder sb) {
-        sb.append("<div class=\"row-fluid\">\n");
-        sb.append("  <div class=\"span12\" >\n");
-        sb.append("    <ul class=\"items_encuesta\">\n");
+
 
         for (int i = 0; i < respuestaPregunta.getRespuestaItems().size(); i++) {
             RespuestaItem respuestaItem = respuestaPregunta.getRespuestaItems().get(i);
@@ -110,15 +114,10 @@ public class RespuestaPreguntaWidget {
             sb.append("        </div>\n");
             sb.append("      </li>\n");
         }
-        sb.append("    </ul>\n");
-        sb.append("  </div>\n");
-        sb.append("</div>\n");
+
     }
 
     private void generateHTMLCheck(RespuestaPregunta respuestaPregunta, StringBuilder sb) {
-        sb.append("<div class=\"row-fluid\">\n");
-        sb.append("  <div class=\"span12\" >\n");
-        sb.append("    <ul class=\"items_encuesta\">\n");
 
         for (int i = 0; i < respuestaPregunta.getRespuestaItems().size(); i++) {
             RespuestaItem respuestaItem = respuestaPregunta.getRespuestaItems().get(i);
@@ -155,17 +154,9 @@ public class RespuestaPreguntaWidget {
             sb.append("        </div>\n");
             sb.append("      </li>\n");
         }
-
-
-        sb.append("    </ul>\n");
-        sb.append("  </div>\n");
-        sb.append("</div>\n");
     }
 
     private void generateHTMLEspecificoPorItem(RespuestaPregunta respuestaPregunta, StringBuilder sb) {
-        sb.append("<div class=\"row-fluid\">\n");
-        sb.append("  <div class=\"span12\" >\n");
-        sb.append("    <ul class=\"items_encuesta\">\n");
         for (int i = 0; i < respuestaPregunta.getRespuestaItems().size(); i++) {
             RespuestaItem respuestaItem = respuestaPregunta.getRespuestaItems().get(i);
 
@@ -185,14 +176,13 @@ public class RespuestaPreguntaWidget {
                     break;
                 case Fecha:
                     generateItemFecha(respuestaItem, sb);
+                case AreaTexto:
+                    generateItemAreaTexto(respuestaItem, sb);
                     break;
                 default:
                     throw new RuntimeException("El tipo de item es desconocido:" + respuestaItem.getItem().getTipoItem());
             }
         }
-        sb.append("    </ul>\n");
-        sb.append("  </div>\n");
-        sb.append("</div>\n");
     }
 
     private void generateItemSino(RespuestaItem respuestaItem, boolean showText, StringBuilder sb) {
@@ -231,7 +221,8 @@ public class RespuestaPreguntaWidget {
         sb.append("      <li style=\"text-align: left\">\n");
         sb.append("        <div class=\"row-fluid\">\n");
         sb.append("            <div class=\"span10 simple-text\" style=\"padding-left: 20px;padding-top: 0.5em;\" >\n");
-        sb.append("                <img src=\"img/icons/bullet.png\" />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":</div>\n");
+        sb.append("                <img src=\"img/icons/bullet.png\" />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":\n");
+        sb.append("            </div>\n");
         sb.append("            <div class=\"span2\" >\n");
         sb.append("                <div class=\"btn-group\">\n");
         sb.append("                    <button class=\"btn dropdown-toggle\" data-toggle=\"dropdown\">\n");
@@ -294,4 +285,33 @@ public class RespuestaPreguntaWidget {
         sb.append("            </div>\n");
         sb.append("        </div>\n");
     }
+
+    private void generateItemAreaTexto(RespuestaItem respuestaItem, StringBuilder sb) {
+        boolean showPregunta;
+        String pregunta = respuestaItem.getItem().getNombre();
+
+        if ((pregunta == null) || (pregunta.trim().equals(""))) {
+            showPregunta = false;
+        } else {
+            showPregunta = true;
+        }
+
+
+        sb.append("      <li style=\"text-align: left\">\n");
+        if (showPregunta == true) {
+            sb.append("        <div class=\"row-fluid\">\n");
+            sb.append("            <div class=\"span12 simple-text\" style=\"padding-left: 20px\" >\n");
+            sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":\n");
+            sb.append("            </div >\n");
+            sb.append("        </div>\n");
+        }
+        sb.append("        <div class=\"row-fluid\">\n");
+        sb.append("                <textarea  class=\"span12\" id=\"valor" + respuestaItem.getItem().getIdItem() + "\"  name=\"valor" + respuestaItem.getItem().getIdItem() + "\" rows=\"5\" cols=\"200\"   />\n");
+        sb.append(HTMLUtil.toHTML(respuestaItem.getValor()));
+        sb.append("</textarea>");
+        sb.append("        </div>\n");
+
+        sb.append("      </li>\n");
+    }
+
 }
