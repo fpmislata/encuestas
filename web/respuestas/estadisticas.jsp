@@ -29,8 +29,10 @@
             </div>
         </div>
         <div class="row-fluid" >
-            <div class="span12">
-                <div id="estadistica" style="min-width: 400px;width: 800px; height: 400px; margin: 0 auto"></div>
+            <div class="span11">
+                <div id="estadistica" class="span12" style="height: 400px;"></div>
+            </div>
+            <div class="span1">
             </div>
         </div>
         <%@ include file="/template/bottom.jsp" %>
