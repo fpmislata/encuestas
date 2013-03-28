@@ -5,16 +5,16 @@
     </listener>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener> 
+    </listener>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
             classpath:applicationContext.xml
             classpath:ix3ApplicationContext.xml
         </param-value>
-    </context-param>    
+    </context-param>
 
- 
+
     <filter>
         <filter-name>HibernateContextListenerAndFilter</filter-name>
         <filter-class>es.logongas.ix3.persistencia.impl.hibernate.util.HibernateContextListenerAndFilter</filter-class>
@@ -26,24 +26,48 @@
     <filter-mapping>
         <filter-name>HibernateContextListenerAndFilter</filter-name>
         <url-pattern>*.html</url-pattern>
-    </filter-mapping>   
-    
-              
+    </filter-mapping>
+
+
     <servlet>
-        <servlet-name>dispatcher</servlet-name> 
+        <servlet-name>dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <load-on-startup>1</load-on-startup> 
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name> 
+        <servlet-name>dispatcher</servlet-name>
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name> 
+        <servlet-name>dispatcher</servlet-name>
         <url-pattern>*.html</url-pattern>
     </servlet-mapping>
-    
-    
+
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/WEB-INF/jsp/errores/exception.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>400</error-code>
+        <location>/WEB-INF/jsp/errores/400BadRequest.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>401</error-code>
+        <location>/WEB-INF/jsp/errores/401Unauthorized.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/jsp/errores/403Forbidden.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/jsp/errores/404NotFound.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/jsp/errores/500InternalServerError.jsp</location>
+    </error-page>
+
     <session-config>
         <session-timeout>
             30

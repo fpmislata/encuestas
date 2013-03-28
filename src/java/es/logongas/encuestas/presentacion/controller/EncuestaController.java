@@ -49,7 +49,7 @@ public class EncuestaController {
     DAOFactory daoFactory;
 
     @RequestMapping(value = {"/encuesta.html"})
-    public ModelAndView encuesta(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView encuesta(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> model = new HashMap<String, Object>();
         String viewName;
 
@@ -61,53 +61,50 @@ public class EncuestaController {
             }
         }
 
+
+        int idEncuesta;
+        URI backURI;
         try {
-            int idEncuesta;
-            URI backURI;
-            try {
-                idEncuesta = Integer.parseInt(request.getParameter("idEncuesta"));
-            } catch (NumberFormatException ex) {
-                throw new BussinessException(new BussinessMessage(null, "El Nº de encuesta no es válido"));
-            }
-
-            try {
-                if ((request.getParameter("backURI") == null) || (request.getParameter("backURI").trim().equals(""))) {
-                    backURI = new URI(request.getContextPath());
-                } else {
-                    backURI = new URI(request.getParameter("backURI"));
-                }
-            } catch (Exception ex) {
-                throw new BussinessException(new BussinessMessage(null, "El backURI no es válido"));
-            }
-
-            Encuesta encuesta = (Encuesta) daoFactory.getDAO(Encuesta.class).read(idEncuesta);
-            if (encuesta == null) {
-                throw new BussinessException(new BussinessMessage(null, "La encuesta solicitada no existe"));
-            }
-
-            if (encuesta.isEncuestaHabilitada() == false) {
-                throw new BussinessException(new BussinessMessage(null, "La encuesta solicitada no es posible realizarla actualmente"));
-            }
-
-            RespuestaEncuesta respuestaEncuesta = new RespuestaEncuesta(encuesta);
-            EncuestaState encuestaState = new EncuestaState(respuestaEncuesta, backURI);
-            setEncuestaState(request, encuestaState);
-
-            Pregunta pregunta = respuestaEncuesta.getPrimeraPregunta();
-            if (pregunta == null) {
-                throw new BussinessException(new BussinessMessage(null, "La encuesta no tiene preguntas"));
-            }
-            viewName = "redirect:/pregunta.html?idPregunta=" + pregunta.getIdPregunta();
-        } catch (BussinessException ex) {
-            viewName = "bussinessException";
-            model.put("bussinessMessages", ex.getBussinessMessages());
+            idEncuesta = Integer.parseInt(request.getParameter("idEncuesta"));
+        } catch (NumberFormatException ex) {
+            throw new BussinessException(new BussinessMessage(null, "El Nº de encuesta no es válido"));
         }
+
+        try {
+            if ((request.getParameter("backURI") == null) || (request.getParameter("backURI").trim().equals(""))) {
+                backURI = new URI(request.getContextPath());
+            } else {
+                backURI = new URI(request.getParameter("backURI"));
+            }
+        } catch (Exception ex) {
+            throw new BussinessException(new BussinessMessage(null, "El backURI no es válido"));
+        }
+
+        Encuesta encuesta = (Encuesta) daoFactory.getDAO(Encuesta.class).read(idEncuesta);
+        if (encuesta == null) {
+            throw new BussinessException(new BussinessMessage(null, "La encuesta solicitada no existe"));
+        }
+
+        if (encuesta.isEncuestaHabilitada() == false) {
+            throw new BussinessException(new BussinessMessage(null, "La encuesta solicitada no es posible realizarla actualmente"));
+        }
+
+        RespuestaEncuesta respuestaEncuesta = new RespuestaEncuesta(encuesta);
+        EncuestaState encuestaState = new EncuestaState(respuestaEncuesta, backURI);
+        setEncuestaState(request, encuestaState);
+
+        Pregunta pregunta = respuestaEncuesta.getPrimeraPregunta();
+        if (pregunta == null) {
+            throw new BussinessException(new BussinessMessage(null, "La encuesta no tiene preguntas"));
+        }
+        viewName = "redirect:/pregunta.html?idPregunta=" + pregunta.getIdPregunta();
+
 
         return new ModelAndView(viewName, model);
     }
 
     @RequestMapping(value = {"/pregunta.html"})
-    public ModelAndView pregunta(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView pregunta(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> model = new HashMap<String, Object>();
         String viewName;
 
@@ -119,36 +116,32 @@ public class EncuestaController {
             }
         }
 
+        int idPregunta;
         try {
-            int idPregunta;
-            try {
-                idPregunta = Integer.parseInt(request.getParameter("idPregunta"));
-            } catch (NumberFormatException ex) {
-                throw new BussinessException(new BussinessMessage(null, "El Nº de pregunta no es válido"));
-            }
-
-            Pregunta pregunta = (Pregunta) daoFactory.getDAO(Pregunta.class).read(idPregunta);
-            if (pregunta == null) {
-                throw new BussinessException(new BussinessMessage(null, "La pregunta solicitada no existe"));
-            }
-
-            if (getEncuestaState(request).getRespuestaEncuesta().isPreguntaValida(pregunta) == false) {
-                throw new BussinessException(new BussinessMessage(null, "La pregunta solicitada es existe en esta encuesta"));
-            }
-
-            RespuestaPregunta respuestaPregunta=getEncuestaState(request).getRespuestaEncuesta().getRespuestaPregunta(pregunta);
-            model.put("respuestaPregunta", respuestaPregunta);
-            viewName = "encuestas/pregunta";
-        } catch (BussinessException ex) {
-            viewName = "bussinessException";
-            model.put("bussinessMessages", ex.getBussinessMessages());
+            idPregunta = Integer.parseInt(request.getParameter("idPregunta"));
+        } catch (NumberFormatException ex) {
+            throw new BussinessException(new BussinessMessage(null, "El Nº de pregunta no es válido"));
         }
+
+        Pregunta pregunta = (Pregunta) daoFactory.getDAO(Pregunta.class).read(idPregunta);
+        if (pregunta == null) {
+            throw new BussinessException(new BussinessMessage(null, "La pregunta solicitada no existe"));
+        }
+
+        if (getEncuestaState(request).getRespuestaEncuesta().isPreguntaValida(pregunta) == false) {
+            throw new BussinessException(new BussinessMessage(null, "La pregunta solicitada es existe en esta encuesta"));
+        }
+
+        RespuestaPregunta respuestaPregunta = getEncuestaState(request).getRespuestaEncuesta().getRespuestaPregunta(pregunta);
+        model.put("respuestaPregunta", respuestaPregunta);
+        viewName = "encuestas/pregunta";
+
 
         return new ModelAndView(viewName, model);
     }
 
     @RequestMapping(value = {"/siguiente.html"})
-    public ModelAndView siguiente(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView siguiente(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> model = new HashMap<String, Object>();
         String viewName;
 
@@ -161,53 +154,49 @@ public class EncuestaController {
         }
 
 
+
+        int idPregunta;
         try {
-            int idPregunta;
-            try {
-                idPregunta = Integer.parseInt(request.getParameter("idPregunta"));
-            } catch (NumberFormatException ex) {
-                throw new BussinessException(new BussinessMessage(null, "El Nº de pregunta no es válido"));
-            }
-
-            Pregunta pregunta = (Pregunta) daoFactory.getDAO(Pregunta.class).read(idPregunta);
-            if (pregunta == null) {
-                throw new BussinessException(new BussinessMessage(null, "La pregunta solicitada no existe"));
-            }
-
-            RespuestaEncuesta respuestaEncuesta=getEncuestaState(request).getRespuestaEncuesta();
-            if (respuestaEncuesta.isPreguntaValida(pregunta) == false) {
-                throw new BussinessException(new BussinessMessage(null, "La pregunta solicitada no es válida en esta encuesta"));
-            }
-
-            RespuestaPregunta respuestaPregunta=respuestaEncuesta.getRespuestaPregunta(pregunta);
-            populateRespuestaFromRequest(request, respuestaPregunta);
-
-            Pregunta siguientePregunta = respuestaEncuesta.getRespuestaPregunta(pregunta).siguiente();
-
-            if (siguientePregunta != null) {
-                viewName = "redirect:/pregunta.html?idPregunta=" + siguientePregunta.getIdPregunta();
-            } else {
-                //Era la última pregunta
-                if (pregunta.getEncuesta().isImprimir() == true) {
-                    //Vamos a la página de imprimir
-                    viewName = "redirect:/imprimir.html";
-                } else {
-                    //Así que vamos a la página de finalizar pq no hay que imprimir nada
-                    viewName = "redirect:/finalizar.html";
-                }
-            }
-
-
-        } catch (BussinessException ex) {
-            viewName = "bussinessException";
-            model.put("bussinessMessages", ex.getBussinessMessages());
+            idPregunta = Integer.parseInt(request.getParameter("idPregunta"));
+        } catch (NumberFormatException ex) {
+            throw new BussinessException(new BussinessMessage(null, "El Nº de pregunta no es válido"));
         }
+
+        Pregunta pregunta = (Pregunta) daoFactory.getDAO(Pregunta.class).read(idPregunta);
+        if (pregunta == null) {
+            throw new BussinessException(new BussinessMessage(null, "La pregunta solicitada no existe"));
+        }
+
+        RespuestaEncuesta respuestaEncuesta = getEncuestaState(request).getRespuestaEncuesta();
+        if (respuestaEncuesta.isPreguntaValida(pregunta) == false) {
+            throw new BussinessException(new BussinessMessage(null, "La pregunta solicitada no es válida en esta encuesta"));
+        }
+
+        RespuestaPregunta respuestaPregunta = respuestaEncuesta.getRespuestaPregunta(pregunta);
+        populateRespuestaFromRequest(request, respuestaPregunta);
+
+        Pregunta siguientePregunta = respuestaEncuesta.getRespuestaPregunta(pregunta).siguiente();
+
+        if (siguientePregunta != null) {
+            viewName = "redirect:/pregunta.html?idPregunta=" + siguientePregunta.getIdPregunta();
+        } else {
+            //Era la última pregunta
+            if (pregunta.getEncuesta().isImprimir() == true) {
+                //Vamos a la página de imprimir
+                viewName = "redirect:/imprimir.html";
+            } else {
+                //Así que vamos a la página de finalizar pq no hay que imprimir nada
+                viewName = "redirect:/finalizar.html";
+            }
+        }
+
+
 
         return new ModelAndView(viewName, model);
     }
 
     @RequestMapping(value = {"/anterior.html"})
-    public ModelAndView anterior(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView anterior(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> model = new HashMap<String, Object>();
         String viewName;
 
@@ -219,49 +208,45 @@ public class EncuestaController {
             }
         }
 
+
+        int idPregunta;
         try {
-            int idPregunta;
-            try {
-                idPregunta = Integer.parseInt(request.getParameter("idPregunta"));
-            } catch (NumberFormatException ex) {
-                throw new BussinessException(new BussinessMessage(null, "El Nº de pregunta no es válido"));
-            }
-
-            Pregunta pregunta = (Pregunta) daoFactory.getDAO(Pregunta.class).read(idPregunta);
-            if (pregunta == null) {
-                throw new BussinessException(new BussinessMessage(null, "La pregunta solicitada no existe"));
-            }
-
-            RespuestaEncuesta respuestaEncuesta=getEncuestaState(request).getRespuestaEncuesta();
-            if (respuestaEncuesta.isPreguntaValida(pregunta) == false) {
-                throw new BussinessException(new BussinessMessage(null, "La pregunta solicitada no es válida en esta encuesta"));
-            }
-
-            RespuestaPregunta respuestaPregunta=respuestaEncuesta.getRespuestaPregunta(pregunta);
-            populateRespuestaFromRequest(request, respuestaPregunta);
-
-            Pregunta anteriorPregunta = respuestaEncuesta.getRespuestaPregunta(pregunta).anterior();
-
-
-            if (anteriorPregunta != null) {
-                viewName = "redirect:/pregunta.html?idPregunta=" + anteriorPregunta.getIdPregunta();
-            } else {
-                //Era la primera pregunta
-                //Así que vamos al BackURL
-                viewName = "redirect:" + getEncuestaState(request).getBackURI().toASCIIString();
-            }
-
-
-        } catch (BussinessException ex) {
-            viewName = "bussinessException";
-            model.put("bussinessMessages", ex.getBussinessMessages());
+            idPregunta = Integer.parseInt(request.getParameter("idPregunta"));
+        } catch (NumberFormatException ex) {
+            throw new BussinessException(new BussinessMessage(null, "El Nº de pregunta no es válido"));
         }
+
+        Pregunta pregunta = (Pregunta) daoFactory.getDAO(Pregunta.class).read(idPregunta);
+        if (pregunta == null) {
+            throw new BussinessException(new BussinessMessage(null, "La pregunta solicitada no existe"));
+        }
+
+        RespuestaEncuesta respuestaEncuesta = getEncuestaState(request).getRespuestaEncuesta();
+        if (respuestaEncuesta.isPreguntaValida(pregunta) == false) {
+            throw new BussinessException(new BussinessMessage(null, "La pregunta solicitada no es válida en esta encuesta"));
+        }
+
+        RespuestaPregunta respuestaPregunta = respuestaEncuesta.getRespuestaPregunta(pregunta);
+        populateRespuestaFromRequest(request, respuestaPregunta);
+
+        Pregunta anteriorPregunta = respuestaEncuesta.getRespuestaPregunta(pregunta).anterior();
+
+
+        if (anteriorPregunta != null) {
+            viewName = "redirect:/pregunta.html?idPregunta=" + anteriorPregunta.getIdPregunta();
+        } else {
+            //Era la primera pregunta
+            //Así que vamos al BackURL
+            viewName = "redirect:" + getEncuestaState(request).getBackURI().toASCIIString();
+        }
+
+
 
         return new ModelAndView(viewName, model);
     }
 
     @RequestMapping(value = {"/ultima.html"})
-    public ModelAndView ultima(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView ultima(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> model = new HashMap<String, Object>();
         String viewName;
 
@@ -273,26 +258,21 @@ public class EncuestaController {
             }
         }
 
-        try {
 
-            Pregunta ultimaPregunta;
-            ultimaPregunta = getEncuestaState(request).getRespuestaEncuesta().getUltimaPregunta();
-            if (ultimaPregunta == null) {
-                throw new BussinessException(new BussinessMessage(null, "La encuesta no tiene preguntas"));
-            }
-
-            viewName = "redirect:/pregunta.html?idPregunta=" + ultimaPregunta.getIdPregunta();
-
-        } catch (BussinessException ex) {
-            viewName = "bussinessException";
-            model.put("bussinessMessages", ex.getBussinessMessages());
+        Pregunta ultimaPregunta;
+        ultimaPregunta = getEncuestaState(request).getRespuestaEncuesta().getUltimaPregunta();
+        if (ultimaPregunta == null) {
+            throw new BussinessException(new BussinessMessage(null, "La encuesta no tiene preguntas"));
         }
+
+        viewName = "redirect:/pregunta.html?idPregunta=" + ultimaPregunta.getIdPregunta();
+
 
         return new ModelAndView(viewName, model);
     }
 
     @RequestMapping(value = {"/imprimir.html"})
-    public ModelAndView imprimir(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView imprimir(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> model = new HashMap<String, Object>();
         String viewName;
 
@@ -310,7 +290,7 @@ public class EncuestaController {
     }
 
     @RequestMapping(value = {"/finalizar.html"})
-    public ModelAndView finalizar(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView finalizar(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> model = new HashMap<String, Object>();
         String viewName;
 
@@ -322,21 +302,17 @@ public class EncuestaController {
             }
         }
 
-        try {
-            RespuestaEncuesta respuestaEncuesta=getEncuestaState(request).getRespuestaEncuesta();
+        RespuestaEncuesta respuestaEncuesta = getEncuestaState(request).getRespuestaEncuesta();
 
-            daoFactory.getDAO(RespuestaEncuesta.class).insert(respuestaEncuesta);
+        daoFactory.getDAO(RespuestaEncuesta.class).insert(respuestaEncuesta);
 
-            URI backURI = getEncuestaState(request).getBackURI();
+        URI backURI = getEncuestaState(request).getBackURI();
 
-            clearEncuestaState(request);
+        clearEncuestaState(request);
 
-            model.put("backURI", backURI);
-            viewName = "encuestas/finalizar";
-        } catch (BussinessException ex) {
-            viewName = "bussinessException";
-            model.put("bussinessMessages", ex.getBussinessMessages());
-        }
+        model.put("backURI", backURI);
+        viewName = "encuestas/finalizar";
+
 
         return new ModelAndView(viewName, model);
     }
@@ -369,7 +345,7 @@ public class EncuestaController {
         }
     }
 
-    private EncuestaState getEncuestaState(HttpServletRequest request) throws BussinessException {
+    private EncuestaState getEncuestaState(HttpServletRequest request) throws Exception {
         EncuestaState encuestaState = (EncuestaState) request.getSession().getAttribute("encuestaState");
         if (encuestaState == null) {
             throw new BussinessException(new BussinessMessage(null, "No hay ninguna encuesta en la sesión"));
@@ -378,7 +354,7 @@ public class EncuestaController {
         return encuestaState;
     }
 
-    private EncuestaState setEncuestaState(HttpServletRequest request, EncuestaState encuestaState) throws BussinessException {
+    private EncuestaState setEncuestaState(HttpServletRequest request, EncuestaState encuestaState) throws Exception {
         if (encuestaState == null) {
             throw new IllegalArgumentException("El argumento 'encuestaState' no puede ser null");
         }
@@ -388,20 +364,20 @@ public class EncuestaController {
         return encuestaState;
     }
 
-    private void clearEncuestaState(HttpServletRequest request) throws BussinessException {
+    private void clearEncuestaState(HttpServletRequest request) throws Exception {
         request.getSession().setAttribute("encuestaState", null);
     }
 
-    private void populateRespuestaFromRequest(HttpServletRequest request,RespuestaPregunta respuestaPregunta) {
+    private void populateRespuestaFromRequest(HttpServletRequest request, RespuestaPregunta respuestaPregunta) {
 
-        for(RespuestaItem respuestaItem:respuestaPregunta.getRespuestaItems()) {
-            Item item=respuestaItem.getItem();
+        for (RespuestaItem respuestaItem : respuestaPregunta.getRespuestaItems()) {
+            Item item = respuestaItem.getItem();
 
-            respuestaItem.setValor(request.getParameter("valor"+item.getIdItem()));
+            respuestaItem.setValor(request.getParameter("valor" + item.getIdItem()));
 
             switch (respuestaPregunta.getPregunta().getTipoPregunta()) {
                 case Radio:
-                    if ((""+item.getIdItem()).equals(request.getParameter("check1"))) {
+                    if (("" + item.getIdItem()).equals(request.getParameter("check1"))) {
                         respuestaItem.setCheck(true);
                     } else {
                         respuestaItem.setCheck(false);
@@ -409,7 +385,7 @@ public class EncuestaController {
                     break;
                 case Check:
                 case EspecificoPorItem:
-                    if ((""+item.getIdItem()).equals(request.getParameter("check"+item.getIdItem()))) {
+                    if (("" + item.getIdItem()).equals(request.getParameter("check" + item.getIdItem()))) {
                         respuestaItem.setCheck(true);
                     } else {
                         respuestaItem.setCheck(false);
@@ -422,6 +398,4 @@ public class EncuestaController {
 
 
     }
-
-
 }
