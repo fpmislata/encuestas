@@ -23,7 +23,7 @@
                 </select>
             </div>
             <div class="span4">
-                <label>Item:</label><select ng-model="estadistica.item" ng-options="item as item.nombre for item in items" ng-disabled="estadistica.pregunta==null || estadistica.pregunta.tipoPregunta=='Radio' || estadistica.pregunta.tipoPregunta=='Check'" clear="estadistica.pregunta==null || estadistica.pregunta.tipoPregunta=='Radio' || estadistica.pregunta.tipoPregunta=='Check'">
+                <label>Item:</label><select ng-model="estadistica.item" ng-options="item as item.nombre for item in items | filter: isItemAllowEstadistica" ng-disabled="estadistica.pregunta==null || estadistica.pregunta.tipoPregunta=='Radio' || estadistica.pregunta.tipoPregunta=='Check'" clear="estadistica.pregunta==null || estadistica.pregunta.tipoPregunta=='Radio' || estadistica.pregunta.tipoPregunta=='Check'">
                     <option value="">-- Elige Item --</option>
                 </select>
             </div>

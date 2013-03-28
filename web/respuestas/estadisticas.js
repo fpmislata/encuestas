@@ -151,6 +151,14 @@ function EstadisticasController($scope,$http) {
         });
     }
 
+    $scope.isItemAllowEstadistica=function(item) {
+        if (item.tipoItem!="AreaTexto") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
 
 
