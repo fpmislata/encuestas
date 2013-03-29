@@ -15,10 +15,5 @@
     <mapping resource="es/logongas/encuestas/persistencia/impl/dao/respuestas/RespuestaEncuesta.hbm.xml"/>
     <mapping resource="es/logongas/encuestas/persistencia/impl/dao/respuestas/RespuestaPregunta.hbm.xml"/>
     <mapping resource="es/logongas/encuestas/persistencia/impl/dao/respuestas/RespuestaItem.hbm.xml"/>
-    <!-- Sistema de seguridad -->
-    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/seguridad/User.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/seguridad/Role.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/seguridad/Permission.hbm.xml"/>
-    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/seguridad/UserRole.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
