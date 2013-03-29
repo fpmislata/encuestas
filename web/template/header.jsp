@@ -11,5 +11,14 @@
     function getContextPath() {
         return "<%=request.getContextPath()%>";
     }
+
+    function showLoginWindow() {
+        $('#loginModal').modal()
+    }
+
+    function login() {
+        alert("El usuario/contraseña no son válidos");
+    }
+
 </script>
 
