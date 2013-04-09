@@ -17,7 +17,36 @@
     }
 
     function login() {
-        alert("El usuario/contraseña no son válidos");
+        var params={
+            login:$("#inputLogin").val(),
+            password:$("#inputPassword").val()
+        }
+
+        jQuery.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: "json",
+            url:getContextPath()+"/api/session?" + jQuery.param(params) ,
+            success: function(data) {
+                window.location.href=getContextPath()+"/respuestas/estadisticas.jsp";
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status===400) {
+                    var businessMessages=jQuery.parseJSON(jqXHR.responseText);
+                    for(var i=0;i<businessMessages.length;i++) {
+                        var businessMessage=businessMessages[i];
+                        if (businessMessage.propertyName===null) {
+                            alert(businessMessage.message);
+                        } else {
+                            alert(businessMessage.propertyName+":"+businessMessage.message);
+                        }
+                    }
+                } else {
+                    alert("Falló la petición:"+textStatus+"\n"+errorThrown);
+                }
+            }
+        });
+
     }
 
 </script>

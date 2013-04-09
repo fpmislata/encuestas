@@ -1,4 +1,4 @@
-var app = angular.module('app', ["logongas.directive"]);
+var app = angular.module('app', ["logongas.directives"]);
 
 function EstadisticasController($scope,$http) {
     $scope.estadistica = {
@@ -152,10 +152,10 @@ function EstadisticasController($scope,$http) {
     }
 
     $scope.isItemAllowEstadistica=function(item) {
-        if (item.tipoItem!="AreaTexto") {
-            return true;
-        } else {
+        if ((item.tipoItem=="AreaTexto") || ((item.tipoItem=="Texto"))) {
             return false;
+        } else {
+            return true;
         }
     }
 

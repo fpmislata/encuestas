@@ -18,9 +18,9 @@
     <div class="modal-body">
         <form class="form-horizontal">
             <div class="control-group">
-                <label class="control-label" for="inputEmail">Direcci&oacute;n de Correo:</label>
+                <label class="control-label" for="inputEmail">Usuario:</label>
                 <div class="controls">
-                    <input type="text" id="inputEmail" >
+                    <input type="text" id="inputLogin" >
                 </div>
             </div>
             <div class="control-group">
