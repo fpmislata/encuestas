@@ -1,12 +1,12 @@
-<%@page import="es.logongas.ix3.persistencia.services.dao.BussinessMessage"%>
+<%@page import="es.logongas.ix3.persistence.services.dao.BusinessMessage"%>
 <%@page import="org.springframework.web.util.HtmlUtils"%>
-<%@page import="es.logongas.ix3.persistencia.services.dao.BussinessException"%>
+<%@page import="es.logongas.ix3.persistence.services.dao.BusinessException"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" isErrorPage="true" %>
 <%
     String msg;
     String icon;
 
-    if (exception instanceof BussinessException) {
+    if (exception instanceof BusinessException) {
         msg = "La petición no ha podido ser atendida debido a que:";
         icon = "alert";
     } else {
@@ -40,18 +40,18 @@
             </div>
         </div>
         <%
-            if (exception instanceof BussinessException) {
+            if (exception instanceof BusinessException) {
         %>
         <div class="row-fluid" >
             <div class="span11 text-error">
                 <div id="alert" class="alert alert-error">
                     <%
                         try {
-                            for (BussinessMessage bussinessMessage : ((BussinessException) exception).getBussinessMessages()) {
-                                if (bussinessMessage.getPropertyName() != null) {
-                                    out.println("<strong>" + HtmlUtils.htmlEscape(bussinessMessage.getPropertyName()) + "</strong>" + HtmlUtils.htmlEscape(bussinessMessage.getMessage()));
+                            for (BusinessMessage businessMessage : ((BusinessException) exception).getBusinessMessages()) {
+                                if (businessMessage.getPropertyName() != null) {
+                                    out.println("<strong>" + HtmlUtils.htmlEscape(businessMessage.getPropertyName()) + "</strong>" + HtmlUtils.htmlEscape(businessMessage.getMessage()));
                                 } else {
-                                    out.println(HtmlUtils.htmlEscape(bussinessMessage.getMessage()));
+                                    out.println(HtmlUtils.htmlEscape(businessMessage.getMessage()));
                                 }
                             }
                         } catch (Exception ex) {

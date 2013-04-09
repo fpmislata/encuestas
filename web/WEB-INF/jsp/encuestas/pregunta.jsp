@@ -1,6 +1,6 @@
 <%@page import="es.logongas.encuestas.presentacion.widget.TextWidget"%>
 <%@page import="org.springframework.web.util.HtmlUtils"%>
-<%@page import="es.logongas.ix3.persistencia.services.dao.BussinessMessage"%>
+<%@page import="es.logongas.ix3.persistence.services.dao.BusinessMessage"%>
 <%@page import="java.util.List"%>
 <%@page import="es.logongas.encuestas.modelo.respuestas.RespuestaPregunta"%>
 <%@page import="es.logongas.encuestas.presentacion.widget.RespuestaPreguntaWidget"%>
@@ -10,7 +10,7 @@
 
     RespuestaPreguntaWidget respuestaPreguntaWidget = new RespuestaPreguntaWidget(respuestaPregunta);
 
-    List<BussinessMessage> bussinessMessages = (List<BussinessMessage>) request.getAttribute("bussinessMessages");
+    List<BusinessMessage> businessMessages = (List<BusinessMessage>) request.getAttribute("businessMessages");
 
     TextWidget textWidget = new TextWidget();
 %>
@@ -30,17 +30,17 @@
         </div>
         <%=respuestaPreguntaWidget.toHTML()%>
         <%
-            if ((bussinessMessages != null) && (bussinessMessages.size() > 0)) {
+            if ((businessMessages != null) && (businessMessages.size() > 0)) {
         %>
         <div class="row-fluid">
             <div class="offset1 span11 main-text">
                 <div class="alert">
                     <%
-                        for (BussinessMessage bussinessMessage : bussinessMessages) {
-                            if (bussinessMessage.getPropertyName() != null) {
-                                out.println("<strong>" + HtmlUtils.htmlEscape(bussinessMessage.getPropertyName()) + "</strong>" + HtmlUtils.htmlEscape(bussinessMessage.getMessage()));
+                        for (BusinessMessage businessMessage : businessMessages) {
+                            if (businessMessage.getPropertyName() != null) {
+                                out.println("<strong>" + HtmlUtils.htmlEscape(businessMessage.getPropertyName()) + "</strong>" + HtmlUtils.htmlEscape(businessMessage.getMessage()));
                             } else {
-                                out.println(HtmlUtils.htmlEscape(bussinessMessage.getMessage()));
+                                out.println(HtmlUtils.htmlEscape(businessMessage.getMessage()));
                             }
                         }
                     %>
