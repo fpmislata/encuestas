@@ -164,7 +164,10 @@ public class RespuestaPreguntaWidget {
                 case Sino:
                     boolean showText = false;
                     if ((i + 1) == respuestaPregunta.getRespuestaItems().size()) {
-                        showText = true;
+                        //Estamos en el último
+                        if (respuestaPregunta.getPregunta().isUltimoItemIncluyeOtros() == true) {
+                            showText = true;
+                        }
                     }
                     generateItemSino(respuestaItem, showText, sb);
                     break;
@@ -279,7 +282,17 @@ public class RespuestaPreguntaWidget {
         if (respuestaPregunta.anterior() != null) {
             sb.append("                <button onclick=\"document.getElementById('formRespuestas').action='anterior.html?idPregunta=" + respuestaPregunta.getPregunta().getIdPregunta() + "';document.getElementById('formRespuestas').submit();\" class=\"btn btn-large \"><i class=\"icon-arrow-left\" ></i> Anterior</button>\n");
         }
-        sb.append("                <button onclick=\"document.getElementById('formRespuestas').action='siguiente.html?idPregunta=" + respuestaPregunta.getPregunta().getIdPregunta() + "';document.getElementById('formRespuestas').submit();\" class=\"btn btn-large btn-primary \">Següent <i class=\"icon-arrow-right icon-white\" ></i></button>\n");
+        String nextLabel;
+        if (respuestaPregunta.siguiente() != null) {
+            nextLabel="Següent";
+        } else {
+            if (respuestaPregunta.getPregunta().getEncuesta().isImprimir()==false) {
+                nextLabel="Finalitzar";
+            } else {
+                nextLabel="Següent";
+            }
+        }
+        sb.append("                <button onclick=\"document.getElementById('formRespuestas').action='siguiente.html?idPregunta=" + respuestaPregunta.getPregunta().getIdPregunta() + "';document.getElementById('formRespuestas').submit();\" class=\"btn btn-large btn-primary \">" + HTMLUtil.toHTML(nextLabel) + " <i class=\"icon-arrow-right icon-white\" ></i></button>\n");
         sb.append("            </div>\n");
         sb.append("            <div class=\"span1\" >\n");
         sb.append("            </div>\n");
