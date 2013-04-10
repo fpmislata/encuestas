@@ -13,6 +13,10 @@ function EstadisticasController($scope,$http) {
         $scope.encuestas = data;
     });
 
+    $scope.showDatos=function() {
+        $('#estadisticasModal').modal()
+    }
+    
     $scope.$watch("estadistica.encuesta",function( newValue, oldValue ) {
 
         if ( newValue === oldValue ) {
@@ -39,6 +43,7 @@ function EstadisticasController($scope,$http) {
             if ($scope.estadistica.pregunta.tipoPregunta=='Radio' || $scope.estadistica.pregunta.tipoPregunta=='Check') {
                 $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getEstadisticaPregunta&parameter0='+$scope.estadistica.pregunta.idPregunta).success(function(resultados) {
                     $scope.resultadosPregunta=resultados;
+                    $scope.resultados=resultados;
                 });
             }
         }
@@ -53,6 +58,7 @@ function EstadisticasController($scope,$http) {
         if ( newValue!==null ) {
             $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getEstadisticaItem&parameter0='+$scope.estadistica.item.idItem).success(function(resultados) {
                 $scope.resultadosItem=resultados;
+                $scope.resultados=resultados;
             });
         }
     });

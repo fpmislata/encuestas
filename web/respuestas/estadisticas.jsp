@@ -4,9 +4,9 @@
     <head>
         <title>Encuestas</title>
         <%@ include file="/template/header.jsp" %>
-        <script type='text/javascript' src='<%=request.getContextPath() %>/js/highcharts.js'></script>
+        <script type='text/javascript' src='<%=request.getContextPath()%>/js/highcharts.js'></script>
         <script type='text/javascript' src='estadisticas.js'></script>
-        <script type='text/javascript' src='<%=request.getContextPath() %>/js/angular-directives.js'></script>
+        <script type='text/javascript' src='<%=request.getContextPath()%>/js/angular-directives.js'></script>
     </head>
     <body ng-controller="EstadisticasController" >
         <%@ include file="/template/top.jsp" %>
@@ -33,6 +33,50 @@
                 <div id="estadistica" class="span12" style="height: 400px;"></div>
             </div>
             <div class="span1">
+            </div>
+        </div>
+        <div class="row-fluid" >
+            <div class="span11">
+                <button class="btn btn-primary" ng-click="showDatos()" ng-disabled="resultados==null">Ver los datos</button>
+            </div>
+            <div class="span1">
+            </div>
+        </div>
+        <div class="row-fluid" style="" >
+            <div class="span11">
+                <div id="estadistica" class="span12" style="height: 400px;"></div>
+            </div>
+            <div class="span1">
+            </div>
+        </div>
+        <div id="estadisticasModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Modal datos estadisticas" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="estadisticasModalLabel">Datos</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Valor</th>
+                            <th>Nº respuestas</th>
+                            <th>% Respuestas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="label in resultados.labels">
+                            <td >{{label}}</td>
+                            <td style="text-align: right">{{$parent.resultados.series[0].rawData[$index]}}</td>
+                            <td style="text-align: right">{{$parent.resultados.series[0].data[$index] | number:3}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="font-weight:bold;text-align: right">Total respuestas:{{resultados.series[0].numRespuestas}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Cerrar</button>
             </div>
         </div>
         <%@ include file="/template/bottom.jsp" %>
