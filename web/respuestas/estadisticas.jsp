@@ -67,10 +67,10 @@
                         <tr ng-repeat="label in resultados.labels">
                             <td >{{label}}</td>
                             <td style="text-align: right">{{$parent.resultados.series[0].rawData[$index]}}</td>
-                            <td style="text-align: right">{{$parent.resultados.series[0].data[$index] | number:3}}</td>
+                            <td style="text-align: right">{{$parent.resultados.series[0].data[$index] | number:2}}</td>
                         </tr>
                         <tr>
-                            <td colspan="3" style="font-weight:bold;text-align: right">Total respuestas:{{resultados.series[0].numRespuestas}}</td>
+                            <td colspan="3" style="font-weight:bold;text-align: right">Total respuestas:&nbsp;&nbsp;{{resultados.series[0].numRespuestas}}&nbsp;&nbsp;</td>
                         </tr>
                     </tbody>
                 </table>
