@@ -55,7 +55,7 @@
                 <h3 id="estadisticasModalLabel">Datos</h3>
             </div>
             <div class="modal-body">
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped table-condensed">
                     <thead>
                         <tr>
                             <th>Valor</th>
