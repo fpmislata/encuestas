@@ -28,6 +28,7 @@ import es.logongas.ix3.persistence.services.dao.DAOFactory;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -174,19 +175,26 @@ public class EncuestaController {
 
         RespuestaPregunta respuestaPregunta = respuestaEncuesta.getRespuestaPregunta(pregunta);
         populateRespuestaFromRequest(request, respuestaPregunta);
-
-        Pregunta siguientePregunta = respuestaEncuesta.getRespuestaPregunta(pregunta).siguiente();
-
-        if (siguientePregunta != null) {
-            viewName = "redirect:/pregunta.html?idPregunta=" + siguientePregunta.getIdPregunta();
+        List<BusinessMessage> businessMessages = respuestaPregunta.validate();
+        if ((businessMessages != null) && (businessMessages.size() > 0)) {
+            model.put("businessMessages", businessMessages);
+            model.put("respuestaPregunta", respuestaPregunta);
+            viewName = "encuestas/pregunta";
         } else {
-            //Era la última pregunta
-            if (pregunta.getEncuesta().isImprimir() == true) {
-                //Vamos a la página de imprimir
-                viewName = "redirect:/imprimir.html";
+
+            Pregunta siguientePregunta = respuestaEncuesta.getRespuestaPregunta(pregunta).siguiente();
+
+            if (siguientePregunta != null) {
+                viewName = "redirect:/pregunta.html?idPregunta=" + siguientePregunta.getIdPregunta();
             } else {
-                //Así que vamos a la página de finalizar pq no hay que imprimir nada
-                viewName = "redirect:/finalizar.html";
+                //Era la última pregunta
+                if (pregunta.getEncuesta().isImprimir() == true) {
+                    //Vamos a la página de imprimir
+                    viewName = "redirect:/imprimir.html";
+                } else {
+                    //Así que vamos a la página de finalizar pq no hay que imprimir nada
+                    viewName = "redirect:/finalizar.html";
+                }
             }
         }
 
@@ -304,15 +312,22 @@ public class EncuestaController {
 
         RespuestaEncuesta respuestaEncuesta = getEncuestaState(request).getRespuestaEncuesta();
 
-        daoFactory.getDAO(RespuestaEncuesta.class).insert(respuestaEncuesta);
+        List<BusinessMessage> businessMessages = respuestaEncuesta.validate();
+        if ((businessMessages != null) && (businessMessages.size() > 0)) {
+            Encuesta encuesta=respuestaEncuesta.getEncuesta();
+            model.put("encuesta", encuesta);
+            model.put("businessMessages", businessMessages);
+            viewName = "encuestas/error_encuesta";
+        } else {
+            daoFactory.getDAO(RespuestaEncuesta.class).insert(respuestaEncuesta);
 
-        URI backURI = getEncuestaState(request).getBackURI();
+            URI backURI = getEncuestaState(request).getBackURI();
 
-        clearEncuestaState(request);
+            clearEncuestaState(request);
 
-        model.put("backURI", backURI);
-        viewName = "encuestas/finalizar";
-
+            model.put("backURI", backURI);
+            viewName = "encuestas/finalizar";
+        }
 
         return new ModelAndView(viewName, model);
     }

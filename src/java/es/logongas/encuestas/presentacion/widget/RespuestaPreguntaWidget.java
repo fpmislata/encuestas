@@ -21,6 +21,8 @@ import es.logongas.encuestas.modelo.encuestas.Valor;
 import es.logongas.encuestas.modelo.respuestas.RespuestaItem;
 import es.logongas.encuestas.modelo.respuestas.RespuestaPregunta;
 import es.logongas.encuestas.presentacion.util.HTMLUtil;
+import es.logongas.ix3.persistence.services.dao.BusinessMessage;
+import java.util.List;
 
 /**
  * Genera el HTML relativo a una pregunta de una encuesta
@@ -30,13 +32,15 @@ import es.logongas.encuestas.presentacion.util.HTMLUtil;
 public class RespuestaPreguntaWidget {
 
     private RespuestaPregunta respuestaPregunta;
+    private List<BusinessMessage> businessMessages;
 
-    public RespuestaPreguntaWidget(RespuestaPregunta respuestaPregunta) {
+    public RespuestaPreguntaWidget(RespuestaPregunta respuestaPregunta, List<BusinessMessage> businessMessages) {
         if (respuestaPregunta == null) {
             throw new IllegalArgumentException("respuestaPregunta no puede ser null");
         }
 
         this.respuestaPregunta = respuestaPregunta;
+        this.businessMessages = businessMessages;
     }
 
     public String toHTML() {
@@ -68,7 +72,7 @@ public class RespuestaPreguntaWidget {
         sb.append("<div class=\"row-fluid\" style=\"margin-top: 2em;\">\n");
         sb.append("  <div class=\"span12 main-text\" >" + HTMLUtil.toHTML(respuestaPregunta.getPregunta().getPregunta()) + ":</div>\n");
         sb.append("</div>\n");
-        sb.append("<form  id=\"formRespuestas\" action=\"\" method=\"POST\">\n");
+        sb.append("<form  id=\"formRespuestas\" action=\"\" method=\"POST\" style=\"margin: 0px; padding: 0px;\">\n");
         sb.append("<div class=\"row-fluid\">\n");
         sb.append("  <div class=\"span12\" >\n");
         sb.append("    <ul class=\"items_encuesta\">\n");
@@ -79,11 +83,17 @@ public class RespuestaPreguntaWidget {
         sb.append("  </div>\n");
         sb.append("</div>\n");
         sb.append("</form>\n");
+        generateBusinessMessages(businessMessages, sb);
+
+    }
+
+    private void generateBusinessMessages(List<BusinessMessage> businessMessages, StringBuilder sb) {
+        BusinessMessagesWidget businessMessagesWidget=new BusinessMessagesWidget(businessMessages);
+
+        sb.append(businessMessagesWidget.toHTML());
     }
 
     private void generateHTMLRadio(RespuestaPregunta respuestaPregunta, StringBuilder sb) {
-
-
         for (int i = 0; i < respuestaPregunta.getRespuestaItems().size(); i++) {
             RespuestaItem respuestaItem = respuestaPregunta.getRespuestaItems().get(i);
             Item item = respuestaItem.getItem();
@@ -284,12 +294,12 @@ public class RespuestaPreguntaWidget {
         }
         String nextLabel;
         if (respuestaPregunta.siguiente() != null) {
-            nextLabel="Següent";
+            nextLabel = "Següent";
         } else {
-            if (respuestaPregunta.getPregunta().getEncuesta().isImprimir()==false) {
-                nextLabel="Finalitzar";
+            if (respuestaPregunta.getPregunta().getEncuesta().isImprimir() == false) {
+                nextLabel = "Finalitzar";
             } else {
-                nextLabel="Següent";
+                nextLabel = "Següent";
             }
         }
         sb.append("                <button onclick=\"document.getElementById('formRespuestas').action='siguiente.html?idPregunta=" + respuestaPregunta.getPregunta().getIdPregunta() + "';document.getElementById('formRespuestas').submit();\" class=\"btn btn-large btn-primary \">" + HTMLUtil.toHTML(nextLabel) + " <i class=\"icon-arrow-right icon-white\" ></i></button>\n");
@@ -326,5 +336,4 @@ public class RespuestaPreguntaWidget {
 
         sb.append("      </li>\n");
     }
-
 }

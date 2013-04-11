@@ -17,6 +17,7 @@ package es.logongas.encuestas.modelo.respuestas;
 
 import es.logongas.encuestas.modelo.encuestas.Encuesta;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
+import es.logongas.ix3.persistence.services.dao.BusinessMessage;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,30 +27,28 @@ import java.util.List;
  * @author Lorenzo González
  */
 public class RespuestaEncuesta {
+
     private int idRespuestaEncuesta;
     private Encuesta encuesta;
-    private List<RespuestaPregunta> respuestaPreguntas=new ArrayList<RespuestaPregunta>();
+    private List<RespuestaPregunta> respuestaPreguntas = new ArrayList<RespuestaPregunta>();
     private Date fechaRespuesta;
 
     private RespuestaEncuesta() {
     }
 
     public RespuestaEncuesta(Encuesta encuesta) {
-        if (encuesta==null) {
+        if (encuesta == null) {
             throw new IllegalArgumentException("El argumento encuesta no puede ser null");
         }
-        this.encuesta=encuesta;
+        this.encuesta = encuesta;
 
-        for(Pregunta pregunta:this.encuesta.getPreguntas()) {
-            RespuestaPregunta respuestaPregunta=new RespuestaPregunta(this,pregunta);
+        for (Pregunta pregunta : this.encuesta.getPreguntas()) {
+            RespuestaPregunta respuestaPregunta = new RespuestaPregunta(this, pregunta);
 
             this.respuestaPreguntas.add(respuestaPregunta);
         }
 
     }
-
-
-
 
     /**
      * @return the idRespuestaEncuesta
@@ -108,7 +107,7 @@ public class RespuestaEncuesta {
     }
 
     public boolean isPreguntaValida(Pregunta pregunta) {
-        if (getRespuestaPregunta(pregunta)!=null) {
+        if (getRespuestaPregunta(pregunta) != null) {
             return true;
         } else {
             return false;
@@ -116,7 +115,7 @@ public class RespuestaEncuesta {
     }
 
     public RespuestaPregunta getRespuestaPregunta(Pregunta pregunta) {
-        for(RespuestaPregunta respuestaPregunta:this.respuestaPreguntas) {
+        for (RespuestaPregunta respuestaPregunta : this.respuestaPreguntas) {
             if (respuestaPregunta.getPregunta().equals(pregunta)) {
                 return respuestaPregunta;
             }
@@ -137,4 +136,13 @@ public class RespuestaEncuesta {
         return encuesta.getUltimaPregunta();
     }
 
+    public List<BusinessMessage> validate() {
+        List<BusinessMessage> businessMessages = new ArrayList<BusinessMessage>();
+
+        for (RespuestaPregunta respuestaPregunta : this.respuestaPreguntas) {
+            businessMessages.addAll(respuestaPregunta.validate());
+        }
+
+        return businessMessages;
+    }
 }

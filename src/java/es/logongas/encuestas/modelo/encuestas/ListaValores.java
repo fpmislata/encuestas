@@ -68,4 +68,15 @@ public class ListaValores {
     public void setValores(List<Valor> valores) {
         this.valores = valores;
     }
+
+    public boolean contiene(String nombre) {
+        for(Valor valor:this.valores) {
+            if (valor.getNombre().equals(nombre)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
