@@ -5,7 +5,7 @@
         <title>Encuestas</title>
         <%@ include file="/template/header.jsp" %>
         <script type='text/javascript' src='<%=request.getContextPath()%>/js/highcharts.js'></script>
-        <script type='text/javascript' src='estadisticas.js'></script>
+        <script type='text/javascript' src='index.js'></script>
         <script type='text/javascript' src='<%=request.getContextPath()%>/js/angular-directives.js'></script>
     </head>
     <body ng-controller="EstadisticasController" >
@@ -38,13 +38,6 @@
         <div class="row-fluid" >
             <div class="span11">
                 <button class="btn btn-primary" ng-click="showDatos()" ng-disabled="resultados==null">Ver los datos</button>
-            </div>
-            <div class="span1">
-            </div>
-        </div>
-        <div class="row-fluid" style="" >
-            <div class="span11">
-                <div id="estadistica" class="span12" style="height: 400px;"></div>
             </div>
             <div class="span1">
             </div>

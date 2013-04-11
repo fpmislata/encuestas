@@ -28,7 +28,7 @@
             dataType: "json",
             url:getContextPath()+"/api/session?" + jQuery.param(params) ,
             success: function(data) {
-                window.location.href=getContextPath()+"/respuestas/estadisticas.jsp";
+                window.location.href=getContextPath()+"/administracion/index.jsp";
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status===400) {
