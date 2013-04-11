@@ -64,8 +64,8 @@
                         </tr>
                         <tr>
                             <th>Valor</th>
-                            <th>Nº respuestas</th>
-                            <th>% Respuestas</th>
+                            <th>Nº&nbsp;respuestas</th>
+                            <th>%&nbsp;Respuestas</th>
                         </tr>
                     </thead>
                     <tbody>
