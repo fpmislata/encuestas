@@ -16,7 +16,7 @@ function EstadisticasController($scope,$http) {
     $scope.showDatos=function() {
         $('#estadisticasModal').modal()
     }
-    
+
     $scope.$watch("estadistica.encuesta",function( newValue, oldValue ) {
 
         if ( newValue === oldValue ) {
@@ -42,7 +42,6 @@ function EstadisticasController($scope,$http) {
 
             if ($scope.estadistica.pregunta.tipoPregunta=='Radio' || $scope.estadistica.pregunta.tipoPregunta=='Check') {
                 $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getEstadisticaPregunta&parameter0='+$scope.estadistica.pregunta.idPregunta).success(function(resultados) {
-                    $scope.resultadosPregunta=resultados;
                     $scope.resultados=resultados;
                 });
             }
@@ -57,34 +56,25 @@ function EstadisticasController($scope,$http) {
         }
         if ( newValue!==null ) {
             $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getEstadisticaItem&parameter0='+$scope.estadistica.item.idItem).success(function(resultados) {
-                $scope.resultadosItem=resultados;
                 $scope.resultados=resultados;
             });
         }
     });
 
-    $scope.$watch("resultadosPregunta",function( newValue, oldValue ) {
+    $scope.$watch("resultados",function( newValue, oldValue ) {
 
         if ( newValue === oldValue ) {
             return;
         }
         if ( newValue!==null ) {
-            $scope.showChartPregunta();
-        }
-    });
-
-    $scope.$watch("resultadosItem",function( newValue, oldValue ) {
-
-        if ( newValue === oldValue ) {
-            return;
-        }
-        if ( newValue!==null ) {
-            $scope.showChartItem();
+            $scope.showChart();
         }
     });
 
 
-    $scope.showChartPregunta=function() {
+
+
+    $scope.showChart=function() {
         $('#estadistica').highcharts({
             chart: {
                 type: 'column'
@@ -93,48 +83,13 @@ function EstadisticasController($scope,$http) {
                 enabled : false
             },
             title: {
-                text: "Encuesta:"+$scope.estadistica.encuesta.nombre
-            },
-            xAxis: {
-                categories: $scope.resultadosPregunta.labels
-            },
-            yAxis: {
-                max:100,
-                min: 0,
-                title: {
-                    text: '% de respuestas'
-                }
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0
-                }
-            },
-            series: [{
-                name: $scope.estadistica.pregunta.pregunta,
-                data: $scope.resultadosPregunta.series[0].data
-            }]
-        });
-    }
-
-
-    $scope.showChartItem=function() {
-        $('#estadistica').highcharts({
-            chart: {
-                type: 'column'
-            },
-            credits : {
-                enabled : false
-            },
-            title: {
-                text: "Encuesta:"+$scope.estadistica.encuesta.nombre
+                text: $scope.resultados.title
             },
             subtitle: {
-                text: "Pregunta:"+$scope.estadistica.pregunta.pregunta
+                text: $scope.resultados.subtitle
             },
             xAxis: {
-                categories: $scope.resultadosItem.labels
+                categories: $scope.resultados.labels
             },
             yAxis: {
                 max:100,
@@ -150,8 +105,8 @@ function EstadisticasController($scope,$http) {
                 }
             },
             series: [{
-                name: $scope.estadistica.item.nombre,
-                data: $scope.resultadosItem.series[0].data
+                name: $scope.resultados.series[0].name,
+                data: $scope.resultados.series[0].data
 
             }]
         });

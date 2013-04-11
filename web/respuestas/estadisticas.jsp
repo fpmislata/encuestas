@@ -52,11 +52,16 @@
         <div id="estadisticasModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Modal datos estadisticas" aria-hidden="true">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 id="estadisticasModalLabel">Datos</h3>
+                <h4 id="estadisticasModalLabel">Resultados</h4>
             </div>
             <div class="modal-body">
+                <h4 id="estadisticasModalLabel">Encuesta:{{resultados.title}}</h4>
+                <h5 ng-show="resultados.subtitle!=null" id="estadisticasModalLabel">Pregunta:{{resultados.subtitle}}</h5>
                 <table class="table table-bordered table-striped table-condensed">
                     <thead>
+                        <tr>
+                            <th colspan="3">{{resultados.series[0].name}}</th>
+                        </tr>
                         <tr>
                             <th>Valor</th>
                             <th>Nº respuestas</th>
