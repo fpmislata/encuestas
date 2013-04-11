@@ -27,7 +27,7 @@ import org.hibernate.Session;
 public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, Integer> implements EncuestaDAO {
 
     private int numDecimals = 2;
-
+     
     @Override
     public Estadistica getEstadisticaItem(Item item) {
         Session session = sessionFactory.getCurrentSession();
@@ -110,7 +110,7 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
         return estadistica;
     }
 
-    private long getNumRespuestas(Encuesta encuesta) {
+    public long getNumRespuestas(Encuesta encuesta) {
         Session session = sessionFactory.getCurrentSession();
 
         long numRespuestas;
