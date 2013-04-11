@@ -28,7 +28,7 @@
             dataType: "json",
             url:getContextPath()+"/api/session?" + jQuery.param(params) ,
             success: function(data) {
-                window.location.href=getContextPath()+"/administracion/index.jsp";
+                window.location.href=getContextPath()+"/administracion/administracion.jsp";
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status===400) {
@@ -47,6 +47,20 @@
             }
         });
 
+    }
+
+    function logout() {
+        jQuery.ajax({
+            type: 'DELETE',
+            url:getContextPath()+"/api/session",
+            success: function(data) {
+                window.location.href=getContextPath();
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert("Ocurrió un error al cerrar la sesión");
+                window.location.href=getContextPath();
+            }
+        });
     }
 
 </script>

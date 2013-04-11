@@ -7,6 +7,8 @@ function EstadisticasController($scope,$http) {
         item:null
     }
 
+    $scope.numRespuestas=null;
+
 
 
     $http.get(getContextPath()+'/api/Encuesta/').success(function(data) {
@@ -26,6 +28,11 @@ function EstadisticasController($scope,$http) {
             $http.get(getContextPath()+'/api/Pregunta/?encuesta.idEncuesta='+$scope.estadistica.encuesta.idEncuesta).success(function(data) {
                 $scope.preguntas = data;
             });
+            $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getNumRespuestas&parameter0='+$scope.estadistica.encuesta.idEncuesta).success(function(data) {
+                $scope.numRespuestas = data;
+            });
+        } else {
+            $scope.numRespuestas =null;
         }
 
     });

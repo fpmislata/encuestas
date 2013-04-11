@@ -5,17 +5,19 @@
         <title>Encuestas</title>
         <%@ include file="/template/header.jsp" %>
         <script type='text/javascript' src='<%=request.getContextPath()%>/js/highcharts.js'></script>
-        <script type='text/javascript' src='index.js'></script>
+        <script type='text/javascript' src='graficas.js'></script>
         <script type='text/javascript' src='<%=request.getContextPath()%>/js/angular-directives.js'></script>
     </head>
     <body ng-controller="EstadisticasController" >
         <%@ include file="/template/top.jsp" %>
 
         <div class="row-fluid" >
-            <div class="span4">
-                <label>Encuesta:</label><select ng-model="estadistica.encuesta" ng-options="encuesta as encuesta.nombre for encuesta in encuestas" >
+            <div class="span4" >
+                <label>Encuesta:</label>
+                <select ng-model="estadistica.encuesta" ng-options="encuesta as encuesta.nombre for encuesta in encuestas" >
                     <option value="">-- Elige Encuesta --</option>
                 </select>
+                <span ng-hide="estadistica.encuesta==null || numRespuestas==null" class="badge">{{numRespuestas}}</span>
             </div>
             <div class="span4">
                 <label>Pregunta:</label><select ng-model="estadistica.pregunta" ng-options="pregunta as pregunta.pregunta for pregunta in preguntas" ng-disabled="estadistica.encuesta==null" clear="estadistica.encuesta==null">
@@ -36,10 +38,8 @@
             </div>
         </div>
         <div class="row-fluid" >
-            <div class="span11">
+            <div class="span12">
                 <button class="btn btn-primary" ng-click="showDatos()" ng-disabled="resultados==null">Ver los datos</button>
-            </div>
-            <div class="span1">
             </div>
         </div>
         <div id="estadisticasModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Modal datos estadisticas" aria-hidden="true">

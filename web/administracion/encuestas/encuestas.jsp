@@ -12,7 +12,7 @@
         </div>
         <div class="row-fluid" style="margin-top: 3em;">
             <div class="span5" >
-                <a href="<%=request.getContextPath()%>/administracion/graficas/index.jsp" class="main-button" style="float: right;">
+                <a href="<%=request.getContextPath()%>/administracion/encuestas/nueva_encuesta.jsp" class="main-button" style="float: right;">
                     <span class="main-text">Crear una nueva encuesta</span>
                     <br />
                     <img src="<%=request.getContextPath()%>/img/icons/add_paper_blue.png" alt="nueva" class="center" >
@@ -21,7 +21,7 @@
             <div class="span2" >
             </div>
             <div class="span5" >
-                <a href="<%=request.getContextPath()%>/administracion/encuestas/application.jsp" class="main-button" >
+                <a href="<%=request.getContextPath()%>/administracion/encuestas/buscar_encuesta.jsp" class="main-button" >
                     <span class="main-text">Modificar una encuesta existente</span>
                     <br />
                     <img src="<%=request.getContextPath()%>/img/icons/application.png" alt="modifcar" class="center" />
