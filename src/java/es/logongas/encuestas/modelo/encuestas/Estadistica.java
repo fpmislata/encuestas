@@ -23,6 +23,8 @@ import java.util.List;
  * @author Lorenzo González
  */
 public class Estadistica {
+    public String title;
+    public String subtitle;
     public List<String> labels=new ArrayList<String>();
     public List<Serie> series=new ArrayList<Serie>();
 }

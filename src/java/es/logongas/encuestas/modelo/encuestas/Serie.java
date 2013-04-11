@@ -25,6 +25,7 @@ import java.util.List;
  */
 public class Serie {
     public long numRespuestas;
+    public String name;
     public List<Long> rawData=new ArrayList<Long>();
     public List<BigDecimal> data=new ArrayList<BigDecimal>();
 }

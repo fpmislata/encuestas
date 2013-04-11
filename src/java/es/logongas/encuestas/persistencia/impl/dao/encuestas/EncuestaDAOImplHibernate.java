@@ -41,7 +41,10 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
         }
 
         Estadistica estadistica = new Estadistica();
+        estadistica.title=item.getPregunta().getEncuesta().getNombre();
+        estadistica.subtitle=item.getPregunta().getPregunta();
         Serie serie = new Serie();
+        serie.name=item.getNombre();
         serie.numRespuestas = getNumRespuestas(item.getPregunta().getEncuesta());
         for (Object[] datos : resultados) {
             estadistica.labels.add(getLabelFromValue((String)datos[0]));
@@ -91,7 +94,10 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
         }
 
         Estadistica estadistica = new Estadistica();
+        estadistica.title=pregunta.getEncuesta().getNombre();
+        estadistica.subtitle=null;
         Serie serie = new Serie();
+        serie.name=pregunta.getPregunta();
         serie.numRespuestas = getNumRespuestas(pregunta.getEncuesta());
         for (Item item : resultados.keySet()) {
             estadistica.labels.add(getLabelFromValue(item.getNombre()));
