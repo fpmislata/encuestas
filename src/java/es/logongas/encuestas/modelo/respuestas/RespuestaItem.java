@@ -134,8 +134,9 @@ public class RespuestaItem {
                 break;
             case ListaValores:
                 if ((this.getValor() == null) || (this.getValor().trim().equals(""))) {
-                    businessMessages.add(new BusinessMessage(null, "El valor de '" + this.getItem().getNombre() + "' no puede estar vacío"));
-
+                    if (this.getItem().isRequerido() == true) {
+                        businessMessages.add(new BusinessMessage(null, "El valor de '" + this.getItem().getNombre() + "' no puede estar vacío"));
+                    }
                 } else {
                     if (this.getItem().getListaValores().contiene(this.getValor()) == false) {
                         businessMessages.add(new BusinessMessage(null, "El valor '" + this.getValor() + "' de '" + this.getItem().getNombre() + "' no es válido"));
@@ -144,14 +145,16 @@ public class RespuestaItem {
                 break;
             case Texto:
                 if ((this.getValor() == null) || (this.getValor().trim().equals(""))) {
-                    businessMessages.add(new BusinessMessage(null, "El valor de '" + this.getItem().getNombre() + "' no puede estar vacío"));
-
+                    if (this.getItem().isRequerido() == true) {
+                        businessMessages.add(new BusinessMessage(null, "El valor de '" + this.getItem().getNombre() + "' no puede estar vacío"));
+                    }
                 }
                 break;
             case Fecha:
                 if ((this.getValor() == null) || (this.getValor().trim().equals(""))) {
-                    businessMessages.add(new BusinessMessage(null, "El valor de '" + this.getItem().getNombre() + "' no puede estar vacío"));
-
+                    if (this.getItem().isRequerido() == true) {
+                        businessMessages.add(new BusinessMessage(null, "El valor de '" + this.getItem().getNombre() + "' no puede estar vacío"));
+                    }
                 }
                 SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
                 sdf.setLenient(false);
@@ -162,7 +165,11 @@ public class RespuestaItem {
                 }
                 break;
             case AreaTexto:
-                //No las validamos
+                if ((this.getValor() == null) || (this.getValor().trim().equals(""))) {
+                    if (this.getItem().isRequerido() == true) {
+                        businessMessages.add(new BusinessMessage(null, "El valor de '" + this.getItem().getNombre() + "' no puede estar vacío"));
+                    }
+                }
                 break;
             default:
                 throw new RuntimeException("El tipo de item es desconocido:" + this.getItem().getTipoItem());

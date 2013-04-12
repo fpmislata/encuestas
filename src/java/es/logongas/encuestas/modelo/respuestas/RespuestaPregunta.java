@@ -125,7 +125,9 @@ public class RespuestaPregunta {
             case Check:
                 //Debe haber alguno marcado
                 if (isAnyItemCheck() == false) {
-                    businessMessages.add(new BusinessMessage(null, "Se debe marcar alguna respuesta"));
+                    if (this.getPregunta().isRequerido()==true) {
+                        businessMessages.add(new BusinessMessage(null, "Se debe marcar alguna respuesta"));
+                    }
                 }
 
                 if (this.getPregunta().isUltimoItemIncluyeOtros()) {
