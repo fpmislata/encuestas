@@ -11,5 +11,6 @@
             <list-index column="Idx"  />
             <one-to-many class="es.logongas.encuestas.modelo.encuestas.Valor" />
         </list>
+        <property name="contieneValoresNumericos" />
     </class>
 </hibernate-mapping>

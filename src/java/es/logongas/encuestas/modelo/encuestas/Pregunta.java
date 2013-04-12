@@ -32,6 +32,7 @@ public class Pregunta implements Comparable<Pregunta> {
     private List<Item> items;
     private TipoPregunta tipoPregunta;
     private boolean ultimoItemIncluyeOtros;
+    private boolean requerido;
 
     /**
      * @return the IdPregunta
@@ -199,5 +200,19 @@ public class Pregunta implements Comparable<Pregunta> {
         } else {
             throw new RuntimeException("Error de lógica:"+indexThis + "  " +indexOther) ;
         }
+    }
+
+    /**
+     * @return the requerido
+     */
+    public boolean isRequerido() {
+        return requerido;
+    }
+
+    /**
+     * @param requerido the requerido to set
+     */
+    public void setRequerido(boolean requerido) {
+        this.requerido = requerido;
     }
 }
