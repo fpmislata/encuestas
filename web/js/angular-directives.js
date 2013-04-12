@@ -1,4 +1,4 @@
-angular.module('logongas.directives', []).directive('mostrar', function() {
+angular.module('es.logongas.ix3.directives', []).directive('mostrar', function() {
 
     return function($scope, element, attributes) {
         function mostrar(element) {

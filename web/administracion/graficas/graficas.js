@@ -1,4 +1,4 @@
-var app = angular.module('app', ["logongas.directives"]);
+var app = angular.module('app', ["es.logongas.ix3.directives"]);
 
 function EstadisticasController($scope,$http) {
     $scope.estadistica = {
