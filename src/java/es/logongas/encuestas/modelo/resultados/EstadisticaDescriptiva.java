@@ -15,18 +15,14 @@
  */
 package es.logongas.encuestas.modelo.resultados;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- *
+ * Estadística descriptiva
  * @author Lorenzo González
  */
-public class Serie {
-    public long numRespuestas;
-    public String name;
-    public List<Long> rawData=new ArrayList<Long>();
-    public List<BigDecimal> data=new ArrayList<BigDecimal>();
-    public EstadisticaDescriptiva estadisticaDescriptiva=new EstadisticaDescriptiva();
+public class EstadisticaDescriptiva {
+    double media;
+    double desviacionEstandar;
+    double maximo;
+    double minimo;
+    double mediana;
 }
