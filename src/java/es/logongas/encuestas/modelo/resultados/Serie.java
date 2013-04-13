@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package es.logongas.encuestas.modelo.encuestas;
+package es.logongas.encuestas.modelo.resultados;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +23,9 @@ import java.util.List;
  *
  * @author Lorenzo González
  */
-public class Estadistica {
-    public String title;
-    public String subtitle;
-    public List<String> labels=new ArrayList<String>();
-    public List<Serie> series=new ArrayList<Serie>();
+public class Serie {
+    public long numRespuestas;
+    public String name;
+    public List<Long> rawData=new ArrayList<Long>();
+    public List<BigDecimal> data=new ArrayList<BigDecimal>();
 }

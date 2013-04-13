@@ -1,7 +1,7 @@
 var app = angular.module('app', ["es.logongas.ix3.directives","ui"]);
 
-function EstadisticasController($scope,$http) {
-    $scope.estadistica = {
+function GraficasController($scope,$http) {
+    $scope.seleccion = {
         encuesta:null,
         pregunta:null,
         item:null
@@ -16,19 +16,19 @@ function EstadisticasController($scope,$http) {
     });
 
     $scope.showDatos=function() {
-        $('#estadisticasModal').modal()
+        $('#resultadoModal').modal()
     }
 
-    $scope.$watch("estadistica.encuesta",function( newValue, oldValue ) {
+    $scope.$watch("seleccion.encuesta",function( newValue, oldValue ) {
 
         if ( newValue === oldValue ) {
             return;
         }
         if ( newValue!==null ) {
-            $http.get(getContextPath()+'/api/Pregunta/?encuesta.idEncuesta='+$scope.estadistica.encuesta.idEncuesta).success(function(data) {
+            $http.get(getContextPath()+'/api/Pregunta/?encuesta.idEncuesta='+$scope.seleccion.encuesta.idEncuesta).success(function(data) {
                 $scope.preguntas = data;
             });
-            $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getNumRespuestas&parameter0='+$scope.estadistica.encuesta.idEncuesta).success(function(data) {
+            $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getNumRespuestas&parameter0='+$scope.seleccion.encuesta.idEncuesta).success(function(data) {
                 $scope.numRespuestas = data;
             });
         } else {
@@ -37,38 +37,38 @@ function EstadisticasController($scope,$http) {
 
     });
 
-    $scope.$watch("estadistica.pregunta",function( newValue, oldValue ) {
+    $scope.$watch("seleccion.pregunta",function( newValue, oldValue ) {
 
         if ( newValue === oldValue ) {
             return;
         }
         if ( newValue!==null ) {
-            $http.get(getContextPath()+'/api/Item/?pregunta.idPregunta='+$scope.estadistica.pregunta.idPregunta).success(function(data) {
+            $http.get(getContextPath()+'/api/Item/?pregunta.idPregunta='+$scope.seleccion.pregunta.idPregunta).success(function(data) {
                 $scope.items = data;
             });
 
-            if ($scope.estadistica.pregunta.tipoPregunta=='Radio' || $scope.estadistica.pregunta.tipoPregunta=='Check') {
-                $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getEstadisticaPregunta&parameter0='+$scope.estadistica.pregunta.idPregunta).success(function(resultados) {
-                    $scope.resultados=resultados;
+            if ($scope.seleccion.pregunta.tipoPregunta=='Radio' || $scope.seleccion.pregunta.tipoPregunta=='Check') {
+                $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoPregunta&parameter0='+$scope.seleccion.pregunta.idPregunta).success(function(resultado) {
+                    $scope.resultado=resultado;
                 });
             }
         }
 
     });
 
-    $scope.$watch("estadistica.item",function( newValue, oldValue ) {
+    $scope.$watch("seleccion.item",function( newValue, oldValue ) {
 
         if ( newValue === oldValue ) {
             return;
         }
         if ( newValue!==null ) {
-            $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getEstadisticaItem&parameter0='+$scope.estadistica.item.idItem).success(function(resultados) {
-                $scope.resultados=resultados;
+            $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoItem&parameter0='+$scope.seleccion.item.idItem).success(function(resultado) {
+                $scope.resultado=resultado;
             });
         }
     });
 
-    $scope.$watch("resultados",function( newValue, oldValue ) {
+    $scope.$watch("resultado",function( newValue, oldValue ) {
 
         if ( newValue === oldValue ) {
             return;
@@ -82,7 +82,7 @@ function EstadisticasController($scope,$http) {
 
 
     $scope.showChart=function() {
-        $('#estadistica').highcharts({
+        $('#grafica').highcharts({
             chart: {
                 type: 'column'
             },
@@ -90,13 +90,13 @@ function EstadisticasController($scope,$http) {
                 enabled : false
             },
             title: {
-                text: $scope.resultados.title
+                text: $scope.resultado.title
             },
             subtitle: {
-                text: $scope.resultados.subtitle
+                text: $scope.resultado.subtitle
             },
             xAxis: {
-                categories: $scope.resultados.labels
+                categories: $scope.resultado.labels
             },
             yAxis: {
                 max:100,
@@ -112,14 +112,14 @@ function EstadisticasController($scope,$http) {
                 }
             },
             series: [{
-                name: $scope.resultados.series[0].name,
-                data: $scope.resultados.series[0].data
+                name: $scope.resultado.series[0].name,
+                data: $scope.resultado.series[0].data
 
             }]
         });
     }
 
-    $scope.isItemAllowEstadistica=function(item) {
+    $scope.isItemAllowRespuesta=function(item) {
         if ((item.tipoItem=="AreaTexto") || ((item.tipoItem=="Texto"))) {
             return false;
         } else {
