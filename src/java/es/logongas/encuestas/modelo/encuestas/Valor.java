@@ -23,7 +23,7 @@ public class Valor {
     private int idValor;
     private String nombre;
     private ListaValores listaValores;
-    private int valorNumerico;
+    private Integer valorNumerico;
 
     /**
      * @return the idValor
@@ -70,14 +70,14 @@ public class Valor {
     /**
      * @return the valorNumerico
      */
-    public int getValorNumerico() {
+    public Integer getValorNumerico() {
         return valorNumerico;
     }
 
     /**
      * @param valorNumerico the valorNumerico to set
      */
-    public void setValorNumerico(int valorNumerico) {
+    public void setValorNumerico(Integer valorNumerico) {
         this.valorNumerico = valorNumerico;
     }
 }
