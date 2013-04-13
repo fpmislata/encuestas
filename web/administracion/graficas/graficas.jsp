@@ -6,7 +6,6 @@
         <%@ include file="/template/header.jsp" %>
         <script type='text/javascript' src='<%=request.getContextPath()%>/js/highcharts.js'></script>
         <script type='text/javascript' src='graficas.js'></script>
-        <script type='text/javascript' src='<%=request.getContextPath()%>/js/angular-directives.js'></script>
     </head>
     <body ng-controller="EstadisticasController" >
         <%@ include file="/template/top.jsp" %>
