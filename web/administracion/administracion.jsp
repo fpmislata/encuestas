@@ -26,7 +26,6 @@
             </div>
 
         </div>
-    </div>
 
     <%@ include file="/template/bottom.jsp" %>
 </body>
