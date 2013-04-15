@@ -20,9 +20,9 @@ package es.logongas.encuestas.modelo.resultados;
  * @author Lorenzo González
  */
 public class EstadisticaDescriptiva {
-    double media;
-    double desviacionEstandar;
-    double maximo;
-    double minimo;
-    double mediana;
+    public double media;
+    public double desviacionEstandar;
+    public double maximo;
+    public double minimo;
+    public double mediana;
 }
