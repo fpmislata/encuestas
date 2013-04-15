@@ -5,7 +5,9 @@
         <title>Encuestas</title>
         <%@ include file="/template/header.jsp" %>
         <script type='text/javascript' src='<%=request.getContextPath()%>/js/highcharts.js'></script>
+        <script type='text/javascript' src='<%=request.getContextPath()%>/js/exporting.js'></script>
         <script type='text/javascript' src='graficas.js'></script>
+
     </head>
     <body ng-controller="GraficasController" >
         <%@ include file="/template/top.jsp" %>

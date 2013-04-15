@@ -115,7 +115,10 @@ function GraficasController($scope,$http) {
                 name: $scope.resultado.series[0].name,
                 data: $scope.resultado.series[0].data
 
-            }]
+            }],
+            exporting: {
+                enabled: true
+            }
         });
     }
 
