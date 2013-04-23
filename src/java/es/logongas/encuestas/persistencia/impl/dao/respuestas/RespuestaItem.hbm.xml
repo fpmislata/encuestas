@@ -12,7 +12,7 @@
             <column name="idRespuestaPregunta"  />
         </many-to-one>
         <property name="check" column="checkk" />
-        <property name="valor" />
+        <property name="valor" type="text" />
         <property name="valorNumerico" />
     </class>
 </hibernate-mapping>
