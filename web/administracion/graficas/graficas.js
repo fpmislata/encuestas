@@ -122,7 +122,17 @@ function GraficasController($scope,$http) {
             plotOptions: {
                 column: {
                     pointPadding: 0.2,
-                    borderWidth: 0
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true,
+                        color: "#000000",
+                        style: {
+                            fontWeight: 'bold'
+                        },
+                        formatter: function() {
+                            return this.y +'%';
+                        }
+                    }
                 }
             },
             series: [{
