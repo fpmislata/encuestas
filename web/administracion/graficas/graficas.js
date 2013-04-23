@@ -19,6 +19,10 @@ function GraficasController($scope,$http) {
         $('#resultadoModal').modal()
     }
 
+    $scope.showEstadistica=function() {
+        $('#resultadoEstadisticasModal').modal()
+    }
+
     $scope.$watch("seleccion.encuesta",function( newValue, oldValue ) {
 
         if ( newValue === oldValue ) {
