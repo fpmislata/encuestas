@@ -31,9 +31,13 @@ function GraficasController($scope,$http) {
         if ( newValue!==null ) {
             $http.get(getContextPath()+'/api/Pregunta/?encuesta.idEncuesta='+$scope.seleccion.encuesta.idEncuesta).success(function(data) {
                 $scope.preguntas = data;
+            }).error(function(data, status, headers, config) {
+               alert("Se ha producido un error al obtener los datos:"+status);
             });
             $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getNumRespuestas&parameter0='+$scope.seleccion.encuesta.idEncuesta).success(function(data) {
                 $scope.numRespuestas = data;
+            }).error(function(data, status, headers, config) {
+               alert("Se ha producido un error al obtener los datos:"+status);
             });
         } else {
             $scope.numRespuestas =null;
@@ -49,11 +53,15 @@ function GraficasController($scope,$http) {
         if ( newValue!==null ) {
             $http.get(getContextPath()+'/api/Item/?pregunta.idPregunta='+$scope.seleccion.pregunta.idPregunta).success(function(data) {
                 $scope.items = data;
+            }).error(function(data, status, headers, config) {
+               alert("Se ha producido un error al obtener los datos:"+status);
             });
 
             if ($scope.seleccion.pregunta.tipoPregunta=='Radio' || $scope.seleccion.pregunta.tipoPregunta=='Check') {
                 $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoPregunta&parameter0='+$scope.seleccion.pregunta.idPregunta).success(function(resultado) {
                     $scope.resultado=resultado;
+                }).error(function(data, status, headers, config) {
+                    alert("Se ha producido un error al obtener los datos:"+status);
                 });
             }
         }
@@ -68,6 +76,8 @@ function GraficasController($scope,$http) {
         if ( newValue!==null ) {
             $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoItem&parameter0='+$scope.seleccion.item.idItem).success(function(resultado) {
                 $scope.resultado=resultado;
+            }).error(function(data, status, headers, config) {
+               alert("Se ha producido un error al obtener los datos:"+status);
             });
         }
     });
