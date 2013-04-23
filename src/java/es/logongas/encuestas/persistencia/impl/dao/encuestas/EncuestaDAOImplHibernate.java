@@ -51,10 +51,10 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
             serie.getData().add(getDataFromRawData(rawData, serie.getNumRespuestas()));
         }
 
-        //Calcular las estadísticas
-        if ((item.getListaValores() != null) && (item.getListaValores().isContieneValoresNumericos())) {
+        //Calcular las estadísticasSolo si hay almenos 2 datos
+        if ((item.getListaValores() != null) && (item.getListaValores().isContieneValoresNumericos()) && (serie.getNumRespuestas()>=2)) {
             EstadisticaDescriptiva estadisticaDescriptiva=new EstadisticaDescriptiva(numDecimals);
-            
+
             //Añadir los datos
             String shql = "SELECT ri.valorNumerico FROM RespuestaItem ri WHERE ri.item.idItem=? AND ri.valorNumerico!=null ";
             Query query = session.createQuery(shql);
