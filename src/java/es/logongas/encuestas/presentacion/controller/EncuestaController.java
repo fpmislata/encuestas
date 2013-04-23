@@ -29,6 +29,7 @@ import es.logongas.ix3.persistence.services.dao.BusinessMessage;
 import es.logongas.ix3.persistence.services.dao.DAOFactory;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -316,7 +317,7 @@ public class EncuestaController {
 
         List<BusinessMessage> businessMessages = respuestaEncuesta.validate();
         if ((businessMessages != null) && (businessMessages.size() > 0)) {
-            Encuesta encuesta=respuestaEncuesta.getEncuesta();
+            Encuesta encuesta = respuestaEncuesta.getEncuesta();
             model.put("encuesta", encuesta);
             model.put("businessMessages", businessMessages);
             viewName = "encuestas/error_encuesta";
@@ -390,12 +391,12 @@ public class EncuestaController {
         for (RespuestaItem respuestaItem : respuestaPregunta.getRespuestaItems()) {
             Item item = respuestaItem.getItem();
 
-            respuestaItem.setValor(request.getParameter("valor" + item.getIdItem()));
-            ListaValores listaValores=respuestaItem.getItem().getListaValores();
-            if ((listaValores!=null) && (listaValores.isContieneValoresNumericos()==true)) {
-                Valor valor=listaValores.getValorByNombre(respuestaItem.getValor());
-                if (valor!=null) {
-                   respuestaItem.setValorNumerico(valor.getValorNumerico());
+            respuestaItem.setValor(parameterDecode(request.getParameter("valor" + item.getIdItem())));
+            ListaValores listaValores = respuestaItem.getItem().getListaValores();
+            if ((listaValores != null) && (listaValores.isContieneValoresNumericos() == true)) {
+                Valor valor = listaValores.getValorByNombre(respuestaItem.getValor());
+                if (valor != null) {
+                    respuestaItem.setValorNumerico(valor.getValorNumerico());
                 }
             }
 
@@ -422,5 +423,19 @@ public class EncuestaController {
         }
 
 
+    }
+
+    private String parameterDecode(String s) {
+        if (s == null) {
+            return null;
+        }
+        //Cambiar los &nbsp; por " " espacios normales
+        s = s.replace("\u00a0", " ");
+
+        if (s.trim().equals("")) {
+            return null;
+        }
+
+        return s.trim();
     }
 }
