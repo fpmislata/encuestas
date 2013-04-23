@@ -80,6 +80,16 @@ public class ListaValores {
         return false;
     }
 
+    public Valor getValorByNombre(String nombre) {
+        for(Valor valor:this.valores) {
+            if (valor.getNombre().equals(nombre)) {
+                return valor;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * @return the contieneValoresNumericos
      */

@@ -17,7 +17,9 @@ package es.logongas.encuestas.presentacion.controller;
 
 import es.logongas.encuestas.modelo.encuestas.Encuesta;
 import es.logongas.encuestas.modelo.encuestas.Item;
+import es.logongas.encuestas.modelo.encuestas.ListaValores;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
+import es.logongas.encuestas.modelo.encuestas.Valor;
 import es.logongas.encuestas.modelo.respuestas.Documento;
 import es.logongas.encuestas.modelo.respuestas.RespuestaEncuesta;
 import es.logongas.encuestas.modelo.respuestas.RespuestaItem;
@@ -389,6 +391,14 @@ public class EncuestaController {
             Item item = respuestaItem.getItem();
 
             respuestaItem.setValor(request.getParameter("valor" + item.getIdItem()));
+            ListaValores listaValores=respuestaItem.getItem().getListaValores();
+            if ((listaValores!=null) && (listaValores.isContieneValoresNumericos()==true)) {
+                Valor valor=listaValores.getValorByNombre(respuestaItem.getValor());
+                if (valor!=null) {
+                   respuestaItem.setValorNumerico(valor.getValorNumerico());
+                }
+            }
+
 
             switch (respuestaPregunta.getPregunta().getTipoPregunta()) {
                 case Radio:

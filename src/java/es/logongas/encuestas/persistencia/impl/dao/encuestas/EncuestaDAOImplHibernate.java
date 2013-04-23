@@ -7,6 +7,8 @@ package es.logongas.encuestas.persistencia.impl.dao.encuestas;
 import es.logongas.encuestas.modelo.encuestas.Encuesta;
 import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
+import es.logongas.encuestas.modelo.resultados.EstadisticaDescriptiva;
+import es.logongas.encuestas.modelo.resultados.InferenciaEstadistica;
 import es.logongas.encuestas.modelo.resultados.Resultado;
 import es.logongas.encuestas.modelo.resultados.Serie;
 import es.logongas.encuestas.persistencia.services.dao.encuestas.EncuestaDAO;
@@ -26,6 +28,7 @@ import org.hibernate.Session;
 public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, Integer> implements EncuestaDAO {
 
     private int numDecimals = 2;
+    private BigDecimal nivelConfianza = new BigDecimal(0.95);
 
     @Override
     public Resultado getResultadoItem(Item item) {
@@ -39,19 +42,37 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
             resultados = query.list();
         }
 
-        Resultado resultado = new Resultado();
-        resultado.title=item.getPregunta().getEncuesta().getNombre();
-        resultado.subtitle=item.getPregunta().getPregunta();
-        Serie serie = new Serie();
-        serie.name=item.getNombre();
-        serie.numRespuestas = getNumRespuestas(item.getPregunta().getEncuesta());
+        Resultado resultado = new Resultado(item.getPregunta().getEncuesta().getNombre(), item.getPregunta().getPregunta());
+        Serie serie = new Serie(getNumRespuestas(item.getPregunta().getEncuesta()), item.getNombre());
         for (Object[] datos : resultados) {
-            resultado.labels.add(getLabelFromValue((String)datos[0]));
-            long rawData=((Number)datos[1]).longValue();
-            serie.rawData.add(rawData);
-            serie.data.add(getDataFromRawData(rawData, serie.numRespuestas));
+            resultado.getLabels().add(getLabelFromValue((String) datos[0]));
+            long rawData = ((Number) datos[1]).longValue();
+            serie.getRawData().add(rawData);
+            serie.getData().add(getDataFromRawData(rawData, serie.getNumRespuestas()));
         }
-        resultado.series.add(serie);
+
+        //Calcular las estadísticas
+        if ((item.getListaValores() != null) && (item.getListaValores().isContieneValoresNumericos())) {
+            EstadisticaDescriptiva estadisticaDescriptiva=new EstadisticaDescriptiva(numDecimals);
+            
+            //Añadir los datos
+            String shql = "SELECT ri.valorNumerico FROM RespuestaItem ri WHERE ri.item.idItem=? AND ri.valorNumerico!=null ";
+            Query query = session.createQuery(shql);
+            query.setInteger(0, item.getIdItem());
+            List<Double> datos = query.list();
+
+            for(Double dato:datos) {
+                estadisticaDescriptiva.addData(dato);
+            }
+
+            InferenciaEstadistica inferenciaEstadistica=new InferenciaEstadistica(estadisticaDescriptiva, nivelConfianza, numDecimals);
+
+            serie.setEstadisticaDescriptiva(estadisticaDescriptiva);
+            serie.setInferenciaEstadistica(inferenciaEstadistica);
+        }
+
+
+        resultado.getSeries().add(serie);
 
         return resultado;
     }
@@ -92,19 +113,15 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
             }
         }
 
-        Resultado resultado = new Resultado();
-        resultado.title=pregunta.getEncuesta().getNombre();
-        resultado.subtitle=null;
-        Serie serie = new Serie();
-        serie.name=pregunta.getPregunta();
-        serie.numRespuestas = getNumRespuestas(pregunta.getEncuesta());
+        Resultado resultado = new Resultado(pregunta.getEncuesta().getNombre(), null);
+        Serie serie = new Serie(getNumRespuestas(pregunta.getEncuesta()), pregunta.getPregunta());
         for (Item item : resultados.keySet()) {
-            resultado.labels.add(getLabelFromValue(item.getNombre()));
-            long rawData=resultados.get(item);
-            serie.rawData.add(rawData);
-            serie.data.add(getDataFromRawData(rawData, serie.numRespuestas));
+            resultado.getLabels().add(getLabelFromValue(item.getNombre()));
+            long rawData = resultados.get(item);
+            serie.getRawData().add(rawData);
+            serie.getData().add(getDataFromRawData(rawData, serie.getNumRespuestas()));
         }
-        resultado.series.add(serie);
+        resultado.getSeries().add(serie);
 
         return resultado;
     }

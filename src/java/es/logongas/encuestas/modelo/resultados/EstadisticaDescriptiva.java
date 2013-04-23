@@ -15,14 +15,72 @@
  */
 package es.logongas.encuestas.modelo.resultados;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+
 /**
  * Estadística descriptiva
+ *
  * @author Lorenzo González
  */
 public class EstadisticaDescriptiva {
-    public double media;
-    public double desviacionEstandar;
-    public double maximo;
-    public double minimo;
-    public double mediana;
+
+    private DescriptiveStatistics descriptiveStatistics;
+    private int numDecimals;
+
+    public EstadisticaDescriptiva(int numDecimals) {
+        this.numDecimals = numDecimals;
+        descriptiveStatistics = new DescriptiveStatistics();
+    }
+
+    public EstadisticaDescriptiva(double[] datos, int numDecimals) {
+        this.numDecimals = numDecimals;
+        descriptiveStatistics = new DescriptiveStatistics(datos);
+    }
+
+    public void addData(double data) {
+        descriptiveStatistics.addValue(data);
+    }
+
+    /**
+     * @return the media
+     */
+    public BigDecimal getMedia() {
+        return getBigDecimal(descriptiveStatistics.getMean());
+    }
+
+    /**
+     * @return the desviacionEstandar
+     */
+    public BigDecimal getDesviacionEstandar() {
+        return getBigDecimal(descriptiveStatistics.getStandardDeviation());
+    }
+
+    /**
+     * @return the maximo
+     */
+    public BigDecimal getMaximo() {
+        return getBigDecimal(descriptiveStatistics.getMax());
+    }
+
+    /**
+     * @return the minimo
+     */
+    public BigDecimal getMinimo() {
+        return getBigDecimal(descriptiveStatistics.getMin());
+    }
+
+    /**
+     * @return the numMuestras
+     */
+    public long getNumMuestras() {
+        return descriptiveStatistics.getN();
+    }
+
+    private BigDecimal getBigDecimal(double doubleData) {
+        BigDecimal bigDecimalData = new BigDecimal(doubleData).setScale(numDecimals, RoundingMode.HALF_UP);
+
+        return bigDecimalData;
+    }
 }

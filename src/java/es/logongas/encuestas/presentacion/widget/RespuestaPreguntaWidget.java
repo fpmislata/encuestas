@@ -229,8 +229,6 @@ public class RespuestaPreguntaWidget {
             throw new RuntimeException("listaValores no puede ser null");
         }
 
-        boolean allowNull = false;
-
         sb.append("      <li style=\"text-align: left\">\n");
         sb.append("        <div class=\"row-fluid\">\n");
         sb.append("            <div class=\"span10 simple-text\" style=\"padding-left: 20px;padding-top: 0.5em;\" >\n");
@@ -242,10 +240,7 @@ public class RespuestaPreguntaWidget {
         sb.append("                        " + HTMLUtil.toHTML(respuestaItem.getValor()) + "&nbsp;&nbsp;<span class=\"caret\"></span>\n");
         sb.append("                    </button>\n");
         sb.append("                    <ul class=\"dropdown-menu\">\n");
-        if (allowNull == true) {
-            sb.append("                        <li><a href=\"javascript:void(0)\" onclick=\"select_click(this)\" >&nbsp;</a></li>\n");
-        }
-
+        sb.append("                        <li><a href=\"javascript:void(0)\" onclick=\"select_click(this)\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>\n");
         for (Valor valor : listaValores.getValores()) {
             sb.append("                        <li><a href=\"javascript:void(0)\" onclick=\"select_click(this)\" >" + valor.getNombre() + "</a></li>\n");
         }

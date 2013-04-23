@@ -15,53 +15,45 @@
  */
 package es.logongas.encuestas.modelo.resultados;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
 /**
- *
+ * Intervalo de confianzar de un valor como la media o la desviación ,etc.
  * @author Lorenzo González
  */
-public class Resultado {
-    private String title;
-    private String subtitle;
-    private List<String> labels=new ArrayList<String>();
-    private List<Serie> series=new ArrayList<Serie>();
+public class IntervaloConfianza {
+    private BigDecimal inferior;
+    private BigDecimal superior;
+    private BigDecimal nivelConfianza;
 
-    public Resultado(String title, String subtitle) {
-        this.title = title;
-        this.subtitle = subtitle;
+    public IntervaloConfianza(BigDecimal inferior, BigDecimal superior, BigDecimal nivelConfianza) {
+        this.inferior = inferior;
+        this.superior = superior;
+        this.nivelConfianza = nivelConfianza;
     }
-
 
 
 
 
     /**
-     * @return the title
+     * @return the inferior
      */
-    public String getTitle() {
-        return title;
+    public BigDecimal getInferior() {
+        return inferior;
     }
 
     /**
-     * @return the subtitle
+     * @return the superior
      */
-    public String getSubtitle() {
-        return subtitle;
+    public BigDecimal getSuperior() {
+        return superior;
     }
 
     /**
-     * @return the labels
+     * @return the nivelConfianza
      */
-    public List<String> getLabels() {
-        return labels;
+    public BigDecimal getNivelConfianza() {
+        return nivelConfianza;
     }
 
-    /**
-     * @return the series
-     */
-    public List<Serie> getSeries() {
-        return series;
-    }
 }

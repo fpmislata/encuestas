@@ -36,6 +36,7 @@ public class RespuestaItem {
     private RespuestaPregunta respuestaPregunta;
     private boolean check;
     private String valor;
+    private Double valorNumerico;
 
     private RespuestaItem() {
     }
@@ -176,5 +177,19 @@ public class RespuestaItem {
         }
 
         return businessMessages;
+    }
+
+    /**
+     * @return the valorNumerico
+     */
+    public Double getValorNumerico() {
+        return valorNumerico;
+    }
+
+    /**
+     * @param valorNumerico the valorNumerico to set
+     */
+    public void setValorNumerico(Double valorNumerico) {
+        this.valorNumerico = valorNumerico;
     }
 }
