@@ -40,12 +40,10 @@ function TodasGraficasController($scope,$http,$location) {
 
 }
 
-var id=0;
 function createChartElement() {
-    id++;
-    var div = $('<div class="row-fluid" ><div class="span12" ><div id="chart' + id + '" style="height: 400px;"></div><br /><br /></div></div>');
+    var div = $('<div class="row-fluid" ><div class="span12" ><div style="height: 400px;"></div><br /><br /></div></div>');
     $("#container").append(div);
-    var element=$("#chart"+id);
+    var element=$("div div",div);
     return element;
 }
 

@@ -10,7 +10,6 @@
     </head>
     <body ng-controller="TodasGraficasController" id="body" style="background: #FFFFFF" >
         <div id="container">
-
         </div>
     </body>
 </html>
