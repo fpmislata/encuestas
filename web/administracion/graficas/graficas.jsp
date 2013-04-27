@@ -39,13 +39,13 @@
             </div>
         </div>
         <div class="row-fluid" >
-            <div class="span3">
+            <div class="span2">
                 <button class="btn btn-primary" ng-click="showDatos()" ng-disabled="resultado==null">Ver los datos</button>
             </div>
-            <div class="span3">
-                <a class="btn" href="todasgraficas.jsp?idEncuesta={{seleccion.encuesta.idEncuesta}}" target=”_blank” ng-disabled="seleccion.encuesta==null">Ver todas las gr&aacute;ficas</a>
+            <div class="span2">
+                <a class="btn" href="todasgraficas.jsp?idEncuesta={{seleccion.encuesta.idEncuesta}}" target="_blank" ng-disabled="seleccion.encuesta==null">Ver todas las gr&aacute;ficas</a>
             </div>
-            <div class="span6">
+            <div class="span8">
 
             </div>
         </div>
