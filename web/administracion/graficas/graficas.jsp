@@ -43,28 +43,22 @@
                 <button class="btn btn-primary" ng-click="showDatos()" ng-disabled="resultado==null">Ver los datos</button>
             </div>
             <div class="span3">
-                <button class="btn" ng-click="showEstadistica()" ng-disabled="resultado==null || resultado.series[0].estadisticaDescriptiva==null">Ver estadísticas</button>
-            </div>
-            <div class="span3">
                 <a class="btn" href="todasgraficas.jsp?idEncuesta={{seleccion.encuesta.idEncuesta}}" target=”_blank” ng-disabled="seleccion.encuesta==null">Ver todas las gr&aacute;ficas</a>
             </div>
-            <div class="span3">
+            <div class="span6">
 
             </div>
         </div>
         <div id="resultadoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4>Resultados</h4>
+                <h4>Encuesta:{{resultado.title}}</h4>
             </div>
             <div class="modal-body">
-                <h4>Encuesta:{{resultado.title}}</h4>
                 <h5 ng-show="resultado.subtitle!=null">Pregunta:{{resultado.subtitle}}</h5>
+                <h5>{{resultado.series[0].name}}</h5>
                 <table class="table table-bordered table-striped table-condensed">
                     <thead>
-                        <tr>
-                            <th colspan="3">{{resultado.series[0].name}}</th>
-                        </tr>
                         <tr>
                             <th>Valor</th>
                             <th>Nº&nbsp;respuestas</th>
@@ -82,50 +76,25 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Cerrar</button>
-            </div>
-        </div>
-        <div id="resultadoEstadisticasModal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4>Estadisticas</h4>
-            </div>
-            <div class="modal-body">
-                <h4>Encuesta:{{resultado.title}}</h4>
-                <h5 ng-show="resultado.subtitle!=null">Pregunta:{{resultado.subtitle}}</h5>
-                <table class="table table-bordered  table-condensed">
+
+                <table class="table table-bordered  table-condensed" ng-hide="resultado==null || resultado.series[0].estadisticaDescriptiva==null">
                     <thead>
                         <tr>
-                            <th colspan="3">{{resultado.series[0].name}}</th>
-                        </tr>
-                        <tr>
-                            <th>Par&aacute;metro</th>
-                            <th>Valor</th>
+                            <th style="text-align: center">Media muestral</th>
+                            <th style="text-align: center">Desviaci&oacute;n t&iacute;pica muestral</th>
+                            <th style="text-align: center">Media poblacional</th>
+                            <th style="text-align: center">Nivel de confianza</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr >
-                            <td >Media</td><td style="text-align: right">{{resultado.series[0].estadisticaDescriptiva.media}}</td>
-                        </tr>
-                        <tr >
-                            <td >Desviaci&oacute;n est&aacute;ndar</td><td style="text-align: right">{{resultado.series[0].estadisticaDescriptiva.desviacionEstandar}}</td>
-                        </tr>
-                        <tr >
-                            <td >M&iacute;nimo</td><td style="text-align: right">{{resultado.series[0].estadisticaDescriptiva.minimo}}</td>
-                        </tr>
-                        <tr >
-                            <td >M&aacute;ximo</td><td style="text-align: right">{{resultado.series[0].estadisticaDescriptiva.maximo}}</td>
-                        </tr>
-                        <tr >
-                            <td >N&uacute;mero muestras</td><td style="text-align: right">{{resultado.series[0].estadisticaDescriptiva.numMuestras}}</td>
+                            <td style="text-align: center">{{resultado.series[0].estadisticaDescriptiva.media}}</td>
+                            <td style="text-align: center">{{resultado.series[0].estadisticaDescriptiva.desviacionEstandar}}</td>
+                            <td style="text-align: center">[&nbsp;{{resultado.series[0].inferenciaEstadistica.intervaloConfianzaMedia.inferior}}&nbsp;-&nbsp;{{resultado.series[0].inferenciaEstadistica.intervaloConfianzaMedia.superior}}&nbsp;]</td>
+                            <td style="text-align: center">{{resultado.series[0].inferenciaEstadistica.intervaloConfianzaMedia.nivelConfianza*100}}%</td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="alert alert-info">
-                    El intervalo de confianza de la media poblacional es <strong>[&nbsp;{{resultado.series[0].inferenciaEstadistica.intervaloConfianzaMedia.inferior}}&nbsp;-&nbsp;{{resultado.series[0].inferenciaEstadistica.intervaloConfianzaMedia.superior}}&nbsp;]</strong> con un nivel de confianza del  {{resultado.series[0].inferenciaEstadistica.intervaloConfianzaMedia.nivelConfianza*100}}%
-                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Cerrar</button>
