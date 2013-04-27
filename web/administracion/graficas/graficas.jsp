@@ -61,7 +61,7 @@
                     <thead>
                         <tr>
                             <th>Valor</th>
-                            <th>Nº&nbsp;respuestas</th>
+                            <th>N&ordm;&nbsp;respuestas</th>
                             <th>%&nbsp;Respuestas</th>
                         </tr>
                     </thead>
