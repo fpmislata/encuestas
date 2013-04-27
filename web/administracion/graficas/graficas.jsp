@@ -21,12 +21,12 @@
                 <span ng-hide="seleccion.encuesta==null || numRespuestas==null" class="badge">{{numRespuestas}}</span>
             </div>
             <div class="span4">
-                <label>Pregunta:</label><select ng-model="seleccion.pregunta" ng-options="pregunta as pregunta.pregunta for pregunta in preguntas" ng-disabled="seleccion.encuesta==null" clear="seleccion.encuesta==null">
+                <label>Pregunta:</label><select ng-model="seleccion.pregunta" ng-options="pregunta as pregunta.pregunta for pregunta in preguntas" ng-disabled="seleccion.encuesta==null" >
                     <option value="">-- Elige Pregunta --</option>
                 </select>
             </div>
             <div class="span4">
-                <label>Item:</label><select ng-model="seleccion.item" ng-options="item as item.nombre for item in items" optionsDisabled="item.tipoItem='AreaTexto' for item in items"  ng-disabled="seleccion.pregunta==null || seleccion.pregunta.tipoPregunta=='Radio' || seleccion.pregunta.tipoPregunta=='Check'" clear="seleccion.pregunta==null || seleccion.pregunta.tipoPregunta=='Radio' || seleccion.pregunta.tipoPregunta=='Check'">
+                <label>Item:</label><select ng-model="seleccion.item" ng-options="item as item.nombre for item in items"  ng-disabled="isPreguntaAllowChart(seleccion.pregunta) || seleccion.pregunta==null" >
                     <option value="">-- Elige Item --</option>
                 </select>
             </div>

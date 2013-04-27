@@ -1,6 +1,6 @@
 var app = angular.module('app', ["es.logongas.ix3.directives","ui"]);
 
-function GraficasController($scope,$http) {
+function GraficasController($scope,$http,$filter) {
     $scope.seleccion = {
         encuesta:null,
         pregunta:null,
@@ -11,8 +11,8 @@ function GraficasController($scope,$http) {
 
 
 
-    $http.get(getContextPath()+'/api/Encuesta/').success(function(data) {
-        $scope.encuestas = data;
+    $http.get(getContextPath()+'/api/Encuesta/').success(function(encuestas) {
+        $scope.encuestas = encuestas;
     });
 
     $scope.showDatos=function() {
@@ -32,14 +32,15 @@ function GraficasController($scope,$http) {
             $http.get(getContextPath()+'/api/Pregunta/?encuesta.idEncuesta='+$scope.seleccion.encuesta.idEncuesta).success(function(data) {
                 $scope.preguntas = data;
             }).error(function(data, status, headers, config) {
-               alert("Se ha producido un error al obtener los datos:"+status);
+                alert("Se ha producido un error al obtener los datos:"+status);
             });
             $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getNumRespuestas&parameter0='+$scope.seleccion.encuesta.idEncuesta).success(function(data) {
                 $scope.numRespuestas = data;
             }).error(function(data, status, headers, config) {
-               alert("Se ha producido un error al obtener los datos:"+status);
+                alert("Se ha producido un error al obtener los datos:"+status);
             });
         } else {
+            $scope.preguntas =[];
             $scope.numRespuestas =null;
         }
 
@@ -52,18 +53,20 @@ function GraficasController($scope,$http) {
         }
         if ( newValue!==null ) {
             $http.get(getContextPath()+'/api/Item/?pregunta.idPregunta='+$scope.seleccion.pregunta.idPregunta).success(function(data) {
-                $scope.items = data;
+                $scope.items = $filter("filter")(data,$scope.isItemAllowChart);
             }).error(function(data, status, headers, config) {
-               alert("Se ha producido un error al obtener los datos:"+status);
+                alert("Se ha producido un error al obtener los datos:"+status);
             });
 
-            if ($scope.seleccion.pregunta.tipoPregunta=='Radio' || $scope.seleccion.pregunta.tipoPregunta=='Check') {
+            if ($scope.isPreguntaAllowChart($scope.seleccion.pregunta)==true) {
                 $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoPregunta&parameter0='+$scope.seleccion.pregunta.idPregunta).success(function(resultado) {
                     $scope.resultado=resultado;
                 }).error(function(data, status, headers, config) {
                     alert("Se ha producido un error al obtener los datos:"+status);
                 });
             }
+        } else {
+            $scope.items =[];
         }
 
     });
@@ -77,7 +80,7 @@ function GraficasController($scope,$http) {
             $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoItem&parameter0='+$scope.seleccion.item.idItem).success(function(resultado) {
                 $scope.resultado=resultado;
             }).error(function(data, status, headers, config) {
-               alert("Se ha producido un error al obtener los datos:"+status);
+                alert("Se ha producido un error al obtener los datos:"+status);
             });
         }
     });
@@ -88,72 +91,91 @@ function GraficasController($scope,$http) {
             return;
         }
         if ( newValue!==null ) {
-            $scope.showChart();
+            showChart($("#grafica"),newValue);
         }
     });
 
 
-
-
-    $scope.showChart=function() {
-        $('#grafica').highcharts({
-            chart: {
-                type: 'column'
-            },
-            credits : {
-                enabled : false
-            },
-            title: {
-                text: $scope.resultado.title
-            },
-            subtitle: {
-                text: $scope.resultado.subtitle
-            },
-            xAxis: {
-                categories: $scope.resultado.labels
-            },
-            yAxis: {
-                max:100,
-                min: 0,
-                title: {
-                    text: '% de respuestas'
-                }
-            },
-            plotOptions: {
-                column: {
-                    pointPadding: 0.2,
-                    borderWidth: 0,
-                    dataLabels: {
-                        enabled: true,
-                        color: "#000000",
-                        style: {
-                            fontWeight: 'bold'
-                        },
-                        formatter: function() {
-                            return this.y +'%';
-                        }
-                    }
-                }
-            },
-            series: [{
-                name: $scope.resultado.series[0].name,
-                data: $scope.resultado.series[0].data
-
-            }],
-            exporting: {
-                enabled: true
+    $scope.isItemAllowChart=function (item) {
+        if (item) {
+            if (item==null) {
+                return false;
+            } else if (item.tipoItem=="AreaTexto") {
+                return false;
+            } else {
+                return true;
             }
-        });
+        } else {
+            return false;
+        }
     }
 
-    $scope.isItemAllowRespuesta=function(item) {
-        if ((item.tipoItem=="AreaTexto") || ((item.tipoItem=="Texto"))) {
-            return false;
+    $scope.isPreguntaAllowChart=function (pregunta) {
+        if (pregunta) {
+            if (pregunta==null) {
+                return false;
+            } else if (pregunta.tipoPregunta=='Radio' || pregunta.tipoPregunta=='Check') {
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return true;
+            return false;
         }
     }
 
 }
 
 
+
+
+function showChart(element,resultado) {
+    element.highcharts({
+        chart: {
+            type: 'column'
+        },
+        credits : {
+            enabled : false
+        },
+        title: {
+            text: resultado.title
+        },
+        subtitle: {
+            text: resultado.subtitle
+        },
+        xAxis: {
+            categories: resultado.labels
+        },
+        yAxis: {
+            max:100,
+            min: 0,
+            title: {
+                text: '% de respuestas'
+            }
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    color: "#000000",
+                    style: {
+                        fontWeight: 'bold'
+                    },
+                    formatter: function() {
+                        return this.y +'%';
+                    }
+                }
+            }
+        },
+        series: [{
+            name: resultado.series[0].name,
+            data: resultado.series[0].data
+
+        }],
+        exporting: {
+            enabled: true
+        }
+    });
+}

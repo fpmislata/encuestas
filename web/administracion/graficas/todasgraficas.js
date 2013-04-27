@@ -6,7 +6,7 @@ function TodasGraficasController($scope,$http,$location) {
         var preguntas = data;
         for(var i=0;i<preguntas.length;i++) {
             var pregunta=preguntas[i];
-            if (isPreguntaAllowChart(pregunta)) {
+            if ($scope.isPreguntaAllowChart(pregunta)) {
                 $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoPregunta&parameter0='+pregunta.idPregunta).success(function(resultado) {
                     showChart(createChartElement(),resultado);
                 }).error(function(data, status, headers, config) {
@@ -19,7 +19,7 @@ function TodasGraficasController($scope,$http,$location) {
                     var items=data;
                     for(var j=0;j<items.length;j++) {
                         var item=items[j];
-                        if (isItemAllowChart(item)==true) {
+                        if ($scope.isItemAllowChart(item)==true) {
                             $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoItem&parameter0='+item.idItem).success(function(resultado) {
                                 showChart(createChartElement(),resultado);
                             }).error(function(data, status, headers, config) {
@@ -38,6 +38,35 @@ function TodasGraficasController($scope,$http,$location) {
         alert("Se ha producido un error al obtener los datos:"+status);
     });
 
+
+    $scope.isItemAllowChart=function (item) {
+        if (item) {
+            if (item==null) {
+                return false;
+            } else if (item.tipoItem=="AreaTexto") {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    $scope.isPreguntaAllowChart=function (pregunta) {
+        if (pregunta) {
+            if (pregunta==null) {
+                return false;
+            } else if (pregunta.tipoPregunta=='Radio' || pregunta.tipoPregunta=='Check') {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
 }
 
 function createChartElement() {
@@ -51,22 +80,6 @@ function getParameterByName(name) {
     //http://james.padolsey.com/javascript/bujs-1-getparameterbyname/
     var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-}
-
-function isItemAllowChart(item) {
-    if (item.tipoItem!='AreaTexto') {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function isPreguntaAllowChart(pregunta) {
-    if (pregunta.tipoPregunta=='Radio' || pregunta.tipoPregunta=='Check') {
-        return true;
-    } else {
-        return false;
-    }
 }
 
 function showChart(element,resultado) {
