@@ -6,9 +6,17 @@ function TodasGraficasController($scope,$http,$location) {
         var preguntas = data;
         for(var i=0;i<preguntas.length;i++) {
             var pregunta=preguntas[i];
+
+            createRowElement("idPregunta"+pregunta.idPregunta);
+        }
+
+
+        for(var i=0;i<preguntas.length;i++) {
+            var pregunta=preguntas[i];
             if ($scope.isPreguntaAllowChart(pregunta)) {
                 $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoPregunta&parameter0='+pregunta.idPregunta).success(function(resultado) {
-                    showChart(createChartElement(),resultado);
+                    var chartElement=createChartElement("idPregunta"+resultado.pregunta.idPregunta);
+                    showChart(chartElement,resultado);
                 }).error(function(data, status, headers, config) {
                     alert("Se ha producido un error al obtener los datos:"+status);
                 });
@@ -19,17 +27,24 @@ function TodasGraficasController($scope,$http,$location) {
                     var items=data;
                     for(var j=0;j<items.length;j++) {
                         var item=items[j];
+
+                        createRowElement("idItem"+item.idItem,"idPregunta"+item.pregunta.idPregunta);
+                    }
+
+                    for(var j=0;j<items.length;j++) {
+                        var item=items[j];
                         if ($scope.isItemAllowChart(item)==true) {
                             $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoItem&parameter0='+item.idItem).success(function(resultado) {
-                                showChart(createChartElement(),resultado);
+                                var chartElement=createChartElement("idItem"+resultado.item.idItem);
+                                showChart(chartElement,resultado);
                             }).error(function(data, status, headers, config) {
-                               alert("Se ha producido un error al obtener los datos:"+status);
+                                alert("Se ha producido un error al obtener los datos:"+status);
                             });
                         }
                     }
 
                 }).error(function(data, status, headers, config) {
-                   alert("Se ha producido un error al obtener los datos:"+status);
+                    alert("Se ha producido un error al obtener los datos:"+status);
                 });
 
             }
@@ -69,10 +84,22 @@ function TodasGraficasController($scope,$http,$location) {
 
 }
 
-function createChartElement() {
-    var div = $('<div class="row-fluid" ><div class="span12" ><div style="height: 400px;"></div><br /><br /></div></div>');
-    $("#container").append(div);
-    var element=$("div div",div);
+function createRowElement(id,parentId) {
+    if (typeof(parentId)==="undefined"){
+        parentId="container";
+    }
+
+    var div = $('<div class="row-fluid" ><div class="span12" id="' + id + '" ></div></div>');
+    $("#"+parentId).append(div);
+
+    var element=$("div",div);
+    return element;
+}
+function createChartElement(parentId) {
+    var div = $('<div style="height: 400px;"></div><br /><br />');
+    $("#"+parentId).append(div);
+
+    var element=div;
     return element;
 }
 

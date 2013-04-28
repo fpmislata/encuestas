@@ -15,6 +15,8 @@
  */
 package es.logongas.encuestas.modelo.resultados;
 
+import es.logongas.encuestas.modelo.encuestas.Item;
+import es.logongas.encuestas.modelo.encuestas.Pregunta;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,12 +29,22 @@ public class Resultado {
     private String subtitle;
     private List<String> labels=new ArrayList<String>();
     private List<Serie> series=new ArrayList<Serie>();
+    private Pregunta pregunta;
+    private Item item;
 
-    public Resultado(String title, String subtitle) {
-        this.title = title;
-        this.subtitle = subtitle;
+    public Resultado(Pregunta pregunta) {
+        this.pregunta=pregunta;
+        this.item=null;
+        this.title = pregunta.getEncuesta().getNombre();
+        this.subtitle = null;
     }
 
+    public Resultado(Item item) {
+        this.item=item;
+        this.pregunta=item.getPregunta();
+        this.title = item.getPregunta().getEncuesta().getNombre();
+        this.subtitle =item.getPregunta().getPregunta();
+    }
 
 
 
@@ -63,5 +75,19 @@ public class Resultado {
      */
     public List<Serie> getSeries() {
         return series;
+    }
+
+    /**
+     * @return the pregunta
+     */
+    public Pregunta getPregunta() {
+        return pregunta;
+    }
+
+    /**
+     * @return the item
+     */
+    public Item getItem() {
+        return item;
     }
 }

@@ -42,7 +42,7 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
             resultados = query.list();
         }
 
-        Resultado resultado = new Resultado(item.getPregunta().getEncuesta().getNombre(), item.getPregunta().getPregunta());
+        Resultado resultado = new Resultado(item);
         Serie serie = new Serie(getNumRespuestas(item.getPregunta().getEncuesta()), item.getNombre());
         for (Object[] datos : resultados) {
             resultado.getLabels().add(getLabelFromValue((String) datos[0]));
@@ -113,7 +113,7 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
             }
         }
 
-        Resultado resultado = new Resultado(pregunta.getEncuesta().getNombre(), null);
+        Resultado resultado = new Resultado(pregunta);
         Serie serie = new Serie(getNumRespuestas(pregunta.getEncuesta()), pregunta.getPregunta());
         for (Item item : resultados.keySet()) {
             resultado.getLabels().add(getLabelFromValue(item.getNombre()));
