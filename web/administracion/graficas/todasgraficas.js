@@ -14,39 +14,45 @@ function TodasGraficasController($scope,$http,$location) {
         for(var i=0;i<preguntas.length;i++) {
             var pregunta=preguntas[i];
             if ($scope.isPreguntaAllowChart(pregunta)) {
-                $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoPregunta&parameter0='+pregunta.idPregunta).success(function(resultado) {
-                    var chartElement=createChartElement("idPregunta"+resultado.pregunta.idPregunta);
-                    showChart(chartElement,resultado);
-                }).error(function(data, status, headers, config) {
-                    alert("Se ha producido un error al obtener los datos:"+status);
-                });
+
+                (function(idPregunta) {
+                    $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoPregunta&parameter0='+pregunta.idPregunta).success(function(resultado) {
+                        var chartElement=createChartElement("idPregunta"+idPregunta);
+                        showChart(chartElement,resultado);
+                    }).error(function(data, status, headers, config) {
+                        alert("Se ha producido un error al obtener los datos:"+status);
+                    })
+                })(pregunta.idPregunta);
 
             } else {
+                (function(idPregunta) {
+                    $http.get(getContextPath()+'/api/Item/?pregunta.idPregunta='+pregunta.idPregunta).success(function(data) {
+                        var items=data;
+                        for(var j=0;j<items.length;j++) {
+                            var item=items[j];
 
-                $http.get(getContextPath()+'/api/Item/?pregunta.idPregunta='+pregunta.idPregunta).success(function(data) {
-                    var items=data;
-                    for(var j=0;j<items.length;j++) {
-                        var item=items[j];
-
-                        createRowElement("idItem"+item.idItem,"idPregunta"+item.pregunta.idPregunta);
-                    }
-
-                    for(var j=0;j<items.length;j++) {
-                        var item=items[j];
-                        if ($scope.isItemAllowChart(item)==true) {
-                            $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoItem&parameter0='+item.idItem).success(function(resultado) {
-                                var chartElement=createChartElement("idItem"+resultado.item.idItem);
-                                showChart(chartElement,resultado);
-                            }).error(function(data, status, headers, config) {
-                                alert("Se ha producido un error al obtener los datos:"+status);
-                            });
+                            createRowElement("idItem"+item.idItem,"idPregunta"+idPregunta);
                         }
-                    }
 
-                }).error(function(data, status, headers, config) {
-                    alert("Se ha producido un error al obtener los datos:"+status);
-                });
+                        for(var j=0;j<items.length;j++) {
+                            var item=items[j];
+                            if ($scope.isItemAllowChart(item)==true) {
 
+                                (function(idItem) {
+                                    $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoItem&parameter0='+item.idItem).success(function(resultado) {
+                                        var chartElement=createChartElement("idItem"+idItem);
+                                        showChart(chartElement,resultado);
+                                    }).error(function(data, status, headers, config) {
+                                        alert("Se ha producido un error al obtener los datos:"+status);
+                                    })
+                                })(item.idItem)
+                            }
+                        }
+
+                    }).error(function(data, status, headers, config) {
+                        alert("Se ha producido un error al obtener los datos:"+status);
+                    });
+                })(pregunta.idPregunta);
             }
         }
     }).error(function(data, status, headers, config) {
