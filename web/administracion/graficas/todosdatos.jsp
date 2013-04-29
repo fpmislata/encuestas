@@ -5,52 +5,16 @@
         <title>Encuestas</title>
         <%@ include file="/template/header.jsp" %>
         <script type='text/javascript' src='<%=request.getContextPath()%>/js/highcharts.js'></script>
-        <script type='text/javascript' src='<%=request.getContextPath()%>/js/exporting.js'></script>
-        <script type='text/javascript' src='graficas.js'></script>
-
+        <script type='text/javascript' src='todosdatos.js'></script>
+        <style>
+            .tablaforprint {
+                page-break-inside: avoid;
+            }
+        </style>
     </head>
-    <body ng-controller="GraficasController" >
-        <%@ include file="/template/top.jsp" %>
-
-        <div class="row-fluid" >
-            <div class="span4" >
-                <label>Encuesta:</label>
-                <select ng-model="seleccion.encuesta" ng-options="encuesta as encuesta.nombre for encuesta in encuestas" >
-                    <option value="">-- Elige Encuesta --</option>
-                </select>
-                <span ng-hide="seleccion.encuesta==null || numRespuestas==null" class="badge">{{numRespuestas}}</span>
-            </div>
-            <div class="span4">
-                <label>Pregunta:</label><select ng-model="seleccion.pregunta" ng-options="pregunta as pregunta.pregunta for pregunta in preguntas" ng-disabled="seleccion.encuesta==null" >
-                    <option value="">-- Elige Pregunta --</option>
-                </select>
-            </div>
-            <div class="span4">
-                <label>Item:</label><select ng-model="seleccion.item" ng-options="item as item.nombre for item in items"  ng-disabled="isPreguntaAllowChart(seleccion.pregunta) || seleccion.pregunta==null" >
-                    <option value="">-- Elige Item --</option>
-                </select>
-            </div>
-        </div>
-        <div class="row-fluid" >
-            <div class="span11">
-                <div id="grafica" class="span12" style="height: 400px;"></div>
-            </div>
-            <div class="span1">
-            </div>
-        </div>
-        <div class="row-fluid" >
-            <div class="span12">
-                <button class="btn btn-primary" ng-click="showDatos()" ng-disabled="resultado==null">Ver los datos</button>
-                <a class="btn" href="todasgraficas.jsp?idEncuesta={{seleccion.encuesta.idEncuesta}}" target="_blank" ng-disabled="seleccion.encuesta==null">Todas las gr&aacute;ficas</a>
-                <a class="btn" href="todosdatos.jsp?idEncuesta={{seleccion.encuesta.idEncuesta}}" target="_blank" ng-disabled="seleccion.encuesta==null">Todos los datos</a>
-            </div>
-        </div>
-        <div id="resultadoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <body ng-controller="TodosDatosController" id="body" style="background: #FFFFFF" >
+        <div ng-repeat="resultado in resultados | orderBy:'index'" class="tablaforprint">
                 <h4>Encuesta:{{resultado.title}}</h4>
-            </div>
-            <div class="modal-body">
                 <h5 ng-show="resultado.subtitle!=null">Pregunta:{{resultado.subtitle}}</h5>
                 <h5>{{resultado.series[0].name}}</h5>
                 <table class="table table-bordered table-striped table-condensed">
@@ -91,11 +55,6 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Cerrar</button>
-            </div>
         </div>
-        <%@ include file="/template/bottom.jsp" %>
     </body>
 </html>
