@@ -15,20 +15,13 @@ function GraficasController($scope,$http,$filter) {
         $scope.encuestas = encuestas;
     });
 
-    $scope.showDatos=function() {
-        $('#resultadoModal').modal()
-    }
-
-    $scope.showEstadistica=function() {
-        $('#resultadoEstadisticasModal').modal()
-    }
-
     $scope.$watch("seleccion.encuesta",function( newValue, oldValue ) {
 
         if ( newValue === oldValue ) {
             return;
         }
         if ( newValue!==null ) {
+            $scope.seleccion.pregunta=null;
             $http.get(getContextPath()+'/api/Pregunta/?encuesta.idEncuesta='+$scope.seleccion.encuesta.idEncuesta).success(function(data) {
                 $scope.preguntas = data;
             }).error(function(data, status, headers, config) {
@@ -40,8 +33,10 @@ function GraficasController($scope,$http,$filter) {
                 alert("Se ha producido un error al obtener los datos:"+status);
             });
         } else {
+            $scope.seleccion.pregunta=null;
             $scope.preguntas =[];
             $scope.numRespuestas =null;
+            $scope.resultado=null;
         }
 
     });
@@ -52,6 +47,7 @@ function GraficasController($scope,$http,$filter) {
             return;
         }
         if ( newValue!==null ) {
+            $scope.seleccion.item=null;
             $http.get(getContextPath()+'/api/Item/?pregunta.idPregunta='+$scope.seleccion.pregunta.idPregunta).success(function(data) {
                 $scope.items = $filter("filter")(data,$scope.isItemAllowChart);
             }).error(function(data, status, headers, config) {
@@ -64,9 +60,13 @@ function GraficasController($scope,$http,$filter) {
                 }).error(function(data, status, headers, config) {
                     alert("Se ha producido un error al obtener los datos:"+status);
                 });
+            } else {
+                $scope.resultado=null;
             }
         } else {
+            $scope.seleccion.item=null;
             $scope.items =[];
+            $scope.resultado=null;
         }
 
     });
@@ -82,6 +82,8 @@ function GraficasController($scope,$http,$filter) {
             }).error(function(data, status, headers, config) {
                 alert("Se ha producido un error al obtener los datos:"+status);
             });
+        } else {
+            $scope.resultado=null;
         }
     });
 
@@ -124,9 +126,16 @@ function GraficasController($scope,$http,$filter) {
         }
     }
 
+    $('a[data-toggle="tab"]').on('shown', function (e) {
+        if ($(e.target).attr('name')==="grafica") {
+            if ($scope.resultado!=null) {
+                showChart($("#grafica"),$scope.resultado);
+            }
+        }
+    })
+
+
 }
-
-
 
 
 function showChart(element,resultado) {

@@ -33,67 +33,67 @@
         </div>
         <div class="row-fluid" >
             <div class="span11">
-                <div id="grafica" class="span12" style="height: 400px;"></div>
+
+                <ul class="nav nav-tabs" >
+                    <li class="active" ><a data-toggle="tab" name="grafica" href="#tab_grafica">Gr&aacute;fica</a></li>
+                    <li                ><a data-toggle="tab" name="datos" href="#tab_datos">Datos</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_grafica">
+                        <div id="grafica" style="height: 400px"  mostrar="resultado!=null" ></div>
+                    </div>
+                    <div class="tab-pane" id="tab_datos">
+                        <div style="height: 400px;width: 100%;max-width: 800px;" mostrar="resultado!=null" >
+                            <table class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Valor</th>
+                                        <th>N&ordm;&nbsp;respuestas</th>
+                                        <th>%&nbsp;Respuestas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="label in resultado.labels">
+                                        <td >{{label}}</td>
+                                        <td style="text-align: right">{{resultado.series[0].rawData[$index]}}</td>
+                                        <td style="text-align: right">{{resultado.series[0].data[$index] | number:2}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="font-weight:bold;text-align: right">Total respuestas:&nbsp;&nbsp;{{resultado.series[0].numRespuestas}}&nbsp;&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <table class="table table-bordered  table-condensed" ng-hide="resultado==null || resultado.series[0].estadisticaDescriptiva==null">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center">Media muestral</th>
+                                        <th style="text-align: center">Desviaci&oacute;n t&iacute;pica muestral</th>
+                                        <th style="text-align: center">Media poblacional</th>
+                                        <th style="text-align: center">Nivel de confianza</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr >
+                                        <td style="text-align: center">{{resultado.series[0].estadisticaDescriptiva.media}}</td>
+                                        <td style="text-align: center">{{resultado.series[0].estadisticaDescriptiva.desviacionEstandar}}</td>
+                                        <td style="text-align: center">[&nbsp;{{resultado.series[0].inferenciaEstadistica.intervaloConfianzaMedia.inferior}}&nbsp;-&nbsp;{{resultado.series[0].inferenciaEstadistica.intervaloConfianzaMedia.superior}}&nbsp;]</td>
+                                        <td style="text-align: center">{{resultado.series[0].inferenciaEstadistica.intervaloConfianzaMedia.nivelConfianza*100}}%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="span1">
             </div>
         </div>
         <div class="row-fluid" >
             <div class="span12">
-                <button class="btn btn-primary" ng-click="showDatos()" ng-disabled="resultado==null">Ver los datos</button>
                 <a class="btn" href="todasgraficas.jsp?idEncuesta={{seleccion.encuesta.idEncuesta}}" target="_blank" ng-disabled="seleccion.encuesta==null">Todas las gr&aacute;ficas</a>
                 <a class="btn" href="todosdatos.jsp?idEncuesta={{seleccion.encuesta.idEncuesta}}" target="_blank" ng-disabled="seleccion.encuesta==null">Todos los datos</a>
-            </div>
-        </div>
-        <div id="resultadoModal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4>Encuesta:{{resultado.title}}</h4>
-            </div>
-            <div class="modal-body">
-                <h5 ng-show="resultado.subtitle!=null">Pregunta:{{resultado.subtitle}}</h5>
-                <h5>{{resultado.series[0].name}}</h5>
-                <table class="table table-bordered table-striped table-condensed">
-                    <thead>
-                        <tr>
-                            <th>Valor</th>
-                            <th>N&ordm;&nbsp;respuestas</th>
-                            <th>%&nbsp;Respuestas</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="label in resultado.labels">
-                            <td >{{label}}</td>
-                            <td style="text-align: right">{{$parent.resultado.series[0].rawData[$index]}}</td>
-                            <td style="text-align: right">{{$parent.resultado.series[0].data[$index] | number:2}}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="font-weight:bold;text-align: right">Total respuestas:&nbsp;&nbsp;{{resultado.series[0].numRespuestas}}&nbsp;&nbsp;</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <table class="table table-bordered  table-condensed" ng-hide="resultado==null || resultado.series[0].estadisticaDescriptiva==null">
-                    <thead>
-                        <tr>
-                            <th style="text-align: center">Media muestral</th>
-                            <th style="text-align: center">Desviaci&oacute;n t&iacute;pica muestral</th>
-                            <th style="text-align: center">Media poblacional</th>
-                            <th style="text-align: center">Nivel de confianza</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr >
-                            <td style="text-align: center">{{resultado.series[0].estadisticaDescriptiva.media}}</td>
-                            <td style="text-align: center">{{resultado.series[0].estadisticaDescriptiva.desviacionEstandar}}</td>
-                            <td style="text-align: center">[&nbsp;{{resultado.series[0].inferenciaEstadistica.intervaloConfianzaMedia.inferior}}&nbsp;-&nbsp;{{resultado.series[0].inferenciaEstadistica.intervaloConfianzaMedia.superior}}&nbsp;]</td>
-                            <td style="text-align: center">{{resultado.series[0].inferenciaEstadistica.intervaloConfianzaMedia.nivelConfianza*100}}%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Cerrar</button>
             </div>
         </div>
         <%@ include file="/template/bottom.jsp" %>
