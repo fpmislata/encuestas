@@ -12,7 +12,7 @@
             }
         </style>
     </head>
-    <body ng-controller="TodosDatosController" id="body" style="background: #FFFFFF" >
+    <body ng-controller="TodosDatosController" id="body" style="background: #FFFFFF;padding:15px;" >
         <div ng-repeat="resultado in resultados | orderBy:'index'" class="tablaforprint">
                 <h4>Encuesta:{{resultado.title}}</h4>
                 <h5 ng-show="resultado.subtitle!=null">Pregunta:{{resultado.subtitle}}</h5>
