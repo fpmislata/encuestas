@@ -4,7 +4,23 @@
 
                 <div class="cabecera" >
                     <div class="row-fluid">
-                        <div class="span12 nav-bar" style="text-align: right;"><a href="<%=request.getContextPath() %>">Inicio</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">¿Porqué esta encuesta?</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">Ayuda</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" onclick="showLoginWindow()" >Entrar</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        <div class="span12 nav-bar" style="text-align: right;">
+                            <a href="<%=request.getContextPath() %>">Inicio</a>&nbsp;&nbsp;|
+                            &nbsp;&nbsp;<a href="#">¿Porqué esta encuesta?</a>&nbsp;&nbsp;|
+                            &nbsp;&nbsp;<a href="#">Ayuda</a>&nbsp;&nbsp;|
+                            <%
+                            if (request.getSession().getAttribute("idUser")==null) {
+                            %>
+                            &nbsp;&nbsp;<a href="#" onclick="showLoginWindow()" >Entrar</a>
+                            <%
+                            } else {
+                            %>
+                            &nbsp;&nbsp;<a href="#" onclick="logout()" >Salir</a>&nbsp;&nbsp;|
+                            &nbsp;&nbsp;<a href="<%=request.getContextPath()%>/administracion/administracion.jsp" >Administrar</a>
+                            <%
+                            }
+                            %>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                     </div>
                     <div class="row-fluid" style="margin-top: 2em;">
                         <div class="span12"><a href="http://www.fpmislata.com"><img src="<%=request.getContextPath() %>/img/icons/nombre-instituto.png" alt="instituto" class="center" ></a></div>

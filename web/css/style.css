@@ -69,6 +69,11 @@ body {
     background: #EEF0F7;
 }
 
+
+/* Cambiamos el fondo de la pantalla en las ventana modales de boostrap */
+.modal-backdrop {background-color: #F8F8F8;}
+
+
 .marco {
     background: #FFFFFF;
     box-shadow: 2px 2px 5px #6C6D70;

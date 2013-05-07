@@ -3,7 +3,7 @@
 -- Server version:               5.5.27 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2013-03-25 14:50:05
+-- Date/time:                    2013-04-23 13:48:38
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -26,12 +26,14 @@ CREATE TABLE IF NOT EXISTS `encuesta` (
   `fechaFin` datetime DEFAULT NULL,
   `imprimir` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`idEncuesta`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- Dumping data for table encuestas.encuesta: ~1 rows (approximately)
+-- Dumping data for table encuestas.encuesta: ~3 rows (approximately)
 /*!40000 ALTER TABLE `encuesta` DISABLE KEYS */;
 INSERT INTO `encuesta` (`idEncuesta`, `nombre`, `habilitada`, `fechaInicio`, `fechaFin`, `imprimir`) VALUES
-	(1, 'Nuevo en el centro', 1, NULL, NULL, 1);
+	(1, 'Nuevo en el centro', 1, NULL, NULL, 1),
+	(2, 'Curso de AngularJS', 1, NULL, NULL, 0),
+	(3, 'Alumno del centro', 1, NULL, NULL, 1);
 /*!40000 ALTER TABLE `encuesta` ENABLE KEYS */;
 
 
@@ -43,35 +45,54 @@ CREATE TABLE IF NOT EXISTS `item` (
   `tipoItem` int(11) DEFAULT NULL,
   `idListaValores` int(11) DEFAULT NULL,
   `idPregunta` int(11) DEFAULT NULL,
+  `requerido` tinyint(4) DEFAULT '0',
   `Idx` int(11) DEFAULT NULL,
   PRIMARY KEY (`idItem`),
   KEY `FK22EF3336E0A389` (`idListaValores`),
   KEY `FK22EF332C443FDF` (`idPregunta`),
   CONSTRAINT `FK22EF332C443FDF` FOREIGN KEY (`idPregunta`) REFERENCES `pregunta` (`idPregunta`),
   CONSTRAINT `FK22EF3336E0A389` FOREIGN KEY (`idListaValores`) REFERENCES `listavalores` (`idListaValores`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
--- Dumping data for table encuestas.item: ~18 rows (approximately)
+-- Dumping data for table encuestas.item: ~35 rows (approximately)
 /*!40000 ALTER TABLE `item` DISABLE KEYS */;
-INSERT INTO `item` (`idItem`, `nombre`, `tipoItem`, `idListaValores`, `idPregunta`, `Idx`) VALUES
-	(1, 'La consellería d\'educació', NULL, NULL, 1, 0),
-	(2, 'El centre on estudiaves anteriorment', NULL, NULL, 1, 1),
-	(3, 'La publicitat del CIPFP MISLATA', NULL, NULL, 1, 2),
-	(4, 'La pàgina web del CIPFP Mislata', NULL, NULL, 1, 3),
-	(5, 'Altres (indicar quines):', NULL, NULL, 1, 4),
-	(6, 'El procés de matricula', 1, 1, 2, 0),
-	(7, 'El tracte rebut pel personal del centre', 1, 1, 2, 1),
-	(8, 'Obtindre un titol', NULL, NULL, 3, 0),
-	(9, 'Tindre una bona formació', NULL, NULL, 3, 1),
-	(10, 'Trobar treball relacionat ams els estudis cursats', NULL, NULL, 3, 2),
-	(11, 'Continuar estudis per completar la meua formació', NULL, NULL, 3, 3),
-	(12, 'Altres (indicar quines)', NULL, NULL, 3, 4),
-	(13, 'Modalitat d\'accés', 2, NULL, 4, 0),
-	(14, 'Últims estudis cursats', 2, NULL, 4, 1),
-	(15, 'Últim centre académic', 2, NULL, 4, 2),
-	(16, 'Població', 2, NULL, 4, 3),
-	(17, 'Codi postal', 2, NULL, 4, 4),
-	(18, 'Provincia', 1, 2, 4, 5);
+INSERT INTO `item` (`idItem`, `nombre`, `tipoItem`, `idListaValores`, `idPregunta`, `requerido`, `Idx`) VALUES
+	(1, 'La consellería d\'educació', NULL, NULL, 1, 1, 0),
+	(2, 'El centre on estudiaves anteriorment', NULL, NULL, 1, 1, 1),
+	(3, 'La publicitat del CIPFP MISLATA', NULL, NULL, 1, 1, 2),
+	(4, 'La pàgina web del CIPFP Mislata', NULL, NULL, 1, 1, 3),
+	(5, 'Altres (indicar quines):', NULL, NULL, 1, 1, 4),
+	(6, 'El procés de matricula', 1, 1, 2, 1, 0),
+	(7, 'El tracte rebut pel personal del centre', 1, 1, 2, 1, 1),
+	(8, 'Obtindre un titol', NULL, NULL, 3, 1, 0),
+	(9, 'Tindre una bona formació', NULL, NULL, 3, 1, 1),
+	(10, 'Trobar treball relacionat ams els estudis cursats', NULL, NULL, 3, 1, 2),
+	(11, 'Continuar estudis per completar la meua formació', NULL, NULL, 3, 1, 3),
+	(12, 'Altres (indicar quines)', NULL, NULL, 3, 1, 4),
+	(13, 'Modalitat d\'accés', 2, NULL, 4, 1, 0),
+	(14, 'Últims estudis cursats', 2, NULL, 4, 1, 1),
+	(15, 'Últim centre académic', 2, NULL, 4, 1, 2),
+	(16, 'Població', 2, NULL, 4, 1, 3),
+	(17, 'Codi postal', 2, NULL, 4, 1, 4),
+	(18, 'Provincia', 1, 2, 4, 1, 5),
+	(19, 'Dia de la semana', 1, 3, 5, 1, 0),
+	(20, 'Dia de la semana', 1, 3, 11, 0, 0),
+	(21, 'Lunes', 0, NULL, 6, 1, 0),
+	(22, 'Martes', 0, NULL, 6, 1, 1),
+	(23, 'Miercoles', 0, NULL, 6, 1, 2),
+	(24, 'Jueves', 0, NULL, 6, 1, 3),
+	(25, 'Viernes', 0, NULL, 6, 1, 4),
+	(26, NULL, 4, NULL, 12, 0, 0),
+	(27, 'Buscar treball relacionat amb els estudis cursats', NULL, NULL, 13, 1, 0),
+	(28, 'Buscar treball encara que no estiga relacionat ams els estudis cursats', NULL, NULL, 13, 1, 1),
+	(29, 'Continuar estudis de la matexia especialitat en la que estic matriculat', NULL, NULL, 13, 1, 2),
+	(30, 'Continuar estudis en una altra especialitat de la que estic matriculat', NULL, NULL, 13, 1, 3),
+	(31, 'El procés de matricula', 1, 1, 14, 1, 0),
+	(32, 'El tracte rebut pel personal del centre', 1, 1, 14, 1, 1),
+	(33, 'El funcionament general del centre', 1, 1, 14, 1, 2),
+	(34, 'La teua experiéncia com alumne', 1, 1, 14, 1, 3),
+	(35, 'EL nivell general del professorat', 1, 1, 14, 1, 4),
+	(36, NULL, 4, NULL, 15, 0, 0);
 /*!40000 ALTER TABLE `item` ENABLE KEYS */;
 
 
@@ -80,14 +101,16 @@ DROP TABLE IF EXISTS `listavalores`;
 CREATE TABLE IF NOT EXISTS `listavalores` (
   `idListaValores` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
+  `contieneValoresNumericos` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`idListaValores`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- Dumping data for table encuestas.listavalores: ~2 rows (approximately)
+-- Dumping data for table encuestas.listavalores: ~3 rows (approximately)
 /*!40000 ALTER TABLE `listavalores` DISABLE KEYS */;
-INSERT INTO `listavalores` (`idListaValores`, `nombre`) VALUES
-	(1, 'Valoracion 1-5'),
-	(2, 'Provincias');
+INSERT INTO `listavalores` (`idListaValores`, `nombre`, `contieneValoresNumericos`) VALUES
+	(1, 'Valoracion 1-5', 1),
+	(2, 'Provincias', 0),
+	(3, 'Dias semana laborables', 0);
 /*!40000 ALTER TABLE `listavalores` ENABLE KEYS */;
 
 
@@ -123,19 +146,27 @@ CREATE TABLE IF NOT EXISTS `pregunta` (
   `idEncuesta` int(11) DEFAULT NULL,
   `tipoPregunta` int(11) DEFAULT NULL,
   `ultimoItemIncluyeOtros` tinyint(1) DEFAULT NULL,
+  `requerido` tinyint(4) DEFAULT '0',
   `Idx` int(11) DEFAULT NULL,
   PRIMARY KEY (`idPregunta`),
   KEY `FKB7202F0A926153F7` (`idEncuesta`),
   CONSTRAINT `FKB7202F0A926153F7` FOREIGN KEY (`idEncuesta`) REFERENCES `encuesta` (`idEncuesta`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
--- Dumping data for table encuestas.pregunta: ~4 rows (approximately)
+-- Dumping data for table encuestas.pregunta: ~11 rows (approximately)
 /*!40000 ALTER TABLE `pregunta` DISABLE KEYS */;
-INSERT INTO `pregunta` (`idPregunta`, `pregunta`, `idEncuesta`, `tipoPregunta`, `ultimoItemIncluyeOtros`, `Idx`) VALUES
-	(1, 'Has conegut l\'oferta formativa del centre per', 1, 0, 1, 3),
-	(2, 'Valora del 1 al 5 els següents aspectes', 1, 2, 0, 2),
-	(3, 'En matricular-te en aquest centre les teues expectatives son', 1, 1, 1, 1),
-	(4, 'Dades Académiques', 1, 2, 0, 0);
+INSERT INTO `pregunta` (`idPregunta`, `pregunta`, `idEncuesta`, `tipoPregunta`, `ultimoItemIncluyeOtros`, `requerido`, `Idx`) VALUES
+	(1, 'Has conegut l\'oferta formativa del centre per', 1, 0, 1, 1, 3),
+	(2, 'Valora del 1 al 5 els següents aspectes', 1, 2, 0, 1, 2),
+	(3, 'En matricular-te en aquest centre les teues expectatives son', 1, 1, 1, 1, 1),
+	(4, 'Dades Académiques', 1, 2, 0, 1, 0),
+	(5, '¿Que dia de la semana prefieres el curso?', 2, 2, 0, 0, 0),
+	(6, 'Indica otros dias en los que podrías venir', 2, 2, 0, 1, 2),
+	(11, '¿Que día te sería imposible venir?', 2, 2, 0, 1, 1),
+	(12, 'Voldries afegir algún suggeriment?', 1, 2, 0, 0, 4),
+	(13, 'En acabar el cicle al que te matricules la teu intenció actual és la de', 3, 1, 0, 1, 0),
+	(14, 'Valora de 1 a 5 els següents aspectes del centre', 3, 2, 0, 1, 1),
+	(15, 'Voldries afegir algún suggeriment?', 3, 2, 0, 0, 2);
 /*!40000 ALTER TABLE `pregunta` ENABLE KEYS */;
 
 
@@ -148,14 +179,10 @@ CREATE TABLE IF NOT EXISTS `respuestaencuesta` (
   PRIMARY KEY (`idRespuestaEncuesta`),
   KEY `FK3AA724B6926153F7` (`idEncuesta`),
   CONSTRAINT `FK3AA724B6926153F7` FOREIGN KEY (`idEncuesta`) REFERENCES `encuesta` (`idEncuesta`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
--- Dumping data for table encuestas.respuestaencuesta: ~2 rows (approximately)
+-- Dumping data for table encuestas.respuestaencuesta: ~0 rows (approximately)
 /*!40000 ALTER TABLE `respuestaencuesta` DISABLE KEYS */;
-INSERT INTO `respuestaencuesta` (`idRespuestaEncuesta`, `idEncuesta`, `fechaRespuesta`) VALUES
-	(2, 1, NULL),
-	(3, 1, NULL),
-	(4, 1, NULL);
 /*!40000 ALTER TABLE `respuestaencuesta` ENABLE KEYS */;
 
 
@@ -166,72 +193,18 @@ CREATE TABLE IF NOT EXISTS `respuestaitem` (
   `idItem` int(11) DEFAULT NULL,
   `idRespuestaPregunta` int(11) DEFAULT NULL,
   `checkk` tinyint(1) DEFAULT NULL,
-  `valor` varchar(255) DEFAULT NULL,
+  `valor` text,
+  `valorNumerico` double DEFAULT NULL,
   `Idx` int(11) DEFAULT NULL,
   PRIMARY KEY (`idRespuestaItem`),
   KEY `FK7FE22AD3E9805DB1` (`idItem`),
   KEY `FK7FE22AD3145E699D` (`idRespuestaPregunta`),
   CONSTRAINT `FK7FE22AD3145E699D` FOREIGN KEY (`idRespuestaPregunta`) REFERENCES `respuestapregunta` (`idRespuestaPregunta`),
   CONSTRAINT `FK7FE22AD3E9805DB1` FOREIGN KEY (`idItem`) REFERENCES `item` (`idItem`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table encuestas.respuestaitem: ~36 rows (approximately)
+-- Dumping data for table encuestas.respuestaitem: ~0 rows (approximately)
 /*!40000 ALTER TABLE `respuestaitem` DISABLE KEYS */;
-INSERT INTO `respuestaitem` (`idRespuestaItem`, `idItem`, `idRespuestaPregunta`, `checkk`, `valor`, `Idx`) VALUES
-	(1, 13, 2, 0, '', 0),
-	(2, 14, 2, 0, '', 1),
-	(3, 15, 2, 0, '', 2),
-	(4, 16, 2, 0, '', 3),
-	(5, 17, 2, 0, '', 4),
-	(6, 18, 2, 0, '', 5),
-	(7, 8, 3, 0, NULL, 0),
-	(8, 9, 3, 0, NULL, 1),
-	(9, 10, 3, 0, NULL, 2),
-	(10, 11, 3, 0, NULL, 3),
-	(11, 12, 3, 0, '', 4),
-	(12, 6, 4, 0, '', 0),
-	(13, 7, 4, 0, '', 1),
-	(14, 1, 5, 0, NULL, 0),
-	(15, 2, 5, 0, NULL, 1),
-	(16, 3, 5, 0, NULL, 2),
-	(17, 4, 5, 0, NULL, 3),
-	(18, 5, 5, 0, '', 4),
-	(19, 13, 6, 0, 'Modalitat d\'accÃ©s', 0),
-	(20, 14, 6, 0, 'Ãltims estudis cursats', 1),
-	(21, 15, 6, 0, 'Ãltim centre acadÃ©mic', 2),
-	(22, 16, 6, 0, 'PoblaciÃ³', 3),
-	(23, 17, 6, 0, 'Codi postal', 4),
-	(24, 18, 6, 0, 'Valencia', 5),
-	(25, 8, 7, 1, NULL, 0),
-	(26, 9, 7, 1, NULL, 1),
-	(27, 10, 7, 1, NULL, 2),
-	(28, 11, 7, 1, NULL, 3),
-	(29, 12, 7, 1, 'Altres (indicar quines):Check', 4),
-	(30, 6, 8, 0, '3', 0),
-	(31, 7, 8, 0, '5', 1),
-	(32, 1, 9, 0, NULL, 0),
-	(33, 2, 9, 0, NULL, 1),
-	(34, 3, 9, 0, NULL, 2),
-	(35, 4, 9, 0, NULL, 3),
-	(36, 5, 9, 1, 'Altres (indicar quines):Radio', 4),
-	(37, 13, 10, 0, '', 0),
-	(38, 14, 10, 0, '', 1),
-	(39, 15, 10, 0, '', 2),
-	(40, 16, 10, 0, '', 3),
-	(41, 17, 10, 0, '', 4),
-	(42, 18, 10, 0, '', 5),
-	(43, 8, 11, 0, NULL, 0),
-	(44, 9, 11, 1, NULL, 1),
-	(45, 10, 11, 0, NULL, 2),
-	(46, 11, 11, 1, NULL, 3),
-	(47, 12, 11, 0, 'aaa', 4),
-	(48, 6, 12, 0, '3', 0),
-	(49, 7, 12, 0, '5', 1),
-	(50, 1, 13, 0, NULL, 0),
-	(51, 2, 13, 0, NULL, 1),
-	(52, 3, 13, 1, NULL, 2),
-	(53, 4, 13, 0, NULL, 3),
-	(54, 5, 13, 0, '', 4);
 /*!40000 ALTER TABLE `respuestaitem` ENABLE KEYS */;
 
 
@@ -247,23 +220,10 @@ CREATE TABLE IF NOT EXISTS `respuestapregunta` (
   KEY `FK87989AAA2C443FDF` (`idPregunta`),
   CONSTRAINT `FK87989AAA2C443FDF` FOREIGN KEY (`idPregunta`) REFERENCES `pregunta` (`idPregunta`),
   CONSTRAINT `FK87989AAA7A7B7DB5` FOREIGN KEY (`idRespuestaEncuesta`) REFERENCES `respuestaencuesta` (`idRespuestaEncuesta`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 
--- Dumping data for table encuestas.respuestapregunta: ~8 rows (approximately)
+-- Dumping data for table encuestas.respuestapregunta: ~0 rows (approximately)
 /*!40000 ALTER TABLE `respuestapregunta` DISABLE KEYS */;
-INSERT INTO `respuestapregunta` (`idRespuestaPregunta`, `idRespuestaEncuesta`, `idPregunta`, `Idx`) VALUES
-	(2, 2, 4, 0),
-	(3, 2, 3, 1),
-	(4, 2, 2, 2),
-	(5, 2, 1, 3),
-	(6, 3, 4, 0),
-	(7, 3, 3, 1),
-	(8, 3, 2, 2),
-	(9, 3, 1, 3),
-	(10, 4, 4, 0),
-	(11, 4, 3, 1),
-	(12, 4, 2, 2),
-	(13, 4, 1, 3);
 /*!40000 ALTER TABLE `respuestapregunta` ENABLE KEYS */;
 
 
@@ -318,72 +278,78 @@ CREATE TABLE IF NOT EXISTS `valor` (
   `idValor` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
   `idListaValores` int(11) DEFAULT NULL,
+  `valorNumerico` double DEFAULT NULL,
   `Idx` int(11) DEFAULT NULL,
   PRIMARY KEY (`idValor`),
   KEY `FK4E9A0A436E0A389` (`idListaValores`),
   CONSTRAINT `FK4E9A0A436E0A389` FOREIGN KEY (`idListaValores`) REFERENCES `listavalores` (`idListaValores`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
 
--- Dumping data for table encuestas.valor: ~57 rows (approximately)
+-- Dumping data for table encuestas.valor: ~62 rows (approximately)
 /*!40000 ALTER TABLE `valor` DISABLE KEYS */;
-INSERT INTO `valor` (`idValor`, `nombre`, `idListaValores`, `Idx`) VALUES
-	(1, '1', 1, 0),
-	(2, '2', 1, 1),
-	(3, '3', 1, 2),
-	(4, '4', 1, 3),
-	(5, '5', 1, 4),
-	(7, 'Álava', 2, 0),
-	(8, 'Albacete', 2, 1),
-	(9, 'Alicante', 2, 2),
-	(10, 'Almería', 2, 3),
-	(11, 'Asturias', 2, 4),
-	(12, 'Ávila', 2, 5),
-	(13, 'Badajoz', 2, 6),
-	(14, 'Balears, Illes', 2, 7),
-	(15, 'Barcelona', 2, 8),
-	(16, 'Bizkaia', 2, 9),
-	(17, 'Burgos', 2, 10),
-	(18, 'Cáceres', 2, 11),
-	(19, 'Cádiz', 2, 12),
-	(20, 'Cantabria', 2, 13),
-	(21, 'Castellón', 2, 14),
-	(22, 'Ciudad Real', 2, 15),
-	(23, 'Córdoba', 2, 16),
-	(24, 'Coruña, A', 2, 17),
-	(25, 'Cuenca', 2, 18),
-	(26, 'Gipuzkoa', 2, 19),
-	(27, 'Girona', 2, 20),
-	(28, 'Granada', 2, 21),
-	(29, 'Guadalajara', 2, 22),
-	(30, 'Huelva', 2, 23),
-	(31, 'Huesca', 2, 24),
-	(32, 'Jaén', 2, 25),
-	(33, 'León', 2, 26),
-	(34, 'Lleida', 2, 27),
-	(35, 'Lugo', 2, 28),
-	(36, 'Madrid', 2, 29),
-	(37, 'Málaga', 2, 30),
-	(38, 'Murcia', 2, 31),
-	(39, 'Navarra', 2, 32),
-	(40, 'Ourense', 2, 33),
-	(41, 'Palencia', 2, 34),
-	(42, 'Palmas, Las', 2, 35),
-	(43, 'Pontevedra', 2, 36),
-	(44, 'Rioja, La', 2, 37),
-	(45, 'Salamanca', 2, 38),
-	(46, 'Santa Cruz de Tenerife', 2, 39),
-	(47, 'Segovia', 2, 40),
-	(48, 'Sevilla', 2, 41),
-	(49, 'Soria', 2, 42),
-	(50, 'Tarragona', 2, 43),
-	(51, 'Teruel', 2, 44),
-	(52, 'Toledo', 2, 45),
-	(53, 'Valencia', 2, 46),
-	(54, 'Valladolid', 2, 47),
-	(55, 'Zamora', 2, 48),
-	(56, 'Zaragoza', 2, 49),
-	(57, 'Ceuta', 2, 50),
-	(58, 'Melilla', 2, 51);
+INSERT INTO `valor` (`idValor`, `nombre`, `idListaValores`, `valorNumerico`, `Idx`) VALUES
+	(1, '1', 1, 1, 0),
+	(2, '2', 1, 2, 1),
+	(3, '3', 1, 3, 2),
+	(4, '4', 1, 4, 3),
+	(5, '5', 1, 5, 4),
+	(7, 'Álava', 2, NULL, 0),
+	(8, 'Albacete', 2, NULL, 1),
+	(9, 'Alicante', 2, NULL, 2),
+	(10, 'Almería', 2, NULL, 3),
+	(11, 'Asturias', 2, NULL, 4),
+	(12, 'Ávila', 2, NULL, 5),
+	(13, 'Badajoz', 2, NULL, 6),
+	(14, 'Balears, Illes', 2, NULL, 7),
+	(15, 'Barcelona', 2, NULL, 8),
+	(16, 'Bizkaia', 2, NULL, 9),
+	(17, 'Burgos', 2, NULL, 10),
+	(18, 'Cáceres', 2, NULL, 11),
+	(19, 'Cádiz', 2, NULL, 12),
+	(20, 'Cantabria', 2, NULL, 13),
+	(21, 'Castellón', 2, NULL, 14),
+	(22, 'Ciudad Real', 2, NULL, 15),
+	(23, 'Córdoba', 2, NULL, 16),
+	(24, 'Coruña, A', 2, NULL, 17),
+	(25, 'Cuenca', 2, NULL, 18),
+	(26, 'Gipuzkoa', 2, NULL, 19),
+	(27, 'Girona', 2, NULL, 20),
+	(28, 'Granada', 2, NULL, 21),
+	(29, 'Guadalajara', 2, NULL, 22),
+	(30, 'Huelva', 2, NULL, 23),
+	(31, 'Huesca', 2, NULL, 24),
+	(32, 'Jaén', 2, NULL, 25),
+	(33, 'León', 2, NULL, 26),
+	(34, 'Lleida', 2, NULL, 27),
+	(35, 'Lugo', 2, NULL, 28),
+	(36, 'Madrid', 2, NULL, 29),
+	(37, 'Málaga', 2, NULL, 30),
+	(38, 'Murcia', 2, NULL, 31),
+	(39, 'Navarra', 2, NULL, 32),
+	(40, 'Ourense', 2, NULL, 33),
+	(41, 'Palencia', 2, NULL, 34),
+	(42, 'Palmas, Las', 2, NULL, 35),
+	(43, 'Pontevedra', 2, NULL, 36),
+	(44, 'Rioja, La', 2, NULL, 37),
+	(45, 'Salamanca', 2, NULL, 38),
+	(46, 'Santa Cruz de Tenerife', 2, NULL, 39),
+	(47, 'Segovia', 2, NULL, 40),
+	(48, 'Sevilla', 2, NULL, 41),
+	(49, 'Soria', 2, NULL, 42),
+	(50, 'Tarragona', 2, NULL, 43),
+	(51, 'Teruel', 2, NULL, 44),
+	(52, 'Toledo', 2, NULL, 45),
+	(53, 'Valencia', 2, NULL, 46),
+	(54, 'Valladolid', 2, NULL, 47),
+	(55, 'Zamora', 2, NULL, 48),
+	(56, 'Zaragoza', 2, NULL, 49),
+	(57, 'Ceuta', 2, NULL, 50),
+	(58, 'Melilla', 2, NULL, 51),
+	(59, 'Lunes', 3, NULL, 0),
+	(60, 'Martes', 3, NULL, 1),
+	(63, 'Miercoles', 3, NULL, 2),
+	(64, 'Jueves', 3, NULL, 3),
+	(67, 'Viernes', 3, NULL, 4);
 /*!40000 ALTER TABLE `valor` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -5,9 +5,10 @@
         <id name="idValor" >
             <generator class="identity" />
         </id>
-        <property name="nombre" />  
+        <property name="nombre" />
         <many-to-one name="listaValores">
             <column name="idListaValores"  />
-        </many-to-one>  
+        </many-to-one>
+        <property name="valorNumerico" />
     </class>
 </hibernate-mapping>

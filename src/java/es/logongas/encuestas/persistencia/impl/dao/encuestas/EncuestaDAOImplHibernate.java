@@ -5,15 +5,16 @@
 package es.logongas.encuestas.persistencia.impl.dao.encuestas;
 
 import es.logongas.encuestas.modelo.encuestas.Encuesta;
-import es.logongas.encuestas.modelo.encuestas.Estadistica;
 import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
-import es.logongas.encuestas.modelo.encuestas.Serie;
+import es.logongas.encuestas.modelo.resultados.EstadisticaDescriptiva;
+import es.logongas.encuestas.modelo.resultados.InferenciaEstadistica;
+import es.logongas.encuestas.modelo.resultados.Resultado;
+import es.logongas.encuestas.modelo.resultados.Serie;
 import es.logongas.encuestas.persistencia.services.dao.encuestas.EncuestaDAO;
 import es.logongas.ix3.persistence.impl.hibernate.dao.GenericDAOImplHibernate;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -27,9 +28,10 @@ import org.hibernate.Session;
 public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, Integer> implements EncuestaDAO {
 
     private int numDecimals = 2;
+    private BigDecimal nivelConfianza = new BigDecimal(0.95);
 
     @Override
-    public Estadistica getEstadisticaItem(Item item) {
+    public Resultado getResultadoItem(Item item) {
         Session session = sessionFactory.getCurrentSession();
 
         List<Object[]> resultados;
@@ -40,22 +42,43 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
             resultados = query.list();
         }
 
-        Estadistica estadistica = new Estadistica();
-        Serie serie = new Serie();
-        serie.numRespuestas = getNumRespuestas(item.getPregunta().getEncuesta());
+        Resultado resultado = new Resultado(item.getPregunta().getEncuesta().getNombre(), item.getPregunta().getPregunta());
+        Serie serie = new Serie(getNumRespuestas(item.getPregunta().getEncuesta()), item.getNombre());
         for (Object[] datos : resultados) {
-            estadistica.labels.add(getLabelFromValue((String)datos[0]));
-            long rawData=((Number)datos[1]).longValue();
-            serie.rawData.add(rawData);
-            serie.data.add(getDataFromRawData(rawData, serie.numRespuestas));
+            resultado.getLabels().add(getLabelFromValue((String) datos[0]));
+            long rawData = ((Number) datos[1]).longValue();
+            serie.getRawData().add(rawData);
+            serie.getData().add(getDataFromRawData(rawData, serie.getNumRespuestas()));
         }
-        estadistica.series.add(serie);
 
-        return estadistica;
+        //Calcular las estadísticasSolo si hay almenos 2 datos
+        if ((item.getListaValores() != null) && (item.getListaValores().isContieneValoresNumericos()) && (serie.getNumRespuestas()>=2)) {
+            EstadisticaDescriptiva estadisticaDescriptiva=new EstadisticaDescriptiva(numDecimals);
+
+            //Añadir los datos
+            String shql = "SELECT ri.valorNumerico FROM RespuestaItem ri WHERE ri.item.idItem=? AND ri.valorNumerico!=null ";
+            Query query = session.createQuery(shql);
+            query.setInteger(0, item.getIdItem());
+            List<Double> datos = query.list();
+
+            for(Double dato:datos) {
+                estadisticaDescriptiva.addData(dato);
+            }
+
+            InferenciaEstadistica inferenciaEstadistica=new InferenciaEstadistica(estadisticaDescriptiva, nivelConfianza, numDecimals);
+
+            serie.setEstadisticaDescriptiva(estadisticaDescriptiva);
+            serie.setInferenciaEstadistica(inferenciaEstadistica);
+        }
+
+
+        resultado.getSeries().add(serie);
+
+        return resultado;
     }
 
     @Override
-    public Estadistica getEstadisticaPregunta(Pregunta pregunta) {
+    public Resultado getResultadoPregunta(Pregunta pregunta) {
         Session session = sessionFactory.getCurrentSession();
 
         Map<Item, Long> resultados = new TreeMap<Item, Long>();
@@ -90,21 +113,20 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
             }
         }
 
-        Estadistica estadistica = new Estadistica();
-        Serie serie = new Serie();
-        serie.numRespuestas = getNumRespuestas(pregunta.getEncuesta());
+        Resultado resultado = new Resultado(pregunta.getEncuesta().getNombre(), null);
+        Serie serie = new Serie(getNumRespuestas(pregunta.getEncuesta()), pregunta.getPregunta());
         for (Item item : resultados.keySet()) {
-            estadistica.labels.add(getLabelFromValue(item.getNombre()));
-            long rawData=resultados.get(item);
-            serie.rawData.add(rawData);
-            serie.data.add(getDataFromRawData(rawData, serie.numRespuestas));
+            resultado.getLabels().add(getLabelFromValue(item.getNombre()));
+            long rawData = resultados.get(item);
+            serie.getRawData().add(rawData);
+            serie.getData().add(getDataFromRawData(rawData, serie.getNumRespuestas()));
         }
-        estadistica.series.add(serie);
+        resultado.getSeries().add(serie);
 
-        return estadistica;
+        return resultado;
     }
 
-    private long getNumRespuestas(Encuesta encuesta) {
+    public long getNumRespuestas(Encuesta encuesta) {
         Session session = sessionFactory.getCurrentSession();
 
         long numRespuestas;

@@ -17,7 +17,9 @@ package es.logongas.encuestas.presentacion.controller;
 
 import es.logongas.encuestas.modelo.encuestas.Encuesta;
 import es.logongas.encuestas.modelo.encuestas.Item;
+import es.logongas.encuestas.modelo.encuestas.ListaValores;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
+import es.logongas.encuestas.modelo.encuestas.Valor;
 import es.logongas.encuestas.modelo.respuestas.Documento;
 import es.logongas.encuestas.modelo.respuestas.RespuestaEncuesta;
 import es.logongas.encuestas.modelo.respuestas.RespuestaItem;
@@ -27,7 +29,9 @@ import es.logongas.ix3.persistence.services.dao.BusinessMessage;
 import es.logongas.ix3.persistence.services.dao.DAOFactory;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLDecoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -174,19 +178,26 @@ public class EncuestaController {
 
         RespuestaPregunta respuestaPregunta = respuestaEncuesta.getRespuestaPregunta(pregunta);
         populateRespuestaFromRequest(request, respuestaPregunta);
-
-        Pregunta siguientePregunta = respuestaEncuesta.getRespuestaPregunta(pregunta).siguiente();
-
-        if (siguientePregunta != null) {
-            viewName = "redirect:/pregunta.html?idPregunta=" + siguientePregunta.getIdPregunta();
+        List<BusinessMessage> businessMessages = respuestaPregunta.validate();
+        if ((businessMessages != null) && (businessMessages.size() > 0)) {
+            model.put("businessMessages", businessMessages);
+            model.put("respuestaPregunta", respuestaPregunta);
+            viewName = "encuestas/pregunta";
         } else {
-            //Era la última pregunta
-            if (pregunta.getEncuesta().isImprimir() == true) {
-                //Vamos a la página de imprimir
-                viewName = "redirect:/imprimir.html";
+
+            Pregunta siguientePregunta = respuestaEncuesta.getRespuestaPregunta(pregunta).siguiente();
+
+            if (siguientePregunta != null) {
+                viewName = "redirect:/pregunta.html?idPregunta=" + siguientePregunta.getIdPregunta();
             } else {
-                //Así que vamos a la página de finalizar pq no hay que imprimir nada
-                viewName = "redirect:/finalizar.html";
+                //Era la última pregunta
+                if (pregunta.getEncuesta().isImprimir() == true) {
+                    //Vamos a la página de imprimir
+                    viewName = "redirect:/imprimir.html";
+                } else {
+                    //Así que vamos a la página de finalizar pq no hay que imprimir nada
+                    viewName = "redirect:/finalizar.html";
+                }
             }
         }
 
@@ -304,15 +315,22 @@ public class EncuestaController {
 
         RespuestaEncuesta respuestaEncuesta = getEncuestaState(request).getRespuestaEncuesta();
 
-        daoFactory.getDAO(RespuestaEncuesta.class).insert(respuestaEncuesta);
+        List<BusinessMessage> businessMessages = respuestaEncuesta.validate();
+        if ((businessMessages != null) && (businessMessages.size() > 0)) {
+            Encuesta encuesta = respuestaEncuesta.getEncuesta();
+            model.put("encuesta", encuesta);
+            model.put("businessMessages", businessMessages);
+            viewName = "encuestas/error_encuesta";
+        } else {
+            daoFactory.getDAO(RespuestaEncuesta.class).insert(respuestaEncuesta);
 
-        URI backURI = getEncuestaState(request).getBackURI();
+            URI backURI = getEncuestaState(request).getBackURI();
 
-        clearEncuestaState(request);
+            clearEncuestaState(request);
 
-        model.put("backURI", backURI);
-        viewName = "encuestas/finalizar";
-
+            model.put("backURI", backURI);
+            viewName = "encuestas/finalizar";
+        }
 
         return new ModelAndView(viewName, model);
     }
@@ -373,7 +391,15 @@ public class EncuestaController {
         for (RespuestaItem respuestaItem : respuestaPregunta.getRespuestaItems()) {
             Item item = respuestaItem.getItem();
 
-            respuestaItem.setValor(request.getParameter("valor" + item.getIdItem()));
+            respuestaItem.setValor(parameterDecode(request.getParameter("valor" + item.getIdItem())));
+            ListaValores listaValores = respuestaItem.getItem().getListaValores();
+            if ((listaValores != null) && (listaValores.isContieneValoresNumericos() == true)) {
+                Valor valor = listaValores.getValorByNombre(respuestaItem.getValor());
+                if (valor != null) {
+                    respuestaItem.setValorNumerico(valor.getValorNumerico());
+                }
+            }
+
 
             switch (respuestaPregunta.getPregunta().getTipoPregunta()) {
                 case Radio:
@@ -397,5 +423,19 @@ public class EncuestaController {
         }
 
 
+    }
+
+    private String parameterDecode(String s) {
+        if (s == null) {
+            return null;
+        }
+        //Cambiar los &nbsp; por " " espacios normales
+        s = s.replace("\u00a0", " ");
+
+        if (s.trim().equals("")) {
+            return null;
+        }
+
+        return s.trim();
     }
 }

@@ -7,10 +7,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     RespuestaPregunta respuestaPregunta = (RespuestaPregunta) request.getAttribute("respuestaPregunta");
-
-    RespuestaPreguntaWidget respuestaPreguntaWidget = new RespuestaPreguntaWidget(respuestaPregunta);
-
     List<BusinessMessage> businessMessages = (List<BusinessMessage>) request.getAttribute("businessMessages");
+    RespuestaPreguntaWidget respuestaPreguntaWidget = new RespuestaPreguntaWidget(respuestaPregunta,businessMessages);
 
     TextWidget textWidget = new TextWidget();
 %>
@@ -29,27 +27,6 @@
             <div class="span12"><img src="img/icons/task_48x48.png" alt="grafica" class="center" ></div>
         </div>
         <%=respuestaPreguntaWidget.toHTML()%>
-        <%
-            if ((businessMessages != null) && (businessMessages.size() > 0)) {
-        %>
-        <div class="row-fluid">
-            <div class="offset1 span11 main-text">
-                <div class="alert">
-                    <%
-                        for (BusinessMessage businessMessage : businessMessages) {
-                            if (businessMessage.getPropertyName() != null) {
-                                out.println("<strong>" + HtmlUtils.htmlEscape(businessMessage.getPropertyName()) + "</strong>" + HtmlUtils.htmlEscape(businessMessage.getMessage()));
-                            } else {
-                                out.println(HtmlUtils.htmlEscape(businessMessage.getMessage()));
-                            }
-                        }
-                    %>
-                </div>
-            </div>
-        </div>
-        <%
-            }
-        %>
         <%@ include file="/template/bottom.jsp" %>
     </body>
 </html>

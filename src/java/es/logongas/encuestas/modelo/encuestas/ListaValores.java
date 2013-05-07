@@ -26,6 +26,7 @@ public class ListaValores {
     private int idListaValores;
     private String nombre;
     private List<Valor> valores=new ArrayList<Valor>();
+    private boolean contieneValoresNumericos;
 
     /**
      * @return the idListaValores
@@ -68,4 +69,39 @@ public class ListaValores {
     public void setValores(List<Valor> valores) {
         this.valores = valores;
     }
+
+    public boolean contiene(String nombre) {
+        for(Valor valor:this.valores) {
+            if (valor.getNombre().equals(nombre)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Valor getValorByNombre(String nombre) {
+        for(Valor valor:this.valores) {
+            if (valor.getNombre().equals(nombre)) {
+                return valor;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return the contieneValoresNumericos
+     */
+    public boolean isContieneValoresNumericos() {
+        return contieneValoresNumericos;
+    }
+
+    /**
+     * @param contieneValoresNumericos the contieneValoresNumericos to set
+     */
+    public void setContieneValoresNumericos(boolean contieneValoresNumericos) {
+        this.contieneValoresNumericos = contieneValoresNumericos;
+    }
+
 }

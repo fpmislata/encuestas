@@ -16,22 +16,32 @@
 package es.logongas.encuestas.modelo.respuestas;
 
 import es.logongas.encuestas.modelo.encuestas.Item;
+import es.logongas.ix3.persistence.services.dao.BusinessMessage;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Lorenzo González
  */
 public class RespuestaItem {
+
     private int idRespuestaItem;
     private Item item;
     private RespuestaPregunta respuestaPregunta;
     private boolean check;
     private String valor;
+    private Double valorNumerico;
 
     private RespuestaItem() {
     }
 
-    public RespuestaItem( RespuestaPregunta respuestaPregunta,Item item) {
+    public RespuestaItem(RespuestaPregunta respuestaPregunta, Item item) {
         this.item = item;
         this.respuestaPregunta = respuestaPregunta;
         this.check = false;
@@ -40,15 +50,11 @@ public class RespuestaItem {
         //Hacemos ésto para que se cargen los valores
         //Pq sino luego no hay sesión.
         //@TODO:Que no sea necesaria esta linea.
-        if (this.item.getListaValores()!=null) {
-            int i=this.item.getListaValores().getValores().size();
+        if (this.item.getListaValores() != null) {
+            int i = this.item.getListaValores().getValores().size();
         }
 
     }
-
-
-
-
 
     /**
      * @return the idRespuestaItem
@@ -120,4 +126,76 @@ public class RespuestaItem {
         this.valor = valor;
     }
 
+    public List<BusinessMessage> validate() {
+        List<BusinessMessage> businessMessages = new ArrayList<BusinessMessage>();
+
+        switch (this.getItem().getTipoItem()) {
+            case Sino:
+                //No se valida un Check
+                break;
+            case ListaValores:
+                if ((this.getValor() == null) || (this.getValor().trim().equals(""))) {
+                    if (this.getItem().isRequerido() == true) {
+                        businessMessages.add(new BusinessMessage(null, "El valor de '" + this.getItem().getNombre() + "' no puede estar vacío"));
+                    }
+                } else {
+                    if (this.getItem().getListaValores().contiene(this.getValor()) == false) {
+                        businessMessages.add(new BusinessMessage(null, "El valor '" + this.getValor() + "' de '" + this.getItem().getNombre() + "' no es válido"));
+                    }
+                }
+                break;
+            case Texto:
+                if ((this.getValor() == null) || (this.getValor().trim().equals(""))) {
+                    if (this.getItem().isRequerido() == true) {
+                        businessMessages.add(new BusinessMessage(null, "El valor de '" + this.getItem().getNombre() + "' no puede estar vacío"));
+                    }
+                }
+                break;
+            case Fecha:
+                if ((this.getValor() == null) || (this.getValor().trim().equals(""))) {
+                    if (this.getItem().isRequerido() == true) {
+                        businessMessages.add(new BusinessMessage(null, "La fecha de '" + this.getItem().getNombre() + "' no puede estar vacío"));
+                    }
+                }
+                SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+                sdf.setLenient(false);
+                try {
+                    Date date = sdf.parse(this.getValor());
+                } catch (ParseException ex) {
+                    businessMessages.add(new BusinessMessage(null, "La fecha '" + this.getValor() + "' de '" + this.getItem().getNombre() + "' no es válido"));
+                }
+                break;
+            case AreaTexto:
+                if ((this.getValor() == null) || (this.getValor().trim().equals(""))) {
+                    if (this.getItem().isRequerido() == true) {
+                        businessMessages.add(new BusinessMessage(null, "El texto no puede estar vacío"));
+                    }
+                }
+                if (this.getValor()!=null) {
+                    if (this.getValor().length()>1000) {
+                        businessMessages.add(new BusinessMessage(null, "El texto es demasiado largo"));
+                    }
+                }
+
+                break;
+            default:
+                throw new RuntimeException("El tipo de item es desconocido:" + this.getItem().getTipoItem());
+        }
+
+        return businessMessages;
+    }
+
+    /**
+     * @return the valorNumerico
+     */
+    public Double getValorNumerico() {
+        return valorNumerico;
+    }
+
+    /**
+     * @param valorNumerico the valorNumerico to set
+     */
+    public void setValorNumerico(Double valorNumerico) {
+        this.valorNumerico = valorNumerico;
+    }
 }

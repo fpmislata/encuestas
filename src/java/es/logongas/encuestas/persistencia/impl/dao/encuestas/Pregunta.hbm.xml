@@ -8,18 +8,19 @@
         <property name="pregunta" />
         <many-to-one name="encuesta">
             <column name="idEncuesta"  />
-        </many-to-one>        
+        </many-to-one>
         <property name="tipoPregunta" >
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">es.logongas.encuestas.modelo.encuestas.TipoPregunta</param>
                 <param name="type">4</param>
             </type>
-        </property>        
+        </property>
         <list name="items"  cascade="all" inverse="false"  >
             <key column="idPregunta"  />
             <list-index column="Idx"  />
             <one-to-many class="es.logongas.encuestas.modelo.encuestas.Item" />
         </list>
         <property name="ultimoItemIncluyeOtros" />
+        <property name="requerido" />
     </class>
 </hibernate-mapping>

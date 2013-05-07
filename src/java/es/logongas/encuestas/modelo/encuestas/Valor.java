@@ -23,6 +23,7 @@ public class Valor {
     private int idValor;
     private String nombre;
     private ListaValores listaValores;
+    private Double valorNumerico;
 
     /**
      * @return the idValor
@@ -64,5 +65,19 @@ public class Valor {
      */
     public void setListaValores(ListaValores listaValores) {
         this.listaValores = listaValores;
+    }
+
+    /**
+     * @return the valorNumerico
+     */
+    public Double getValorNumerico() {
+        return valorNumerico;
+    }
+
+    /**
+     * @param valorNumerico the valorNumerico to set
+     */
+    public void setValorNumerico(Double valorNumerico) {
+        this.valorNumerico = valorNumerico;
     }
 }

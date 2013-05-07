@@ -17,6 +17,7 @@
         </many-to-one>
         <many-to-one name="pregunta">
             <column name="idPregunta"  />
-        </many-to-one>       
+        </many-to-one>
+        <property name="requerido" />
     </class>
 </hibernate-mapping>

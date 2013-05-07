@@ -21,6 +21,8 @@ import es.logongas.encuestas.modelo.encuestas.Valor;
 import es.logongas.encuestas.modelo.respuestas.RespuestaItem;
 import es.logongas.encuestas.modelo.respuestas.RespuestaPregunta;
 import es.logongas.encuestas.presentacion.util.HTMLUtil;
+import es.logongas.ix3.persistence.services.dao.BusinessMessage;
+import java.util.List;
 
 /**
  * Genera el HTML relativo a una pregunta de una encuesta
@@ -30,13 +32,15 @@ import es.logongas.encuestas.presentacion.util.HTMLUtil;
 public class RespuestaPreguntaWidget {
 
     private RespuestaPregunta respuestaPregunta;
+    private List<BusinessMessage> businessMessages;
 
-    public RespuestaPreguntaWidget(RespuestaPregunta respuestaPregunta) {
+    public RespuestaPreguntaWidget(RespuestaPregunta respuestaPregunta, List<BusinessMessage> businessMessages) {
         if (respuestaPregunta == null) {
             throw new IllegalArgumentException("respuestaPregunta no puede ser null");
         }
 
         this.respuestaPregunta = respuestaPregunta;
+        this.businessMessages = businessMessages;
     }
 
     public String toHTML() {
@@ -68,7 +72,7 @@ public class RespuestaPreguntaWidget {
         sb.append("<div class=\"row-fluid\" style=\"margin-top: 2em;\">\n");
         sb.append("  <div class=\"span12 main-text\" >" + HTMLUtil.toHTML(respuestaPregunta.getPregunta().getPregunta()) + ":</div>\n");
         sb.append("</div>\n");
-        sb.append("<form  id=\"formRespuestas\" action=\"\" method=\"POST\">\n");
+        sb.append("<form  id=\"formRespuestas\" action=\"\" method=\"POST\" style=\"margin: 0px; padding: 0px;\">\n");
         sb.append("<div class=\"row-fluid\">\n");
         sb.append("  <div class=\"span12\" >\n");
         sb.append("    <ul class=\"items_encuesta\">\n");
@@ -79,11 +83,17 @@ public class RespuestaPreguntaWidget {
         sb.append("  </div>\n");
         sb.append("</div>\n");
         sb.append("</form>\n");
+        generateBusinessMessages(businessMessages, sb);
+
+    }
+
+    private void generateBusinessMessages(List<BusinessMessage> businessMessages, StringBuilder sb) {
+        BusinessMessagesWidget businessMessagesWidget=new BusinessMessagesWidget(businessMessages);
+
+        sb.append(businessMessagesWidget.toHTML());
     }
 
     private void generateHTMLRadio(RespuestaPregunta respuestaPregunta, StringBuilder sb) {
-
-
         for (int i = 0; i < respuestaPregunta.getRespuestaItems().size(); i++) {
             RespuestaItem respuestaItem = respuestaPregunta.getRespuestaItems().get(i);
             Item item = respuestaItem.getItem();
@@ -147,7 +157,7 @@ public class RespuestaPreguntaWidget {
             sb.append("      <li style=\"text-align: left\">\n");
             sb.append("        <div class=\".checkbox\">\n");
             sb.append("          <input type=\"checkbox\" value=\"" + respuestaItem.getItem().getIdItem() + "\"  name=\"check" + respuestaItem.getItem().getIdItem() + "\"  " + checked + " />\n");
-            sb.append("          <label class=\"" + cssClassChecked + "\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":</label>\n");
+            sb.append("          <label class=\"" + cssClassChecked + "\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + "</label>\n");
             if (showText == true) {
                 sb.append("          <input class=\"input-xxlarge\" type=\"text\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\" placeholder=\"Altres expectatives\" style=\"visibility:" + cssStyleVisibility + "\" value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" >\n");
             }
@@ -164,7 +174,10 @@ public class RespuestaPreguntaWidget {
                 case Sino:
                     boolean showText = false;
                     if ((i + 1) == respuestaPregunta.getRespuestaItems().size()) {
-                        showText = true;
+                        //Estamos en el último
+                        if (respuestaPregunta.getPregunta().isUltimoItemIncluyeOtros() == true) {
+                            showText = true;
+                        }
                     }
                     generateItemSino(respuestaItem, showText, sb);
                     break;
@@ -202,7 +215,7 @@ public class RespuestaPreguntaWidget {
         sb.append("      <li style=\"text-align: left\">\n");
         sb.append("        <div class=\".checkbox\">\n");
         sb.append("          <input type=\"checkbox\" value=\"" + respuestaItem.getItem().getIdItem() + "\"  name=\"check" + respuestaItem.getItem().getIdItem() + "\"  " + checked + " />\n");
-        sb.append("          <label class=\"" + cssClassChecked + "\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":</label>\n");
+        sb.append("          <label class=\"" + cssClassChecked + "\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + "</label>\n");
         if (showText == true) {
             sb.append("          <input class=\"input-xxlarge\" type=\"text\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\" placeholder=\"Altres expectatives\" style=\"visibility:" + cssStyleVisibility + "\" value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" >\n");
         }
@@ -216,8 +229,6 @@ public class RespuestaPreguntaWidget {
             throw new RuntimeException("listaValores no puede ser null");
         }
 
-        boolean allowNull = false;
-
         sb.append("      <li style=\"text-align: left\">\n");
         sb.append("        <div class=\"row-fluid\">\n");
         sb.append("            <div class=\"span10 simple-text\" style=\"padding-left: 20px;padding-top: 0.5em;\" >\n");
@@ -229,10 +240,7 @@ public class RespuestaPreguntaWidget {
         sb.append("                        " + HTMLUtil.toHTML(respuestaItem.getValor()) + "&nbsp;&nbsp;<span class=\"caret\"></span>\n");
         sb.append("                    </button>\n");
         sb.append("                    <ul class=\"dropdown-menu\">\n");
-        if (allowNull == true) {
-            sb.append("                        <li><a href=\"javascript:void(0)\" onclick=\"select_click(this)\" >&nbsp;</a></li>\n");
-        }
-
+        sb.append("                        <li><a href=\"javascript:void(0)\" onclick=\"select_click(this)\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>\n");
         for (Valor valor : listaValores.getValores()) {
             sb.append("                        <li><a href=\"javascript:void(0)\" onclick=\"select_click(this)\" >" + valor.getNombre() + "</a></li>\n");
         }
@@ -279,7 +287,17 @@ public class RespuestaPreguntaWidget {
         if (respuestaPregunta.anterior() != null) {
             sb.append("                <button onclick=\"document.getElementById('formRespuestas').action='anterior.html?idPregunta=" + respuestaPregunta.getPregunta().getIdPregunta() + "';document.getElementById('formRespuestas').submit();\" class=\"btn btn-large \"><i class=\"icon-arrow-left\" ></i> Anterior</button>\n");
         }
-        sb.append("                <button onclick=\"document.getElementById('formRespuestas').action='siguiente.html?idPregunta=" + respuestaPregunta.getPregunta().getIdPregunta() + "';document.getElementById('formRespuestas').submit();\" class=\"btn btn-large btn-primary \">Següent <i class=\"icon-arrow-right icon-white\" ></i></button>\n");
+        String nextLabel;
+        if (respuestaPregunta.siguiente() != null) {
+            nextLabel = "Següent";
+        } else {
+            if (respuestaPregunta.getPregunta().getEncuesta().isImprimir() == false) {
+                nextLabel = "Finalitzar";
+            } else {
+                nextLabel = "Següent";
+            }
+        }
+        sb.append("                <button onclick=\"document.getElementById('formRespuestas').action='siguiente.html?idPregunta=" + respuestaPregunta.getPregunta().getIdPregunta() + "';document.getElementById('formRespuestas').submit();\" class=\"btn btn-large btn-primary \">" + HTMLUtil.toHTML(nextLabel) + " <i class=\"icon-arrow-right icon-white\" ></i></button>\n");
         sb.append("            </div>\n");
         sb.append("            <div class=\"span1\" >\n");
         sb.append("            </div>\n");
@@ -313,5 +331,4 @@ public class RespuestaPreguntaWidget {
 
         sb.append("      </li>\n");
     }
-
 }

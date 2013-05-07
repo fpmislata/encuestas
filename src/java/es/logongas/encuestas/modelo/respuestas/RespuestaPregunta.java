@@ -17,6 +17,7 @@ package es.logongas.encuestas.modelo.respuestas;
 
 import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
+import es.logongas.ix3.persistence.services.dao.BusinessMessage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,33 +26,34 @@ import java.util.List;
  * @author Lorenzo González
  */
 public class RespuestaPregunta {
+
     private int idRespuestaPregunta;
     private RespuestaEncuesta respuestaEncuesta;
     private Pregunta pregunta;
-    private List<RespuestaItem> respuestaItems=new ArrayList<RespuestaItem>();
+    private List<RespuestaItem> respuestaItems = new ArrayList<RespuestaItem>();
 
     private RespuestaPregunta() {
     }
 
-    public RespuestaPregunta(RespuestaEncuesta respuestaEncuesta,Pregunta pregunta) {
-        if (respuestaEncuesta==null) {
+    public RespuestaPregunta(RespuestaEncuesta respuestaEncuesta, Pregunta pregunta) {
+        if (respuestaEncuesta == null) {
             throw new IllegalArgumentException("El argumento respuestaEncuesta no puede ser null");
         }
-        if (pregunta==null) {
+        if (pregunta == null) {
             throw new IllegalArgumentException("El argumento pregunta no puede ser null");
         }
-        this.respuestaEncuesta=respuestaEncuesta;
-        this.pregunta=pregunta;
+        this.respuestaEncuesta = respuestaEncuesta;
+        this.pregunta = pregunta;
 
-        for(Item item:this.pregunta.getItems()) {
-            RespuestaItem respuestaItem=new RespuestaItem(this,item);
+        for (Item item : this.pregunta.getItems()) {
+            RespuestaItem respuestaItem = new RespuestaItem(this, item);
 
             this.respuestaItems.add(respuestaItem);
         }
 
     }
 
-   public Pregunta siguiente() {
+    public Pregunta siguiente() {
         return this.pregunta.siguiente();
     }
 
@@ -113,5 +115,51 @@ public class RespuestaPregunta {
      */
     public void setRespuestaItems(List<RespuestaItem> respuestaItems) {
         this.respuestaItems = respuestaItems;
+    }
+
+    public List<BusinessMessage> validate() {
+        List<BusinessMessage> businessMessages = new ArrayList<BusinessMessage>();
+
+        switch (this.getPregunta().getTipoPregunta()) {
+            case Radio:
+            case Check:
+                //Debe haber alguno marcado
+                if (isAnyItemCheck() == false) {
+                    if (this.getPregunta().isRequerido()==true) {
+                        businessMessages.add(new BusinessMessage(null, "Se debe marcar alguna respuesta"));
+                    }
+                }
+
+                if (this.getPregunta().isUltimoItemIncluyeOtros()) {
+                    RespuestaItem ultimoRespuestaItem = this.respuestaItems.get(this.respuestaItems.size() - 1);
+                    if (ultimoRespuestaItem.isCheck() == true) {
+                        String valor = ultimoRespuestaItem.getValor();
+                        if ((valor == null) || (valor.trim().equals(""))) {
+                            businessMessages.add(new BusinessMessage(null, "No puede estar vacía la respuesta de '" + ultimoRespuestaItem.getItem().getNombre() + "'"));
+                        }
+                    }
+                }
+
+                break;
+            case EspecificoPorItem:
+                for (RespuestaItem respuestaItem : this.respuestaItems) {
+                    businessMessages.addAll(respuestaItem.validate());
+                }
+                break;
+            default:
+                throw new RuntimeException("El tipo de pregunta es desconocido:" + this.getPregunta().getTipoPregunta());
+        }
+
+        return businessMessages;
+    }
+
+    private boolean isAnyItemCheck() {
+        for (RespuestaItem respuestaItem : this.respuestaItems) {
+            if (respuestaItem.isCheck() == true) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
