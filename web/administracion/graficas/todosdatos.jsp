@@ -4,7 +4,6 @@
     <head>
         <title>Encuestas</title>
         <%@ include file="/template/header.jsp" %>
-        <script type='text/javascript' src='<%=request.getContextPath()%>/js/highcharts.js'></script>
         <script type='text/javascript' src='todosdatos.js'></script>
         <style>
             .tablaforprint {
