@@ -15,14 +15,14 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA02111-1307USA
- * 
+ *
  * Disclaimer:
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
  * INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
  * PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
- * 
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
  */
 package es.logongas.encuestas.presentacion.util;
 
@@ -30,7 +30,7 @@ import java.text.*;
 
 /**
  * Diversas rutinas utiles para tratar con el HTML
- * 
+ *
  * @author  <a href="mailto:logongas@users.sourceforge.net">Lorenzo González</a>
  */
 public class HTMLUtil {
@@ -41,37 +41,37 @@ public class HTMLUtil {
     private HTMLUtil() {};
 
     /**
-      * Reemplaza car�cteres que son especiales en HTML por su representaci�n en HTML
+      * Reemplaza caracteres que son especiales en HTML por su representaci�n en HTML
       * @param s String a transformar al juego de caracteres de HTML
       * @return El String de entrada pero con el juego de caracteres del HTML
       */
     public static String toHTML(String s){
         return toHTML(s,false,false);
       }
-    
+
     /**
-     * Reemplaza car�cteres que son especiales en HTML por su representaci�n en HTML
+     * Reemplaza caracteres que son especiales en HTML por su representaci�n en HTML
      * @param s String a transformar al juego de caracteres de HTML
      * @param spaces Si vales 'true' NO se cambian " " por &nbsp;
      * @return El String de entrada pero con el juego de caracteres del HTML
      */
     public static String toHTML(String s,boolean spaces){
         return toHTML(s,spaces,false);
-    }      
+    }
     /**
-     * Reemplaza car�cteres que son especiales en HTML por su representaci�n en HTML
+     * Reemplaza caracteres que son especiales en HTML por su representaci�n en HTML
      * @param s String a transformar al juego de caracteres de HTML
      * @param spaces Si vales 'true' NO se cambian " " por &nbsp;
      * @param hyphen Si vales 'true' NO se cambian "-" por &#8208;
      * @return El String de entrada pero con el juego de caracteres del HTML
      */
     public static String toHTML(String s,boolean spaces,boolean hyphen){
-        
+
         if (s==null) {
             return "";
         } else {
-            //El tama�o del String lo hacemos un 25% mas grande que el original
-            StringBuffer htmlString = new StringBuffer((int)(s.length()*1.25));
+            //El tamaño del String lo hacemos un 25% mas grande que el original
+            StringBuilder htmlString = new StringBuilder((int)(s.length()*1.25));
 
             StringCharacterIterator iterator = new StringCharacterIterator(s);
 
@@ -85,16 +85,16 @@ public class HTMLUtil {
                         htmlString.append("&nbsp;");
                     }
                 } else if (c=='-') {
-                    if (hyphen=true) {
+                    if (hyphen==true) {
                         htmlString.append("-");
                     } else {
                         htmlString.append("&#8209;");
-                    }                    
+                    }
                 } else {
-                    htmlString.append("&#"+(int)c+";");
+                    htmlString.append("&#").append((int)c).append(";");
                 }
              }
              return htmlString.toString();
         }
-      }    
+      }
 }
