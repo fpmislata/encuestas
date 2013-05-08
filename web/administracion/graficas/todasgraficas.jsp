@@ -4,7 +4,7 @@
     <head>
         <title>Encuestas</title>
         <%@ include file="/template/header.jsp" %>
-        <script type='text/javascript' src='<%=request.getContextPath()%>/js/highcharts.js'></script>
+        <script type='text/javascript' src='<%=request.getContextPath()%>/js/lib/highcharts/highcharts-3.0.1.js'></script>
         <script type='text/javascript' src='todasgraficas.js'></script>
 
     </head>
