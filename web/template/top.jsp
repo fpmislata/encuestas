@@ -1,3 +1,13 @@
+<%
+if (!(request.getAttribute("disableCheckNoScript")==Boolean.TRUE)) {
+%>
+<noscript>
+	<meta http-equiv="refresh" content="0; url=<%=request.getContextPath() %>/noscript.jsp"/>
+</noscript>
+<%
+}
+%>
+
         <div class="row-fluid" style="margin-top: 1em">
             <div class="span1" ></div>
             <div class="span10 marco">
