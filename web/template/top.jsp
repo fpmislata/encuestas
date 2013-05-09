@@ -1,4 +1,5 @@
 <%
+//La redirección no hay que hacerla si ya estamos en la propia página que avisa que está desactivado y lo sabemos por esta variable.
 if (!(request.getAttribute("disableCheckNoScript")==Boolean.TRUE)) {
 %>
 <noscript>
