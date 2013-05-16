@@ -189,6 +189,7 @@ public class RespuestaPreguntaWidget {
                     break;
                 case Fecha:
                     generateItemFecha(respuestaItem, sb);
+                    break;
                 case AreaTexto:
                     generateItemAreaTexto(respuestaItem, sb);
                     break;
@@ -309,6 +310,9 @@ public class RespuestaPreguntaWidget {
         String pregunta = respuestaItem.getItem().getNombre();
 
         if ((pregunta == null) || (pregunta.trim().equals(""))) {
+            showPregunta = false;
+        } else if (respuestaItem.getRespuestaPregunta().getPregunta().getItems().size()==1) {
+            //Si solo hay un item y es de "Area de Texto" no hae falta que mostremos su item
             showPregunta = false;
         } else {
             showPregunta = true;
