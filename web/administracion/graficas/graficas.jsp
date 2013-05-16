@@ -40,8 +40,15 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div class="tab-pane active" id="tab_grafica">
-                        <div id="grafica" style="height: 400px"  mostrar="resultado!=null" ></div>
+                    <div class="tab-pane active" id="tab_grafica" style="height: 400px"  >
+                        <div id="grafica" style="height: 400px"  mostrar="resultado!=null" style="position: relative">
+                        </div>
+                        <div class="alert alert-info" ng-show="(resultado!=null) && (resultado.dibujable==false)" style="position: relative;top:-300px;left:0px;">
+                            <h4>{{resultado.series[0].name}}</h4>
+                            <p>No se muestra la gr&aacute;fica al ser una respuesta que puede contener gran cantidad de posibles respuestas.</p>
+                            <p>Pinche en la pesta&ntilde;a de <strong>Datos</strong> para ver todas las respuestas.</p>
+                        </div>
+
                     </div>
                     <div class="tab-pane" id="tab_datos">
                         <div style="height: 400px;width: 100%;max-width: 800px;" mostrar="resultado!=null" >

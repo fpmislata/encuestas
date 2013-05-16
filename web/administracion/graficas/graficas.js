@@ -49,7 +49,7 @@ function GraficasController($scope,$http,$filter) {
         if ( newValue!==null ) {
             $scope.seleccion.item=null;
             $http.get(getContextPath()+'/api/Item/?pregunta.idPregunta='+$scope.seleccion.pregunta.idPregunta).success(function(data) {
-                $scope.items = $filter("filter")(data,$scope.isItemAllowChart);
+                $scope.items = data;
             }).error(function(data, status, headers, config) {
                 alert("Se ha producido un error al obtener los datos:"+status);
             });
@@ -102,6 +102,10 @@ function GraficasController($scope,$http,$filter) {
         if (item) {
             if (item==null) {
                 return false;
+            } else if (item.tipoItem=="Texto") {
+                return false;
+            } else if (item.tipoItem=="Fecha") {
+                return false;
             } else if (item.tipoItem=="AreaTexto") {
                 return false;
             } else {
@@ -126,8 +130,10 @@ function GraficasController($scope,$http,$filter) {
         }
     }
 
+    //Evento al pinchar en el tab.
     $('a[data-toggle="tab"]').on('shown', function (e) {
         if ($(e.target).attr('name')==="grafica") {
+            //Si mostramos la gráfica hay que volver a recalcular todo pq sino el ancho no sale bien.
             if ($scope.resultado!=null) {
                 showChart($("#grafica"),$scope.resultado);
             }
@@ -139,6 +145,11 @@ function GraficasController($scope,$http,$filter) {
 
 
 function showChart(element,resultado) {
+    if (resultado.dibujable==false) {
+        element.highcharts().destroy();
+        return;
+    }
+
     element.highcharts({
         chart: {
             type: 'column'
