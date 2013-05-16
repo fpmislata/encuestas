@@ -28,8 +28,6 @@ function TodosDatosController($scope,$http,$location) {
 
                         for(var j=0;j<items.length;j++) {
                             var item=items[j];
-                            if ($scope.isItemAllowChart(item)==true) {
-
                                 (function(subIndex) {
                                     $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoItem&parameter0='+item.idItem).success(function(resultado) {
                                         resultado.index=index*1000+subIndex;
@@ -38,7 +36,6 @@ function TodosDatosController($scope,$http,$location) {
                                         alert("Se ha producido un error al obtener los datos:"+status);
                                     })
                                 })(j)
-                            }
                         }
 
                     }).error(function(data, status, headers, config) {
@@ -50,21 +47,6 @@ function TodosDatosController($scope,$http,$location) {
     }).error(function(data, status, headers, config) {
         alert("Se ha producido un error al obtener los datos:"+status);
     });
-
-
-    $scope.isItemAllowChart=function (item) {
-        if (item) {
-            if (item==null) {
-                return false;
-            } else if (item.tipoItem=="AreaTexto") {
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return false;
-        }
-    }
 
     $scope.isPreguntaAllowChart=function (pregunta) {
         if (pregunta) {

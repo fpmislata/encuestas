@@ -12,8 +12,9 @@
         </style>
     </head>
     <body ng-controller="TodosDatosController" id="body" style="background: #FFFFFF;padding:15px;" >
+        <h2 style="text-align: center">Encuesta</h2>
+        <h3 style="text-align: center">{{resultados[0].title}}</h3>
         <div ng-repeat="resultado in resultados | orderBy:'index'" class="tablaforprint">
-                <h4>Encuesta:{{resultado.title}}</h4>
                 <h5 ng-show="resultado.subtitle!=null">Pregunta:{{resultado.subtitle}}</h5>
                 <h5>{{resultado.series[0].name}}</h5>
                 <table class="table table-bordered table-striped table-condensed">
