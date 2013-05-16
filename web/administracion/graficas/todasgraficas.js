@@ -30,8 +30,9 @@ function TodasGraficasController($scope,$http,$location) {
                         var items=data;
                         for(var j=0;j<items.length;j++) {
                             var item=items[j];
-
-                            createRowElement("idItem"+item.idItem,"idPregunta"+idPregunta);
+                            if ($scope.isItemAllowChart(item)==true) {
+                                createRowElement("idItem"+item.idItem,"idPregunta"+idPregunta);
+                            }
                         }
 
                         for(var j=0;j<items.length;j++) {
@@ -63,6 +64,10 @@ function TodasGraficasController($scope,$http,$location) {
     $scope.isItemAllowChart=function (item) {
         if (item) {
             if (item==null) {
+                return false;
+            } else if (item.tipoItem=="Texto") {
+                return false;
+            } else if (item.tipoItem=="Fecha") {
                 return false;
             } else if (item.tipoItem=="AreaTexto") {
                 return false;
