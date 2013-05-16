@@ -27,27 +27,68 @@ import java.util.List;
 public class Resultado {
     private String title;
     private String subtitle;
-    private List<String> labels=new ArrayList<String>();
-    private List<Serie> series=new ArrayList<Serie>();
+    private List<String> labels = new ArrayList<String>();
+    private List<Serie> series = new ArrayList<Serie>();
     private Pregunta pregunta;
     private Item item;
 
     public Resultado(Pregunta pregunta) {
-        this.pregunta=pregunta;
-        this.item=null;
+        this.pregunta = pregunta;
+        this.item = null;
         this.title = pregunta.getEncuesta().getNombre();
         this.subtitle = null;
     }
 
     public Resultado(Item item) {
-        this.item=item;
-        this.pregunta=item.getPregunta();
+        this.item = item;
+        this.pregunta = item.getPregunta();
         this.title = item.getPregunta().getEncuesta().getNombre();
-        this.subtitle =item.getPregunta().getPregunta();
+        this.subtitle = item.getPregunta().getPregunta();
     }
 
+    /**
+     * Indica si se puede mostar una gráfica con estos datos.
+     * No se puede mostrar gráficas de respuestas libres como Fechas, Texto o AreaTexto.
+     * @return Retorna <code>true</code> si se puede mostrar una gráfica con los datos, sino retorna <code>false</code>
+     */
+    public boolean isDibujable() {
+        boolean dibujable;
 
+        switch (pregunta.getTipoPregunta()) {
+            case Radio:
+                dibujable = true;
+                break;
+            case Check:
+                dibujable = true;
+                break;
+            case EspecificoPorItem:
 
+                switch (item.getTipoItem()) {
+                    case Sino:
+                        dibujable=true;
+                        break;
+                    case ListaValores:
+                        dibujable=true;
+                        break;
+                    case Texto:
+                        dibujable=false;
+                        break;
+                    case Fecha:
+                        dibujable=false;
+                        break;
+                    case AreaTexto:
+                        dibujable=false;
+                        break;
+                    default:
+                        throw new RuntimeException("TipoItem desconocida:" + item.getTipoItem());
+                }
+                break;
+            default:
+                throw new RuntimeException("TipoPregunta desconocida:" + pregunta.getTipoPregunta());
+        }
+
+        return dibujable;
+    }
 
     /**
      * @return the title
