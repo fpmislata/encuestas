@@ -34,7 +34,7 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
     public Resultado getResultadoItem(Item item) {
         return getResultadoItem(item,false);
     }
-    public Resultado getResultadoItem(Item item,boolean mustCheck) {
+    private Resultado getResultadoItem(Item item,boolean mustCheck) {
         Session session = sessionFactory.getCurrentSession();
 
         List<Object[]> resultados;
@@ -50,7 +50,7 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
         }
 
         Resultado resultado = new Resultado(item);
-        Serie serie = new Serie(getNumRespuestas(item.getPregunta().getEncuesta()), item.getNombre());
+        Serie serie = new Serie(getCountRespuestasItems(resultados), item.getNombre());
         for (Object[] datos : resultados) {
             resultado.getLabels().add(getLabelFromValue((String) datos[0]));
             long rawData = ((Number) datos[1]).longValue();
@@ -89,8 +89,8 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
         Session session = sessionFactory.getCurrentSession();
 
         Map<Item, Long> resultados = new TreeMap<Item, Long>();
+        List<Object[]> resultadosTrue;
         {
-            List<Object[]> resultadosTrue;
             String shql = "SELECT ri.item,count(*) FROM RespuestaItem ri WHERE ri.item.pregunta.idPregunta=? and ri.check=true GROUP BY ri.item.nombre ";
             Query query = session.createQuery(shql);
             query.setInteger(0, pregunta.getIdPregunta());
@@ -128,7 +128,7 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
         }
 
         Resultado resultado = new Resultado(pregunta);
-        Serie serie = new Serie(getNumRespuestas(pregunta.getEncuesta()), pregunta.getPregunta());
+        Serie serie = new Serie(getCountRespuestasItems(resultadosTrue), pregunta.getPregunta());
         serie.setOtros(otros);
         for (Item item : resultados.keySet()) {
             resultado.getLabels().add(getLabelFromValue(item.getNombre()));
@@ -139,6 +139,17 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
         resultado.getSeries().add(serie);
 
         return resultado;
+    }
+
+    private long getCountRespuestasItems(List<Object[]> respuestas) {
+        long numRespuestas=0;
+        for(int i=0;i<respuestas.size();i++) {
+            Number frecuencia=(Number)respuestas.get(i)[1];
+
+            numRespuestas = numRespuestas + frecuencia.longValue();
+        }
+
+        return numRespuestas;
     }
 
     public long getNumRespuestas(Encuesta encuesta) {
