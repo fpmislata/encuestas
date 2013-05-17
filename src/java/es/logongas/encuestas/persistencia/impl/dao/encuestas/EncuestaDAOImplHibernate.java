@@ -32,11 +32,18 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
 
     @Override
     public Resultado getResultadoItem(Item item) {
+        return getResultadoItem(item,false);
+    }
+    public Resultado getResultadoItem(Item item,boolean mustCheck) {
         Session session = sessionFactory.getCurrentSession();
 
         List<Object[]> resultados;
         {
-            String shql = "SELECT ri.valor,count(*) FROM RespuestaItem ri WHERE ri.item.idItem=? GROUP BY ri.valor ORDER BY ri.valor";
+            String whereCheck="";
+            if (mustCheck==true) {
+                whereCheck=" AND ri.check=true";
+            }
+            String shql = "SELECT ri.valor,count(*) FROM RespuestaItem ri WHERE ri.item.idItem=? " + whereCheck + " GROUP BY ri.valor ORDER BY ri.valor";
             Query query = session.createQuery(shql);
             query.setInteger(0, item.getIdItem());
             resultados = query.list();
@@ -117,7 +124,7 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
         Resultado otros=null;
         if ((pregunta.isUltimoItemIncluyeOtros()==true) && (pregunta.getItems().size()>=1)) {
             Item ultimoItem=pregunta.getItems().get(pregunta.getItems().size()-1);
-            otros=this.getResultadoItem(ultimoItem);
+            otros=this.getResultadoItem(ultimoItem,true);
         }
 
         Resultado resultado = new Resultado(pregunta);

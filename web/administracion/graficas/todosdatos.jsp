@@ -72,9 +72,6 @@
                             <td style="text-align: right">{{resultado.series[0].otros.series[0].rawData[$index]}}</td>
                             <td style="text-align: right">{{resultado.series[0].otros.series[0].data[$index] | number:2}}</td>
                         </tr>
-                        <tr>
-                            <td colspan="3" style="font-weight:bold;text-align: right">Total respuestas:&nbsp;&nbsp;{{resultado.series[0].otros.series[0].numRespuestas}}&nbsp;&nbsp;</td>
-                        </tr>
                     </tbody>
                 </table>
 
