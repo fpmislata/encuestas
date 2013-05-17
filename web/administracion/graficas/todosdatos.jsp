@@ -55,6 +55,29 @@
                         </tr>
                     </tbody>
                 </table>
+                <table class="table table-bordered table-striped table-condensed"  ng-hide="resultado==null || resultado.series[0].otros==null">
+                    <thead>
+                        <tr>
+                            <th colspan="3">Respuestas de Otros</th>
+                        </tr>
+                        <tr>
+                            <th>Valor</th>
+                            <th>N&ordm;&nbsp;respuestas</th>
+                            <th>%&nbsp;Respuestas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="label in resultado.series[0].otros.labels">
+                            <td >{{label}}</td>
+                            <td style="text-align: right">{{resultado.series[0].otros.series[0].rawData[$index]}}</td>
+                            <td style="text-align: right">{{resultado.series[0].otros.series[0].data[$index] | number:2}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="font-weight:bold;text-align: right">Total respuestas:&nbsp;&nbsp;{{resultado.series[0].otros.series[0].numRespuestas}}&nbsp;&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+
         </div>
     </body>
 </html>

@@ -90,6 +90,29 @@
                                     </tr>
                                 </tbody>
                             </table>
+
+                            <table class="table table-bordered table-striped table-condensed"  ng-hide="resultado==null || resultado.series[0].otros==null">
+                                <thead>
+                                    <tr>
+                                        <th colspan="3">Respuestas de Otros</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Valor</th>
+                                        <th>N&ordm;&nbsp;respuestas</th>
+                                        <th>%&nbsp;Respuestas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="label in resultado.series[0].otros.labels">
+                                        <td >{{label}}</td>
+                                        <td style="text-align: right">{{resultado.series[0].otros.series[0].rawData[$index]}}</td>
+                                        <td style="text-align: right">{{resultado.series[0].otros.series[0].data[$index] | number:2}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="font-weight:bold;text-align: right">Total respuestas:&nbsp;&nbsp;{{resultado.series[0].otros.series[0].numRespuestas}}&nbsp;&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -97,7 +120,7 @@
             <div class="span1">
             </div>
         </div>
-        <div class="row-fluid" >
+        <div class="row-fluid" style="padding-top: 10px;">
             <div class="span12">
                 <a class="btn" href="todasgraficas.jsp?idEncuesta={{seleccion.encuesta.idEncuesta}}" target="_blank" ng-disabled="seleccion.encuesta==null">Todas las gr&aacute;ficas</a>
                 <a class="btn" href="todosdatos.jsp?idEncuesta={{seleccion.encuesta.idEncuesta}}" target="_blank" ng-disabled="seleccion.encuesta==null">Todos los datos</a>

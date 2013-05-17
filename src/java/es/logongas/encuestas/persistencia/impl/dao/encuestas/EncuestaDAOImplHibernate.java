@@ -113,8 +113,16 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
             }
         }
 
+
+        Resultado otros=null;
+        if ((pregunta.isUltimoItemIncluyeOtros()==true) && (pregunta.getItems().size()>=1)) {
+            Item ultimoItem=pregunta.getItems().get(pregunta.getItems().size()-1);
+            otros=this.getResultadoItem(ultimoItem);
+        }
+
         Resultado resultado = new Resultado(pregunta);
         Serie serie = new Serie(getNumRespuestas(pregunta.getEncuesta()), pregunta.getPregunta());
+        serie.setOtros(otros);
         for (Item item : resultados.keySet()) {
             resultado.getLabels().add(getLabelFromValue(item.getNombre()));
             long rawData = resultados.get(item);

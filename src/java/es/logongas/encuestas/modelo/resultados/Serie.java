@@ -30,6 +30,8 @@ public class Serie {
     private List<BigDecimal> data=new ArrayList<BigDecimal>();
     private EstadisticaDescriptiva estadisticaDescriptiva=null;
     private InferenciaEstadistica inferenciaEstadistica=null;
+    private Resultado otros=null;
+
 
     public Serie(long numRespuestas, String name) {
         this.numRespuestas = numRespuestas;
@@ -93,6 +95,20 @@ public class Serie {
      */
     public void setInferenciaEstadistica(InferenciaEstadistica inferenciaEstadistica) {
         this.inferenciaEstadistica = inferenciaEstadistica;
+    }
+
+    /**
+     * @return the otros
+     */
+    public Resultado getOtros() {
+        return otros;
+    }
+
+    /**
+     * @param otros the otros to set
+     */
+    public void setOtros(Resultado otros) {
+        this.otros = otros;
     }
 
 
