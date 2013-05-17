@@ -45,7 +45,7 @@
                         </div>
                         <div class="alert alert-info" ng-show="(resultado!=null) && (resultado.dibujable==false)" style="position: relative;top:-300px;left:0px;">
                             <h4>{{resultado.series[0].name}}</h4>
-                            <p>No se muestra la gr&aacute;fica al ser una respuesta que puede contener gran cantidad de posibles respuestas.</p>
+                            <p>No se muestra la gr&aacute;fica al ser una pregunta que puede contener gran cantidad de posibles respuestas.</p>
                             <p>Pinche en la pesta&ntilde;a de <strong>Datos</strong> para ver todas las respuestas.</p>
                         </div>
 
