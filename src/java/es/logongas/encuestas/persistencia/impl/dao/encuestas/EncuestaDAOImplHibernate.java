@@ -7,6 +7,7 @@ package es.logongas.encuestas.persistencia.impl.dao.encuestas;
 import es.logongas.encuestas.modelo.encuestas.Encuesta;
 import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
+import es.logongas.encuestas.modelo.encuestas.TipoItem;
 import es.logongas.encuestas.modelo.resultados.EstadisticaDescriptiva;
 import es.logongas.encuestas.modelo.resultados.InferenciaEstadistica;
 import es.logongas.encuestas.modelo.resultados.Resultado;
@@ -35,15 +36,53 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
         return getResultadoItem(item,false);
     }
     private Resultado getResultadoItem(Item item,boolean mustCheck) {
+        if (item==null) {
+            throw new RuntimeException("El item es null");
+        }
+
         Session session = sessionFactory.getCurrentSession();
 
         List<Object[]> resultados;
         {
-            String whereCheck="";
+            String whereCheck;
             if (mustCheck==true) {
                 whereCheck=" AND ri.check=true";
+            } else {
+                whereCheck="";
             }
-            String shql = "SELECT ri.valor,count(*) FROM RespuestaItem ri WHERE ri.item.idItem=? " + whereCheck + " GROUP BY ri.valor ORDER BY ri.valor";
+
+            String orderBy;
+            TipoItem tipoItem=item.getTipoItem();
+            if (tipoItem==null) {
+                orderBy = " count(*) DESC ";
+            } else {
+                switch (tipoItem) {
+                    case Sino:
+                        orderBy = " count(*) DESC ";
+                        break;
+                    case ListaValores:
+                        if (item.getListaValores().isContieneValoresNumericos()==true) {
+                            orderBy = " ri.valorNumerico ASC ";
+                        } else {
+                            orderBy = " count(*) DESC ";
+                        }
+
+                        break;
+                    case Texto:
+                        orderBy = " count(*) DESC ";
+                        break;
+                    case Fecha:
+                        orderBy = " count(*) DESC ";
+                        break;
+                    case AreaTexto:
+                        orderBy = " count(*) DESC ";
+                        break;
+                    default:
+                        throw new RuntimeException("item.getTipoItem() no es válido:"+item.getTipoItem());
+                }
+            }
+
+            String shql = "SELECT ri.valor,count(*) FROM RespuestaItem ri WHERE ri.item.idItem=? " + whereCheck + " GROUP BY ri.valor ORDER BY " + orderBy;
             Query query = session.createQuery(shql);
             query.setInteger(0, item.getIdItem());
             resultados = query.list();
@@ -91,6 +130,7 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
         Map<Item, Long> resultados = new TreeMap<Item, Long>();
         List<Object[]> resultadosTrue;
         {
+            //Obtener las respuestas marcadas
             String shql = "SELECT ri.item,count(*) FROM RespuestaItem ri WHERE ri.item.pregunta.idPregunta=? and ri.check=true GROUP BY ri.item.nombre ";
             Query query = session.createQuery(shql);
             query.setInteger(0, pregunta.getIdPregunta());
@@ -105,6 +145,7 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
             }
         }
         {
+            //Obtener las respuestas que NO están marcadas
             List<Object[]> resultadosLabels;
             String shql = " SELECT i,0 FROM Item i WHERE i.pregunta.idPregunta=?";
             Query query = session.createQuery(shql);

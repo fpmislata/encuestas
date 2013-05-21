@@ -26,6 +26,7 @@ public class Item implements Comparable<Item> {
     private ListaValores listaValores;
     private Pregunta pregunta;
     private boolean requerido;
+    private int idx;
 
     /**
      * @return the idItem
@@ -128,5 +129,19 @@ public class Item implements Comparable<Item> {
      */
     public void setRequerido(boolean requerido) {
         this.requerido = requerido;
+    }
+
+    /**
+     * @return the idx
+     */
+    public int getIdx() {
+        return idx;
+    }
+
+    /**
+     * @param idx the idx to set
+     */
+    public void setIdx(int idx) {
+        this.idx = idx;
     }
 }
