@@ -5,7 +5,7 @@ function TodosDatosController($scope,$http,$location) {
 
     $scope.resultados=[];
 
-    $http.get(getContextPath()+'/api/Pregunta/?encuesta.idEncuesta='+idEncuesta).success(function(data) {
+    $http.get(getContextPath()+'/api/Pregunta/?orderBy=idx&encuesta.idEncuesta='+idEncuesta).success(function(data) {
         var preguntas = data;
 
         for(var i=0;i<preguntas.length;i++) {
@@ -23,7 +23,7 @@ function TodosDatosController($scope,$http,$location) {
 
             } else {
                 (function(index) {
-                    $http.get(getContextPath()+'/api/Item/?pregunta.idPregunta='+pregunta.idPregunta).success(function(data) {
+                    $http.get(getContextPath()+'/api/Item/?orderBy=idx&pregunta.idPregunta='+pregunta.idPregunta).success(function(data) {
                         var items=data;
 
                         for(var j=0;j<items.length;j++) {

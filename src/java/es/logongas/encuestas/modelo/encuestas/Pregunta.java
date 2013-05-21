@@ -33,6 +33,7 @@ public class Pregunta implements Comparable<Pregunta> {
     private TipoPregunta tipoPregunta;
     private boolean ultimoItemIncluyeOtros;
     private boolean requerido;
+    private int idx;
 
     /**
      * @return the IdPregunta
@@ -214,5 +215,19 @@ public class Pregunta implements Comparable<Pregunta> {
      */
     public void setRequerido(boolean requerido) {
         this.requerido = requerido;
+    }
+
+    /**
+     * @return the idx
+     */
+    public int getIdx() {
+        return idx;
+    }
+
+    /**
+     * @param idx the idx to set
+     */
+    public void setIdx(int idx) {
+        this.idx = idx;
     }
 }

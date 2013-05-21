@@ -22,7 +22,7 @@ function GraficasController($scope,$http,$filter) {
         }
         if ( newValue!==null ) {
             $scope.seleccion.pregunta=null;
-            $http.get(getContextPath()+'/api/Pregunta/?encuesta.idEncuesta='+$scope.seleccion.encuesta.idEncuesta).success(function(data) {
+            $http.get(getContextPath()+'/api/Pregunta/?orderBy=idx&encuesta.idEncuesta='+$scope.seleccion.encuesta.idEncuesta).success(function(data) {
                 $scope.preguntas = data;
             }).error(function(data, status, headers, config) {
                 alert("Se ha producido un error al obtener los datos:"+status);
@@ -48,7 +48,7 @@ function GraficasController($scope,$http,$filter) {
         }
         if ( newValue!==null ) {
             $scope.seleccion.item=null;
-            $http.get(getContextPath()+'/api/Item/?pregunta.idPregunta='+$scope.seleccion.pregunta.idPregunta).success(function(data) {
+            $http.get(getContextPath()+'/api/Item/?orderBy=idx&pregunta.idPregunta='+$scope.seleccion.pregunta.idPregunta).success(function(data) {
                 $scope.items = data;
             }).error(function(data, status, headers, config) {
                 alert("Se ha producido un error al obtener los datos:"+status);

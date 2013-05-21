@@ -22,5 +22,6 @@
         </list>
         <property name="ultimoItemIncluyeOtros" />
         <property name="requerido" />
+        <property name="idx" />
     </class>
 </hibernate-mapping>
