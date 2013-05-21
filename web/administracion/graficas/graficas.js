@@ -145,11 +145,6 @@ function GraficasController($scope,$http,$filter) {
 
 
 function showChart(element,resultado) {
-    if (resultado.dibujable==false) {
-        element.highcharts().destroy();
-        return;
-    }
-
     element.highcharts({
         chart: {
             type: 'column'
