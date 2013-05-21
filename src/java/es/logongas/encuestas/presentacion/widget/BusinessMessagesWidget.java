@@ -48,7 +48,7 @@ public class BusinessMessagesWidget {
     private void generateBusinessMessages(List<BusinessMessage> businessMessages, StringBuilder sb) {
         if ((businessMessages != null) && (businessMessages.size() > 0)) {
             sb.append("<div class=\"alert alert-block alert-error\" >\n");
-            sb.append("<strong>Se han producido los siguientes errores:</strong>");
+            sb.append("<strong>S'han produït els següents errors:</strong>");
             if (showCloseButton==true) {
                 sb.append("<button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>\n");
             }

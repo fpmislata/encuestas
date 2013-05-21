@@ -22,8 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -136,25 +134,25 @@ public class RespuestaItem {
             case ListaValores:
                 if ((this.getValor() == null) || (this.getValor().trim().equals(""))) {
                     if (this.getItem().isRequerido() == true) {
-                        businessMessages.add(new BusinessMessage(null, "El valor de '" + this.getItem().getNombre() + "' no puede estar vacío"));
+                        businessMessages.add(new BusinessMessage(null, "El valor de '" + this.getItem().getNombre() + "' no pot estar buit"));
                     }
                 } else {
                     if (this.getItem().getListaValores().contiene(this.getValor()) == false) {
-                        businessMessages.add(new BusinessMessage(null, "El valor '" + this.getValor() + "' de '" + this.getItem().getNombre() + "' no es válido"));
+                        businessMessages.add(new BusinessMessage(null, "El valor '" + this.getValor() + "' de '" + this.getItem().getNombre() + "' no és vàlid"));
                     }
                 }
                 break;
             case Texto:
                 if ((this.getValor() == null) || (this.getValor().trim().equals(""))) {
                     if (this.getItem().isRequerido() == true) {
-                        businessMessages.add(new BusinessMessage(null, "El valor de '" + this.getItem().getNombre() + "' no puede estar vacío"));
+                        businessMessages.add(new BusinessMessage(null, "El valor de '" + this.getItem().getNombre() + "' no pot estar buit"));
                     }
                 }
                 break;
             case Fecha:
                 if ((this.getValor() == null) || (this.getValor().trim().equals(""))) {
                     if (this.getItem().isRequerido() == true) {
-                        businessMessages.add(new BusinessMessage(null, "La fecha de '" + this.getItem().getNombre() + "' no puede estar vacío"));
+                        businessMessages.add(new BusinessMessage(null, "La data de '" + this.getItem().getNombre() + "' no pot estar buida"));
                     }
                 }
                 SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
@@ -162,18 +160,18 @@ public class RespuestaItem {
                 try {
                     Date date = sdf.parse(this.getValor());
                 } catch (ParseException ex) {
-                    businessMessages.add(new BusinessMessage(null, "La fecha '" + this.getValor() + "' de '" + this.getItem().getNombre() + "' no es válido"));
+                    businessMessages.add(new BusinessMessage(null, "La data '" + this.getValor() + "' de '" + this.getItem().getNombre() + "' no és vàlida"));
                 }
                 break;
             case AreaTexto:
                 if ((this.getValor() == null) || (this.getValor().trim().equals(""))) {
                     if (this.getItem().isRequerido() == true) {
-                        businessMessages.add(new BusinessMessage(null, "El texto no puede estar vacío"));
+                        businessMessages.add(new BusinessMessage(null, "El text no pot estar buit"));
                     }
                 }
                 if (this.getValor()!=null) {
                     if (this.getValor().length()>1000) {
-                        businessMessages.add(new BusinessMessage(null, "El texto es demasiado largo"));
+                        businessMessages.add(new BusinessMessage(null, "El text és massa llarg"));
                     }
                 }
 

@@ -126,7 +126,7 @@ public class RespuestaPregunta {
                 //Debe haber alguno marcado
                 if (isAnyItemCheck() == false) {
                     if (this.getPregunta().isRequerido()==true) {
-                        businessMessages.add(new BusinessMessage(null, "Se debe marcar alguna respuesta"));
+                        businessMessages.add(new BusinessMessage(null, "S'ha de marcar alguna resposta"));
                     }
                 }
 
@@ -135,7 +135,7 @@ public class RespuestaPregunta {
                     if (ultimoRespuestaItem.isCheck() == true) {
                         String valor = ultimoRespuestaItem.getValor();
                         if ((valor == null) || (valor.trim().equals(""))) {
-                            businessMessages.add(new BusinessMessage(null, "No puede estar vacía la respuesta de '" + ultimoRespuestaItem.getItem().getNombre() + "'"));
+                            businessMessages.add(new BusinessMessage(null, "No pot estar buida la resposta de  '" + ultimoRespuestaItem.getItem().getNombre() + "'"));
                         }
                     }
                 }

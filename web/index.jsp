@@ -8,26 +8,26 @@
     <body>
         <%@ include file="/template/top.jsp" %>
         <div class="row-fluid" style="margin-top: 2em">
-            <div class="span12" style="text-align: center"><span class="main-text">Encuesta</span><span class="main-text-gray"> de inicio de curso</span></div>
+            <div class="span12" style="text-align: center"><span class="main-text">Enquesta</span><span class="main-text-gray"> d'inici de curs</span></div>
         </div>
         <div class="row-fluid" >
             <div class="span12"><img src="img/icons/pie_chart.png" alt="grafica" class="center" ></div>
         </div>
         <div class="row-fluid" style="margin-top: 5em;">
-            <div class="span12 main-text" style="text-align: center;font-size:40px;">¿Que tipo de alumno eres?</div>
+            <div class="span12 main-text" style="text-align: center;font-size:40px;">Quin tipus d'alumne eres?</div>
         </div>
         <div class="row-fluid" style="margin-top: 3em;">
 
             <div class="span6" >
                 <a href="encuesta.html?idEncuesta=1" class="main-button" style="float: right;">
-                    <span class="main-text">nuevo en el centro</span>
+                    <span class="main-text">Nou en el centre</span>
                     <br />
                     <img src="img/icons/people.png" alt="nuevo" class="center" />
                 </a>
             </div>
             <div class="span6" >
                 <a href="encuesta.html?idEncuesta=3" class="main-button">
-                    <span class="main-text">de años anteriores</span>
+                    <span class="main-text">d'anys anteriors</span>
                     <br />
                     <img src="img/icons/phonebook.png" alt="de años anteriores" class="center" >
                 </a>

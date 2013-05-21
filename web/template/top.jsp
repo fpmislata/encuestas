@@ -16,9 +16,9 @@ if (!(request.getAttribute("disableCheckNoScript")==Boolean.TRUE)) {
                 <div class="cabecera" >
                     <div class="row-fluid">
                         <div class="span12 nav-bar" style="text-align: right;">
-                            <a href="<%=request.getContextPath() %>">Inicio</a>&nbsp;&nbsp;|
-                            &nbsp;&nbsp;<a href="#">¿Porqué esta encuesta?</a>&nbsp;&nbsp;|
-                            &nbsp;&nbsp;<a href="#">Ayuda</a>&nbsp;&nbsp;|
+                            <a href="<%=request.getContextPath() %>">Inici</a>&nbsp;&nbsp;|
+                            &nbsp;&nbsp;<a href="#">Perqu&egrave; esta enquesta?</a>&nbsp;&nbsp;|
+                            &nbsp;&nbsp;<a href="#">Ajuda</a>&nbsp;&nbsp;|
                             <%
                             if (request.getSession().getAttribute("idUser")==null) {
                             %>
@@ -26,7 +26,7 @@ if (!(request.getAttribute("disableCheckNoScript")==Boolean.TRUE)) {
                             <%
                             } else {
                             %>
-                            &nbsp;&nbsp;<a href="#" onclick="logout()" >Salir</a>&nbsp;&nbsp;|
+                            &nbsp;&nbsp;<a href="#" onclick="logout()" >Eixir</a>&nbsp;&nbsp;|
                             &nbsp;&nbsp;<a href="<%=request.getContextPath()%>/administracion/administracion.jsp" >Administrar</a>
                             <%
                             }
