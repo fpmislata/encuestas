@@ -1,4 +1,5 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href="<%=request.getContextPath()%>/img/favicon.ico" />
 <link rel="stylesheet" media="screen" href="<%=request.getContextPath()%>/css/lib/bootstrap/bootstrap-2.3.1.css">
 <link rel="stylesheet" media="screen" href="<%=request.getContextPath()%>/css/lib/jquery/default/jquery-ui-1.9.2.css">
 <link rel="stylesheet" media="screen" href="<%=request.getContextPath()%>/css/lib/angular/angular-ui-0.4.0.css">
