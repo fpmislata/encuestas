@@ -145,6 +145,13 @@ function GraficasController($scope,$http,$filter) {
 
 
 function showChart(element,resultado) {
+    if (resultado.dibujable==false) {
+        if (element.highcharts()) {
+            element.highcharts().destroy();
+        }
+        return;
+    }     
+    
     element.highcharts({
         chart: {
             type: 'column'
