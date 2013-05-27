@@ -23,10 +23,9 @@
                     <li class="simple-text lead">10 vol dir totalment d'acord.</li>
                 </ul>
             </p>
-            <p class="simple-text lead">Gr&agrave;cies per la teua col·laboraci&oacute;</p>
-            <p><button class="btn btn-primary"  onclick="window.history.back()">Tornar</a></p>
-    </div>
-</div>
+            <p class="simple-text lead">Gr&agrave;cies per la teua col&#183;laboraci&oacute;</p>
+            <p><button class="btn btn-primary"  onclick="window.history.back()">Tornar</button></p>
+        </div>
 
 <%@ include file="/template/bottom.jsp" %>
 </body>

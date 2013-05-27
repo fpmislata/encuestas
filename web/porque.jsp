@@ -16,10 +16,9 @@
         <div class="row-fluid" style="margin-top: 0em;">
             <p class="simple-text lead">Farcida este q&uuml;estionari per a avaluar la qualitat del proc&eacute;s de matricula.</p>
             <p class="simple-text lead">Les dades aportats seran estrictament confidencials.Esta informaci&oacute; ens ser&agrave; molt &uacute;til per a millorar el proc&eacute;s de matricula del pr&ograve;xim curs.</p>
-            <p class="simple-text lead">Gr&agrave;cies per la teua col·laboraci&oacute;</p>
-            <p><button class="btn btn-primary"  onclick="window.history.back()">Tornar</a></p>
+            <p class="simple-text lead">Gr&agrave;cies per la teua col&#183;laboraci&oacute;</p>
+            <p><button class="btn btn-primary"  onclick="window.history.back()">Tornar</button></p>
         </div>
-    </div>
 
     <%@ include file="/template/bottom.jsp" %>
 </body>
