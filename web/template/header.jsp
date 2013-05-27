@@ -17,56 +17,64 @@
         return "<%=request.getContextPath()%>";
     }
 
-    function showLoginWindow() {
-        $('#loginModal').modal()
-    }
+    $(function() {
+        jQuery("#entrar").click(function(event) {
+            event.preventDefault();
+            $('#loginModal').on('shown', function () {
+                $("#inputLogin").focus();
+            })
+            $('#loginModal').modal();
+        });
 
-    function login() {
-        var params={
-            login:$("#inputLogin").val(),
-            password:$("#inputPassword").val()
-        }
+        jQuery("#login").click(function(event) {
+            event.preventDefault();
+            var params={
+                login:$("#inputLogin").val(),
+                password:$("#inputPassword").val()
+            }
 
-        jQuery.ajax({
-            type: 'POST',
-            contentType: 'application/json',
-            dataType: "json",
-            url:getContextPath()+"/api/session?" + jQuery.param(params) ,
-            success: function(data) {
-                window.location.href=getContextPath()+"/administracion/administracion.jsp";
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                if (jqXHR.status===400) {
-                    var businessMessages=jQuery.parseJSON(jqXHR.responseText);
-                    for(var i=0;i<businessMessages.length;i++) {
-                        var businessMessage=businessMessages[i];
-                        if (businessMessage.propertyName===null) {
-                            alert(businessMessage.message);
-                        } else {
-                            alert(businessMessage.propertyName+":"+businessMessage.message);
+            jQuery.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                dataType: "json",
+                url:getContextPath()+"/api/session?" + jQuery.param(params) ,
+                success: function(data) {
+                    window.location.href=getContextPath()+"/administracion/administracion.jsp";
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status===400) {
+                        var businessMessages=jQuery.parseJSON(jqXHR.responseText);
+                        for(var i=0;i<businessMessages.length;i++) {
+                            var businessMessage=businessMessages[i];
+                            if (businessMessage.propertyName===null) {
+                                alert(businessMessage.message);
+                            } else {
+                                alert(businessMessage.propertyName+":"+businessMessage.message);
+                            }
                         }
+                    } else {
+                        alert("Falló la petición:"+textStatus+"\n"+errorThrown);
                     }
-                } else {
-                    alert("Falló la petición:"+textStatus+"\n"+errorThrown);
+                    $("#inputLogin").focus();
                 }
-            }
+            });
+
         });
 
-    }
-
-    function logout() {
-        jQuery.ajax({
-            type: 'DELETE',
-            url:getContextPath()+"/api/session",
-            success: function(data) {
-                window.location.href=getContextPath();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert("Ocurrió un error al cerrar la sesión");
-                window.location.href=getContextPath();
-            }
+        jQuery("#logout").click(function(event) {
+            event.preventDefault();
+            jQuery.ajax({
+                type: 'DELETE',
+                url:getContextPath()+"/api/session",
+                success: function(data) {
+                    window.location.href=getContextPath();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert("Ocurrió un error al cerrar la sesión");
+                    window.location.href=getContextPath();
+                }
+            });
         });
-    }
-
+    })
 </script>
 

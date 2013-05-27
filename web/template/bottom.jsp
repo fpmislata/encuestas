@@ -11,16 +11,17 @@
 </div>
 
 <div id="loginModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Modal Login" aria-hidden="true">
+<form class="form-horizontal">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h3 id="loginModalLabel">Identificarse</h3>
     </div>
     <div class="modal-body">
-        <form class="form-horizontal">
+
             <div class="control-group">
                 <label class="control-label" for="inputEmail">Usuario:</label>
                 <div class="controls">
-                    <input type="text" id="inputLogin" >
+                    <input type="text" id="inputLogin" autofocus="autofocus" >
                 </div>
             </div>
             <div class="control-group">
@@ -29,10 +30,11 @@
                     <input type="password" id="inputPassword" >
                 </div>
             </div>
-        </form>
+
     </div>
     <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancelar</button>
-        <button class="btn btn-primary" onclick="login()">Entrar</button>
+        <button class="btn btn-primary" id="login">Entrar</button>
+        <button class="btn" type="button" data-dismiss="modal" aria-hidden="true">Cancelar</button>
     </div>
+</form>
 </div>

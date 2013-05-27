@@ -22,11 +22,11 @@ if (!(request.getAttribute("disableCheckNoScript")==Boolean.TRUE)) {
                             <%
                             if (request.getSession().getAttribute("idUser")==null) {
                             %>
-                            &nbsp;&nbsp;<a href="#" onclick="showLoginWindow()" >Entrar</a>
+                            &nbsp;&nbsp;<a id="entrar" href="#">Entrar</a>
                             <%
                             } else {
                             %>
-                            &nbsp;&nbsp;<a href="#" onclick="logout()" >Eixir</a>&nbsp;&nbsp;|
+                            &nbsp;&nbsp;<a id="logout" href="#">Eixir</a>&nbsp;&nbsp;|
                             &nbsp;&nbsp;<a href="<%=request.getContextPath()%>/administracion/administracion.jsp" >Administrar</a>
                             <%
                             }
