@@ -124,7 +124,7 @@ public class EncuestaController {
         try {
             idPregunta = Integer.parseInt(request.getParameter("idPregunta"));
         } catch (NumberFormatException ex) {
-            throw new BusinessException(new BusinessMessage(null, "El Nº de pregunta no es válido"));
+            throw new BusinessException(new BusinessMessage(null, "El Nº de pregunta no es válido.No es un número"));
         }
 
         Pregunta pregunta = (Pregunta) daoFactory.getDAO(Pregunta.class).read(idPregunta);
@@ -133,7 +133,7 @@ public class EncuestaController {
         }
 
         if (getEncuestaState(request).getRespuestaEncuesta().isPreguntaValida(pregunta) == false) {
-            throw new BusinessException(new BusinessMessage(null, "La pregunta solicitada es existe en esta encuesta"));
+            throw new BusinessException(new BusinessMessage(null, "La pregunta solicitada no es válida en esta encuesta"));
         }
 
         RespuestaPregunta respuestaPregunta = getEncuestaState(request).getRespuestaEncuesta().getRespuestaPregunta(pregunta);
