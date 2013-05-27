@@ -40,8 +40,8 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div class="tab-pane active" id="tab_grafica" style="height: 400px"  >
-                        <div id="grafica" style="height: 400px"  mostrar="resultado!=null" style="position: relative">
+                    <div class="tab-pane active" id="tab_grafica" style="height: 400px;overflow: hidden"  >
+                        <div id="grafica" style="height: 400px;position: relative;top:0px;left:0px;"  mostrar="resultado!=null" >
                         </div>
                         <div class="alert alert-info" ng-show="(resultado!=null) && (resultado.dibujable==false)" style="position: relative;top:-300px;left:0px;">
                             <h4>{{resultado.series[0].name}}</h4>
