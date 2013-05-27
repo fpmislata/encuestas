@@ -17,8 +17,8 @@ if (!(request.getAttribute("disableCheckNoScript")==Boolean.TRUE)) {
                     <div class="row-fluid">
                         <div class="span12 nav-bar" style="text-align: right;">
                             <a href="<%=request.getContextPath() %>">Inici</a>&nbsp;&nbsp;|
-                            &nbsp;&nbsp;<a href="#">Perqu&egrave; esta enquesta?</a>&nbsp;&nbsp;|
-                            &nbsp;&nbsp;<a href="#">Ajuda</a>&nbsp;&nbsp;|
+                            &nbsp;&nbsp;<a href="<%=request.getContextPath() %>/porque.jsp">Perqu&egrave; esta enquesta?</a>&nbsp;&nbsp;|
+                            &nbsp;&nbsp;<a href="<%=request.getContextPath() %>/ayuda.jsp">Ajuda</a>&nbsp;&nbsp;|
                             <%
                             if (request.getSession().getAttribute("idUser")==null) {
                             %>
