@@ -232,10 +232,10 @@ public class RespuestaPreguntaWidget {
 
         sb.append("      <li style=\"text-align: left\">\n");
         sb.append("        <div class=\"row-fluid\">\n");
-        sb.append("            <div class=\"span10 simple-text\" style=\"padding-left: 20px;padding-top: 0.5em;\" >\n");
+        sb.append("            <div class=\"span7 simple-text\" style=\"padding-left: 20px;padding-top: 0.5em;\" >\n");
         sb.append("                <img src=\"img/icons/bullet.png\" />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":\n");
         sb.append("            </div>\n");
-        sb.append("            <div class=\"span2\" >\n");
+        sb.append("            <div class=\"span5\" >\n");
         sb.append("                <div class=\"btn-group\">\n");
         sb.append("                    <button class=\"btn dropdown-toggle\" data-toggle=\"dropdown\">\n");
         sb.append("                        " + HTMLUtil.toHTML(respuestaItem.getValor()) + "&nbsp;&nbsp;<span class=\"caret\"></span>\n");
@@ -256,11 +256,11 @@ public class RespuestaPreguntaWidget {
     private void generateItemTexto(RespuestaItem respuestaItem, StringBuilder sb) {
         sb.append("      <li style=\"text-align: left\">\n");
         sb.append("        <div class=\"row-fluid\">\n");
-        sb.append("            <div class=\"span5 simple-text\" style=\"padding-left: 20px\" >\n");
+        sb.append("            <div class=\"span7 simple-text\" style=\"padding-left: 20px\" >\n");
         sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":\n");
         sb.append("            </div >\n");
-        sb.append("            <div class=\"span7\">\n");
-        sb.append("                <input type=\"text\" class=\"input-xxlarge\" style=\"margin-top: 0px;\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\"  value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
+        sb.append("            <div class=\"span5\">\n");
+        sb.append("                <input type=\"text\" class=\"input-xlarge\" style=\"margin-top: 0px;\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\"  value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
         sb.append("            </div>\n");
         sb.append("        </div>\n");
         sb.append("      </li>\n");
@@ -269,11 +269,11 @@ public class RespuestaPreguntaWidget {
     private void generateItemFecha(RespuestaItem respuestaItem, StringBuilder sb) {
         sb.append("      <li style=\"text-align: left\">\n");
         sb.append("        <div class=\"row-fluid\">\n");
-        sb.append("            <div class=\"span5 simple-text\" style=\"padding-left: 20px\" >\n");
+        sb.append("            <div class=\"span7 simple-text\" style=\"padding-left: 20px\" >\n");
         sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":\n");
         sb.append("            </div >\n");
-        sb.append("            <div class=\"span7\">\n");
-        sb.append("                <input type=\"text\" id=\"valor" + respuestaItem.getItem().getIdItem() + "\" class=\"input-xxlarge\" style=\"margin-top: 0px;\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\"  value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
+        sb.append("            <div class=\"span5\">\n");
+        sb.append("                <input type=\"text\" id=\"valor" + respuestaItem.getItem().getIdItem() + "\" class=\"input-medium\" style=\"margin-top: 0px;\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\"  value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
         sb.append("            </div>\n");
         sb.append("        </div>\n");
         sb.append("      </li>\n");
