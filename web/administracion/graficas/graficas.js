@@ -92,9 +92,9 @@ function GraficasController($scope,$http,$filter) {
         if ( newValue === oldValue ) {
             return;
         }
-        if ( newValue!==null ) {
-            showChart($("#grafica"),newValue);
-        }
+
+        showChart($("#grafica"),newValue);
+
     });
 
 
@@ -148,7 +148,7 @@ function showChart(element,resultado) {
     if (element.highcharts()) {
         element.highcharts().destroy();
     }    
-    if (resultado.dibujable==false) {
+    if ( (resultado==null) || (resultado.dibujable==false) ) {
         return;
     }     
     
