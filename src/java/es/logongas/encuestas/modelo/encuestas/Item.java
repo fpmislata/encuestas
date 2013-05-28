@@ -26,6 +26,7 @@ public class Item implements Comparable<Item> {
     private ListaValores listaValores;
     private Pregunta pregunta;
     private boolean requerido;
+    private String expresionRegular;
     private int idx;
 
     /**
@@ -143,5 +144,19 @@ public class Item implements Comparable<Item> {
      */
     public void setIdx(int idx) {
         this.idx = idx;
+    }
+
+    /**
+     * @return the expresionRegular
+     */
+    public String getExpresionRegular() {
+        return expresionRegular;
+    }
+
+    /**
+     * @param expresionRegular the expresionRegular to set
+     */
+    public void setExpresionRegular(String expresionRegular) {
+        this.expresionRegular = expresionRegular;
     }
 }

@@ -19,6 +19,7 @@
             <column name="idPregunta"  />
         </many-to-one>
         <property name="requerido" />
+        <property name="expresionRegular" />
         <property name="idx" />
     </class>
 </hibernate-mapping>

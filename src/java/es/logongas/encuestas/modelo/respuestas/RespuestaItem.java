@@ -147,6 +147,14 @@ public class RespuestaItem {
                     if (this.getItem().isRequerido() == true) {
                         businessMessages.add(new BusinessMessage(null, "El valor de '" + this.getItem().getNombre() + "' no pot estar buit"));
                     }
+                } else {
+                    //Validamos la expresión regular (si la hay)
+                    String expresionRegular=this.getItem().getExpresionRegular();
+                    if ((expresionRegular!=null) && (expresionRegular.trim().length()>0)) {
+                        if (this.getValor().matches(expresionRegular)==false) {
+                            businessMessages.add(new BusinessMessage(null, "El valor de '" + this.getItem().getNombre() + "' no és vàlid, no té el format adequat.\"" + expresionRegular +"\""));
+                        }
+                    }
                 }
                 break;
             case Fecha:
