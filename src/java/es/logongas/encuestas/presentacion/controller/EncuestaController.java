@@ -395,7 +395,7 @@ public class EncuestaController {
             ListaValores listaValores = respuestaItem.getItem().getListaValores();
             if ((listaValores != null) && (listaValores.isContieneValoresNumericos() == true)) {
                 Valor valor = listaValores.getValorByNombre(respuestaItem.getValor());
-                if (valor != null) {
+                if ((valor != null) && (valor.getValorNumerico()!=null)) {
                     respuestaItem.setValorNumerico(valor.getValorNumerico());
                 }
             }

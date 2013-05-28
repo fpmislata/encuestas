@@ -99,7 +99,7 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
 
         //Calcular las estadísticasSolo si hay almenos 2 datos
         if ((item.getListaValores() != null) && (item.getListaValores().isContieneValoresNumericos()) && (serie.getNumRespuestas()>=2)) {
-            EstadisticaDescriptiva estadisticaDescriptiva=new EstadisticaDescriptiva(numDecimals);
+
 
             //Añadir los datos
             String shql = "SELECT ri.valorNumerico FROM RespuestaItem ri WHERE ri.item.idItem=? AND ri.valorNumerico!=null ";
@@ -107,14 +107,18 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
             query.setInteger(0, item.getIdItem());
             List<Double> datos = query.list();
 
-            for(Double dato:datos) {
-                estadisticaDescriptiva.addData(dato);
+            if (datos.size()>=2) {
+                EstadisticaDescriptiva estadisticaDescriptiva=new EstadisticaDescriptiva(numDecimals);
+                for(Double dato:datos) {
+                    estadisticaDescriptiva.addData(dato);
+                }
+
+
+                InferenciaEstadistica inferenciaEstadistica=new InferenciaEstadistica(estadisticaDescriptiva, nivelConfianza, numDecimals);
+
+                serie.setEstadisticaDescriptiva(estadisticaDescriptiva);
+                serie.setInferenciaEstadistica(inferenciaEstadistica);
             }
-
-            InferenciaEstadistica inferenciaEstadistica=new InferenciaEstadistica(estadisticaDescriptiva, nivelConfianza, numDecimals);
-
-            serie.setEstadisticaDescriptiva(estadisticaDescriptiva);
-            serie.setInferenciaEstadistica(inferenciaEstadistica);
         }
 
 
