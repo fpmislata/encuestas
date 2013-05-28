@@ -230,6 +230,14 @@ public class RespuestaPreguntaWidget {
             throw new RuntimeException("listaValores no puede ser null");
         }
 
+        String emptyValue="&nbsp;&nbsp;&nbsp;&nbsp;";
+        String currentValue;
+        if (respuestaItem.getValor()==null) {
+            currentValue="&nbsp;&nbsp;&nbsp;&nbsp;";
+        } else {
+            currentValue=HTMLUtil.toHTML(respuestaItem.getValor());
+        }
+
         sb.append("      <li style=\"text-align: left\">\n");
         sb.append("        <div class=\"row-fluid\">\n");
         sb.append("            <div class=\"span7 simple-text\" style=\"padding-left: 20px;padding-top: 0.5em;\" >\n");
@@ -238,10 +246,10 @@ public class RespuestaPreguntaWidget {
         sb.append("            <div class=\"span5\" >\n");
         sb.append("                <div class=\"btn-group\">\n");
         sb.append("                    <button class=\"btn dropdown-toggle\" data-toggle=\"dropdown\">\n");
-        sb.append("                        " + HTMLUtil.toHTML(respuestaItem.getValor()) + "&nbsp;&nbsp;<span class=\"caret\"></span>\n");
+        sb.append("                        " + currentValue + "&nbsp;&nbsp;<span class=\"caret\"></span>\n");
         sb.append("                    </button>\n");
         sb.append("                    <ul class=\"dropdown-menu\">\n");
-        sb.append("                        <li><a href=\"javascript:void(0)\" onclick=\"select_click(this)\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>\n");
+        sb.append("                        <li><a href=\"javascript:void(0)\" onclick=\"select_click(this)\" >" + emptyValue + "</a></li>\n");
         for (Valor valor : listaValores.getValores()) {
             sb.append("                        <li><a href=\"javascript:void(0)\" onclick=\"select_click(this)\" >" + valor.getNombre() + "</a></li>\n");
         }
