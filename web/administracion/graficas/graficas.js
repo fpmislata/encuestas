@@ -145,10 +145,10 @@ function GraficasController($scope,$http,$filter) {
 
 
 function showChart(element,resultado) {
+    if (element.highcharts()) {
+        element.highcharts().destroy();
+    }    
     if (resultado.dibujable==false) {
-        if (element.highcharts()) {
-            element.highcharts().destroy();
-        }
         return;
     }     
     
