@@ -20,6 +20,7 @@
         </many-to-one>
         <property name="requerido" />
         <property name="expresionRegular" />
+        <property name="valorDefecto" />
         <property name="idx" />
     </class>
 </hibernate-mapping>

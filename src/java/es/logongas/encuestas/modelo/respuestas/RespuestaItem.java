@@ -43,7 +43,7 @@ public class RespuestaItem {
         this.item = item;
         this.respuestaPregunta = respuestaPregunta;
         this.check = false;
-        this.valor = null;
+        this.valor = item.getValorDefecto();
 
         //Hacemos ésto para que se cargen los valores
         //Pq sino luego no hay sesión.

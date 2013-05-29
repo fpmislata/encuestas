@@ -27,6 +27,7 @@ public class Item implements Comparable<Item> {
     private Pregunta pregunta;
     private boolean requerido;
     private String expresionRegular;
+    private String valorDefecto;
     private int idx;
 
     /**
@@ -158,5 +159,19 @@ public class Item implements Comparable<Item> {
      */
     public void setExpresionRegular(String expresionRegular) {
         this.expresionRegular = expresionRegular;
+    }
+
+    /**
+     * @return the valorDefecto
+     */
+    public String getValorDefecto() {
+        return valorDefecto;
+    }
+
+    /**
+     * @param valorDefecto the valorDefecto to set
+     */
+    public void setValorDefecto(String valorDefecto) {
+        this.valorDefecto = valorDefecto;
     }
 }
