@@ -70,16 +70,16 @@ public class RespuestaPreguntaWidget {
 
     private void generateCabecera(RespuestaPregunta respuestaPregunta, StringBuilder sb) {
         sb.append("<div class=\"row-fluid\" style=\"margin-top: 2em;\">\n");
-        sb.append("  <div class=\"span12 main-text\" >" + HTMLUtil.toHTML(respuestaPregunta.getPregunta().getPregunta()) + ":</div>\n");
+        sb.append("  <div class=\"span12 main-text lead\" >" + HTMLUtil.toHTML(respuestaPregunta.getPregunta().getPregunta(),true) + ":</div>\n");
         sb.append("</div>\n");
-        sb.append("<form  id=\"formRespuestas\" action=\"\" method=\"POST\" style=\"margin: 0px; padding: 0px;\">\n");
+        sb.append("<form  id=\"formRespuestas\" action=\"\" method=\"POST\">\n");
         sb.append("<div class=\"row-fluid\">\n");
         sb.append("  <div class=\"span12\" >\n");
-        sb.append("    <ul class=\"items_encuesta\">\n");
+        sb.append("    <table width='100%' > \n");
     }
 
     private void generatePie(RespuestaPregunta respuestaPregunta, StringBuilder sb) {
-        sb.append("    </ul>\n");
+        sb.append("    </table>\n");
         sb.append("  </div>\n");
         sb.append("</div>\n");
         sb.append("</form>\n");
@@ -111,7 +111,7 @@ public class RespuestaPreguntaWidget {
                 cssStyleVisibility = "hidden";
             }
 
-            sb.append("      <li style=\"text-align: left\">\n");
+            sb.append("      <tr><td colspan='2' style=\"text-align: left\">\n");
             sb.append("        <div class=\".radiobutton\">\n");
             sb.append("          <input type=\"radio\" value=\"" + respuestaPregunta.getPregunta().getItems().get(i).getIdItem() + "\"  name=\"check1\" " + checked + " />\n");
             sb.append("          <label class=\"" + cssClassChecked + "\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + HTMLUtil.toHTML(item.getNombre()) + "</label>\n");
@@ -122,7 +122,7 @@ public class RespuestaPreguntaWidget {
                 }
             }
             sb.append("        </div>\n");
-            sb.append("      </li>\n");
+            sb.append("      </td></tr>\n");
         }
 
     }
@@ -154,7 +154,7 @@ public class RespuestaPreguntaWidget {
                 }
             }
 
-            sb.append("      <li style=\"text-align: left\">\n");
+            sb.append("      <tr><td colspan='2'  style=\"text-align: left\">\n");
             sb.append("        <div class=\".checkbox\">\n");
             sb.append("          <input type=\"checkbox\" value=\"" + respuestaItem.getItem().getIdItem() + "\"  name=\"check" + respuestaItem.getItem().getIdItem() + "\"  " + checked + " />\n");
             sb.append("          <label class=\"" + cssClassChecked + "\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + "</label>\n");
@@ -162,7 +162,7 @@ public class RespuestaPreguntaWidget {
                 sb.append("          <input class=\"input-xxlarge\" type=\"text\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\" placeholder=\"Altres expectatives\" style=\"visibility:" + cssStyleVisibility + "\" value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" >\n");
             }
             sb.append("        </div>\n");
-            sb.append("      </li>\n");
+            sb.append("      </td></tr>\n");
         }
     }
 
@@ -213,7 +213,7 @@ public class RespuestaPreguntaWidget {
             cssStyleVisibility = "hidden";
         }
 
-        sb.append("      <li style=\"text-align: left\">\n");
+        sb.append("      <tr><td colspan='2'  style=\"text-align: left\">\n");
         sb.append("        <div class=\".checkbox\">\n");
         sb.append("          <input type=\"checkbox\" value=\"" + respuestaItem.getItem().getIdItem() + "\"  name=\"check" + respuestaItem.getItem().getIdItem() + "\"  " + checked + " />\n");
         sb.append("          <label class=\"" + cssClassChecked + "\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + "</label>\n");
@@ -221,7 +221,7 @@ public class RespuestaPreguntaWidget {
             sb.append("          <input class=\"input-xxlarge\" type=\"text\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\" placeholder=\"Altres expectatives\" style=\"visibility:" + cssStyleVisibility + "\" value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" >\n");
         }
         sb.append("        </div>\n");
-        sb.append("      </li>\n");
+        sb.append("      </td></tr>\n");
     }
 
     private void generateItemListaValores(RespuestaItem respuestaItem, StringBuilder sb) {
@@ -238,12 +238,11 @@ public class RespuestaPreguntaWidget {
             currentValue=HTMLUtil.toHTML(respuestaItem.getValor());
         }
 
-        sb.append("      <li style=\"text-align: left\">\n");
-        sb.append("        <div class=\"row-fluid\">\n");
-        sb.append("            <div class=\"span7 simple-text\" style=\"padding-left: 20px;padding-top: 0.5em;\" >\n");
-        sb.append("                <img src=\"img/icons/bullet.png\" />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":\n");
-        sb.append("            </div>\n");
-        sb.append("            <div class=\"span5\" >\n");
+        sb.append("      <tr>\n");
+        sb.append("            <td class=\"simple-text lead\" style=\"text-align: left;padding-left: 20px;vertical-align:top;padding-top:10px;\" >\n");
+        sb.append("                <img src=\"img/icons/bullet.png\" />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre(),true) + ":\n");
+        sb.append("            </td>\n");
+        sb.append("            <td >\n");
         sb.append("                <div class=\"btn-group\">\n");
         sb.append("                    <button class=\"btn dropdown-toggle\" data-toggle=\"dropdown\">\n");
         sb.append("                        " + currentValue + "&nbsp;&nbsp;<span class=\"caret\"></span>\n");
@@ -251,40 +250,35 @@ public class RespuestaPreguntaWidget {
         sb.append("                    <ul class=\"dropdown-menu\">\n");
         sb.append("                        <li><a href=\"javascript:void(0)\" onclick=\"select_click(this)\" >" + emptyValue + "</a></li>\n");
         for (Valor valor : listaValores.getValores()) {
-            sb.append("                        <li><a href=\"javascript:void(0)\" onclick=\"select_click(this)\" >" + valor.getNombre() + "</a></li>\n");
+            sb.append("                        <li><a href=\"javascript:void(0)\" onclick=\"select_click(this)\" >" + HTMLUtil.toHTML(valor.getNombre()) + "</a></li>\n");
         }
         sb.append("                    </ul>\n");
         sb.append("                    <input class=\"dropdownlist\" type=\"text\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\" value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
         sb.append("                </div>\n");
-        sb.append("            </div>\n");
-        sb.append("        </div>\n");
-        sb.append("      </li>\n");
+        sb.append("            </td>\n");
+        sb.append("      </tr>\n");
     }
 
     private void generateItemTexto(RespuestaItem respuestaItem, StringBuilder sb) {
-        sb.append("      <li style=\"text-align: left\">\n");
-        sb.append("        <div class=\"row-fluid\">\n");
-        sb.append("            <div class=\"span7 simple-text\" style=\"padding-left: 20px\" >\n");
-        sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":\n");
-        sb.append("            </div >\n");
-        sb.append("            <div class=\"span5\">\n");
-        sb.append("                <input type=\"text\" class=\"input-xlarge\" style=\"margin-top: 0px;\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\"  value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
-        sb.append("            </div>\n");
-        sb.append("        </div>\n");
-        sb.append("      </li>\n");
+        sb.append("      <tr>\n");
+        sb.append("            <td class=\"simple-text lead\" style=\"text-align: left;padding-left: 20px;vertical-align:top\" >\n");
+        sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre(),true) + ":\n");
+        sb.append("            </td>\n");
+        sb.append("            <td valign='middle'>\n");
+        sb.append("                <input type=\"text\" class=\"input-xlarge\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\"  value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
+        sb.append("            </td>\n");
+        sb.append("      </tr>\n");
     }
 
     private void generateItemFecha(RespuestaItem respuestaItem, StringBuilder sb) {
-        sb.append("      <li style=\"text-align: left\">\n");
-        sb.append("        <div class=\"row-fluid\">\n");
-        sb.append("            <div class=\"span7 simple-text\" style=\"padding-left: 20px\" >\n");
-        sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":\n");
-        sb.append("            </div >\n");
-        sb.append("            <div class=\"span5\">\n");
-        sb.append("                <input type=\"text\" id=\"valor" + respuestaItem.getItem().getIdItem() + "\" class=\"input-medium\" style=\"margin-top: 0px;\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\"  value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
-        sb.append("            </div>\n");
-        sb.append("        </div>\n");
-        sb.append("      </li>\n");
+        sb.append("      <tr>\n");
+        sb.append("            <td class=\"simple-text lead\" style=\"text-align: left;padding-left: 20px;vertical-align:top\" >\n");
+        sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre(),true) + ":\n");
+        sb.append("            </td >\n");
+        sb.append("            <td valign='middle'>\n");
+        sb.append("                <input type=\"text\" id=\"valor" + respuestaItem.getItem().getIdItem() + "\" class=\"input-medium\"  name=\"valor" + respuestaItem.getItem().getIdItem() + "\"  value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
+        sb.append("            </td>\n");
+        sb.append("      </tr>\n");
         sb.append("      <script>\n");
         sb.append("          $(function() { $(\"#valor" + respuestaItem.getItem().getIdItem() + "\").datepicker(); });\n");
         sb.append("      </script>\n");
@@ -327,20 +321,18 @@ public class RespuestaPreguntaWidget {
         }
 
 
-        sb.append("      <li style=\"text-align: left\">\n");
         if (showPregunta == true) {
-            sb.append("        <div class=\"row-fluid\">\n");
-            sb.append("            <div class=\"span12 simple-text\" style=\"padding-left: 20px\" >\n");
-            sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + ":\n");
-            sb.append("            </div >\n");
-            sb.append("        </div>\n");
+            sb.append("        <tr>\n");
+            sb.append("            <td colspan='2' class=\"simple-text lead\" style=\"text-align: left;padding-left: 20px\" >\n");
+            sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre(),true) + ":\n");
+            sb.append("            </td >\n");
+            sb.append("        </tr>\n");
         }
-        sb.append("        <div class=\"row-fluid\">\n");
-        sb.append("                <textarea  class=\"span12\" id=\"valor" + respuestaItem.getItem().getIdItem() + "\"  name=\"valor" + respuestaItem.getItem().getIdItem() + "\" rows=\"5\" cols=\"200\"   />\n");
+        sb.append("        <tr><td colspan='2'>\n");
+        sb.append("                <textarea  style='width:90%' id=\"valor" + respuestaItem.getItem().getIdItem() + "\"  name=\"valor" + respuestaItem.getItem().getIdItem() + "\" rows=\"5\" cols=\"200\"   >");
         sb.append(HTMLUtil.toHTML(respuestaItem.getValor()));
         sb.append("</textarea>");
-        sb.append("        </div>\n");
+        sb.append("        </td></tr>\n");
 
-        sb.append("      </li>\n");
     }
 }
