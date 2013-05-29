@@ -136,7 +136,7 @@ INSERT INTO `pregunta` (`idPregunta`, `pregunta`, `idEncuesta`, `tipoPregunta`, 
 	(13, 'En acabar el cicle al que te matricules la teu intenció actual és la de', 3, 1, 0, 1, 0),
 	(14, 'Valora de 1 a 10 els següents aspectes del centre', 3, 2, 0, 1, 1),
 	(15, 'Voldries afegir algún suggeriment?', 3, 2, 0, 0, 3),
-	(16, 'Quan hages de fer les FCTs, on preferixes fer-les? (La teua resposta no et compromet a res, és només per a orientar-nos) .', 3, 1, 0, 1, 2);
+	(16, 'Quan hages de fer les FCTs, on preferixes fer-les? (La teua resposta no et compromet a res, és només per a orientar-nos)', 3, 1, 0, 1, 2);
 
 
 
@@ -187,9 +187,9 @@ INSERT INTO `item` (`idItem`, `nombre`, `tipoItem`, `idListaValores`, `idPregunt
 	(34, 'La teua experiéncia com alumne', 1, 1, 14, 1, NULL, 3),
 	(35, 'El nivell general del professorat', 1, 1, 14, 1, NULL, 4),
 	(36, 'Algún suggeriment', 4, NULL, 15, 0, NULL, 0),
-	(37, 'En la comunitat valenciana', NULL, NULL, 16, 0, NULL, 0),
+	(37, 'En la Comunitat Valenciana', NULL, NULL, 16, 0, NULL, 0),
 	(38, 'En la resta d\'Espanya', NULL, NULL, 16, 0, NULL, 1),
-	(39, 'En la resta d\'europa', NULL, NULL, 16, 0, NULL, 2);
+	(39, 'En la resta d\'Europa', NULL, NULL, 16, 0, NULL, 2);
 
 
 CREATE TABLE  `respuestaencuesta` (
