@@ -14,5 +14,8 @@
             <one-to-many class="es.logongas.encuestas.modelo.respuestas.RespuestaPregunta" />
         </list>
         <property name="fechaRespuesta" type="timestamp" />
+        <many-to-one name="curso">
+                <column name="idCurso"  />
+        </many-to-one>
     </class>
 </hibernate-mapping>

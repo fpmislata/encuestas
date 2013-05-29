@@ -15,6 +15,7 @@
  */
 package es.logongas.encuestas.modelo.respuestas;
 
+import es.logongas.encuestas.modelo.educacion.Curso;
 import es.logongas.encuestas.modelo.encuestas.Encuesta;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
 import es.logongas.ix3.persistence.services.dao.BusinessMessage;
@@ -32,6 +33,7 @@ public class RespuestaEncuesta {
     private Encuesta encuesta;
     private List<RespuestaPregunta> respuestaPreguntas = new ArrayList<RespuestaPregunta>();
     private Date fechaRespuesta;
+    private Curso curso;
 
     private RespuestaEncuesta() {
     }
@@ -144,5 +146,19 @@ public class RespuestaEncuesta {
         }
 
         return businessMessages;
+    }
+
+    /**
+     * @return the curso
+     */
+    public Curso getCurso() {
+        return curso;
+    }
+
+    /**
+     * @param curso the curso to set
+     */
+    public void setCurso(Curso curso) {
+        this.curso = curso;
     }
 }

@@ -94,7 +94,45 @@ INSERT INTO `valor` (`idValor`, `nombre`, `idListaValores`, `valorNumerico`, `Id
 	(73, '0', 1, 0, 0),
 	(74, 'NS/NC', 1, NULL, 11);
 
+CREATE TABLE `curso` (
+  `idCurso` int(10) NOT NULL AUTO_INCREMENT,
+  `anyoInicio` int(10) DEFAULT NULL,
+  PRIMARY KEY (`idCurso`),
+  UNIQUE KEY `anyoInicio` (`anyoInicio`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
+-- Dumping data for table encuestas.curso: ~29 rows (approximately)
+/*!40000 ALTER TABLE `curso` DISABLE KEYS */;
+INSERT INTO `curso` (`idCurso`, `anyoInicio`) VALUES
+	(1, 2012),
+	(2, 2013),
+	(3, 2014),
+	(4, 2015),
+	(5, 2016),
+	(6, 2017),
+	(7, 2018),
+	(8, 2019),
+	(9, 2020),
+	(10, 2021),
+	(11, 2022),
+	(12, 2023),
+	(13, 2024),
+	(14, 2025),
+	(15, 2026),
+	(16, 2027),
+	(17, 2028),
+	(18, 2029),
+	(19, 2030),
+	(20, 2031),
+	(21, 2032),
+	(22, 2033),
+	(23, 2034),
+	(24, 2035),
+	(25, 2036),
+	(26, 2037),
+	(27, 2038),
+	(28, 2039),
+	(29, 2040);
 
 
 CREATE TABLE `encuesta` (
@@ -196,10 +234,13 @@ CREATE TABLE  `respuestaencuesta` (
   `idRespuestaEncuesta` int(11) NOT NULL AUTO_INCREMENT,
   `idEncuesta` int(11) DEFAULT NULL,
   `fechaRespuesta` datetime DEFAULT NULL,
+  `idCurso` int(11) DEFAULT NULL,
   PRIMARY KEY (`idRespuestaEncuesta`),
   KEY `FK3AA724B6926153F7` (`idEncuesta`),
+  KEY `idCurso` (`idCurso`),
+  CONSTRAINT `FK_respuestaencuesta_curso` FOREIGN KEY (`idCurso`) REFERENCES `curso` (`idCurso`),
   CONSTRAINT `FK3AA724B6926153F7` FOREIGN KEY (`idEncuesta`) REFERENCES `encuesta` (`idEncuesta`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `respuestapregunta` (
@@ -212,7 +253,7 @@ CREATE TABLE `respuestapregunta` (
   KEY `FK87989AAA2C443FDF` (`idPregunta`),
   CONSTRAINT `FK87989AAA2C443FDF` FOREIGN KEY (`idPregunta`) REFERENCES `pregunta` (`idPregunta`),
   CONSTRAINT `FK87989AAA7A7B7DB5` FOREIGN KEY (`idRespuestaEncuesta`) REFERENCES `respuestaencuesta` (`idRespuestaEncuesta`)
-) ENGINE=InnoDB AUTO_INCREMENT=185 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE  `respuestaitem` (

@@ -15,5 +15,7 @@
     <mapping resource="es/logongas/encuestas/persistencia/impl/dao/respuestas/RespuestaEncuesta.hbm.xml"/>
     <mapping resource="es/logongas/encuestas/persistencia/impl/dao/respuestas/RespuestaPregunta.hbm.xml"/>
     <mapping resource="es/logongas/encuestas/persistencia/impl/dao/respuestas/RespuestaItem.hbm.xml"/>
+    <!-- Respuestas de las educacion -->
+    <mapping resource="es/logongas/encuestas/persistencia/impl/dao/educacion/Curso.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

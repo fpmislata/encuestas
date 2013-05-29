@@ -15,6 +15,7 @@
  */
 package es.logongas.encuestas.presentacion.controller;
 
+import es.logongas.encuestas.modelo.educacion.Curso;
 import es.logongas.encuestas.modelo.encuestas.Encuesta;
 import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.encuestas.modelo.encuestas.ListaValores;
@@ -24,12 +25,16 @@ import es.logongas.encuestas.modelo.respuestas.Documento;
 import es.logongas.encuestas.modelo.respuestas.RespuestaEncuesta;
 import es.logongas.encuestas.modelo.respuestas.RespuestaItem;
 import es.logongas.encuestas.modelo.respuestas.RespuestaPregunta;
+import es.logongas.encuestas.persistencia.services.dao.educacion.CursoDAO;
 import es.logongas.ix3.persistence.services.dao.BusinessException;
 import es.logongas.ix3.persistence.services.dao.BusinessMessage;
 import es.logongas.ix3.persistence.services.dao.DAOFactory;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -322,6 +327,10 @@ public class EncuestaController {
             model.put("businessMessages", businessMessages);
             viewName = "encuestas/error_encuesta";
         } else {
+            Date fechaRespuesta=new Date();
+            respuestaEncuesta.setFechaRespuesta(fechaRespuesta);
+            respuestaEncuesta.setCurso(getCursoFromDate(fechaRespuesta));
+
             daoFactory.getDAO(RespuestaEncuesta.class).insert(respuestaEncuesta);
 
             URI backURI = getEncuestaState(request).getBackURI();
@@ -395,7 +404,7 @@ public class EncuestaController {
             ListaValores listaValores = respuestaItem.getItem().getListaValores();
             if ((listaValores != null) && (listaValores.isContieneValoresNumericos() == true)) {
                 Valor valor = listaValores.getValorByNombre(respuestaItem.getValor());
-                if ((valor != null) && (valor.getValorNumerico()!=null)) {
+                if ((valor != null) && (valor.getValorNumerico() != null)) {
                     respuestaItem.setValorNumerico(valor.getValorNumerico());
                 }
             }
@@ -437,5 +446,29 @@ public class EncuestaController {
         }
 
         return s.trim();
+    }
+
+    private Curso getCursoFromDate(Date date) {
+        GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(date);
+
+        int anyoInicioCurso;
+        int anyoActual = gc.get(GregorianCalendar.YEAR);
+        int mesActual = gc.get(GregorianCalendar.MONTH);
+        //A partir de Mayo estamos en el nuevo curso a efectos de las encuestas de matricula
+        if (mesActual >= Calendar.MAY) {
+            anyoInicioCurso = anyoActual;
+        } else {
+            anyoInicioCurso = anyoActual - 1;
+        }
+
+        CursoDAO cursoDAO = (CursoDAO) daoFactory.getDAO(Curso.class);
+        Curso curso = cursoDAO.getByAnyoInicio(anyoInicioCurso);
+        if (curso == null) {
+            //Creamos un nuevo curso para este año
+            throw new RuntimeException("No existe el curso que empieza en el año:" + anyoInicioCurso);
+        }
+
+        return curso;
     }
 }
