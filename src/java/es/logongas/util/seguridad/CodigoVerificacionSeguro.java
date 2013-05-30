@@ -38,7 +38,7 @@ public class CodigoVerificacionSeguro {
     private String valor;
 
     private CodigoVerificacionSeguro() {
-        
+        //Lo necesita Hibernate
     }
 
     private CodigoVerificacionSeguro(String valor) {
