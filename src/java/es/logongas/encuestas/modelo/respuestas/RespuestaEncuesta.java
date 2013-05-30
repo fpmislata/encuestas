@@ -19,6 +19,7 @@ import es.logongas.encuestas.modelo.educacion.Curso;
 import es.logongas.encuestas.modelo.encuestas.Encuesta;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
 import es.logongas.ix3.persistence.services.dao.BusinessMessage;
+import es.logongas.util.seguridad.CodigoVerificacionSeguro;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +35,7 @@ public class RespuestaEncuesta {
     private List<RespuestaPregunta> respuestaPreguntas = new ArrayList<RespuestaPregunta>();
     private Date fechaRespuesta;
     private Curso curso;
+    private CodigoVerificacionSeguro codigoVerificacionSeguro;
 
     private RespuestaEncuesta() {
     }
@@ -108,6 +110,20 @@ public class RespuestaEncuesta {
         this.fechaRespuesta = fechaRespuesta;
     }
 
+    /**
+     * @return the codigoVerificacionSeguro
+     */
+    public CodigoVerificacionSeguro getCodigoVerificacionSeguro() {
+        return codigoVerificacionSeguro;
+    }
+
+    /**
+     * @param codigoVerificacionSeguro the codigoVerificacionSeguro to set
+     */
+    public void setCodigoVerificacionSeguro(CodigoVerificacionSeguro codigoVerificacionSeguro) {
+        this.codigoVerificacionSeguro = codigoVerificacionSeguro;
+    }
+    
     public boolean isPreguntaValida(Pregunta pregunta) {
         if (getRespuestaPregunta(pregunta) != null) {
             return true;
@@ -126,9 +142,6 @@ public class RespuestaEncuesta {
         return null;
     }
 
-    public Documento getDocumento() {
-        return null;
-    }
 
     public Pregunta getPrimeraPregunta() {
         return encuesta.getPrimeraPregunta();

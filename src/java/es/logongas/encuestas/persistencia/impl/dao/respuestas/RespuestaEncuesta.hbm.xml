@@ -15,7 +15,10 @@
         </list>
         <property name="fechaRespuesta" type="timestamp" />
         <many-to-one name="curso">
-                <column name="idCurso"  />
+            <column name="idCurso"  />
         </many-to-one>
+        <component name="codigoVerificacionSeguro">
+            <property name="valor" access="field" column="CodigoVerificacionSeguro" />
+        </component>
     </class>
 </hibernate-mapping>
