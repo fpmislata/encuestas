@@ -20,8 +20,11 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.oned.Code39Writer;
 import com.google.zxing.qrcode.QRCodeWriter;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Random;
 import org.apache.commons.codec.binary.Base32;
 
@@ -31,16 +34,68 @@ import org.apache.commons.codec.binary.Base32;
  */
 public class CodigoVerificacionSeguro {
 
+    String valor;
+
+    private  CodigoVerificacionSeguro(String valor) {
+        this.valor=valor;
+    }
+
+    /**
+     * Crea un código de verificación seguro único en base al String con el valor
+     * @param valor Este valor se obtiene de unba instancia de llamar al método getValor()
+     * @return El código de verificación seguro
+     */
+    public static CodigoVerificacionSeguro newInstance(String valor) {
+        return new CodigoVerificacionSeguro(valor);
+    }
+
+
     /**
      * Crea un código de verificación seguro único
      * @param tipo El tipo del documento.. Es responsable del que llama a ésta función coordinarse con los tipos
      * @param key La clave del documento.
-     * @return String con el código de verificación seguro
+     * @return El código de verificación seguro
      */
-    static public String createCodigoVerificacionSeguro(byte tipo, int key) {
+    public static CodigoVerificacionSeguro newInstance(byte tipo, int key) {
+        return new CodigoVerificacionSeguro(createValor(tipo,key));
+    }
+
+
+    public String getValor() {
+        return valor;
+    }
+
+    public boolean isValido() {
+        try {
+            Base32 base32 = new Base32();
+            byte datos[]=base32.decode(valor);
+            DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(datos));
+            byte tipo=dataInputStream.readByte();
+            int key=dataInputStream.readInt();
+            int numeroAleatorio=dataInputStream.readInt();
+            int crcReal=dataInputStream.readInt();
+
+             CRC crc=new CRC();
+             crc.update(tipo).update(key).update(numeroAleatorio);
+
+             if (crcReal==crc.getCRC()) {
+                 return true;
+             } else {
+                 return false;
+             }
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+
+    private static String createValor(byte tipo, int key) {
         try {
             //Generar el Nº aleatorio
             int numeroAleatorio = new Random().nextInt(Integer.MAX_VALUE);
+            CRC crc=new CRC();
+            crc.update(tipo).update(key).update(numeroAleatorio);
+
 
             //Genera el array de datos con el tipo, key y el nº aleatorio
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -48,6 +103,8 @@ public class CodigoVerificacionSeguro {
             dataOutputStream.writeByte(tipo);
             dataOutputStream.writeInt(key);
             dataOutputStream.writeInt(numeroAleatorio);
+            dataOutputStream.writeInt(crc.getCRC());
+
             byte[] datos = byteArrayOutputStream.toByteArray();
 
             //Trasformarlo en un String en Base32
@@ -66,16 +123,15 @@ public class CodigoVerificacionSeguro {
     }
 
     /**
-     * Genera una imagen en formato PNG con un código de barras en función del código de verificación seguro
-     * @param codigoVerificacionSeguro El código de verificación seguro del que se genera el código de barras
+     * Genera una imagen en formato PNG con un código de barras del código de verificación seguro
      * @param ancho Ancho en píxeles de la imagen generada
      * @param alto Alto en píxeles de la imagen generada
      * @return Los bytes de la imagen del código de barras en formato PNG
      */
-    public static byte[] getBarCode(String codigoVerificacionSeguro,int ancho,int alto) {
+    public byte[] getBarCode(int ancho,int alto) {
         try {
             Code39Writer  writer = new Code39Writer();
-            BitMatrix bitMatrix = writer.encode(codigoVerificacionSeguro, BarcodeFormat.CODE_39, ancho, alto);
+            BitMatrix bitMatrix = writer.encode(valor, BarcodeFormat.CODE_39, ancho, alto);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             MatrixToImageWriter.writeToStream(bitMatrix, "png", byteArrayOutputStream);
 
@@ -86,15 +142,14 @@ public class CodigoVerificacionSeguro {
     }
 
     /**
-     * Genera una imagen en formato PNG con un código QR en función del código de verificación seguro
-     * @param codigoVerificacionSeguro El código de verificación seguro del que se genera el código de barras
+     * Genera una imagen en formato PNG con un código QR del código de verificación seguro
      * @param tamanyo tamanyo del lado en píxeles de la imagen generada. La iamgen es cuadrada
      * @return Los bytes de la imagen del código QR en formato PNG
      */
-    public static byte[] getQRCode(String codigoVerificacionSeguro,int tamanyo) {
+    public byte[] getQRCode(int tamanyo) {
         try {
             QRCodeWriter writer = new QRCodeWriter();
-            BitMatrix bitMatrix = writer.encode(codigoVerificacionSeguro, BarcodeFormat.QR_CODE, tamanyo, tamanyo);
+            BitMatrix bitMatrix = writer.encode(valor, BarcodeFormat.QR_CODE, tamanyo, tamanyo);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             MatrixToImageWriter.writeToStream(bitMatrix, "png", byteArrayOutputStream);
 
