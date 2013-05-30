@@ -18,23 +18,23 @@ public class CodigoVerificacionSeguroTest {
 
     @Test
     public void testNewInstance_String() {
-        System.out.println("isValido");
-        byte tipo = 45;
-        int key = 67;
-        CodigoVerificacionSeguro instance =CodigoVerificacionSeguro.newInstance(CodigoVerificacionSeguro.newInstance(tipo, key).getValor());
+        System.out.print("testNewInstance_String:");
+        int key = 245897;
+        CodigoVerificacionSeguro instance =CodigoVerificacionSeguro.newInstance(CodigoVerificacionSeguro.newInstance(key).getValor());
         boolean expResult = true;
         boolean result = instance.isValido();
         assertEquals(expResult, result);
+        System.out.println(instance.getValor());
     }
 
     @Test
     public void testIsValido() {
-        System.out.println("isValido");
-        byte tipo = 45;
-        int key = 67;
-        CodigoVerificacionSeguro instance = CodigoVerificacionSeguro.newInstance(tipo, key);
+        System.out.print("isValido:");
+        int key = 58698;
+        CodigoVerificacionSeguro instance = CodigoVerificacionSeguro.newInstance(key);
         boolean expResult = true;
         boolean result = instance.isValido();
         assertEquals(expResult, result);
+        System.out.println(instance.getValor());
     }
 }
