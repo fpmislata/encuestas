@@ -37,6 +37,10 @@ public class CodigoVerificacionSeguro {
 
     private String valor;
 
+    private CodigoVerificacionSeguro() {
+        
+    }
+
     private CodigoVerificacionSeguro(String valor) {
         this.valor = valor;
     }
