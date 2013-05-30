@@ -21,17 +21,17 @@ import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.encuestas.modelo.encuestas.ListaValores;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
 import es.logongas.encuestas.modelo.encuestas.Valor;
-import es.logongas.encuestas.modelo.respuestas.Documento;
 import es.logongas.encuestas.modelo.respuestas.RespuestaEncuesta;
 import es.logongas.encuestas.modelo.respuestas.RespuestaItem;
 import es.logongas.encuestas.modelo.respuestas.RespuestaPregunta;
 import es.logongas.encuestas.persistencia.services.dao.educacion.CursoDAO;
+import es.logongas.encuestas.persistencia.services.dao.respuestas.RespuestaEncuestaDAO;
 import es.logongas.ix3.persistence.services.dao.BusinessException;
 import es.logongas.ix3.persistence.services.dao.BusinessMessage;
 import es.logongas.ix3.persistence.services.dao.DAOFactory;
+import es.logongas.util.seguridad.CodigoVerificacionSeguro;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLDecoder;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -45,6 +45,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -195,14 +197,8 @@ public class EncuestaController {
             if (siguientePregunta != null) {
                 viewName = "redirect:/pregunta.html?idPregunta=" + siguientePregunta.getIdPregunta();
             } else {
-                //Era la última pregunta
-                if (pregunta.getEncuesta().isImprimir() == true) {
-                    //Vamos a la página de imprimir
-                    viewName = "redirect:/imprimir.html";
-                } else {
-                    //Así que vamos a la página de finalizar pq no hay que imprimir nada
-                    viewName = "redirect:/finalizar.html";
-                }
+                //Era la última pregunta.Vamos a la página de finalizar
+                viewName = "redirect:/finalizar.html";
             }
         }
 
@@ -287,24 +283,6 @@ public class EncuestaController {
         return new ModelAndView(viewName, model);
     }
 
-    @RequestMapping(value = {"/imprimir.html"})
-    public ModelAndView imprimir(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Map<String, Object> model = new HashMap<String, Object>();
-        String viewName;
-
-        if (request.getCharacterEncoding() == null) {
-            try {
-                request.setCharacterEncoding("utf-8");
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(EncuestaController.class.getName()).log(Level.WARNING, "no existe el juego de caracteres utf-8", ex);
-            }
-        }
-
-        viewName = "encuestas/imprimir";
-
-        return new ModelAndView(viewName, model);
-    }
-
     @RequestMapping(value = {"/finalizar.html"})
     public ModelAndView finalizar(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> model = new HashMap<String, Object>();
@@ -332,11 +310,15 @@ public class EncuestaController {
             respuestaEncuesta.setCurso(getCursoFromDate(fechaRespuesta));
 
             daoFactory.getDAO(RespuestaEncuesta.class).insert(respuestaEncuesta);
+            CodigoVerificacionSeguro codigoVerificacionSeguro=CodigoVerificacionSeguro.newInstance(respuestaEncuesta.getIdRespuestaEncuesta());
+            respuestaEncuesta.setCodigoVerificacionSeguro(codigoVerificacionSeguro);
+            daoFactory.getDAO(RespuestaEncuesta.class).update(respuestaEncuesta);
 
             URI backURI = getEncuestaState(request).getBackURI();
 
             clearEncuestaState(request);
 
+            model.put("codigoVerificacionSeguro", codigoVerificacionSeguro);
             model.put("backURI", backURI);
             viewName = "encuestas/finalizar";
         }
@@ -344,32 +326,42 @@ public class EncuestaController {
         return new ModelAndView(viewName, model);
     }
 
-    @RequestMapping(value = {"/documento.pdf"})
-    public void documento(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            Documento documento = getEncuestaState(request).getRespuestaEncuesta().getDocumento();
 
-            response.setHeader("Expires", "0");
-            response.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-            response.setHeader("Pragma", "public");
-            response.setHeader("Content-Disposition", "attachment; filename=" + documento.getFileName());
-            response.setHeader("Content-Disposition", "inline; filename=" + documento.getFileName());
+    @RequestMapping(value = {"/cvc/respuestaencuesta/qrcode.png"}, method = RequestMethod.GET, produces = "image/png",headers="Accept=*/*")
+    public @ResponseBody byte[] qrcode(HttpServletRequest request, HttpServletResponse response) {
+
+            String valorCVC=request.getParameter("cvc");
+            int tamanyo;
+            try {
+                tamanyo=Integer.parseInt(request.getParameter("tamanyo"));
+            } catch (Exception ex) {
+                tamanyo=200;
+            }
 
 
-            response.setContentType(documento.getMimetype());
-            response.setContentLength(documento.getDatos().length);
-            response.getOutputStream().write(documento.getDatos());
+            CodigoVerificacionSeguro codigoVerificacionSeguro=CodigoVerificacionSeguro.newInstance(valorCVC);
+            RespuestaEncuestaDAO respuestaEncuestaDAO=(RespuestaEncuestaDAO)daoFactory.getDAO(RespuestaEncuesta.class);
+            RespuestaEncuesta respuestaEncuesta=respuestaEncuestaDAO.getByCodigoVerificacionSeguro(codigoVerificacionSeguro);
+            if (respuestaEncuesta!=null) {
+                return respuestaEncuesta.getCodigoVerificacionSeguro().getQRCode(tamanyo);
+            } else {
+                return null;
+            }
 
-            response.getOutputStream().flush();
-        } catch (BusinessException ex) {
-            //Si se produce un error, no podemos tratarlo pq es un documento
-            //¿Como avisamos al usuario?
-            //@TODO: Avisar el usuario con un PDF genérico de error
-        } catch (Exception ex) {
-            //Si se produce un error, no podemos tratarlo pq es un documento
-            //¿Como avisamos al usuario?
-            //@TODO: Avisar el usuario con un PDF genérico de error
-        }
+    }
+    @RequestMapping(value = {"/cvc/respuestaencuesta/barcode.png"}, method = RequestMethod.GET, produces = "image/png",headers="Accept=*/*")
+    public @ResponseBody byte[] barcode(HttpServletRequest request, HttpServletResponse response) {
+
+            String valorCVC=request.getParameter("cvc");
+            CodigoVerificacionSeguro codigoVerificacionSeguro=CodigoVerificacionSeguro.newInstance(valorCVC);
+            RespuestaEncuestaDAO respuestaEncuestaDAO=(RespuestaEncuestaDAO)daoFactory.getDAO(RespuestaEncuesta.class);
+            RespuestaEncuesta respuestaEncuesta=respuestaEncuestaDAO.getByCodigoVerificacionSeguro(codigoVerificacionSeguro);
+            if (respuestaEncuesta!=null) {
+                return respuestaEncuesta.getCodigoVerificacionSeguro().getBarCode(300,150);
+            } else {
+                return null;
+            }
+
     }
 
     private EncuestaState getEncuestaState(HttpServletRequest request) throws Exception {

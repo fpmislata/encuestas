@@ -235,6 +235,7 @@ CREATE TABLE  `respuestaencuesta` (
   `idEncuesta` int(11) DEFAULT NULL,
   `fechaRespuesta` datetime DEFAULT NULL,
   `idCurso` int(11) DEFAULT NULL,
+  `CodigoVerificacionSeguro` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`idRespuestaEncuesta`),
   KEY `FK3AA724B6926153F7` (`idEncuesta`),
   KEY `idCurso` (`idCurso`),

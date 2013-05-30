@@ -294,11 +294,7 @@ public class RespuestaPreguntaWidget {
         if (respuestaPregunta.siguiente() != null) {
             nextLabel = "Següent";
         } else {
-            if (respuestaPregunta.getPregunta().getEncuesta().isImprimir() == false) {
-                nextLabel = "Finalitzar";
-            } else {
-                nextLabel = "Següent";
-            }
+            nextLabel = "Finalitzar";
         }
         sb.append("                <button onclick=\"document.getElementById('formRespuestas').action='siguiente.html?idPregunta=" + respuestaPregunta.getPregunta().getIdPregunta() + "';document.getElementById('formRespuestas').submit();\" class=\"btn btn-large btn-primary \">" + HTMLUtil.toHTML(nextLabel) + " <i class=\"icon-arrow-right icon-white\" ></i></button>\n");
         sb.append("            </div>\n");

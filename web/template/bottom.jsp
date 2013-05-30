@@ -10,7 +10,7 @@
     <div class="span1"  ></div>
 </div>
 
-<div id="loginModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Modal Login" aria-hidden="true">
+<div id="loginModal" class="modal hide fade noPrint" tabindex="-1" role="dialog" aria-labelledby="Modal Login" aria-hidden="true">
 <form class="form-horizontal">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
