@@ -42,6 +42,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,6 +60,8 @@ public class EncuestaController {
 
     @Autowired
     DAOFactory daoFactory;
+
+    protected final Log log = LogFactory.getLog(getClass());
 
     @RequestMapping(value = {"/encuesta.html"})
     public ModelAndView encuesta(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -327,7 +331,7 @@ public class EncuestaController {
     }
 
 
-    @RequestMapping(value = {"/cvc/respuestaencuesta/qrcode.png"}, method = RequestMethod.GET, produces = "image/png",headers="Accept=*/*")
+    @RequestMapping(value = {"/cvc/respuestaencuesta/qrcode.png"}, method = RequestMethod.GET, produces = "image/png")
     public @ResponseBody byte[] qrcode(HttpServletRequest request, HttpServletResponse response) {
 
             String valorCVC=request.getParameter("cvc");
@@ -340,27 +344,18 @@ public class EncuestaController {
 
 
             CodigoVerificacionSeguro codigoVerificacionSeguro=CodigoVerificacionSeguro.newInstance(valorCVC);
-            RespuestaEncuestaDAO respuestaEncuestaDAO=(RespuestaEncuestaDAO)daoFactory.getDAO(RespuestaEncuesta.class);
-            RespuestaEncuesta respuestaEncuesta=respuestaEncuestaDAO.getByCodigoVerificacionSeguro(codigoVerificacionSeguro);
-            if (respuestaEncuesta!=null) {
-                return respuestaEncuesta.getCodigoVerificacionSeguro().getQRCode(tamanyo);
+
+            if (codigoVerificacionSeguro.isValido()==false) {
+                log.error("Se solicitó un CodigoVerificacionSeguro inválido:"+valorCVC);
             } else {
-                return null;
+                RespuestaEncuestaDAO respuestaEncuestaDAO=(RespuestaEncuestaDAO)daoFactory.getDAO(RespuestaEncuesta.class);
+                RespuestaEncuesta respuestaEncuesta=respuestaEncuestaDAO.getByCodigoVerificacionSeguro(codigoVerificacionSeguro);
+                if (respuestaEncuesta!=null) {
+                    log.error("Se solicitó un CodigoVerificacionSeguro que no existe:"+valorCVC);
+                }
             }
 
-    }
-    @RequestMapping(value = {"/cvc/respuestaencuesta/barcode.png"}, method = RequestMethod.GET, produces = "image/png",headers="Accept=*/*")
-    public @ResponseBody byte[] barcode(HttpServletRequest request, HttpServletResponse response) {
-
-            String valorCVC=request.getParameter("cvc");
-            CodigoVerificacionSeguro codigoVerificacionSeguro=CodigoVerificacionSeguro.newInstance(valorCVC);
-            RespuestaEncuestaDAO respuestaEncuestaDAO=(RespuestaEncuestaDAO)daoFactory.getDAO(RespuestaEncuesta.class);
-            RespuestaEncuesta respuestaEncuesta=respuestaEncuestaDAO.getByCodigoVerificacionSeguro(codigoVerificacionSeguro);
-            if (respuestaEncuesta!=null) {
-                return respuestaEncuesta.getCodigoVerificacionSeguro().getBarCode(300,150);
-            } else {
-                return null;
-            }
+            return codigoVerificacionSeguro.getQRCode(tamanyo);
 
     }
 
