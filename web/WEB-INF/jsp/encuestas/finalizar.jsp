@@ -10,12 +10,36 @@
     <head>
         <title>Encuestas</title>
         <%@ include file="/template/header.jsp" %>
+        <script>
+            $(function() {
+                var confirmado=false;
+
+
+                jQuery("#imprimir_verificacion").click(function(event) {
+                    window.print();
+                });
+                jQuery("#volver").click(function(event) {
+                    if (confirmado===true) {
+                        volver();
+                    } else if (confirm('Has imprés esta pàgina?')) {
+                        confirmado=true;
+                        volver();
+                    }
+                });
+
+                function volver() {
+                   window.location.href="<%=backURI.toASCIIString()%>";
+                }
+
+            })
+        </script>
+
     </head>
     <body>
         <%@ include file="/template/top.jsp" %>
 
         <div class="row-fluid" >
-            <div class="span12"><img src="<%=request.getContextPath()%>/img/icons/printer.png" alt="grafica" class="center noPrint" ></div>
+            <div class="span12"><img src="<%=request.getContextPath()%>/img/icons/printer.png" alt="grafica" class="center no-print" ></div>
         </div>
         <div class="row-fluid" style="margin-top: 1em;">
             <div class="offset2 span8 main-text lead" style="text-align: center">Ara has d'imprimir esta p&agrave;gina</div>
@@ -26,16 +50,23 @@
         <div class="row-fluid" >
             <div class="offset2 span8 main-text lead" style="text-align: center">entregar-la junt amb el sobre de matrícula</div>
         </div>
+        <div class="row-fluid" style="margin-top: 2em;">
+            <div class="span12" style="text-align: center" >
+                <button id="imprimir_verificacion" class="btn btn-large btn-success no-print">Imprimir</button>
+            </div>
+        </div>
         <div class="row-fluid" >
             <div class="span12" ><img src="<%=request.getContextPath()%>/api/cvc/respuestaencuesta/qrcode.png?cvc=<%=codigoVerificacionSeguro.getValor() %>&tamanyo=250" alt="grafica" class="center" ></div>
         </div>
         <div class="row-fluid" >
-            <div class="span12 "  style="text-align: center" ><h4><%=codigoVerificacionSeguro.getValor() %></h4></div>
+            <div class="span12 "  style="text-align: center" ><h4>Codi segur de verificaci&oacute; d'enquesta realitzada</h4></div>
         </div>
-
+        <div class="row-fluid" >
+            <div class="span12 "  style="text-align: center" ><h3><%=codigoVerificacionSeguro.getValor() %>-<%=codigoVerificacionSeguro.getKey() %></h3></div>
+        </div>
         <div class="row-fluid" style="margin-top: 2em;">
             <div class="span12" style="text-align: center" >
-                <a href="<%=backURI.toASCIIString()%> " class="btn btn-large btn-primary ">Tornar </a>
+                <button id="volver" class="btn btn-primary no-print">Tornar</button>
             </div>
         </div>
 

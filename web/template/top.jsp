@@ -14,7 +14,7 @@ if (!(request.getAttribute("disableCheckNoScript")==Boolean.TRUE)) {
             <div class="span10 marco">
 
                 <div class="cabecera" >
-                    <div class="row-fluid">
+                    <div class="row-fluid no-print">
                         <div class="span12 nav-bar" style="text-align: right;">
                             <a href="<%=request.getContextPath() %>">Inici</a>&nbsp;&nbsp;|
                             &nbsp;&nbsp;<a href="<%=request.getContextPath() %>/porque.jsp">Perqu&egrave; esta enquesta?</a>&nbsp;&nbsp;|
@@ -31,7 +31,8 @@ if (!(request.getAttribute("disableCheckNoScript")==Boolean.TRUE)) {
                             <%
                             }
                             %>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
                     </div>
                     <div class="row-fluid" style="margin-top: 2em;">
                         <div class="span12"><a href="http://www.fpmislata.com"><img src="<%=request.getContextPath() %>/img/icons/nombre-instituto.png" alt="instituto" class="center" ></a></div>

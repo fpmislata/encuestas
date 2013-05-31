@@ -214,8 +214,10 @@
         <property name="flyway.user" value="${Context.Resource(username)}"/>
         <property name="flyway.password" value="${Context.Resource(password)}"/>
         <property name="flyway.initOnMigrate" value="true"/> <!-- Si la DB está vacia que la inicialice -->
+        <property name="flyway.initVersion" value="0"/>
+        <property name="flyway.validateOnMigrate" value="true"/>
 
-        <echo>Iniciando migración desde el directorio '${sqlfiles.dir}' a  la base de datos '${flyway.url}'</echo>
+        <echo>Iniciando migración desde el directorio '${sqlfiles.dir}' a  la base de datos '${flyway.url}' con usuario '${Context.Resource(username)}'</echo>
         <migrate>
             <locations>
                 <location  path="filesystem:${sqlfiles.dir}"/>

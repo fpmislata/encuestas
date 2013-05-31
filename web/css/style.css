@@ -163,12 +163,3 @@ input[type=radio] + label {
   position: absolute;
   left: -9999px;
 }
-
-
-@media print
-{
-    .noPrint
-    {
-        display:none;
-    }
-}

@@ -2,7 +2,7 @@
 </div>
 <div class="span1"></div>
 </div>
-<div class="row-fluid" style="margin-top: 1em">
+<div class="row-fluid no-print" style="margin-top: 1em">
     <div class="span1"  ></div>
     <div class="span2"  ><img src="<%=request.getContextPath()%>/img/icons/europa.png" alt="fse" /></div>
     <div class="span6" style="text-align: center" >&copy; 2013 - Lorenzo González para el CIPFP Mislata</div>
@@ -10,7 +10,7 @@
     <div class="span1"  ></div>
 </div>
 
-<div id="loginModal" class="modal hide fade noPrint" tabindex="-1" role="dialog" aria-labelledby="Modal Login" aria-hidden="true">
+<div id="loginModal" class="modal hide fade no-print" tabindex="-1" role="dialog" aria-labelledby="Modal Login" aria-hidden="true">
 <form class="form-horizontal">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>

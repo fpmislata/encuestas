@@ -4,6 +4,7 @@
 <link rel="stylesheet" media="screen" href="<%=request.getContextPath()%>/css/lib/jquery/default/jquery-ui-1.9.2.css">
 <link rel="stylesheet" media="screen" href="<%=request.getContextPath()%>/css/lib/angular/angular-ui-0.4.0.css">
 <link rel="stylesheet" media="screen" href="<%=request.getContextPath()%>/css/style.css">
+<link rel="stylesheet" media="print" href="<%=request.getContextPath()%>/css/style_print.css">
 <script type='text/javascript' src="<%=request.getContextPath()%>/js/lib/jquery/jquery-1.9.0.js"></script>
 <script type='text/javascript' src="<%=request.getContextPath()%>/js/lib/jquery/jquery-ui-1.9.2.js"></script>
 <script type='text/javascript' src="<%=request.getContextPath()%>/js/lib/bootstrap/bootstrap-2.3.1.js"></script>
