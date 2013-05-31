@@ -26,8 +26,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.codec.binary.Base32;
 
 /**
@@ -55,7 +53,7 @@ public class CodigoVerificacionSeguro {
      * getValor()
      * @return El código de verificación seguro
      */
-    public static CodigoVerificacionSeguro newInstance(String valor) {
+    public static CodigoVerificacionSeguro getInstance(String valor) {
         return new CodigoVerificacionSeguro(valor);
     }
 
@@ -64,7 +62,7 @@ public class CodigoVerificacionSeguro {
      * @param key La clave del documento.
      * @return El código de verificación seguro
      */
-    public static CodigoVerificacionSeguro newInstance(int key) {
+    public static CodigoVerificacionSeguro getInstance(int key) {
         return new CodigoVerificacionSeguro(createValor(key));
     }
 
