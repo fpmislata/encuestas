@@ -20,7 +20,7 @@ public class CodigoVerificacionSeguroTest {
     public void testNewInstance_String() {
         System.out.print("testNewInstance_String:");
         int key = 245897;
-        CodigoVerificacionSeguro instance =CodigoVerificacionSeguro.newInstance(CodigoVerificacionSeguro.newInstance(key).getValor());
+        CodigoVerificacionSeguro instance =CodigoVerificacionSeguro.getInstance(CodigoVerificacionSeguro.getInstance(key).getValor());
         boolean expResult = true;
         boolean result = instance.isValido();
         assertEquals(expResult, result);
@@ -31,7 +31,7 @@ public class CodigoVerificacionSeguroTest {
     public void testIsValido() {
         System.out.print("isValido:");
         int key = 58698;
-        CodigoVerificacionSeguro instance = CodigoVerificacionSeguro.newInstance(key);
+        CodigoVerificacionSeguro instance = CodigoVerificacionSeguro.getInstance(key);
         boolean expResult = true;
         boolean result = instance.isValido();
         assertEquals(expResult, result);

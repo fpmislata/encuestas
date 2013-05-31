@@ -314,7 +314,7 @@ public class EncuestaController {
             respuestaEncuesta.setCurso(getCursoFromDate(fechaRespuesta));
 
             daoFactory.getDAO(RespuestaEncuesta.class).insert(respuestaEncuesta);
-            CodigoVerificacionSeguro codigoVerificacionSeguro=CodigoVerificacionSeguro.newInstance(respuestaEncuesta.getIdRespuestaEncuesta());
+            CodigoVerificacionSeguro codigoVerificacionSeguro=CodigoVerificacionSeguro.getInstance(respuestaEncuesta.getIdRespuestaEncuesta());
             respuestaEncuesta.setCodigoVerificacionSeguro(codigoVerificacionSeguro);
             daoFactory.getDAO(RespuestaEncuesta.class).update(respuestaEncuesta);
 
@@ -343,7 +343,7 @@ public class EncuestaController {
             }
 
 
-            CodigoVerificacionSeguro codigoVerificacionSeguro=CodigoVerificacionSeguro.newInstance(valorCVC);
+            CodigoVerificacionSeguro codigoVerificacionSeguro=CodigoVerificacionSeguro.getInstance(valorCVC);
 
             if (codigoVerificacionSeguro.isValido()==false) {
                 log.error("Se solicitó un CodigoVerificacionSeguro inválido:"+valorCVC);
