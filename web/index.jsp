@@ -8,7 +8,7 @@
     <body>
         <%@ include file="/template/top.jsp" %>
         <div class="row-fluid" style="margin-top: 2em">
-            <div class="span12" style="text-align: center"><span class="main-text">Enquesta</span><span class="main-text-gray"> d'inici de curs</span></div>
+            <div class="span12" style="text-align: center"><span class="main-text">Enquesta</span><span class="main-text-gray"> del proc&eacute;s de matr&iacute;cula</span></div>
         </div>
         <div class="row-fluid" >
             <div class="span12"><img src="img/icons/pie_chart.png" alt="grafica" class="center" ></div>
