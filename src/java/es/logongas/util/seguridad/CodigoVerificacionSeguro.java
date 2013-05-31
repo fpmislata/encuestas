@@ -26,6 +26,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.codec.binary.Base32;
 
 /**
@@ -68,6 +70,19 @@ public class CodigoVerificacionSeguro {
 
     public String getValor() {
         return valor;
+    }
+
+    public int getKey() {
+        try {
+            Base32 base32 = new Base32();
+            byte datos[] = base32.decode(valor);
+            DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(datos));
+            int key=dataInputStream.readInt();
+
+            return key;
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     public boolean isValido() {
