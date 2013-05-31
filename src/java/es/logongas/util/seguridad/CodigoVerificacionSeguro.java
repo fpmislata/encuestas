@@ -35,6 +35,7 @@ import org.apache.commons.codec.binary.Base32;
  */
 public class CodigoVerificacionSeguro {
 
+    //OJO:Si se cambia el nombre de la variable se debe cambiar tambien algún hbm de persistencia de Hiebrante.
     private String valor;
 
     private CodigoVerificacionSeguro() {
