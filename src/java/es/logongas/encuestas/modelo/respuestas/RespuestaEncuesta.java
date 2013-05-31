@@ -36,6 +36,7 @@ public class RespuestaEncuesta {
     private Date fechaRespuesta;
     private Curso curso;
     private CodigoVerificacionSeguro codigoVerificacionSeguro;
+    private boolean verificada=false;
 
     private RespuestaEncuesta() {
     }
@@ -123,7 +124,7 @@ public class RespuestaEncuesta {
     public void setCodigoVerificacionSeguro(CodigoVerificacionSeguro codigoVerificacionSeguro) {
         this.codigoVerificacionSeguro = codigoVerificacionSeguro;
     }
-    
+
     public boolean isPreguntaValida(Pregunta pregunta) {
         if (getRespuestaPregunta(pregunta) != null) {
             return true;
@@ -173,5 +174,19 @@ public class RespuestaEncuesta {
      */
     public void setCurso(Curso curso) {
         this.curso = curso;
+    }
+
+    /**
+     * @return the verificada
+     */
+    public boolean isVerificada() {
+        return verificada;
+    }
+
+    /**
+     * @param verificada the verificada to set
+     */
+    public void setVerificada(boolean verificada) {
+        this.verificada = verificada;
     }
 }

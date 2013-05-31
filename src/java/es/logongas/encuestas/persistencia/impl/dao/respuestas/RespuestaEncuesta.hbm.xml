@@ -20,5 +20,6 @@
         <component name="codigoVerificacionSeguro">
             <property name="valor" access="field" column="CodigoVerificacionSeguro" />
         </component>
+        <property name="verificada" />
     </class>
 </hibernate-mapping>

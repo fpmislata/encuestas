@@ -1,3 +1,13 @@
+DROP TABLE IF EXISTS respuestaitem;
+DROP TABLE IF EXISTS respuestapregunta;
+DROP TABLE IF EXISTS respuestaencuesta;
+DROP TABLE IF EXISTS item;
+DROP TABLE IF EXISTS pregunta;
+DROP TABLE IF EXISTS encuesta;
+DROP TABLE IF EXISTS curso;
+DROP TABLE IF EXISTS valor;
+DROP TABLE IF EXISTS listavalores;
+
 CREATE TABLE  `listavalores` (
   `idListaValores` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(255) DEFAULT NULL,
@@ -236,6 +246,7 @@ CREATE TABLE  `respuestaencuesta` (
   `fechaRespuesta` datetime DEFAULT NULL,
   `idCurso` int(11) DEFAULT NULL,
   `CodigoVerificacionSeguro` varchar(50) DEFAULT NULL,
+  `verificada` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`idRespuestaEncuesta`),
   KEY `FK3AA724B6926153F7` (`idEncuesta`),
   KEY `idCurso` (`idCurso`),
