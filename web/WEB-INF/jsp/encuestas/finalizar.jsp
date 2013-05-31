@@ -38,11 +38,11 @@
     <body>
         <%@ include file="/template/top.jsp" %>
 
-        <div class="row-fluid" >
-            <div class="span12"><img src="<%=request.getContextPath()%>/img/icons/printer.png" alt="grafica" class="center no-print" ></div>
+        <div class="row-fluid no-print" >
+            <div class="span12" style="text-align: center;"><img src="<%=request.getContextPath()%>/img/icons/printer.png" alt="impresora"  ></div>
         </div>
         <div class="row-fluid" style="margin-top: 1em;">
-            <div class="offset2 span8 main-text lead" style="text-align: center">Ara has d'imprimir esta p&agrave;gina</div>
+            <div class="offset2 span8 main-text lead" style="text-align: center">Has d'imprimir esta p&agrave;gina</div>
         </div>
         <div class="row-fluid" >
             <div class="offset2 span8 main-text" lead style="text-align: center">i</div>
@@ -56,10 +56,10 @@
             </div>
         </div>
         <div class="row-fluid" >
-            <div class="span12" ><img src="<%=request.getContextPath()%>/api/cvc/respuestaencuesta/qrcode.png?cvc=<%=codigoVerificacionSeguro.getValor() %>&tamanyo=250" alt="grafica" class="center" ></div>
+            <div class="span12" style="text-align: center;"><img src="<%=request.getContextPath()%>/api/cvc/respuestaencuesta/qrcode.png?cvc=<%=codigoVerificacionSeguro.getValor() %>&tamanyo=250" alt="<%=codigoVerificacionSeguro.getValor() %>"  ></div>
         </div>
         <div class="row-fluid" >
-            <div class="span12 "  style="text-align: center" ><h4>Codi segur de verificaci&oacute; d'enquesta realitzada</h4></div>
+            <div class="span12 "  style="text-align: center" ><h4>Codi de verificaci&oacute; d'enquesta realitzada</h4></div>
         </div>
         <div class="row-fluid" >
             <div class="span12 "  style="text-align: center" ><h3><%=codigoVerificacionSeguro.getValor() %>-<%=codigoVerificacionSeguro.getKey() %></h3></div>
