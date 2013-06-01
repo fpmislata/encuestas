@@ -176,7 +176,7 @@ CREATE TABLE `pregunta` (
 
 
 INSERT INTO `pregunta` (`idPregunta`, `pregunta`, `idEncuesta`, `tipoPregunta`, `ultimoItemIncluyeOtros`, `requerido`, `Idx`) VALUES
-	(1, 'Has conegut l\'oferta formativa del centre per', 1, 0, 1, 1, 3),
+	(1, 'Has conegut l\'oferta formativa del centre per', 1, 1, 1, 1, 3),
 	(2, 'Valora del 1 al 10 els següents aspectes', 1, 2, 0, 1, 2),
 	(3, 'En matricular-te en aquest centre les teues expectatives son', 1, 1, 1, 1, 1),
 	(4, 'Dades Académiques', 1, 2, 0, 1, 0),
