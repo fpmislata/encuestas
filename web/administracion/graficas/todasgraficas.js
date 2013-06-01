@@ -2,6 +2,10 @@ var app = angular.module('app', ["es.logongas.ix3.directives","ui"]);
 
 function TodasGraficasController($scope,$http,$location) {
     var idEncuesta=getParameterByName("idEncuesta");
+    $http.get(getContextPath()+'/api/Encuesta/'+idEncuesta).success(function(data) {
+        $scope.encuesta=data;
+    });
+
     $http.get(getContextPath()+'/api/Pregunta/?orderBy=idx&encuesta.idEncuesta='+idEncuesta).success(function(data) {
         var preguntas = data;
         for(var i=0;i<preguntas.length;i++) {

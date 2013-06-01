@@ -9,6 +9,8 @@
 
     </head>
     <body ng-controller="TodasGraficasController" id="body" style="background: #FFFFFF" >
+        <h2 style="text-align: center">Encuesta</h2>
+        <h3 style="text-align: center">{{encuesta.nombre}}</h3>
         <div id="container">
         </div>
     </body>
