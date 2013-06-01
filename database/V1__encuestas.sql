@@ -250,6 +250,7 @@ CREATE TABLE  `respuestaencuesta` (
   PRIMARY KEY (`idRespuestaEncuesta`),
   KEY `FK3AA724B6926153F7` (`idEncuesta`),
   KEY `idCurso` (`idCurso`),
+  INDEX `CodigoVerificacionSeguro` (`CodigoVerificacionSeguro`),
   CONSTRAINT `FK_respuestaencuesta_curso` FOREIGN KEY (`idCurso`) REFERENCES `curso` (`idCurso`),
   CONSTRAINT `FK3AA724B6926153F7` FOREIGN KEY (`idEncuesta`) REFERENCES `encuesta` (`idEncuesta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
