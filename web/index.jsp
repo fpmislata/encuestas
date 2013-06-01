@@ -20,7 +20,7 @@
 
             <div class="span6" >
                 <a href="encuesta.html?idEncuesta=1" class="main-button" style="float: right;">
-                    <span class="main-text">Nou en el centre</span>
+                    <span class="main-text">nou en el centre</span>
                     <br />
                     <img src="img/icons/people.png" alt="nuevo" class="center" />
                 </a>
