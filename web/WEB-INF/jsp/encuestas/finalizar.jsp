@@ -48,7 +48,7 @@
             <div class="offset2 span8 main-text" lead style="text-align: center">i</div>
         </div>
         <div class="row-fluid" >
-            <div class="offset2 span8 main-text lead" style="text-align: center">entregar-la junt amb el sobre de matrícula</div>
+            <div class="offset2 span8 main-text lead" style="text-align: center">entregar-la dins del sobre de matrícula</div>
         </div>
         <div class="row-fluid" style="margin-top: 2em;">
             <div class="span12" style="text-align: center" >
@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class="row-fluid" >
-            <div class="span12" style="text-align: center;"><img src="<%=request.getContextPath()%>/api/cvc/respuestaencuesta/qrcode.png?cvc=<%=codigoVerificacionSeguro.getValor() %>&tamanyo=250" alt="<%=codigoVerificacionSeguro.getValor() %>"  ></div>
+            <div class="span12" style="text-align: center;"><img src="<%=request.getContextPath()%>/api/cvc/respuestaencuesta/qrcode.png?cvc=<%=codigoVerificacionSeguro.getValor() %>&tamanyo=250" alt="<%=codigoVerificacionSeguro.getValor() %>"  border="0" /></div>
         </div>
         <div class="row-fluid" >
             <div class="span12 "  style="text-align: center" ><h4>Codi de verificaci&oacute; d'enquesta realitzada</h4></div>
