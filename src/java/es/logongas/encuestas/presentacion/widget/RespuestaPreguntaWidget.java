@@ -253,7 +253,7 @@ public class RespuestaPreguntaWidget {
             sb.append("                        <li><a href=\"javascript:void(0)\" onclick=\"select_click(this)\" >" + HTMLUtil.toHTML(valor.getNombre()) + "</a></li>\n");
         }
         sb.append("                    </ul>\n");
-        sb.append("                    <input class=\"dropdownlist\" type=\"text\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\" value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
+        sb.append("                    <div class=\"dropdownlist\"><input class=\"dropdownlist\" type=\"text\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\" value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" /></div>\n");
         sb.append("                </div>\n");
         sb.append("            </td>\n");
         sb.append("      </tr>\n");
