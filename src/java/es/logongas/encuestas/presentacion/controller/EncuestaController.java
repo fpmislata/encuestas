@@ -30,6 +30,13 @@ import es.logongas.ix3.persistence.services.dao.BusinessException;
 import es.logongas.ix3.persistence.services.dao.BusinessMessage;
 import es.logongas.ix3.persistence.services.dao.DAOFactory;
 import es.logongas.util.seguridad.CodigoVerificacionSeguro;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.Calendar;
@@ -347,15 +354,25 @@ public class EncuestaController {
 
             if (codigoVerificacionSeguro.isValido()==false) {
                 log.error("Se solicitó un CodigoVerificacionSeguro inválido:"+valorCVC);
+                try {
+                    InputStream is=new BufferedInputStream(new FileInputStream(request.getServletContext().getRealPath("/img/error_qrcode.png")));
+                    return toByteArray(is);
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+
+
             } else {
                 RespuestaEncuestaDAO respuestaEncuestaDAO=(RespuestaEncuestaDAO)daoFactory.getDAO(RespuestaEncuesta.class);
                 RespuestaEncuesta respuestaEncuesta=respuestaEncuestaDAO.getByCodigoVerificacionSeguro(codigoVerificacionSeguro);
                 if (respuestaEncuesta!=null) {
                     log.error("Se solicitó un CodigoVerificacionSeguro que no existe:"+valorCVC);
                 }
+                return codigoVerificacionSeguro.getQRCode(tamanyo);
             }
 
-            return codigoVerificacionSeguro.getQRCode(tamanyo);
+
 
     }
 
@@ -457,5 +474,22 @@ public class EncuestaController {
         }
 
         return curso;
+    }
+
+    private static byte[] toByteArray(InputStream is) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int reads = is.read();
+
+            while(reads != -1){
+                baos.write(reads);
+                reads = is.read();
+            }
+
+            return baos.toByteArray();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
     }
 }
