@@ -171,6 +171,7 @@ INSERT INTO `encuesta` (`idEncuesta`, `nombre`, `habilitada`, `fechaInicio`, `fe
 CREATE TABLE `pregunta` (
   `idPregunta` int(11) NOT NULL AUTO_INCREMENT,
   `pregunta` varchar(255) DEFAULT NULL,
+  `pie` varchar(255) DEFAULT NULL,
   `idEncuesta` int(11) DEFAULT NULL,
   `tipoPregunta` int(11) DEFAULT NULL,
   `ultimoItemIncluyeOtros` tinyint(1) DEFAULT NULL,
@@ -182,16 +183,16 @@ CREATE TABLE `pregunta` (
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 
-INSERT INTO `pregunta` (`idPregunta`, `pregunta`, `idEncuesta`, `tipoPregunta`, `ultimoItemIncluyeOtros`, `requerido`, `Idx`) VALUES
-	(1, 'Has conegut l\'oferta formativa del centre per', 1, 1, 1, 1, 3),
-	(2, 'Valora del 0 al 10 els següents aspectes', 1, 2, 0, 1, 2),
-	(3, 'En matricular-te en aquest centre les teues expectatives son', 1, 1, 1, 1, 1),
-	(4, 'Dades Académiques', 1, 2, 0, 1, 0),
-	(12, 'Voldries afegir algún suggeriment?', 1, 2, 0, 0, 4),
-	(13, 'En acabar el cicle al que te matricules la teu intenció actual és la de', 3, 1, 0, 1, 0),
-	(14, 'Valora de 0 a 10 els següents aspectes del centre', 3, 2, 0, 1, 1),
-	(15, 'Voldries afegir algún suggeriment?', 3, 2, 0, 0, 3),
-	(16, 'Quan hages de fer les FCTs, on preferixes fer-les? (La teua resposta no et compromet a res, és només per a orientar-nos)', 3, 1, 0, 1, 2);
+INSERT INTO `pregunta` (`idPregunta`, `pregunta`, `pie`, `idEncuesta`, `tipoPregunta`, `ultimoItemIncluyeOtros`, `requerido`, `Idx`) VALUES
+	(1, 'Has conegut l\'oferta formativa del centre per', 'Pots marcar mes d\'una resposta', 1, 1, 1, 1, 3),
+	(2, 'Valora del 0 al 10 els següents aspectes', NULL, 1, 2, 0, 1, 2),
+	(3, 'En matricular-te en aquest centre les teues expectatives son', 'Pots marcar mes d\'una resposta', 1, 1, 1, 1, 1),
+	(4, 'Dades Académiques', NULL, 1, 2, 0, 1, 0),
+	(12, 'Voldries afegir algún suggeriment?', NULL, 1, 2, 0, 0, 4),
+	(13, 'En acabar el cicle al que te matricules la teu intenció actual és la de', 'Pots marcar mes d\'una resposta', 3, 1, 0, 1, 0),
+	(14, 'Valora de 0 a 10 els següents aspectes del centre', NULL, 3, 2, 0, 1, 1),
+	(15, 'Voldries afegir algún suggeriment?', NULL, 3, 2, 0, 0, 3),
+	(16, 'Quan hages de fer les FCTs, on preferixes fer-les? (La teua resposta no et compromet a res, és només per a orientar-nos)', 'Pots marcar mes d\'una resposta', 3, 1, 0, 1, 2);
 
 
 

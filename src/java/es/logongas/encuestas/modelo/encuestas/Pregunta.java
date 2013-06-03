@@ -28,6 +28,7 @@ public class Pregunta implements Comparable<Pregunta> {
 
     private int idPregunta;
     private String pregunta;
+    private String pie;
     private Encuesta encuesta;
     private List<Item> items;
     private TipoPregunta tipoPregunta;
@@ -229,5 +230,19 @@ public class Pregunta implements Comparable<Pregunta> {
      */
     public void setIdx(int idx) {
         this.idx = idx;
+    }
+
+    /**
+     * @return the pie
+     */
+    public String getPie() {
+        return pie;
+    }
+
+    /**
+     * @param pie the pie to set
+     */
+    public void setPie(String pie) {
+        this.pie = pie;
     }
 }

@@ -72,7 +72,7 @@ public class RespuestaPreguntaWidget {
         sb.append("<div class=\"row-fluid\" style=\"margin-top: 2em;\">\n");
         sb.append("  <div class=\"span12 main-text lead\" >" + HTMLUtil.toHTML(respuestaPregunta.getPregunta().getPregunta(),true) + ":</div>\n");
         sb.append("</div>\n");
-        sb.append("<form  id=\"formRespuestas\" action=\"\" method=\"POST\">\n");
+        sb.append("<form  id=\"formRespuestas\" action=\"\" method=\"POST\" style='margin:0;'>\n");
         sb.append("<div class=\"row-fluid\">\n");
         sb.append("  <div class=\"span12\" >\n");
         sb.append("    <table width='100%' > \n");
@@ -83,6 +83,11 @@ public class RespuestaPreguntaWidget {
         sb.append("  </div>\n");
         sb.append("</div>\n");
         sb.append("</form>\n");
+        if (respuestaPregunta.getPregunta().getPie()!=null) {
+            sb.append("<div class=\"row-fluid\">\n");
+            sb.append("  <div class=\"span12 lead\" style='text-align:left;padding:0px;margin:0px' ><p class='text-error'>" + HTMLUtil.toHTML(respuestaPregunta.getPregunta().getPie(),true) + "</p></div>\n");
+            sb.append("</div>\n");
+        }
         generateBusinessMessages(businessMessages, sb);
 
     }
@@ -285,7 +290,7 @@ public class RespuestaPreguntaWidget {
     }
 
     private void generateBotones(RespuestaPregunta respuestaPregunta, StringBuilder sb) {
-        sb.append("        <div class=\"row-fluid\" style=\"margin-top: 2em;\">\n");
+        sb.append("        <div class=\"row-fluid\" style=\"margin-top: 5px;\">\n");
         sb.append("            <div class=\"span11\" style=\"text-align: right\" >\n");
         if (respuestaPregunta.anterior() != null) {
             sb.append("                <button onclick=\"document.getElementById('formRespuestas').action='anterior.html?idPregunta=" + respuestaPregunta.getPregunta().getIdPregunta() + "';document.getElementById('formRespuestas').submit();\" class=\"btn btn-large \"><i class=\"icon-arrow-left\" ></i> Anterior</button>\n");

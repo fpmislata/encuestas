@@ -6,6 +6,7 @@
             <generator class="identity" />
         </id>
         <property name="pregunta" />
+        <property name="pie" />
         <many-to-one name="encuesta">
             <column name="idEncuesta"  />
         </many-to-one>

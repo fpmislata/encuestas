@@ -20,7 +20,7 @@
     </head>
     <body>
         <%@ include file="/template/top.jsp" %>
-        <div class="row-fluid" style="margin-top: 2em">
+        <div class="row-fluid" style="margin-top: 0em">
             <div class="span12" style="text-align: center"><%=textWidget.toHTML(respuestaPregunta.getPregunta().getEncuesta().getNombre()) %></div>
         </div>
         <div class="row-fluid" >
