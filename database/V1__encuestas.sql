@@ -13,13 +13,14 @@ CREATE TABLE  `listavalores` (
   `nombre` varchar(255) DEFAULT NULL,
   `contieneValoresNumericos` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`idListaValores`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 
 INSERT INTO `listavalores` (`idListaValores`, `nombre`, `contieneValoresNumericos`) VALUES
 	(1, 'Valoracion 0-10-NS/NC', 1),
 	(2, 'Provincias', 0),
-	(3, 'Dias semana laborables', 0);
+	(3, 'Dias semana laborables', 0),
+        (4, 'Modalidad de acceso', 0);
 
 
 CREATE TABLE  `valor` (
@@ -31,7 +32,7 @@ CREATE TABLE  `valor` (
   PRIMARY KEY (`idValor`),
   KEY `FK4E9A0A436E0A389` (`idListaValores`),
   CONSTRAINT `FK4E9A0A436E0A389` FOREIGN KEY (`idListaValores`) REFERENCES `listavalores` (`idListaValores`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
 
 INSERT INTO `valor` (`idValor`, `nombre`, `idListaValores`, `valorNumerico`, `Idx`) VALUES
 	(1, '1', 1, 1, 1),
@@ -102,7 +103,13 @@ INSERT INTO `valor` (`idValor`, `nombre`, `idListaValores`, `valorNumerico`, `Id
 	(71, '9', 1, 9, 9),
 	(72, '10', 1, 10, 10),
 	(73, '0', 1, 0, 0),
-	(74, 'NS/NC', 1, NULL, 11);
+	(74, 'NS/NC', 1, NULL, 11),
+        (75, 'Directe amb títol de batxillerat', 4, NULL, 0),
+        (76, 'Directe amb títol d\'ESO', 4, NULL, 1),
+        (77, 'Un altre tipus d\'accés directe', 4, NULL, 2),
+        (78, 'Prova d\'accés de grau mitjà', 4, NULL, 3),
+        (79, 'Prova d\'accés de grau superior', 4, NULL, 4);
+
 
 CREATE TABLE `curso` (
   `idCurso` int(10) NOT NULL AUTO_INCREMENT,
@@ -219,7 +226,7 @@ INSERT INTO `item` (`idItem`, `nombre`, `tipoItem`, `idListaValores`, `idPregunt
 	(10, 'Trobar treball relacionat amb els estudis cursats', NULL, NULL, 3, 1, NULL, NULL, 2),
 	(11, 'Continuar estudis per completar la meua formació', NULL, NULL, 3, 1, NULL, NULL, 3),
 	(12, 'Altres (indicar quines)', NULL, NULL, 3, 1, NULL, NULL, 4),
-	(13, 'Modalitat d\'accés', 2, NULL, 4, 1, NULL, NULL, 0),
+	(13, 'Modalitat d\'accés', 1, 4, 4, 1, NULL, NULL, 0),
 	(14, 'Últims estudis cursats', 2, NULL, 4, 1, NULL, NULL, 1),
 	(15, 'Últim centre académic', 2, NULL, 4, 1, NULL, NULL, 2),
 	(16, 'Població', 2, NULL, 4, 1, NULL, NULL, 3),
