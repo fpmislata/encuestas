@@ -331,7 +331,7 @@ public class EncuestaController {
     }
 
 
-    @RequestMapping(value = {"/cvc/respuestaencuesta/qrcode.png"}, method = RequestMethod.GET, produces = "image/png")
+    @RequestMapping(value = {"/encuestas/secure_qrcode.png"}, method = RequestMethod.GET, produces = "image/png")
     public @ResponseBody byte[] qrcode(HttpServletRequest request, HttpServletResponse response) {
 
             String valorCVC=request.getParameter("cvc");

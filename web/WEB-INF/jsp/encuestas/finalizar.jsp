@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class="row-fluid" >
-            <div class="span12" style="text-align: center;"><img src="<%=request.getContextPath()%>/api/cvc/respuestaencuesta/qrcode.png?cvc=<%=codigoVerificacionSeguro.getValor() %>&tamanyo=250" alt="<%=codigoVerificacionSeguro.getValor() %>"  border="0" /></div>
+            <div class="span12" style="text-align: center;"><img src="<%=request.getContextPath()%>/images/encuestas/secure_qrcode.png?cvc=<%=codigoVerificacionSeguro.getValor() %>&tamanyo=250" alt="<%=codigoVerificacionSeguro.getValor() %>"  border="0" /></div>
         </div>
         <div class="row-fluid" >
             <div class="span12 "  style="text-align: center" ><h4>Codi de verificaci&oacute; d'enquesta realitzada</h4></div>
