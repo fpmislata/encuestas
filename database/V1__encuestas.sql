@@ -184,12 +184,12 @@ CREATE TABLE `pregunta` (
 
 INSERT INTO `pregunta` (`idPregunta`, `pregunta`, `idEncuesta`, `tipoPregunta`, `ultimoItemIncluyeOtros`, `requerido`, `Idx`) VALUES
 	(1, 'Has conegut l\'oferta formativa del centre per', 1, 1, 1, 1, 3),
-	(2, 'Valora del 1 al 10 els següents aspectes', 1, 2, 0, 1, 2),
+	(2, 'Valora del 0 al 10 els següents aspectes', 1, 2, 0, 1, 2),
 	(3, 'En matricular-te en aquest centre les teues expectatives son', 1, 1, 1, 1, 1),
 	(4, 'Dades Académiques', 1, 2, 0, 1, 0),
 	(12, 'Voldries afegir algún suggeriment?', 1, 2, 0, 0, 4),
 	(13, 'En acabar el cicle al que te matricules la teu intenció actual és la de', 3, 1, 0, 1, 0),
-	(14, 'Valora de 1 a 10 els següents aspectes del centre', 3, 2, 0, 1, 1),
+	(14, 'Valora de 0 a 10 els següents aspectes del centre', 3, 2, 0, 1, 1),
 	(15, 'Voldries afegir algún suggeriment?', 3, 2, 0, 0, 3),
 	(16, 'Quan hages de fer les FCTs, on preferixes fer-les? (La teua resposta no et compromet a res, és només per a orientar-nos)', 3, 1, 0, 1, 2);
 
