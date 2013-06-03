@@ -16,16 +16,29 @@
 package es.logongas.util.seguridad;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.LuminanceSource;
+import com.google.zxing.ReaderException;
+import com.google.zxing.Result;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
+import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.oned.Code39Writer;
+import com.google.zxing.qrcode.QRCodeReader;
 import com.google.zxing.qrcode.QRCodeWriter;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import org.apache.commons.codec.binary.Base32;
 
 /**
@@ -60,11 +73,35 @@ public class CodigoVerificacionSeguro {
 
     /**
      * Crea un código de verificación seguro único
+     *
      * @param key La clave del documento.
      * @return El código de verificación seguro
      */
     public static CodigoVerificacionSeguro getInstance(int key) {
         return new CodigoVerificacionSeguro(createValor(key));
+    }
+
+    /**
+     * Crea un código de verificación seguro único a paritr de una imagen que
+     * está en un array de datos
+     *
+     * @param imageInputStream Los bytes de la imagen
+     * @return El código de verificación seguro
+     */
+    public static CodigoVerificacionSeguro getInstanceFromImageQRCode(InputStream imageInputStream) {
+        try {
+            BufferedImage originalImage = ImageIO.read(imageInputStream);
+            BufferedImage image = resizeImage(originalImage, 0.5); //Hacemos mas pequeña la imagen pq sino no lee bien el código.
+            LuminanceSource source = new BufferedImageLuminanceSource(image);
+            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+
+            QRCodeReader qRCodeReader = new QRCodeReader();
+            Result result = qRCodeReader.decode(bitmap);
+
+            return new CodigoVerificacionSeguro(String.valueOf(result.getText()));
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     public String getValor() {
@@ -76,7 +113,7 @@ public class CodigoVerificacionSeguro {
             Base32 base32 = new Base32();
             byte datos[] = base32.decode(valor);
             DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(datos));
-            int key=dataInputStream.readInt();
+            int key = dataInputStream.readInt();
 
             return key;
         } catch (IOException ex) {
@@ -89,9 +126,9 @@ public class CodigoVerificacionSeguro {
             Base32 base32 = new Base32();
             byte datos[] = base32.decode(valor);
             DataInputStream dataInputStream = new DataInputStream(new ByteArrayInputStream(datos));
-            int key=dataInputStream.readInt();
-            int numeroAleatorio=dataInputStream.readInt();
-            int crcReal=dataInputStream.readInt();
+            int key = dataInputStream.readInt();
+            int numeroAleatorio = dataInputStream.readInt();
+            int crcReal = dataInputStream.readInt();
 
             CRC crc = new CRC();
             crc.update(key).update(numeroAleatorio);
@@ -178,5 +215,25 @@ public class CodigoVerificacionSeguro {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    /**
+     * Esta función se aplica pq para imagenes muy grandes no reconoce el código
+     * QR
+     *
+     * @param originalImage La imagen original
+     * @param f El factor de escalado
+     * @return La iamgen reescalada.
+     */
+    private static BufferedImage resizeImage(BufferedImage originalImage, double f) {
+        int ancho = (int) (((double) originalImage.getWidth()) * f);
+        int alto = (int) (((double) originalImage.getHeight()) * f);
+        int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+        BufferedImage resizedImage = new BufferedImage(ancho, alto, type);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, ancho, alto, null);
+        g.dispose();
+
+        return resizedImage;
     }
 }
