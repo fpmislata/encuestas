@@ -20,7 +20,7 @@ if (!(request.getAttribute("disableCheckNoScript")==Boolean.TRUE)) {
                             &nbsp;&nbsp;<a href="<%=request.getContextPath() %>/porque.jsp">Perqu&egrave; esta enquesta?</a>&nbsp;&nbsp;|
                             &nbsp;&nbsp;<a href="<%=request.getContextPath() %>/ayuda.jsp">Ajuda</a>&nbsp;&nbsp;|
                             <%
-                            if (request.getSession().getAttribute("idUser")==null) {
+                            if (request.getSession().getAttribute("sid")==null) {
                             %>
                             &nbsp;&nbsp;<a id="entrar" href="#">Entrar</a>
                             <%
