@@ -10,7 +10,7 @@
 ">
 
     <mvc:annotation-driven/>
-    <context:component-scan base-package="es.logongas.encuestas.presentacion.controller" />
+    <context:component-scan base-package="es.logongas.encuestas.presentacion" />
     <context:component-scan base-package="es.logongas.ix3.web" />
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
