@@ -319,7 +319,6 @@ CREATE TABLE IF NOT EXISTS `principal` (
 
 CREATE TABLE IF NOT EXISTS `userr` (
   `sid` int(11) NOT NULL,
-  `userType` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`sid`),
   KEY `FK285FEB1EDD9A75` (`sid`),
   CONSTRAINT `FK285FEB1EDD9A75` FOREIGN KEY (`sid`) REFERENCES `principal` (`sid`)
@@ -359,7 +358,7 @@ CREATE TABLE IF NOT EXISTS `secureresource` (
   `description` varchar(255) DEFAULT NULL,
   `idSecureResourceType` int(11) DEFAULT NULL,
   PRIMARY KEY (`idSecureResource`),
-  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `name_idSecureResourceType` (`name`, `idSecureResourceType`),
   KEY `FK920CE8C5850089C0` (`idSecureResourceType`),
   CONSTRAINT `FK920CE8C5850089C0` FOREIGN KEY (`idSecureResourceType`) REFERENCES `secureresourcetype` (`idSecureResourceType`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -370,7 +369,7 @@ CREATE TABLE IF NOT EXISTS `permission` (
   `description` varchar(255) DEFAULT NULL,
   `idSecureResourceType` int(11) DEFAULT NULL,
   PRIMARY KEY (`idPermission`),
-  UNIQUE KEY `name` (`name`),
+  UNIQUE KEY `name_idSecureResourceType` (`name`, `idSecureResourceType`),
   KEY `FK57F7A1EF850089C0` (`idSecureResourceType`),
   CONSTRAINT `FK57F7A1EF850089C0` FOREIGN KEY (`idSecureResourceType`) REFERENCES `secureresourcetype` (`idSecureResourceType`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
