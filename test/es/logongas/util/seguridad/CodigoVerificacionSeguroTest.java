@@ -77,5 +77,22 @@ public class CodigoVerificacionSeguroTest {
         boolean result = instance.isValido();
         assertEquals(expResult, result);
     }
-
+    @Test
+    public void testIsValido5() {
+        System.out.print("isValido OK:");
+        String cvc="AAAAAASSKYAWNFNUK3EA";
+        CodigoVerificacionSeguro instance = CodigoVerificacionSeguro.getInstance(cvc);
+        boolean expResult = true;
+        boolean result = instance.isValido();
+        assertEquals(expResult, result);
+    }
+    @Test
+    public void testIsValido6() {
+        System.out.print("isValido con números:");
+        String cvc="AAAA1ASSKYAWNFNUK3EA";
+        CodigoVerificacionSeguro instance = CodigoVerificacionSeguro.getInstance(cvc);
+        boolean expResult = false;
+        boolean result = instance.isValido();
+        assertEquals(expResult, result);
+    }
 }

@@ -136,7 +136,7 @@ public class CodigoVerificacionSeguro {
                 return false;
             }
         } catch (IOException ex) {
-            throw new RuntimeException(ex);
+            return false;
         }
     }
 
