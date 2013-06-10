@@ -163,3 +163,22 @@ input[type=radio] + label {
   position: absolute;
   left: -9999px;
 }
+
+
+div.ajax-wait {
+  position: fixed;
+  display: none;
+  width: 50px;
+  height: 50px;
+  top: 0;
+  left: 0;
+  background-image: url('../img/ajax-wait.gif');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: white;
+  border: 1px solid #0088cc;
+  -moz-border-radius:    10px;
+  -webkit-border-radius: 10px;
+  border-radius:         10px;
+  z-index:10000;
+}

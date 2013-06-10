@@ -8,7 +8,7 @@ if (!(request.getAttribute("disableCheckNoScript")==Boolean.TRUE)) {
 <%
 }
 %>
-
+        <div class="ajax-wait"></div>
         <div class="row-fluid" style="margin-top: 1em">
             <div class="span1" ></div>
             <div class="span10 marco">

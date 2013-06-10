@@ -19,6 +19,20 @@
         return "<%=request.getContextPath()%>";
     }
 
+    function ajaxWait(parent) {
+        $(".ajax-wait").show();
+        $('.ajax-wait').position({
+            "my": "center center",
+            "at": "center center",
+            "of": parent
+        });
+    }
+
+    function ajaxHide() {
+        $(".ajax-wait").hide();
+    }
+
+
     $(function() {
         jQuery("#entrar").click(function(event) {
             event.preventDefault();
@@ -35,15 +49,19 @@
                 password:$("#inputPassword").val()
             }
 
+
+            ajaxWait($('#loginModal'));
             jQuery.ajax({
                 type: 'POST',
                 contentType: 'application/json',
                 dataType: "json",
                 url:getContextPath()+"/api/session?" + jQuery.param(params) ,
                 success: function(data) {
+                    ajaxHide();
                     window.location.href=getContextPath()+"/administracion/administracion.jsp";
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
+                    ajaxHide();
                     if (jqXHR.status===400) {
                         var businessMessages=jQuery.parseJSON(jqXHR.responseText);
                         for(var i=0;i<businessMessages.length;i++) {
