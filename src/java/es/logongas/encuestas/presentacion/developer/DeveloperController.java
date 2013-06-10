@@ -18,6 +18,7 @@ package es.logongas.encuestas.presentacion.developer;
 import es.logongas.ix3.model.User;
 import es.logongas.ix3.security.services.authentication.AuthenticationManager;
 import es.logongas.ix3.security.services.authentication.Principal;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +47,7 @@ public class DeveloperController {
             Principal principal;
 
             HttpSession httpSession = request.getSession();
-            Integer sid = (Integer) httpSession.getAttribute("sid");
+            Serializable sid = (Serializable) httpSession.getAttribute("sid");
 
             if (sid == null) {
                 principal = null;
