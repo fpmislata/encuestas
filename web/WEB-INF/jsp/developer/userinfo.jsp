@@ -1,13 +1,13 @@
+<%@page import="es.logongas.ix3.model.Identity"%>
 <%@page import="es.logongas.ix3.model.ACE"%>
 <%@page import="java.util.List"%>
 <%@page import="es.logongas.ix3.model.GroupMember"%>
 <%@page import="java.util.Set"%>
 <%@page import="es.logongas.ix3.model.Group"%>
-<%@page import="es.logongas.ix3.model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
-User user=(User)request.getAttribute("user");
+Identity identity=(Identity)request.getAttribute("principal");
 %>
 <html>
     <head>
@@ -18,11 +18,11 @@ User user=(User)request.getAttribute("user");
         <%@ include file="/template/top.jsp" %>
         <div class="row-fluid" style="margin-top: 3em;">
             <%
-                if (user!=null) {
+                if (identity!=null) {
                     out.print("<h4>");
-                    out.print(user.getName());
+                    out.print(identity.getName());
                     out.print("</h4>");
-                    Set<GroupMember> memberOf=user.getMemberOf();
+                    Set<GroupMember> memberOf=identity.getMemberOf();
                      out.print("<h5>Grupos</h5>");
                     out.print("<ul>");
                     for(GroupMember groupMember:memberOf) {
@@ -31,7 +31,7 @@ User user=(User)request.getAttribute("user");
                         out.print("</li>");
                     }
                     out.print("</ul>");
-                    Set<ACE> acl=user.getAcl();
+                    Set<ACE> acl=identity.getAcl();
                      out.print("<h5>ACL</h5>");
                     out.print("<ul>");
                     for(ACE ace:acl) {
@@ -40,6 +40,10 @@ User user=(User)request.getAttribute("user");
                         out.print("</li>");
                     }
                     out.print("</ul>");
+                } else {
+                    out.print("<h4>");
+                    out.print("No hay ningún usuario");
+                    out.print("</h4>");
                 }
             %>
         </div>

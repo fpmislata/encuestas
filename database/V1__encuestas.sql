@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS `secureresourcetype`;
 DROP TABLE IF EXISTS `groupmember`;
 DROP TABLE IF EXISTS `groupp`;
 DROP TABLE IF EXISTS `userr`;
-DROP TABLE IF EXISTS `principal`;
+DROP TABLE IF EXISTS `identity`;
 
 
 
@@ -309,7 +309,7 @@ CREATE TABLE  `respuestaitem` (
 
 
 
-CREATE TABLE IF NOT EXISTS `principal` (
+CREATE TABLE IF NOT EXISTS `identity` (
   `sid` int(11) NOT NULL AUTO_INCREMENT,
   `login` varchar(255) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
@@ -321,25 +321,25 @@ CREATE TABLE IF NOT EXISTS `userr` (
   `sid` int(11) NOT NULL,
   PRIMARY KEY (`sid`),
   KEY `FK285FEB1EDD9A75` (`sid`),
-  CONSTRAINT `FK285FEB1EDD9A75` FOREIGN KEY (`sid`) REFERENCES `principal` (`sid`)
+  CONSTRAINT `FK285FEB1EDD9A75` FOREIGN KEY (`sid`) REFERENCES `identity` (`sid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `groupp` (
   `sid` int(11) NOT NULL,
-  `Idx` int(11) DEFAULT NULL,
   PRIMARY KEY (`sid`),
   KEY `FK41E065F1EDD9A75` (`sid`),
-  CONSTRAINT `FK41E065F1EDD9A75` FOREIGN KEY (`sid`) REFERENCES `principal` (`sid`)
+  CONSTRAINT `FK41E065F1EDD9A75` FOREIGN KEY (`sid`) REFERENCES `identity` (`sid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `groupmember` (
   `idGroupMember` int(11) NOT NULL AUTO_INCREMENT,
   `idGroup` int(11) DEFAULT NULL,
   `sid` int(11) DEFAULT NULL,
+  `priority` int(11) DEFAULT NULL,
   PRIMARY KEY (`idGroupMember`),
   KEY `FK8598F9D9AAEDEABC` (`idGroup`),
   KEY `FK8598F9D91EDD9A75` (`sid`),
-  CONSTRAINT `FK8598F9D91EDD9A75` FOREIGN KEY (`sid`) REFERENCES `principal` (`sid`),
+  CONSTRAINT `FK8598F9D91EDD9A75` FOREIGN KEY (`sid`) REFERENCES `identity` (`sid`),
   CONSTRAINT `FK8598F9D9AAEDEABC` FOREIGN KEY (`idGroup`) REFERENCES `groupp` (`sid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -385,7 +385,7 @@ CREATE TABLE IF NOT EXISTS `ace` (
   PRIMARY KEY (`idACE`),
   KEY `FKFC63E44E74A0` (`idPermission`),
   KEY `FKFC631EDD9A75` (`sid`),
-  CONSTRAINT `FKFC631EDD9A75` FOREIGN KEY (`sid`) REFERENCES `principal` (`sid`),
+  CONSTRAINT `FKFC631EDD9A75` FOREIGN KEY (`sid`) REFERENCES `identity` (`sid`),
   CONSTRAINT `FKFC63E44E74A0` FOREIGN KEY (`idPermission`) REFERENCES `permission` (`idPermission`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -17,6 +17,7 @@ package es.logongas.encuestas.presentacion.developer;
 
 import es.logongas.ix3.model.User;
 import es.logongas.ix3.security.services.authentication.AuthenticationManager;
+import es.logongas.ix3.security.services.authentication.Principal;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -42,18 +43,18 @@ public class DeveloperController {
         try {
             Map<String, Object> model = new HashMap<String, Object>();
             String viewName = "developer/userinfo";
-            User user;
+            Principal principal;
 
             HttpSession httpSession = request.getSession();
             Integer sid = (Integer) httpSession.getAttribute("sid");
 
             if (sid == null) {
-                user = null;
+                principal = null;
             } else {
-                user = authenticationManager.getUserBySID(sid);
+                principal = authenticationManager.getPrincipalBySID(sid);
             }
 
-            model.put("user", user);
+            model.put("principal", principal);
             return new ModelAndView(viewName, model);
 
         } catch (Exception ex) {
