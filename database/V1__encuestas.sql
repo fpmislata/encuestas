@@ -315,7 +315,12 @@ CREATE TABLE IF NOT EXISTS `identity` (
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`sid`),
   UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+
+INSERT INTO `identity` (`sid`, `login`, `name`) VALUES
+	(1, 'All', 'Todos'),
+	(2, 'GAll', 'Grupo Todos'),
+	(3, 'Administradores', 'Grupo Administradores');
 
 CREATE TABLE IF NOT EXISTS `userr` (
   `sid` int(11) NOT NULL,
@@ -324,12 +329,19 @@ CREATE TABLE IF NOT EXISTS `userr` (
   CONSTRAINT `FK285FEB1EDD9A75` FOREIGN KEY (`sid`) REFERENCES `identity` (`sid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `userr` (`sid`) VALUES
+	(1);
+
 CREATE TABLE IF NOT EXISTS `groupp` (
   `sid` int(11) NOT NULL,
   PRIMARY KEY (`sid`),
   KEY `FK41E065F1EDD9A75` (`sid`),
   CONSTRAINT `FK41E065F1EDD9A75` FOREIGN KEY (`sid`) REFERENCES `identity` (`sid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `groupp` (`sid`) VALUES
+	(2),
+	(3);
 
 CREATE TABLE IF NOT EXISTS `groupmember` (
   `idGroupMember` int(11) NOT NULL AUTO_INCREMENT,
@@ -341,8 +353,10 @@ CREATE TABLE IF NOT EXISTS `groupmember` (
   KEY `FK8598F9D91EDD9A75` (`sid`),
   CONSTRAINT `FK8598F9D91EDD9A75` FOREIGN KEY (`sid`) REFERENCES `identity` (`sid`),
   CONSTRAINT `FK8598F9D9AAEDEABC` FOREIGN KEY (`idGroup`) REFERENCES `groupp` (`sid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 
+INSERT INTO `groupmember` (`idGroupMember`, `idGroup`, `sid`, `priority`) VALUES
+	(1, 2, 1, NULL);
 
 CREATE TABLE IF NOT EXISTS `secureresourcetype` (
   `idSecureResourceType` int(11) NOT NULL AUTO_INCREMENT,
@@ -350,7 +364,12 @@ CREATE TABLE IF NOT EXISTS `secureresourcetype` (
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`idSecureResourceType`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+INSERT INTO `secureresourcetype` (`idSecureResourceType`, `name`, `description`) VALUES
+	(1, 'URL', 'URL'),
+	(2, 'Entity', 'Entidad de negocio');
+
 
 CREATE TABLE IF NOT EXISTS `secureresource` (
   `idSecureResource` int(11) NOT NULL AUTO_INCREMENT,
@@ -372,7 +391,14 @@ CREATE TABLE IF NOT EXISTS `permission` (
   UNIQUE KEY `name_idSecureResourceType` (`name`, `idSecureResourceType`),
   KEY `FK57F7A1EF850089C0` (`idSecureResourceType`),
   CONSTRAINT `FK57F7A1EF850089C0` FOREIGN KEY (`idSecureResourceType`) REFERENCES `secureresourcetype` (`idSecureResourceType`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+INSERT INTO `permission` (`idPermission`, `name`, `description`, `idSecureResourceType`) VALUES
+	(1, 'GET', 'GET', 1),
+	(2, 'POST', 'POST', 1),
+	(3, 'PUT', 'PUT', 1),
+	(4, 'DELETE', 'DELETE', 1);
+
 
 CREATE TABLE IF NOT EXISTS `ace` (
   `idACE` int(11) NOT NULL AUTO_INCREMENT,
@@ -388,5 +414,58 @@ CREATE TABLE IF NOT EXISTS `ace` (
   CONSTRAINT `FKFC631EDD9A75` FOREIGN KEY (`sid`) REFERENCES `identity` (`sid`),
   CONSTRAINT `FKFC63E44E74A0` FOREIGN KEY (`idPermission`) REFERENCES `permission` (`idPermission`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+INSERT INTO `ace` (`idACE`, `aceType`, `idPermission`, `sid`, `secureResourceRegExp`, `conditionalScript`, `priority`) VALUES
+	(1, 'Allow', 1, 2, '/img/.*', NULL, NULL),
+	(2, 'Allow', 1, 2, '/css/.*', NULL, NULL),
+	(3, 'Allow', 1, 2, '/js/.*', NULL, NULL),
+	(4, 'Allow', 1, 2, '/[^/]+\\.html', NULL, NULL),
+	(5, 'Allow', 2, 2, '/[^/]+\\.html', NULL, NULL),
+	(6, 'Allow', 1, 2, '/[^/]+\\.jsp', NULL, NULL),
+	(7, 'Allow', 2, 2, '/[^/]+\\.jsp', NULL, NULL),
+	(8, 'Allow', 1, 2, '/', NULL, NULL),
+	(11, 'Allow', 1, 2, '/images/.*', NULL, NULL),
+	(12, 'Allow', 1, 2, '/ix3lib/.*', NULL, NULL),
+	(14, 'Allow', 1, 2, '/api/session', NULL, NULL),
+	(15, 'Allow', 2, 2, '/api/session', NULL, NULL),
+	(16, 'Allow', 4, 2, '/api/session', NULL, NULL),
+	(17, 'Allow', 1, 3, '.*', NULL, NULL),
+	(18, 'Allow', 2, 3, '.*', NULL, NULL),
+	(19, 'Allow', 3, 3, '.*', NULL, NULL),
+	(20, 'Allow', 4, 3, '.*', NULL, NULL);
+
+INSERT INTO `identity` (`sid`, `login`, `name`) VALUES
+	(10, 'jsarrion', 'Joan Sarrion'),
+	(11, 'jvcoll', 'José Vicente Coll'),
+	(12, 'mmonzo', 'Mariano Monzo'),
+	(13, 'jmurgui', 'Juan Murgui'),
+	(14, 'jescriche', 'Joaquín Escriche'),
+	(15, 'trevert', 'Teresa Revert'),
+	(16, 'maguas', 'Manuel Aguas'),
+	(17, 'adelrio', 'Almudena del Rio'),
+	(18, 'lgonzalez', 'Lorenzo González');
+
+INSERT INTO `userr` (`sid`) VALUES
+	(10),
+	(11),
+	(12),
+	(13),
+	(14),
+	(15),
+	(16),
+	(17),
+	(18);
+
+INSERT INTO `groupmember` (`idGroupMember`, `idGroup`, `sid`, `priority`) VALUES
+	(10, 3, 10, NULL),
+	(11, 3, 11, NULL),
+	(12, 3, 12, NULL),
+	(13, 3, 13, NULL),
+	(14, 3, 14, NULL),
+	(15, 3, 15, NULL),
+	(16, 3, 16, NULL),
+	(17, 3, 17, NULL),
+	(18, 3, 18, NULL);
 
 
