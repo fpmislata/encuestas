@@ -167,13 +167,13 @@ public class EncuestaController {
         Map<String, Object> model = new HashMap<String, Object>();
         String viewName;
 
-        if (request.getCharacterEncoding() == null) {
+
             try {
-                request.setCharacterEncoding("utf-8");
+                request.setCharacterEncoding("UTF-8");
             } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(EncuestaController.class.getName()).log(Level.WARNING, "no existe el juego de caracteres utf-8", ex);
+                throw new RuntimeException("no existe el juego de caracteres utf-8", ex);
             }
-        }
+
 
 
 
@@ -442,6 +442,13 @@ public class EncuestaController {
         if (s == null) {
             return null;
         }
+
+        try {
+            s=new String(s.getBytes("ISO-8859-1"),"UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            throw new RuntimeException(ex);
+        }
+        
         //Cambiar los &nbsp; por " " espacios normales
         s = s.replace("\u00a0", " ");
 
