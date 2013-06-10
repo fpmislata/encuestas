@@ -24,7 +24,6 @@ public class CodigoVerificacionSeguroTest {
         boolean expResult = true;
         boolean result = instance.isValido();
         assertEquals(expResult, result);
-        System.out.println(instance.getValor());
     }
 
     @Test
@@ -35,6 +34,48 @@ public class CodigoVerificacionSeguroTest {
         boolean expResult = true;
         boolean result = instance.isValido();
         assertEquals(expResult, result);
-        System.out.println(instance.getValor());
     }
+    @Test
+    public void testIsValido1() {
+        System.out.print("isValido1 con letras en minusculas:");
+        String cvc="AAAAhgfAALB4TK7OTJSJU5A";
+        CodigoVerificacionSeguro instance = CodigoVerificacionSeguro.getInstance(cvc);
+        boolean expResult = false;
+        boolean result = instance.isValido();
+        assertEquals(expResult, result);
+    }
+
+
+    @Test
+    public void testIsValido2() {
+        System.out.print("isValido2 con letras en minusculas:");
+        String cvc="AAAAhgfAALkjhkB4TK7OTJSJU5A";
+        CodigoVerificacionSeguro instance = CodigoVerificacionSeguro.getInstance(cvc);
+        boolean expResult = false;
+        boolean result = instance.isValido();
+        assertEquals(expResult, result);
+    }
+
+
+
+    @Test
+    public void testIsValido3() {
+        System.out.print("isValido3 con letras en minusculas:");
+        String cvc="AAAAhgfAALB4TK7OTJSJU5A";
+        CodigoVerificacionSeguro instance = CodigoVerificacionSeguro.getInstance(cvc);
+        boolean expResult = false;
+        boolean result = instance.isValido();
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testIsValido4() {
+        System.out.print("isValido con letras en minusculas:");
+        String cvc="AAAAhgfAALkjhkB4TK7OTJSjhgjhgjJU5A";
+        CodigoVerificacionSeguro instance = CodigoVerificacionSeguro.getInstance(cvc);
+        boolean expResult = false;
+        boolean result = instance.isValido();
+        assertEquals(expResult, result);
+    }
+
 }

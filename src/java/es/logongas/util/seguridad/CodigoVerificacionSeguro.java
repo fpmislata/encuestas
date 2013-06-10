@@ -18,7 +18,6 @@ package es.logongas.util.seguridad;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.LuminanceSource;
-import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
@@ -36,8 +35,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import org.apache.commons.codec.binary.Base32;
 
@@ -68,7 +65,7 @@ public class CodigoVerificacionSeguro {
      * @return El código de verificación seguro
      */
     public static CodigoVerificacionSeguro getInstance(String valor) {
-        return new CodigoVerificacionSeguro(valor);
+        return new CodigoVerificacionSeguro(valor.toUpperCase());
     }
 
     /**
