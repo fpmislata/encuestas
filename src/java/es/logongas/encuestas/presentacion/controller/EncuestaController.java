@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
@@ -67,6 +68,9 @@ public class EncuestaController {
 
     @Autowired
     DAOFactory daoFactory;
+
+    @Autowired
+    private ServletContext servletContext;
 
     protected final Log log = LogFactory.getLog(getClass());
 
@@ -355,7 +359,7 @@ public class EncuestaController {
             if (codigoVerificacionSeguro.isValido()==false) {
                 log.error("Se solicitó un CodigoVerificacionSeguro inválido:"+valorCVC);
                 try {
-                    InputStream is=new BufferedInputStream(new FileInputStream(request.getServletContext().getRealPath("/img/error_qrcode.png")));
+                    InputStream is=new BufferedInputStream(new FileInputStream(servletContext.getRealPath("/img/error_qrcode.png")));
                     return toByteArray(is);
                 } catch (FileNotFoundException ex) {
                     throw new RuntimeException(ex);
@@ -448,7 +452,7 @@ public class EncuestaController {
         } catch (UnsupportedEncodingException ex) {
             throw new RuntimeException(ex);
         }
-        
+
         //Cambiar los &nbsp; por " " espacios normales
         s = s.replace("\u00a0", " ");
 
