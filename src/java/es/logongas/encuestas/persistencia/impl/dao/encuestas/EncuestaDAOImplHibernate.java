@@ -91,7 +91,8 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
             resultados = query.list();
 
             //Esto se hace pq cuando hay una lista de valores, se deben incluir tambien los valores que no tienen respuestas
-            if (item.getTipoItem()==TipoItem.ListaValores) {
+            //Pero SOLO se hace para los valores numéricos pq así se mantiene la proporcion de los datos
+            if ((item.getTipoItem()==TipoItem.ListaValores) && (item.getListaValores().isContieneValoresNumericos()==true)) {
                 List<Object[]> realResultados=new ArrayList<Object[]>();
 
                 //Recorremos todos los valores de "ListaValores" para añadir la frecuencia de cada uno de ellos
