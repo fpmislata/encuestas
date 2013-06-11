@@ -8,6 +8,7 @@ import es.logongas.encuestas.modelo.encuestas.Encuesta;
 import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
 import es.logongas.encuestas.modelo.encuestas.TipoItem;
+import es.logongas.encuestas.modelo.encuestas.Valor;
 import es.logongas.encuestas.modelo.resultados.EstadisticaDescriptiva;
 import es.logongas.encuestas.modelo.resultados.InferenciaEstadistica;
 import es.logongas.encuestas.modelo.resultados.Resultado;
@@ -16,6 +17,7 @@ import es.logongas.encuestas.persistencia.services.dao.encuestas.EncuestaDAO;
 import es.logongas.ix3.persistence.impl.hibernate.dao.GenericDAOImplHibernate;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -52,40 +54,66 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
             }
 
             String orderBy;
-            TipoItem tipoItem=item.getTipoItem();
-            if (tipoItem==null) {
-                orderBy = " count(*) DESC ";
-            } else {
-                switch (tipoItem) {
-                    case Sino:
-                        orderBy = " count(*) DESC ";
-                        break;
-                    case ListaValores:
-                        if (item.getListaValores().isContieneValoresNumericos()==true) {
-                            orderBy = " ri.valorNumerico ASC ";
-                        } else {
+            {//Calcular como se ordenan los datos
+                TipoItem tipoItem=item.getTipoItem();
+                if (tipoItem==null) {
+                    orderBy = " count(*) DESC ";
+                } else {
+                    switch (tipoItem) {
+                        case Sino:
                             orderBy = " count(*) DESC ";
-                        }
+                            break;
+                        case ListaValores:
+                            if (item.getListaValores().isContieneValoresNumericos()==true) {
+                                orderBy = " ri.valorNumerico ASC ";
+                            } else {
+                                orderBy = " count(*) DESC ";
+                            }
 
-                        break;
-                    case Texto:
-                        orderBy = " count(*) DESC ";
-                        break;
-                    case Fecha:
-                        orderBy = " count(*) DESC ";
-                        break;
-                    case AreaTexto:
-                        orderBy = " count(*) DESC ";
-                        break;
-                    default:
-                        throw new RuntimeException("item.getTipoItem() no es válido:"+item.getTipoItem());
+                            break;
+                        case Texto:
+                            orderBy = " count(*) DESC ";
+                            break;
+                        case Fecha:
+                            orderBy = " count(*) DESC ";
+                            break;
+                        case AreaTexto:
+                            orderBy = " count(*) DESC ";
+                            break;
+                        default:
+                            throw new RuntimeException("item.getTipoItem() no es válido:"+item.getTipoItem());
+                    }
                 }
             }
-
             String shql = "SELECT ri.valor,count(*) FROM RespuestaItem ri WHERE ri.item.idItem=? " + whereCheck + " GROUP BY ri.valor ORDER BY " + orderBy;
             Query query = session.createQuery(shql);
             query.setInteger(0, item.getIdItem());
             resultados = query.list();
+
+            //Esto se hace pq cuando hay una lista de valores, se deben incluir tambien los valores que no tienen respuestas
+            if (item.getTipoItem()==TipoItem.ListaValores) {
+                List<Object[]> realResultados=new ArrayList<Object[]>();
+
+                //Recorremos todos los valores de "ListaValores" para añadir la frecuencia de cada uno de ellos
+                for(Valor valor:item.getListaValores().getValores()){
+                    String nombreValor=valor.getNombre();
+                    Long frecuencia=0L; //Si no hay nada de la sqhl , entonces la frencuencia el 0
+
+                    //Buscamos ese valor entre las frecuencias de la shql
+                    for(Object[] resultado:resultados) {
+                        if (resultado[0].equals(nombreValor)) {
+                            frecuencia=(Long)resultado[1];
+                            break;
+                        }
+                    }
+
+                    Object[] singleRow={nombreValor,frecuencia};
+                    realResultados.add(singleRow);
+                }
+                resultados=realResultados;
+            }
+
+
         }
 
         Resultado resultado = new Resultado(item);
