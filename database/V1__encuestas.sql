@@ -406,7 +406,7 @@ CREATE TABLE IF NOT EXISTS `ace` (
   `idPermission` int(11) DEFAULT NULL,
   `ididentity` int(11) DEFAULT NULL,
   `secureResourceRegExp` varchar(255) DEFAULT NULL,
-  `conditionalScript` varchar(255) DEFAULT NULL,
+  `conditionalScript` text NULL DEFAULT NULL,
   `priority` int(11) DEFAULT NULL,
   PRIMARY KEY (`idACE`),
   KEY `FKFC63E44E74A0` (`idPermission`),
