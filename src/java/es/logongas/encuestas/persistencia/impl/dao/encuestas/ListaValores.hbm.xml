@@ -2,11 +2,15 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="es.logongas.encuestas.modelo.encuestas.ListaValores" >
+        <cache usage="read-write" />
+
         <id name="idListaValores" >
             <generator class="identity" />
         </id>
         <property name="nombre" />
         <list name="valores"  cascade="all" inverse="false" lazy="false" fetch="select"  >
+            <cache usage="read-write" />
+
             <key column="idListaValores"  />
             <list-index column="Idx"  />
             <one-to-many class="es.logongas.encuestas.modelo.encuestas.Valor" />
