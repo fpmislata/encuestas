@@ -50,6 +50,10 @@ function GraficasController($scope,$http,$filter) {
             $scope.seleccion.item=null;
             $http.get(getContextPath()+'/api/Item/?orderBy=idx&pregunta.idPregunta='+$scope.seleccion.pregunta.idPregunta).success(function(data) {
                 $scope.items = data;
+                //Si solo hay un Item lo seleccionamos por defecto
+                if ($scope.items.length==1) {
+                    $scope.seleccion.item=$scope.items[0];
+                }
             }).error(function(data, status, headers, config) {
                 alert("Se ha producido un error al obtener los datos:"+status);
             });
@@ -147,11 +151,11 @@ function GraficasController($scope,$http,$filter) {
 function showChart(element,resultado) {
     if (element.highcharts()) {
         element.highcharts().destroy();
-    }    
+    }
     if ( (resultado==null) || (resultado.dibujable==false) ) {
         return;
-    }     
-    
+    }
+
     element.highcharts({
         chart: {
             type: 'column'
