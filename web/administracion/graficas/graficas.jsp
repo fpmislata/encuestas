@@ -122,8 +122,8 @@
         </div>
         <div class="row-fluid" style="padding-top: 10px;">
             <div class="span12">
-                <a class="btn" href="todasgraficas.jsp?idEncuesta={{seleccion.encuesta.idEncuesta}}" target="_blank" ng-disabled="seleccion.encuesta==null">Todas las gr&aacute;ficas</a>
-                <a class="btn" href="todosdatos.jsp?idEncuesta={{seleccion.encuesta.idEncuesta}}" target="_blank" ng-disabled="seleccion.encuesta==null">Todos los datos</a>
+                <button class="btn" ng-click="viewAllGraphics()"  ng-disabled="seleccion.encuesta==null">Todas las gr&aacute;ficas</button>
+                <button class="btn" ng-click="viewAllData()" ng-disabled="seleccion.encuesta==null">Todos los datos</button>
             </div>
         </div>
         <%@ include file="/template/bottom.jsp" %>

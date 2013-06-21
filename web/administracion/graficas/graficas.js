@@ -134,6 +134,15 @@ function GraficasController($scope,$http,$filter) {
         }
     }
 
+    $scope.viewAllGraphics=function() {
+        var url="todasgraficas.jsp?idEncuesta=" + $scope.seleccion.encuesta.idEncuesta;
+        window.open(url);
+    }
+
+    $scope.viewAllData=function() {
+        var url="todosdatos.jsp?idEncuesta=" + $scope.seleccion.encuesta.idEncuesta;
+        window.open(url);
+    }
     //Evento al pinchar en el tab.
     $('a[data-toggle="tab"]').on('shown', function (e) {
         if ($(e.target).attr('name')==="grafica") {
