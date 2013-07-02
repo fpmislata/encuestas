@@ -175,15 +175,15 @@
 
     <target name="-deployProduccion" depends="-undeployProduccion"  >
         <echo>Desplegado aplicación ........</echo>
-        <deploy url="${tomcat.production.url}/manager" username="${tomcat.production.user}" password="${tomcat.production.password}" path="${Context(path)}" war="${basedir}/${dist.war}" update="true"/>
-        <start url="${tomcat.production.url}/manager" username="${tomcat.production.user}" password="${tomcat.production.password}" path="${Context(path)}" />
+        <deploy url="${tomcat.production.url}/manager/text" username="${tomcat.production.user}" password="${tomcat.production.password}" path="${Context(path)}" war="${basedir}/${dist.war}" update="true"/>
+        <start url="${tomcat.production.url}/manager/text" username="${tomcat.production.user}" password="${tomcat.production.password}" path="${Context(path)}" />
     </target>
 
 
     <target name="-undeployProduccion">
         <trycatch property="exception" >
             <try>
-                <stop url="${tomcat.production.url}/manager" username="${tomcat.production.user}" password="${tomcat.production.password}" path="${Context(path)}"/>
+                <stop url="${tomcat.production.url}/manager/text" username="${tomcat.production.user}" password="${tomcat.production.password}" path="${Context(path)}"/>
             </try>
             <catch>
                 <echo>No se pudo parar la aplicacion en Tomcat.Excepcion ${exception}</echo>
@@ -191,7 +191,7 @@
         </trycatch>
         <trycatch property="exception">
             <try>
-                <undeploy url="${tomcat.production.url}/manager" username="${tomcat.production.user}" password="${tomcat.production.password}" path="${Context(path)}"/>
+                <undeploy url="${tomcat.production.url}/manager/text" username="${tomcat.production.user}" password="${tomcat.production.password}" path="${Context(path)}"/>
             </try>
             <catch>
                 <echo>No se pudo replegar la aplicación en Tomcat.Excepcion ${exception}</echo>
