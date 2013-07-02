@@ -69,7 +69,7 @@
 
     -->
 
-    <target name="deployProduction" depends="-configureAnt,-enableProduccion,dist" >
+    <target name="deployProduction" depends="-configureAnt,-enableProduccion,dist,-deployProduccion,-deployDataBase,-javadoc,-databaseschema" >
         <!--
             El fichero ${proyecto.productionFile} debe tener las siguientes propiedades:
             tomcat.production.url
