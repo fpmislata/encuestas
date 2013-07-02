@@ -216,7 +216,7 @@
             <fileset dir="lib" includes="*.jar"/>
         </path>
         <property name="flyway.driver" value="${Context.Resource(driverClassName)}"/>
-        <property name="flyway.url" value="${Context.Resource(url)}"/>
+        <property name="flyway.url" value="${datasource.deploy.datos.url}"/>
         <property name="flyway.user" value="${Context.Resource(username)}"/>
         <property name="flyway.password" value="${Context.Resource(password)}"/>
         <property name="flyway.initOnMigrate" value="true"/> <!-- Si la DB está vacia que la inicialice -->
