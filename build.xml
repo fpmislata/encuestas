@@ -162,7 +162,7 @@
             <replace path="/Context/Resource[@name='jdbc/${Context(path)}' and @driverClassName='com.mysql.jdbc.Driver']/@url" withText="${datasource.datos.url}" />
             <replace path="/Context/Resource[@name='jdbc/${Context(path)}' and @driverClassName='com.mysql.jdbc.Driver']/@username" withText="${datasource.datos.username}" />
             <replace path="/Context/Resource[@name='jdbc/${Context(path)}' and @driverClassName='com.mysql.jdbc.Driver']/@password" withText="${datasource.datos.password}" />
-            <attr path="/Context/Resource[@name='jdbc/${Context(path)}' and @driverClassName='com.mysql.jdbc.Driver']" attr="factory" value="${datasource.datos.factory}"/>
+            <replace path="/Context/Resource[@name='jdbc/${Context(path)}' and @driverClassName='com.mysql.jdbc.Driver']/@factory" withText="${datasource.datos.factory}" />
         </xmltask>
 
         <!-- Cargar el context.xml para averiguar la ruta de la app -->
