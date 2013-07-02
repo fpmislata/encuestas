@@ -9,6 +9,5 @@
           username="encuestas" password="encuestas"
           maxActive="50" maxIdle="30" maxWait="10000"
           validationQuery="SELECT 1 FROM DUAL"
-          factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
     />
 </Context>

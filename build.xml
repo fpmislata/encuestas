@@ -69,7 +69,7 @@
 
     -->
 
-    <target name="deployProduction" depends="-configureAnt,-enableProduccion,dist,-deployProduccion,-deployDataBase,-javadoc,-databaseschema" >
+    <target name="deployProduction" depends="-configureAnt,-enableProduccion,dist" >
         <!--
             El fichero ${proyecto.productionFile} debe tener las siguientes propiedades:
             tomcat.production.url
@@ -157,14 +157,12 @@
         <property name="tomcat.production.user" value="admin"/>
         <property name="datasource.datos.factory" value="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"/>
 
-        <echo>datasource.datos.factory=${datasource.datos.factory}</echo>
-
         <!-- Poner los datos de la conexión de producción -->
         <xmltask source="${build.web.dir}/META-INF/context.xml" dest="${build.web.dir}/META-INF/context.xml" >
-            <replace path="/Context/Resource[@name='jdbc/${Context(path)}' and @driverClassName='com.mysql.jdbc.Driver']/@url" withText="${datasource.datos.url}" />
-            <replace path="/Context/Resource[@name='jdbc/${Context(path)}' and @driverClassName='com.mysql.jdbc.Driver']/@username" withText="${datasource.datos.username}" />
-            <replace path="/Context/Resource[@name='jdbc/${Context(path)}' and @driverClassName='com.mysql.jdbc.Driver']/@password" withText="${datasource.datos.password}" />
-            <replace path="/Context/Resource[@name='jdbc/${Context(path)}' and @driverClassName='com.mysql.jdbc.Driver']/@factory" withText="${datasource.datos.factory}" />
+            <replace path="/Context/Resource[@type='javax.sql.DataSource']/@url" withText="${datasource.datos.url}" />
+            <replace path="/Context/Resource[@type='javax.sql.DataSource']/@username" withText="${datasource.datos.username}" />
+            <replace path="/Context/Resource[@type='javax.sql.DataSource']/@password" withText="${datasource.datos.password}" />
+            <attr path="/Context/Resource[@type='javax.sql.DataSource']" attr="factory" value="${datasource.datos.factory}"/>
         </xmltask>
 
         <!-- Cargar el context.xml para averiguar la ruta de la app -->
