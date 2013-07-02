@@ -157,6 +157,8 @@
         <property name="tomcat.production.user" value="admin"/>
         <property name="datasource.datos.factory" value="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"/>
 
+        <echo>datasource.datos.factory=${datasource.datos.factory}</echo>
+
         <!-- Poner los datos de la conexión de producción -->
         <xmltask source="${build.web.dir}/META-INF/context.xml" dest="${build.web.dir}/META-INF/context.xml" >
             <replace path="/Context/Resource[@name='jdbc/${Context(path)}' and @driverClassName='com.mysql.jdbc.Driver']/@url" withText="${datasource.datos.url}" />
