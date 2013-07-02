@@ -79,8 +79,9 @@
             datasource.datos.url
             datasource.datos.username
             datasource.datos.password
-            datasource.sqlfiles.package:    Nombre del paquete java donde están los ficheros SQL de la base de datos.
-                                            Por defecto su valor es "database".
+            datasource.datos.factory        El valor del atributo factory del datasource. Por defecto es "org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
+            datasource.deploy.datos.url     La URL que usa flyway para desplegar en la base de datos. Por defecto es la misma que datasource.datos.url
+
             javadoc.rootpath:               Path deonde Donde colocar el JavaDoc generado.
                                             Por defecto en "/var/www/vhosts/default/htdocs/proyectos"
             databaseschema.rootpath:        Path donde colocar la documentación HTML de la base de datos.
@@ -154,12 +155,14 @@
             Pq al ser las propiedades inmutables, si no tiene valor se pone por defecto.
         -->
         <property name="tomcat.production.user" value="admin"/>
+        <property name="datasource.datos.factory" value="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"/>
 
         <!-- Poner los datos de la conexión de producción -->
         <xmltask source="${build.web.dir}/META-INF/context.xml" dest="${build.web.dir}/META-INF/context.xml" >
             <replace path="/Context/Resource[@name='jdbc/${Context(path)}' and @driverClassName='com.mysql.jdbc.Driver']/@url" withText="${datasource.datos.url}" />
             <replace path="/Context/Resource[@name='jdbc/${Context(path)}' and @driverClassName='com.mysql.jdbc.Driver']/@username" withText="${datasource.datos.username}" />
             <replace path="/Context/Resource[@name='jdbc/${Context(path)}' and @driverClassName='com.mysql.jdbc.Driver']/@password" withText="${datasource.datos.password}" />
+            <attr path="/Context/Resource[@name='jdbc/${Context(path)}' and @driverClassName='com.mysql.jdbc.Driver']" attr="factory" value="${datasource.datos.factory}"/>
         </xmltask>
 
         <!-- Cargar el context.xml para averiguar la ruta de la app -->
@@ -204,6 +207,9 @@
 
         <!-- Cargar el context.xml para averiguar la ruta de la app -->
         <xmlproperty file="${build.web.dir}/META-INF/context.xml" />
+
+        <!-- URL de la base de datos -->
+        <property name="datasource.deploy.datos.url" value="${Context.Resource(url)}"/>
 
         <path id="flyway.classpath">
             <!-- Aqui están los Drivers de MySQL -->
