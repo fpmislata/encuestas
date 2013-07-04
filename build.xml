@@ -89,6 +89,10 @@
         -->
     </target>
 
+    <target name="compilar" depends="-configureAnt,dist" >
+        <!-- Permite compilar el código sin que esté NetBeans instalado -->
+    </target>
+
     <target name="-configureAnt">
         <echo>Configurando Ant</echo>
 
