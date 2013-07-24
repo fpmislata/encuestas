@@ -370,7 +370,7 @@ public class EncuestaController {
             } else {
                 RespuestaEncuestaDAO respuestaEncuestaDAO=(RespuestaEncuestaDAO)daoFactory.getDAO(RespuestaEncuesta.class);
                 RespuestaEncuesta respuestaEncuesta=respuestaEncuestaDAO.getByCodigoVerificacionSeguro(codigoVerificacionSeguro);
-                if (respuestaEncuesta!=null) {
+                if (respuestaEncuesta==null) {
                     log.error("Se solicitó un CodigoVerificacionSeguro que no existe:"+valorCVC);
                 }
                 return codigoVerificacionSeguro.getQRCode(tamanyo);
