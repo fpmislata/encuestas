@@ -4,7 +4,7 @@
     <session-factory>
         <property name="connection.datasource">java:/comp/env/jdbc/encuestas</property>
         <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
-        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.show_sql">false</property>
 
         <!-- Incluir la cache de 2º Nivel EHCache-->
         <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
