@@ -15,9 +15,11 @@
  */
 package es.logongas.encuestas.modelo.encuestas;
 
+import es.logongas.ix3.persistence.services.annotations.Caption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Definición de los datos de una encuesta
@@ -25,9 +27,14 @@ import java.util.List;
  */
 public class Encuesta {
     private int idEncuesta;
+    @NotBlank
     private String nombre;
     private boolean habilitada;
+    @es.logongas.ix3.persistence.services.annotations.Date
+    @Caption("Fecha de inicio")
     private Date fechaInicio;
+    @es.logongas.ix3.persistence.services.annotations.Date  
+    @Caption("Fecha de fin")
     private Date fechaFin;
     private boolean imprimir;
     private List<Pregunta> preguntas=new ArrayList<Pregunta>();
