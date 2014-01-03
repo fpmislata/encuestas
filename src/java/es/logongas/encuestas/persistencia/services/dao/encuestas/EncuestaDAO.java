@@ -29,4 +29,5 @@ public interface EncuestaDAO extends GenericDAO<Encuesta,Integer>  {
 
     Resultado getResultadoItem(Item item);
     Resultado getResultadoPregunta(Pregunta pregunta);
+    public long getNumRespuestas(Encuesta encuesta);
 }

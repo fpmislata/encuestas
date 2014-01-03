@@ -226,6 +226,7 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
         return numRespuestas;
     }
 
+    @Override
     public long getNumRespuestas(Encuesta encuesta) {
         Session session = sessionFactory.getCurrentSession();
 
