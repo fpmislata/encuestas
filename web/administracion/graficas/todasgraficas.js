@@ -20,7 +20,7 @@ function TodasGraficasController($scope,$http,$location) {
             if ($scope.isPreguntaAllowChart(pregunta)) {
 
                 (function(idPregunta) {
-                    $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoPregunta&parameter0='+pregunta.idPregunta).success(function(resultado) {
+                    $http.get(getContextPath()+'/api/Encuesta/namedsearch/getResultadoPregunta?pregunta='+pregunta.idPregunta).success(function(resultado) {
                         var chartElement=createChartElement("idPregunta"+idPregunta);
                         showChart(chartElement,resultado);
                     }).error(function(data, status, headers, config) {
@@ -44,7 +44,7 @@ function TodasGraficasController($scope,$http,$location) {
                             if ($scope.isItemAllowChart(item)==true) {
 
                                 (function(idItem) {
-                                    $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoItem&parameter0='+item.idItem).success(function(resultado) {
+                                    $http.get(getContextPath()+'/api/Encuesta/namedsearch/getResultadoItem?item='+item.idItem).success(function(resultado) {
                                         var chartElement=createChartElement("idItem"+idItem);
                                         showChart(chartElement,resultado);
                                     }).error(function(data, status, headers, config) {

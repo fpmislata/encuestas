@@ -13,7 +13,7 @@ function TodosDatosController($scope,$http,$location) {
             if ($scope.isPreguntaAllowChart(pregunta)) {
 
                 (function(index) {
-                    $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoPregunta&parameter0='+pregunta.idPregunta).success(function(resultado) {
+                    $http.get(getContextPath()+'/api/Encuesta/namedsearch/getResultadoPregunta?pregunta='+pregunta.idPregunta).success(function(resultado) {
                         resultado.index=index*1000;
                         $scope.resultados.push(resultado);
                     }).error(function(data, status, headers, config) {
@@ -29,7 +29,7 @@ function TodosDatosController($scope,$http,$location) {
                         for(var j=0;j<items.length;j++) {
                             var item=items[j];
                                 (function(subIndex) {
-                                    $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoItem&parameter0='+item.idItem).success(function(resultado) {
+                                    $http.get(getContextPath()+'/api/Encuesta/namedsearch/getResultadoItem?item='+item.idItem).success(function(resultado) {
                                         resultado.index=index*1000+subIndex;
                                         $scope.resultados.push(resultado);
                                     }).error(function(data, status, headers, config) {

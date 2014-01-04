@@ -27,7 +27,7 @@ function GraficasController($scope,$http,$filter) {
             }).error(function(data, status, headers, config) {
                 alert("Se ha producido un error al obtener los datos:"+status);
             });
-            $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getNumRespuestas&parameter0='+$scope.seleccion.encuesta.idEncuesta).success(function(data) {
+            $http.get(getContextPath()+'/api/Encuesta/namedsearch/getNumRespuestas?encuesta='+$scope.seleccion.encuesta.idEncuesta).success(function(data) {
                 $scope.numRespuestas = data;
             }).error(function(data, status, headers, config) {
                 alert("Se ha producido un error al obtener los datos:"+status);
@@ -59,7 +59,7 @@ function GraficasController($scope,$http,$filter) {
             });
 
             if ($scope.isPreguntaAllowChart($scope.seleccion.pregunta)==true) {
-                $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoPregunta&parameter0='+$scope.seleccion.pregunta.idPregunta).success(function(resultado) {
+                $http.get(getContextPath()+'/api/Encuesta/namedsearch/getResultadoPregunta?pregunta='+$scope.seleccion.pregunta.idPregunta).success(function(resultado) {
                     $scope.resultado=resultado;
                 }).error(function(data, status, headers, config) {
                     alert("Se ha producido un error al obtener los datos:"+status);
@@ -81,7 +81,7 @@ function GraficasController($scope,$http,$filter) {
             return;
         }
         if ( newValue!==null ) {
-            $http.get(getContextPath()+'/api/Encuesta/namedsearch?name=getResultadoItem&parameter0='+$scope.seleccion.item.idItem).success(function(resultado) {
+            $http.get(getContextPath()+'/api/Encuesta/namedsearch/getResultadoItem?item='+$scope.seleccion.item.idItem).success(function(resultado) {
                 $scope.resultado=resultado;
             }).error(function(data, status, headers, config) {
                 alert("Se ha producido un error al obtener los datos:"+status);
