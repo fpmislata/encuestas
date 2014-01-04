@@ -15,6 +15,7 @@ import es.logongas.encuestas.modelo.resultados.Resultado;
 import es.logongas.encuestas.modelo.resultados.Serie;
 import es.logongas.encuestas.persistencia.services.dao.encuestas.EncuestaDAO;
 import es.logongas.ix3.persistence.impl.hibernate.dao.GenericDAOImplHibernate;
+import es.logongas.ix3.persistence.services.dao.NamedSearch;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
     private BigDecimal nivelConfianza = new BigDecimal(0.95);
 
     @Override
+    @NamedSearch(parameterNames = "item")
     public Resultado getResultadoItem(Item item) {
         return getResultadoItem(item,false);
     }
@@ -157,6 +159,7 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
     }
 
     @Override
+    @NamedSearch(parameterNames = "pregunta")
     public Resultado getResultadoPregunta(Pregunta pregunta) {
         Session session = sessionFactory.getCurrentSession();
 
@@ -227,6 +230,7 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
     }
 
     @Override
+    @NamedSearch(parameterNames = "encuesta")
     public long getNumRespuestas(Encuesta encuesta) {
         Session session = sessionFactory.getCurrentSession();
 
