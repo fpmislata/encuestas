@@ -1,4 +1,4 @@
-var app = angular.module('app', ["es.logongas.ix3.directives","ui"]);
+var app = angular.module('app', ["es.logongas.ix3","ui"]);
 
 function GraficasController($scope,$http,$filter) {
     $scope.seleccion = {

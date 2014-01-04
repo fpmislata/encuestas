@@ -4,8 +4,8 @@
     <head>
         <title>Encuestas</title>
         <%@ include file="/template/header.jsp" %>
-        <script type='text/javascript' src='<%=request.getContextPath()%>/js/lib/highcharts/highcharts-3.0.1.js'></script>
-        <script type='text/javascript' src='<%=request.getContextPath()%>/js/lib/highcharts/exporting-3.0.1.js'></script>
+        <script type='text/javascript' src='<%=request.getContextPath()%>/lib/highcharts/js/highcharts-3.0.1.js'></script>
+        <script type='text/javascript' src='<%=request.getContextPath()%>/lib/highcharts/js/exporting-3.0.1.js'></script>
         <script type='text/javascript' src='graficas.js'></script>
 
     </head>
@@ -41,7 +41,7 @@
 
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_grafica" style="height: 400px;overflow: hidden"  >
-                        <div id="grafica" style="height: 400px;position: relative;top:0px;left:0px;"  mostrar="resultado!=null" >
+                        <div id="grafica" style="height: 400px;position: relative;top:0px;left:0px;"  visible="resultado!=null" >
                         </div>
                         <div class="alert alert-info" ng-show="(resultado!=null) && (resultado.dibujable==false)" style="position: relative;top:-300px;left:0px;">
                             <h4>{{resultado.series[0].name}}</h4>
@@ -51,7 +51,7 @@
 
                     </div>
                     <div class="tab-pane" id="tab_datos">
-                        <div style="height: 400px;width: 100%;max-width: 800px;" mostrar="resultado!=null" >
+                        <div style="height: 400px;width: 100%;max-width: 800px;" visible="resultado!=null" >
                             <table class="table table-bordered table-striped table-condensed">
                                 <thead>
                                     <tr>

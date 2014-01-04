@@ -1,19 +1,21 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="shortcut icon" href="<%=request.getContextPath()%>/img/favicon.ico" />
-<link rel="stylesheet" media="screen" href="<%=request.getContextPath()%>/css/lib/bootstrap/bootstrap-2.3.1.css">
-<link rel="stylesheet" media="screen" href="<%=request.getContextPath()%>/css/lib/jquery/default/jquery-ui-1.9.2.css">
-<link rel="stylesheet" media="screen" href="<%=request.getContextPath()%>/css/lib/angular/angular-ui-0.4.0.css">
+<link rel="stylesheet" media="screen" href="<%=request.getContextPath()%>/lib/bootstrap/css/bootstrap-2.3.1.css">
+<link rel="stylesheet" media="screen" href="<%=request.getContextPath()%>/lib/jquery-ui/css/jquery-ui.css">
+<link rel="stylesheet" media="screen" href="<%=request.getContextPath()%>/lib/angular-ui/css/angular-ui.css">
 <link rel="stylesheet" media="screen" href="<%=request.getContextPath()%>/css/style.css">
 <link rel="stylesheet" media="print" href="<%=request.getContextPath()%>/css/style_print.css">
-<script type='text/javascript' src="<%=request.getContextPath()%>/js/lib/jquery/jquery-1.9.0.js"></script>
-<script type='text/javascript' src="<%=request.getContextPath()%>/js/lib/jquery/jquery-ui-1.9.2.js"></script>
-<script type='text/javascript' src="<%=request.getContextPath()%>/js/lib/bootstrap/bootstrap-2.3.1.js"></script>
-<script type='text/javascript' src='<%=request.getContextPath()%>/js/lib/angular/angular-1.0.5.js'></script>
-<script type='text/javascript' src='<%=request.getContextPath()%>/js/lib/angular/angular-locale_es-es-1.0.5.js'></script>
-<script type='text/javascript' src='<%=request.getContextPath()%>/js/lib/angular/angular-ui-0.4.0.js'></script>
+<script type='text/javascript' src="<%=request.getContextPath()%>/lib/jquery/js/jquery-1.9.0.js"></script>
+<script type='text/javascript' src="<%=request.getContextPath()%>/lib/jquery-ui/js/jquery-ui.js"></script>
+<script type='text/javascript' src="<%=request.getContextPath()%>/lib/bootstrap/js/bootstrap-2.3.1.js"></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/angularjs/js/angular.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/angularjs/js/angular-locale_es-es.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/angular-ui/js/angular-ui.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/lodash/js/lodash.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/restangular/js/restangular.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/ix3-angular.js'></script>
 <script type='text/javascript' src="<%=request.getContextPath()%>/js/widgets.js"></script>
-<script type='text/javascript' src="<%=request.getContextPath()%>/js/angular-directives.js"></script>
 <script type='text/javascript'>
     function getContextPath() {
         return "<%=request.getContextPath()%>";
