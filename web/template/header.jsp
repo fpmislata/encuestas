@@ -9,8 +9,10 @@
 <script type='text/javascript' src="<%=request.getContextPath()%>/lib/jquery/js/jquery-1.9.0.js"></script>
 <script type='text/javascript' src="<%=request.getContextPath()%>/lib/jquery-ui/js/jquery-ui.js"></script>
 <script type='text/javascript' src="<%=request.getContextPath()%>/lib/bootstrap/js/bootstrap-2.3.1.js"></script>
+<script type='text/javascript' src="<%=request.getContextPath()%>/lib/moment/js/moment-with-langs.js"></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/angularjs/js/angular.js'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/angularjs/js/angular-locale_es-es.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/angularjs/js/angular-route.js'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/angular-ui/js/angular-ui.js'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/lodash/js/lodash.js'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/restangular/js/restangular.js'></script>
