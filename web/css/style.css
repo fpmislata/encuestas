@@ -111,12 +111,12 @@ body {
     height: 34px;
 }
 
-input[type=checkbox] {
+input[type=checkbox].checkbox {
   position: absolute;
   left: -9999px;
 }
 
-input[type=checkbox] + label {
+input[type=checkbox].checkbox + label {
     width: 34px;
     height: 34px;
     background-image:  url('../img/icons/field_check2.png');
@@ -134,12 +134,12 @@ input[type=checkbox] + label {
     height: 34px;
 }
 
-input[type=radio] {
+input[type=radio].radiobutton {
   position: absolute;
   left: -9999px;
 }
 
-input[type=radio] + label {
+input[type=radio].radiobutton + label {
     width: 34px;
     height: 34px;
     background-image:  url('../img/icons/field_radio2.png');
