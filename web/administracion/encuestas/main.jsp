@@ -3,7 +3,7 @@
         </div>
         <div class="row-fluid" style="margin-top: 3em;">
             <div class="span5" >
-                <a href="#/encuesta/nueva" class="main-button" style="float: right;">
+                <a href="#/encuesta/new" class="main-button" style="float: right;">
                     <span class="main-text">Crear una nueva encuesta</span>
                     <br />
                     <img src="<%=request.getContextPath()%>/img/icons/add_paper_blue.png" alt="nueva" class="center" >
@@ -12,8 +12,8 @@
             <div class="span2" >
             </div>
             <div class="span5" >
-                <a href="#/encuesta" class="main-button" >
-                    <span class="main-text">Modificar una encuesta existente</span>
+                <a href="#/encuesta/search" class="main-button" >
+                    <span class="main-text">Ver o Modificar una encuesta existente</span>
                     <br />
                     <img src="<%=request.getContextPath()%>/img/icons/application.png" alt="modifcar" class="center" />
                 </a>
