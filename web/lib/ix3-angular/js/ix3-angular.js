@@ -1,5 +1,5 @@
 angular.module("es.logongas.ix3", ['restangular']);
-angular.module("es.logongas.ix3").directive('clear', function() {
+angular.module("es.logongas.ix3").directive('ix3Clear', function() {
     return {
         restrict: 'A',
         link: function($scope, element, attributes) {
@@ -174,7 +174,7 @@ angular.module("es.logongas.ix3").directive('ix3Date',['$locale',function($local
     }
 }]);
 
-angular.module('es.logongas.ix3').directive('visible', function() {
+angular.module('es.logongas.ix3').directive('ix3Visibility', function() {
     return {
         restrict: 'A',
         link: function($scope, element, attributes) {
@@ -185,7 +185,7 @@ angular.module('es.logongas.ix3').directive('visible', function() {
                 element.css({visibility: "hidden"});
             }
 
-            var expression = attributes.visible;
+            var expression = attributes.ix3Visibility;
             if ($scope.$eval(expression) === true) {
                 mostrar(element);
             } else {
@@ -365,7 +365,7 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
             }            
             this.Restangular.all(this.entityName).customDELETE(id).then(realFnOK, realFnError);
         };
-        DAO.prototype.search = function(fnOK, fnError) {
+        DAO.prototype.search = function(filter,order,fnOK, fnError) {
             if ((typeof (fnOK) === "object") && (typeof (fnError) === "undefined")) {
                 var scope = fnOK;
                 var realFnOK = function(data) {
@@ -387,8 +387,41 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
                 var realFnError = fnError;
             } else {
                 throw Error("Los parametros deben ser un objeto o una o dos funciones");
+            }
+            
+            filter=filter || {};
+            order=order || [];
+            //El orden es otro parametro mas igual.
+            
+            filter.order=order.join(",");
+            
+            this.Restangular.all(this.entityName).getList(filter).then(realFnOK, realFnError);
+        };
+
+        DAO.prototype.metadata = function(fnOK, fnError) {
+            if ((typeof (fnOK) === "object") && (typeof (fnError) === "undefined")) {
+                var scope = fnOK;
+                var realFnOK = function(data) {
+                    scope.metadata = data;
+                    scope.businessMessages = [];
+                }
+                var realFnError = function(data, status, headers, config) {
+                    if (status === 400) {
+                        scope.metadata = data;
+                    } else {
+                        scope.businessMessages = [{
+                                propertyName: null,
+                                message: data + ".Estado HTTP:" + status
+                            }];
+                    }
+                };
+            } else if ((typeof (fnOK) === "function")) {
+                var realFnOK = fnOK;
+                var realFnError = fnError;
+            } else {
+                throw Error("Los parametros deben ser un objeto o una o dos funciones");
             }            
-            this.Restangular.all(this.entityName).getList().then(realFnOK, realFnError);
+            this.Restangular.all(this.entityName, 'metadata').getList().then(realFnOK, realFnError);
         };
 
         this.$get = ['Restangular', function(Restangular) {

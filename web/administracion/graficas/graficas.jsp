@@ -41,7 +41,7 @@
 
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_grafica" style="height: 400px;overflow: hidden"  >
-                        <div id="grafica" style="height: 400px;position: relative;top:0px;left:0px;"  visible="resultado!=null" >
+                        <div id="grafica" style="height: 400px;position: relative;top:0px;left:0px;"  ix3-visibility="resultado!=null" >
                         </div>
                         <div class="alert alert-info" ng-show="(resultado!=null) && (resultado.dibujable==false)" style="position: relative;top:-300px;left:0px;">
                             <h4>{{resultado.series[0].name}}</h4>
@@ -51,7 +51,7 @@
 
                     </div>
                     <div class="tab-pane" id="tab_datos">
-                        <div style="height: 400px;width: 100%;max-width: 800px;" visible="resultado!=null" >
+                        <div style="height: 400px;width: 100%;max-width: 800px;" ix3-visibility="resultado!=null" >
                             <table class="table table-bordered table-striped table-condensed">
                                 <thead>
                                     <tr>
