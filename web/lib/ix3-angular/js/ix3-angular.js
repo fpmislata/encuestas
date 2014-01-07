@@ -209,6 +209,216 @@ angular.module('es.logongas.ix3').directive('ix3Visibility', function() {
 })
 
 
+angular.module('es.logongas.ix3').directive('ix3BusinessMessages', function() {
+    return {
+        restrict: 'E',
+        template:'<div data-ng-show="businessMessages.length > 0"><br /><div class="alert  alert-error"  ><button type="button" class="close" ng-click="businessMessages=[]">&times;</button><strong>Se han producido los siguientes errores:</strong><ul ><li data-ng-repeat="businessMessage in businessMessages"><strong data-ng-hide="businessMessage.propertyName == null">{{businessMessage.propertyName}}:&nbsp;&nbsp;</strong>{{businessMessage.message}}</li></ul></div></div>'
+    }
+});
+
+angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($routeProvider) {
+
+        return {
+            addAllRoutes: function(entityName, fileExtension) {
+
+                fileExtension = fileExtension || "html";
+                var lowerEntityName = entityName.toLowerCase();
+                var camelEntityName = entityName.charAt(0).toLowerCase() + entityName.slice(1);
+                var upperCamelEntityName = entityName.charAt(0).toUpperCase() + entityName.slice(1);
+
+                $routeProvider.when('/' + lowerEntityName + '/search', {
+                    templateUrl: lowerEntityName + '/search.' + fileExtension,
+                    controller: upperCamelEntityName + 'SearchController',
+                    resolve: {
+                        state: [function() {
+                                return {
+                                };
+                            }]
+                    }
+                });
+
+                $routeProvider.when('/' + lowerEntityName + '/new', {
+                    templateUrl: lowerEntityName + '/detail.' + fileExtension,
+                    controller: upperCamelEntityName + 'DetailController',
+                    resolve: {
+                        state: [function() {
+                                return {
+                                    controllerAction: "NEW",
+                                    id: null
+                                };
+                            }]
+                    }
+                });
+
+                $routeProvider.when('/' + lowerEntityName + '/view/:id', {
+                    templateUrl: lowerEntityName + '/detail.' + fileExtension,
+                    controller: upperCamelEntityName + 'DetailController',
+                    resolve: {
+                        state: ['$route', function($route) {
+                                return {
+                                    controllerAction: "VIEW",
+                                    id: $route.current.params.id
+                                };
+                            }]
+                    }
+                });
+
+                $routeProvider.when('/' + lowerEntityName + '/edit/:id', {
+                    templateUrl: lowerEntityName + '/detail.' + fileExtension,
+                    controller: upperCamelEntityName + 'DetailController',
+                    resolve: {
+                        state: ['$route', function($route) {
+                                return {
+                                    controllerAction: "EDIT",
+                                    id: $route.current.params.id
+                                };
+                            }]
+                    }
+                });
+
+
+                $routeProvider.when('/' + lowerEntityName + '/delete/:id', {
+                    templateUrl: lowerEntityName + '/detail.' + fileExtension,
+                    controller: upperCamelEntityName + 'DetailController',
+                    resolve: {
+                        state: ['$route', function($route) {
+                                return {
+                                    controllerAction: "DELETE",
+                                    id: $route.current.params.id
+                                };
+                            }]
+                    }
+                });
+
+                $routeProvider.when('/' + lowerEntityName + '/editdelete/:id', {
+                    templateUrl: lowerEntityName + '/detail.' + fileExtension,
+                    controller: upperCamelEntityName + 'DetailController',
+                    resolve: {
+                        state: ['$route', function($route) {
+                                return {
+                                    controllerAction: "EDIT_DELETE",
+                                    id: $route.current.params.id
+                                };
+                            }]
+                    }
+                });
+            },
+            $get: ['daoFactory', '$window', function(daoFactory, $window) {
+                    return {
+                        extendsScopeFromSearchController: function(entityName, idName, scope) {
+                            scope.entityName = entityName;
+                            scope.idName = idName;
+                            scope.dao = daoFactory.getDAO(entityName, idName);
+                            scope.model = {};
+                            scope.filter = {};
+                            scope.orderBy = [];
+                            scope.search = function() {
+                                scope.dao.search(scope.filter, scope.orderBy, function(data) {
+                                    scope.model = data;
+                                }, function(error) {
+                                    if (error.status === 400) {
+                                        scope.businessMessages = error.data;
+                                    } else {
+                                        scope.businessMessages = [{
+                                                fieldName: null,
+                                                message: "Estado HTTP:" + error.status + "\n" + error.data
+                                            }];
+                                    }
+                                });
+                            };
+                        },
+                        extendsScopeFromDetailController: function(entityName, idName, scope, state) {
+                            scope.entityName = entityName;
+                            scope.idName = idName;
+                            scope.dao = daoFactory.getDAO(entityName, idName);
+                            scope.id = state.id;
+                            scope.controllerAction = state.controllerAction;
+                            scope.model = {};
+                            scope.get = function() {
+
+                                if (scope.controllerAction === "NEW") {
+                                    scope.dao.create(function(data) {
+                                        scope.model = data;
+                                    }, function(error) {
+                                        if (error.status === 400) {
+                                            scope.businessMessages = error.data;
+                                        } else {
+                                            scope.businessMessages = [{
+                                                    fieldName: null,
+                                                    message: "Estado HTTP:" + error.status + "\n" + error.data
+                                                }];
+                                        }
+                                    });
+                                } else {
+
+                                    scope.dao.get(scope.id, function(data) {
+                                        scope.model = data;
+                                    }, function(error) {
+                                        if (error.status === 400) {
+                                            scope.businessMessages = error.data;
+                                        } else {
+                                            scope.businessMessages = [{
+                                                    fieldName: null,
+                                                    message: "Estado HTTP:" + error.status + "\n" + error.data
+                                                }];
+                                        }
+                                    });
+                                }
+                            };
+                            scope.save = function() {
+                                if (scope.controllerAction === "NEW") {
+                                    scope.dao.insert(scope.model, function(data) {
+                                        $window.history.back();
+                                    }, function(error) {
+                                        if (error.status === 400) {
+                                            scope.businessMessages = error.data;
+                                        } else {
+                                            scope.businessMessages = [{
+                                                    fieldName: null,
+                                                    message: "Estado HTTP:" + error.status + "\n" + error.data
+                                                }];
+                                        }
+                                    });
+                                } else {
+
+                                    scope.dao.update(scope.id, scope.model, function(data) {
+                                        $window.history.back();
+                                    }, function(error) {
+                                        if (error.status === 400) {
+                                            scope.businessMessages = error.data;
+                                        } else {
+                                            scope.businessMessages = [{
+                                                    fieldName: null,
+                                                    message: "Estado HTTP:" + error.status + "\n" + error.data
+                                                }];
+                                        }
+                                    });
+                                }
+                            };
+                            scope.delete = function() {
+                                scope.dao.delete(scope.id, function(data) {
+                                    $window.history.back();
+                                }, function(error) {
+                                    if (error.status === 400) {
+                                        scope.businessMessages = error.data;
+                                    } else {
+                                        scope.businessMessages = [{
+                                                fieldName: null,
+                                                message: "Estado HTTP:" + error.status + "\n" + error.data
+                                            }];
+                                    }
+                                });
+                            };
+                            scope.exit = function() {
+                                $window.history.back();
+                            };
+                        }
+                    };
+                }]
+        };
+    }]);
+
+
 angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider', function(RestangularProvider) {
         this._baseURL;
         this.setBaseURL = function(baseURL) {
@@ -239,189 +449,32 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
         }
 
         DAO.prototype.create = function(fnOK, fnError) {
-
-            if ((typeof (fnOK) === "object") && (typeof (fnError) === "undefined")) {
-                var scope = fnOK;
-                var realFnOK = function(data) {
-                    scope.model = data;
-                    scope.businessMessages = [];
-                }
-                var realFnError = function(data, status, headers, config) {
-                    if (status === 400) {
-                        scope.businessMessages = data;
-                    } else {
-                        scope.businessMessages = [{
-                                propertyName: null,
-                                message: data + ".Estado HTTP:" + status
-                            }];
-                    }
-                };
-            } else if ((typeof (fnOK) === "function")) {
-                var realFnOK = fnOK;
-                var realFnError = fnError;
-            } else {
-                throw Error("Los parametros deben ser un objeto o una o dos funciones");
-            }
-
-            this.Restangular.one(this.entityName, 'create').get().then(realFnOK, realFnError);
+            this.Restangular.one(this.entityName, 'create').get().then(fnOK, fnError);
         };
-        DAO.prototype.get = function(id, fnOK, fnError) {
-            if ((typeof (fnOK) === "object") && (typeof (fnError) === "undefined")) {
-                var scope = fnOK;
-                var realFnOK = function(data) {
-                    scope.model = data;
-                    scope.businessMessages = [];
-                }
-                var realFnError = function(data, status, headers, config) {
-                    if (status === 400) {
-                        scope.businessMessages = data;
-                    } else {
-                        scope.businessMessages = [{
-                                propertyName: null,
-                                message: data + ".Estado HTTP:" + status
-                            }];
-                    }
-                };
-            } else if ((typeof (fnOK) === "function")) {
-                var realFnOK = fnOK;
-                var realFnError = fnError;
-            } else {
-                throw Error("Los parametros deben ser un objeto o una o dos funciones");
-            }            
-            this.Restangular.one(this.entityName, id).get().then(realFnOK, realFnError);
+        DAO.prototype.get = function(id, fnOK, fnError) {           
+            this.Restangular.one(this.entityName, id).get().then(fnOK, fnError);
         };
-        DAO.prototype.insert = function(entity, fnOK, fnError) {
-            if ((typeof (fnOK) === "object") && (typeof (fnError) === "undefined")) {
-                var scope = fnOK;
-                var realFnOK = function(data) {
-                    scope.model = data;
-                    scope.businessMessages = [];
-                }
-                var realFnError = function(data, status, headers, config) {
-                    if (status === 400) {
-                        scope.businessMessages = data;
-                    } else {
-                        scope.businessMessages = [{
-                                propertyName: null,
-                                message: data + ".Estado HTTP:" + status
-                            }];
-                    }
-                };
-            } else if ((typeof (fnOK) === "function")) {
-                var realFnOK = fnOK;
-                var realFnError = fnError;
-            } else {
-                throw Error("Los parametros deben ser un objeto o una o dos funciones");
-            }            
-            this.Restangular.all(this.entityName).customPOST(entity).then(realFnOK, realFnError);
+        DAO.prototype.insert = function(entity, fnOK, fnError) {            
+            this.Restangular.one(this.entityName).customPOST(entity).then(fnOK, fnError);
         };
-        DAO.prototype.update = function(entity, fnOK, fnError) {
-            if ((typeof (fnOK) === "object") && (typeof (fnError) === "undefined")) {
-                var scope = fnOK;
-                var realFnOK = function(data) {
-                    scope.model = data;
-                    scope.businessMessages = [];
-                }
-                var realFnError = function(data, status, headers, config) {
-                    if (status === 400) {
-                        scope.businessMessages = data;
-                    } else {
-                        scope.businessMessages = [{
-                                propertyName: null,
-                                message: data + ".Estado HTTP:" + status
-                            }];
-                    }
-                };
-            } else if ((typeof (fnOK) === "function")) {
-                var realFnOK = fnOK;
-                var realFnError = fnError;
-            } else {
-                throw Error("Los parametros deben ser un objeto o una o dos funciones");
-            }            
-            this.Restangular.all(this.entityName).customPUT(entity).then(realFnOK, realFnError);
+        DAO.prototype.update = function(id,entity, fnOK, fnError) {            
+            this.Restangular.one(this.entityName,id).customPUT(entity).then(fnOK, fnError);
         };
-        DAO.prototype.remove = function(id, fnOK, fnError) {
-            if ((typeof (fnOK) === "object") && (typeof (fnError) === "undefined")) {
-                var scope = fnOK;
-                var realFnOK = function(data) {
-                    scope.model = data;
-                    scope.businessMessages = [];
-                }
-                var realFnError = function(data, status, headers, config) {
-                    if (status === 400) {
-                        scope.businessMessages = data;
-                    } else {
-                        scope.businessMessages = [{
-                                propertyName: null,
-                                message: data + ".Estado HTTP:" + status
-                            }];
-                    }
-                };
-            } else if ((typeof (fnOK) === "function")) {
-                var realFnOK = fnOK;
-                var realFnError = fnError;
-            } else {
-                throw Error("Los parametros deben ser un objeto o una o dos funciones");
-            }            
-            this.Restangular.all(this.entityName).customDELETE(id).then(realFnOK, realFnError);
+        DAO.prototype.delete = function(id, fnOK, fnError) {            
+            this.Restangular.one(this.entityName, id).customDELETE().then(fnOK, fnError);
         };
-        DAO.prototype.search = function(filter,order,fnOK, fnError) {
-            if ((typeof (fnOK) === "object") && (typeof (fnError) === "undefined")) {
-                var scope = fnOK;
-                var realFnOK = function(data) {
-                    scope.model = data;
-                    scope.businessMessages = [];
-                }
-                var realFnError = function(data, status, headers, config) {
-                    if (status === 400) {
-                        scope.businessMessages = data;
-                    } else {
-                        scope.businessMessages = [{
-                                propertyName: null,
-                                message: data + ".Estado HTTP:" + status
-                            }];
-                    }
-                };
-            } else if ((typeof (fnOK) === "function")) {
-                var realFnOK = fnOK;
-                var realFnError = fnError;
-            } else {
-                throw Error("Los parametros deben ser un objeto o una o dos funciones");
-            }
-            
+        DAO.prototype.search = function(filter,orderBy,fnOK, fnError) {
             filter=filter || {};
-            order=order || [];
+            orderBy=orderBy || [];
+            
             //El orden es otro parametro mas igual.
+            filter.orderBy=orderBy.join(",");
             
-            filter.order=order.join(",");
-            
-            this.Restangular.all(this.entityName).getList(filter).then(realFnOK, realFnError);
+            this.Restangular.all(this.entityName).getList(filter).then(fnOK, fnError);
         };
 
-        DAO.prototype.metadata = function(fnOK, fnError) {
-            if ((typeof (fnOK) === "object") && (typeof (fnError) === "undefined")) {
-                var scope = fnOK;
-                var realFnOK = function(data) {
-                    scope.metadata = data;
-                    scope.businessMessages = [];
-                }
-                var realFnError = function(data, status, headers, config) {
-                    if (status === 400) {
-                        scope.metadata = data;
-                    } else {
-                        scope.businessMessages = [{
-                                propertyName: null,
-                                message: data + ".Estado HTTP:" + status
-                            }];
-                    }
-                };
-            } else if ((typeof (fnOK) === "function")) {
-                var realFnOK = fnOK;
-                var realFnError = fnError;
-            } else {
-                throw Error("Los parametros deben ser un objeto o una o dos funciones");
-            }            
-            this.Restangular.all(this.entityName, 'metadata').getList().then(realFnOK, realFnError);
+        DAO.prototype.metadata = function(fnOK, fnError) {           
+            this.Restangular.one(this.entityName, 'metadata').get().then(fnOK, fnError);
         };
 
         this.$get = ['Restangular', function(Restangular) {
