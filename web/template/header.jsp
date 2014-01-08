@@ -8,6 +8,7 @@
 <link rel="stylesheet" media="print" href="<%=request.getContextPath()%>/css/style_print.css">
 <script type='text/javascript' src="<%=request.getContextPath()%>/lib/jquery/js/jquery-1.9.0.js"></script>
 <script type='text/javascript' src="<%=request.getContextPath()%>/lib/jquery-ui/js/jquery-ui.js"></script>
+<script type='text/javascript' src="<%=request.getContextPath()%>/lib/jquery-ui/js/jquery.ui.datepicker-es.js"></script>
 <script type='text/javascript' src="<%=request.getContextPath()%>/lib/bootstrap/js/bootstrap-2.3.1.js"></script>
 <script type='text/javascript' src="<%=request.getContextPath()%>/lib/moment/js/moment-with-langs.js"></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/angularjs/js/angular.js'></script>
