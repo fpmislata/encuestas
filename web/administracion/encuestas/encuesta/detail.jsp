@@ -18,7 +18,6 @@
             <label class="checkbox" for="imprimir">
                 <input type="checkbox" name="imprimir" id="imprimir" ng-model="model.imprimir"> Imprimir
             </label>
-            {{model.fechaInicio | date:'mediumDate'}}
         </form>
     </div>
 </div>
