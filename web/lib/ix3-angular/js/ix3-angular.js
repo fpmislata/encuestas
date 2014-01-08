@@ -613,7 +613,6 @@ angular.module("es.logongas.ix3").directive('ix3Date', ['$locale', function($loc
                                 } else {
                                     year = upperYear;
                                 }
-                                console.log(lowYear + "(" + Math.abs(currentYear - lowYear) + ")," + upperYear + "(" + Math.abs(currentYear - upperYear) + ")... " + currentYear + "==>" + year);
                                 fecha.year(year);
                             }
 
