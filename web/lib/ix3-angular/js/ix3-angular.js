@@ -1,5 +1,35 @@
+"use strict"
+
 angular.module("es.logongas.ix3", ['restangular']);
 
+angular.module('es.logongas.ix3').config(["$httpProvider", function($httpProvider) {
+        function convertDateStringsToDates(input) {
+            if (typeof input !== "object") {
+                return input;
+            }
+
+            for (var key in input) {
+                if (!input.hasOwnProperty(key)) {
+                    continue;
+                }
+                var value = input[key];
+                if ((typeof value === "string") && (value.length === 28)) {
+                    var date = moment(value, "YYYY-MM-DDTHH:mm:ss.SSSZZ", true);
+                    if (date.isValid()) {
+                        input[key] = date.toDate();
+                    }
+                } else if (typeof (value) === "object") {
+                    convertDateStringsToDates(value);
+                }
+            }
+        }
+
+        $httpProvider.defaults.transformResponse.push(function(responseData) {
+            convertDateStringsToDates(responseData);
+            return responseData;
+        });
+        
+    }]);
 
 angular.module('es.logongas.ix3').provider("validator", [function() {
         function ValidatorProvider() {
@@ -100,7 +130,7 @@ angular.module('es.logongas.ix3').provider("validator", [function() {
                 var formElement = $("form[name='" + angularForm.$name + "']");
 
                 for (var propertyName in angularForm) {
-                    if (typeof (propertyName) === "string" && propertyName.charAt(0) != "$") {
+                    if (typeof (propertyName) === "string" && propertyName.charAt(0) !== "$") {
                         if (angularForm[propertyName].$error) {
                             for (var errorType in angularForm[propertyName].$error) {
                                 if (angularForm[propertyName].$error[errorType] === true) {
@@ -475,7 +505,7 @@ angular.module("es.logongas.ix3").directive('ix3Date', ['$locale', function($loc
          * @returns {String} Formato de fecha de moment.js
          */
         function getMomentFormatFromAngularJSFormat(angularjsFormat) {
-            format = angularjsFormat;
+            var format = angularjsFormat;
             var inLiteral = false;
             var newFormat = "";
             var c;
@@ -595,18 +625,20 @@ angular.module("es.logongas.ix3").directive('ix3Date', ['$locale', function($loc
                         return "";
                     } else {
                         ngModelController.$setValidity('date', false);
-                        return value;
+                        return "";
                     }
                 });
                 ngModelController.$parsers.push(function(value) {
                     if (value) {
                         var fecha = moment(value, pattern, true);
                         if (fecha.isValid()) {
+                            
                             if (fecha.year() < 100) {
+                                //cambiamos de 2 digitos a 1900 o 2000
                                 var year;
-                                lowYear = fecha.year() + 1900;
-                                upperYear = fecha.year() + 2000;
-                                currentYear = moment().year();
+                                var lowYear = fecha.year() + 1900;
+                                var upperYear = fecha.year() + 2000;
+                                var currentYear = moment().year();
 
                                 if (Math.abs(currentYear - lowYear) <= (Math.abs(currentYear - upperYear))) {
                                     year = lowYear;
@@ -614,6 +646,16 @@ angular.module("es.logongas.ix3").directive('ix3Date', ['$locale', function($loc
                                     year = upperYear;
                                 }
                                 fecha.year(year);
+                                ngModelController.$setValidity('date', true);
+                                return fecha.toDate();
+                            } else if ((fecha.year() > 100) && (fecha.year() < 1800)) {
+                                //No permitimos fechas menores de 1800 por si se ha colado el usuario
+                                ngModelController.$setValidity('date', false);
+                                return undefined;
+                            } else {
+                                //En cualquie otro caso el año es correcto.
+                                ngModelController.$setValidity('date', true);
+                                return fecha.toDate();
                             }
 
                             ngModelController.$setValidity('date', true);
@@ -629,7 +671,7 @@ angular.module("es.logongas.ix3").directive('ix3Date', ['$locale', function($loc
     }]);
 angular.module("es.logongas.ix3").config(['validatorProvider', function(validatorProvider) {
         //Incluir el mensaje de la nuea directiva de validacion
-        validatorProvider.getMensajePatterns().date = "El formato de la fecha debe ser '{{date}}'"
+        validatorProvider.getMensajePatterns().date = "El formato de la fecha debe ser '{{date}}'";
     }]);
 
 
