@@ -593,8 +593,8 @@ angular.module("es.logongas.ix3").service("dateFormat", ['$locale', function($lo
              * @param {String} angularjsFormat El formato de fecha de AngularJS que NO sea un "localizable format"
              * @returns {String} Formato de fecha de jQuery UI Datepicker
              */            
-            getJQueryDatepickerFormatFromAngularJSFormat: function(format) {
-                var newFormat = format;
+            getJQueryDatepickerFormatFromAngularJSFormat: function(angularjsFormat) {
+                var newFormat = angularjsFormat;
                 newFormat = newFormat.replace(/([^M]|^)(M)([^M]|$)/g, function(match, p1, p2, p3, offset, string) {
                     return p1 + "m" + p3;
                 });
