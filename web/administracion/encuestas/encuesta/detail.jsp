@@ -5,19 +5,21 @@
 </div>
 <div class="row-fluid" >
     <div class="span12" >
-        <label>Nombre</label>
-        <input type="text" ng-model="model.nombre">
-        <label class="checkbox">
-            <input type="checkbox"  ng-model="model.habilitada"> Habilitada
-        </label> 
-        <label>Fecha inicio</label>
-        <input type="text" ng-model="model.fechaInicio" ix3-date ix3-datepicker>        
-        <label>Fecha fin</label>
-        <input type="text" ng-model="model.fechaFin" ix3-date  ix3-datepicker>        
-        <label class="checkbox">
-            <input type="checkbox"  ng-model="model.imprimir"> Imprimir
-        </label>
-
+        <form name="mainForm" id="mainForm" >
+            <label for="nombre">Nombre</label>
+            <input type="text" name="nombre" id="nombre" ng-model="model.nombre" required>
+            <label class="checkbox">
+                <input type="checkbox" name="habilitada" ng-model="model.habilitada"> Habilitada
+            </label> 
+            <label for="fechaInicio">Fecha inicio</label>
+            <input type="text" name="fechaInicio" id="fechaInicio" ng-model="model.fechaInicio" ix3-date ix3-datepicker>        
+            <label for="fechaFin">Fecha fin</label>
+            <input type="text" name="fechaFin" id="fechaFin" ng-model="model.fechaFin" ix3-date  ix3-datepicker>        
+            <label class="checkbox" for="imprimir">
+                <input type="checkbox" name="imprimir" id="imprimir" ng-model="model.imprimir"> Imprimir
+            </label>
+            {{model.fechaInicio | date:'mediumDate'}}
+        </form>
     </div>
 </div>
 
