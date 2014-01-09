@@ -43,7 +43,30 @@
         </form>
     </div>
 </div>
-
+<div class="row-fluid">
+    <div class="span12">
+        <legend>Preguntas</legend>
+        <a class="btn btn-primary" href="#/pregunta/new" >Nueva Pregunta</a>
+        <br />
+        <br />
+        <table class="table table-bordered table-striped table-condensed">
+            <thead>
+                <tr>
+                    <th style="text-align: right">N&ordm;</th>
+                    <th width="100%">Pregunta</th>
+                    <th style="text-align: center">Tipo&nbsp;Pregunta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="pregunta in models['preguntas']">
+                    <td style="text-align: right">{{pregunta.idPregunta}}</td>
+                    <td ><a href="#/pregunta/editdelete/{{pregunta.idPregunta}}/pregunta.idPregunta/{{model.idPregunta}}">{{pregunta.pregunta}}</a></td>
+                    <td style="white-space:nowrap;">{{metadata['Pregunta'].properties['tipoPregunta'].values[pregunta.tipoPregunta]}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div> 
 <div class="row-fluid" >
     <div class="span12">
         <button class="btn btn-primary" ng-click="save()" ng-show="controllerAction !== 'VIEW'">Guardar</button>

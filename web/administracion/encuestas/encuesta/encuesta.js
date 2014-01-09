@@ -10,7 +10,10 @@ app.controller("EncuestaSearchController", ['$scope', 'crud', 'state', function(
 
 app.controller("EncuestaDetailController", ['$scope', 'crud', 'state', function($scope, crud, state) {
         crud.extendsScopeFromDetailController("Encuesta", "idEncuesta", $scope, state);
+        $scope.getMetadata("Pregunta");
         $scope.get();
+        $scope.getChild("preguntas");
+        
     }]);
 
 
