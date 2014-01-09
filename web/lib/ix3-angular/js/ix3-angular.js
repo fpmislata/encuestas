@@ -249,12 +249,12 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             scope.entityName = entityName;
                             scope.idName = idName;
                             scope.dao = daoFactory.getDAO(entityName, idName);
-                            scope.model = {};
+                            scope.models = {};
                             scope.filter = {};
                             scope.orderBy = [];
                             scope.search = function() {
                                 scope.dao.search(scope.filter, scope.orderBy, function(data) {
-                                    scope.model = data;
+                                    scope.models = data;
                                 }, function(error) {
                                     if (error.status === 400) {
                                         scope.businessMessages = error.data;
@@ -274,6 +274,24 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             scope.id = state.id;
                             scope.controllerAction = state.controllerAction;
                             scope.model = {};
+                            scope.models = {};
+                            scope.metadata = {};
+                            
+                            scope.getMetadata = function(entity) {
+                                    daoFactory.getDAO(entity,null).metadata(function(data) {
+                                        scope.metadata[entity] = data;
+                                    }, function(error) {
+                                        if (error.status === 400) {
+                                            scope.businessMessages = error.data;
+                                        } else {
+                                            scope.businessMessages = [{
+                                                    propertyName: null,
+                                                    message: "Estado HTTP:" + error.status + "\n" + error.data
+                                                }];
+                                        }
+                                    },entity);
+                            }
+                            
                             scope.get = function() {
 
                                 if (scope.controllerAction === "NEW") {
@@ -355,6 +373,28 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             scope.exit = function() {
                                 $window.history.back();
                             };
+                            scope.getChild = function(child) {
+                                if (scope.controllerAction === "NEW") {
+                                    //Seguro que no hay hijos pq la fila es nueva.
+                                } else {
+                                    scope.dao.getChild(scope.id, child, function(data) {
+                                        scope.models[child] = data;
+                                    }, function(error) {
+                                        if (error.status === 400) {
+                                            scope.businessMessages = error.data;
+                                        } else {
+                                            scope.businessMessages = [{
+                                                    propertyName: null,
+                                                    message: "Estado HTTP:" + error.status + "\n" + error.data
+                                                }];
+                                        }
+                                    });
+                                }
+                            };
+                            
+                            scope.getMetadata(scope.entityName);
+                           
+                            
                         }
                     };
                 }]
@@ -416,8 +456,13 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
             this.Restangular.all(this.entityName).getList(filter).then(fnOK, fnError);
         };
 
-        DAO.prototype.metadata = function(fnOK, fnError) {
-            this.Restangular.one(this.entityName, 'metadata').get().then(fnOK, fnError);
+        DAO.prototype.getChild = function(id, child, fnOK, fnError) {
+            this.Restangular.one(this.entityName, id).getList(child).then(fnOK, fnError);
+        };
+
+        DAO.prototype.metadata = function(fnOK, fnError,entity) {
+            entity=entity || this.entityName;
+            this.Restangular.one(entity, 'metadata').get().then(fnOK, fnError);
         };
 
         this.$get = ['Restangular', function(Restangular) {
@@ -592,7 +637,7 @@ angular.module("es.logongas.ix3").service("dateFormat", ['$locale', function($lo
              * Tranforma un formato de fecha de AngularJS en un formato de fecha de jQuery UI Datepicker
              * @param {String} angularjsFormat El formato de fecha de AngularJS que NO sea un "localizable format"
              * @returns {String} Formato de fecha de jQuery UI Datepicker
-             */            
+             */
             getJQueryDatepickerFormatFromAngularJSFormat: function(angularjsFormat) {
                 var newFormat = angularjsFormat;
                 newFormat = newFormat.replace(/([^M]|^)(M)([^M]|$)/g, function(match, p1, p2, p3, offset, string) {
