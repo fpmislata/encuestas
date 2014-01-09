@@ -20,9 +20,23 @@ package es.logongas.encuestas.modelo.encuestas;
  * @author Lorenzo González
  */
 public enum TipoItem {
-    Sino,
-    ListaValores,
-    Texto,
-    Fecha,
-    AreaTexto
+    Sino("Si/No"),
+    ListaValores("Lista de Valores"),
+    Texto("Texto"),
+    Fecha("Fecha"),
+    AreaTexto("Area de Texto");
+    
+    String text;
+
+    private TipoItem(String text) {
+        this.text = text;
+    }
+    
+    
+   @Override
+   public String toString() {
+        return text;
+    }  
+    
+    
 }

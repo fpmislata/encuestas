@@ -20,7 +20,21 @@ package es.logongas.encuestas.modelo.encuestas;
  * @author Lorenzo González
  */
 public enum TipoPregunta {
-    Radio,
-    Check,
-    EspecificoPorItem;
+    Radio("Radio"),
+    Check("Check"),
+    EspecificoPorItem("Específico por Item");
+    
+    String text;
+
+    private TipoPregunta(String text) {
+        this.text = text;
+    }
+    
+    
+    
+   @Override
+   public String toString() {
+        return text;
+    }
+    
 }
