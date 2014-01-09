@@ -16,7 +16,7 @@
                 </a>
             </div>
             <div class="span4" >
-                <a href="<%=request.getContextPath()%>/administracion/encuestas/encuestas.jsp" class="main-button" >
+                <a href="<%=request.getContextPath()%>/administracion/encuestas/index.jsp" class="main-button" >
                     <span class="main-text">Configurar las encuestas</span>
                     <br />
                     <img src="<%=request.getContextPath()%>/img/icons/config.png" alt="definir encuestas" class="center" />
