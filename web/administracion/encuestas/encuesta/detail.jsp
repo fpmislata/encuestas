@@ -46,7 +46,7 @@
 <div class="row-fluid">
     <div class="span12">
         <legend>Preguntas</legend>
-        <a class="btn btn-primary" href="#/pregunta/new" >Nueva Pregunta</a>
+        <a class="btn btn-primary" href="#/pregunta/new/encuesta.idEncuesta/{{model.idEncuesta}}" >Nueva Pregunta</a>
         <br />
         <br />
         <table class="table table-bordered table-striped table-condensed">
@@ -60,7 +60,7 @@
             <tbody>
                 <tr ng-repeat="pregunta in models['preguntas']">
                     <td style="text-align: right">{{pregunta.idPregunta}}</td>
-                    <td ><a href="#/pregunta/editdelete/{{pregunta.idPregunta}}">{{pregunta.pregunta}}</a></td>
+                    <td ><a href="#/pregunta/editdelete/{{pregunta.idPregunta}}/encuesta.idEncuesta/{{model.idEncuesta}}">{{pregunta.pregunta}}</a></td>
                     <td style="white-space:nowrap;">{{metadata['Pregunta'].properties['tipoPregunta'].values[pregunta.tipoPregunta]}}</td>
                 </tr>
             </tbody>
