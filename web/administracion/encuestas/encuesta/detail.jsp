@@ -60,7 +60,7 @@
             <tbody>
                 <tr ng-repeat="pregunta in models['preguntas']">
                     <td style="text-align: right">{{pregunta.idPregunta}}</td>
-                    <td ><a href="#/pregunta/editdelete/{{pregunta.idPregunta}}/pregunta.idPregunta/{{model.idPregunta}}">{{pregunta.pregunta}}</a></td>
+                    <td ><a href="#/pregunta/editdelete/{{pregunta.idPregunta}}">{{pregunta.pregunta}}</a></td>
                     <td style="white-space:nowrap;">{{metadata['Pregunta'].properties['tipoPregunta'].values[pregunta.tipoPregunta]}}</td>
                 </tr>
             </tbody>
