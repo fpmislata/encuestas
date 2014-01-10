@@ -177,67 +177,78 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                     }
                 });
 
-                $routeProvider.when('/' + lowerEntityName + '/new', {
+                $routeProvider.when('/' + lowerEntityName + '/new/:parentProperty?/:parentId?', {
                     templateUrl: lowerEntityName + '/detail.' + fileExtension,
                     controller: upperCamelEntityName + 'DetailController',
                     resolve: {
-                        state: [function() {
+                        state: ['$route', function($route) {
                                 return {
                                     controllerAction: "NEW",
-                                    id: null
+                                    id: null,
+                                    parentProperty: $route.current.params.parentProperty,
+                                    parentId: $route.current.params.parentId
+
                                 };
                             }]
                     }
                 });
 
-                $routeProvider.when('/' + lowerEntityName + '/view/:id', {
+                $routeProvider.when('/' + lowerEntityName + '/view/:id/:parentProperty?/:parentId?', {
                     templateUrl: lowerEntityName + '/detail.' + fileExtension,
                     controller: upperCamelEntityName + 'DetailController',
                     resolve: {
                         state: ['$route', function($route) {
                                 return {
                                     controllerAction: "VIEW",
-                                    id: $route.current.params.id
+                                    id: $route.current.params.id,
+                                    parentProperty: $route.current.params.parentProperty,
+                                    parentId: $route.current.params.parentId
                                 };
                             }]
                     }
                 });
 
-                $routeProvider.when('/' + lowerEntityName + '/edit/:id', {
+                $routeProvider.when('/' + lowerEntityName + '/edit/:id/:parentProperty?/:parentId?', {
                     templateUrl: lowerEntityName + '/detail.' + fileExtension,
                     controller: upperCamelEntityName + 'DetailController',
                     resolve: {
                         state: ['$route', function($route) {
                                 return {
                                     controllerAction: "EDIT",
-                                    id: $route.current.params.id
+                                    id: $route.current.params.id,
+                                    parentProperty: $route.current.params.parentProperty,
+                                    parentId: $route.current.params.parentId
                                 };
                             }]
                     }
                 });
 
 
-                $routeProvider.when('/' + lowerEntityName + '/delete/:id', {
+                $routeProvider.when('/' + lowerEntityName + '/delete/:id/:parentProperty?/:parentId?', {
                     templateUrl: lowerEntityName + '/detail.' + fileExtension,
                     controller: upperCamelEntityName + 'DetailController',
                     resolve: {
                         state: ['$route', function($route) {
                                 return {
                                     controllerAction: "DELETE",
-                                    id: $route.current.params.id
+                                    id: $route.current.params.id,
+                                    parentProperty: $route.current.params.parentProperty,
+                                    parentId: $route.current.params.parentId
                                 };
                             }]
                     }
                 });
 
-                $routeProvider.when('/' + lowerEntityName + '/editdelete/:id', {
+                $routeProvider.when('/' + lowerEntityName + '/editdelete/:id/:parentProperty?/:parentId?', {
                     templateUrl: lowerEntityName + '/detail.' + fileExtension,
                     controller: upperCamelEntityName + 'DetailController',
                     resolve: {
                         state: ['$route', function($route) {
                                 return {
                                     controllerAction: "EDIT_DELETE",
-                                    id: $route.current.params.id
+                                    id: $route.current.params.id,
+                                    parentProperty: $route.current.params.parentProperty,
+                                    parentId: $route.current.params.parentId
                                 };
                             }]
                     }
@@ -272,31 +283,47 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             scope.idName = idName;
                             scope.dao = daoFactory.getDAO(entityName, idName);
                             scope.id = state.id;
+                            scope.parentProperty = state.parentProperty;
+                            scope.parentId = state.parentId;
                             scope.controllerAction = state.controllerAction;
                             scope.model = {};
                             scope.models = {};
                             scope.metadata = {};
-                            
-                            scope.getMetadata = function(entity) {
-                                    daoFactory.getDAO(entity,null).metadata(function(data) {
-                                        scope.metadata[entity] = data;
-                                    }, function(error) {
-                                        if (error.status === 400) {
-                                            scope.businessMessages = error.data;
-                                        } else {
-                                            scope.businessMessages = [{
-                                                    propertyName: null,
-                                                    message: "Estado HTTP:" + error.status + "\n" + error.data
-                                                }];
-                                        }
-                                    },entity);
+                            scope.setValue = function(obj, key, newValue) {
+                                var keys = key.split('.');
+                                for (var i = 0; i < keys.length - 1; i++) {
+                                    if (!obj[keys[i]]) {
+                                        obj[keys[i]]={};
+                                    }
+                                    obj = obj[keys[i]];
+
+                                }
+                                obj[keys[keys.length - 1]] = newValue;
                             }
-                            
+
+                            scope.getMetadata = function(entity) {
+                                daoFactory.getDAO(entity, null).metadata(function(data) {
+                                    scope.metadata[entity] = data;
+                                }, function(error) {
+                                    if (error.status === 400) {
+                                        scope.businessMessages = error.data;
+                                    } else {
+                                        scope.businessMessages = [{
+                                                propertyName: null,
+                                                message: "Estado HTTP:" + error.status + "\n" + error.data
+                                            }];
+                                    }
+                                }, entity);
+                            }
+
                             scope.get = function() {
 
                                 if (scope.controllerAction === "NEW") {
                                     scope.dao.create(function(data) {
                                         scope.model = data;
+                                        if (scope.parentProperty) {
+                                            scope.setValue(scope.model,scope.parentProperty,scope.parentId)
+                                        }
                                     }, function(error) {
                                         if (error.status === 400) {
                                             scope.businessMessages = error.data;
@@ -311,6 +338,9 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
 
                                     scope.dao.get(scope.id, function(data) {
                                         scope.model = data;
+                                        if (scope.parentProperty) {
+                                            scope.setValue(scope.model,scope.parentProperty,scope.parentId)
+                                        }
                                     }, function(error) {
                                         if (error.status === 400) {
                                             scope.businessMessages = error.data;
@@ -391,10 +421,10 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                                     });
                                 }
                             };
-                            
+
                             scope.getMetadata(scope.entityName);
-                           
-                            
+
+
                         }
                     };
                 }]
@@ -460,8 +490,8 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
             this.Restangular.one(this.entityName, id).getList(child).then(fnOK, fnError);
         };
 
-        DAO.prototype.metadata = function(fnOK, fnError,entity) {
-            entity=entity || this.entityName;
+        DAO.prototype.metadata = function(fnOK, fnError, entity) {
+            entity = entity || this.entityName;
             this.Restangular.one(entity, 'metadata').get().then(fnOK, fnError);
         };
 
