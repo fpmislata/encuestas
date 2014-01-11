@@ -59,9 +59,9 @@
 </div> 
 <div class="row-fluid" >
     <div class="span12">
-        <button class="btn btn-primary" ng-click="save()" ng-show="controllerAction !== 'VIEW'">Guardar</button>
-        <button class="btn" ng-click="exit()" >Volver</button>
-        <button class="btn btn-danger" ng-click="delete()" ng-show="(controllerAction === 'DELETE') || (controllerAction === 'EDIT_DELETE')" style="float: right;">Borrar</button>
+        <button class="btn btn-primary" ng-click="buttonOK()">{{labelButtonOK}}</button>
+        <button class="btn" ng-click="buttonCancel()"  ng-show="controllerAction !== 'VIEW'">{{labelButtonCancel}}</button>
+        <button class="btn btn-danger" ng-click="buttonDelete()" ng-show="controllerAction === 'EDIT'" style="float: right;">Borrar</button>
     </div>
 </div>
 <div class="row-fluid">

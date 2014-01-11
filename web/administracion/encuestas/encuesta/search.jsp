@@ -26,7 +26,7 @@
             <tbody>
                 <tr ng-repeat="encuesta in models">
                     <td style="text-align: right">{{encuesta.idEncuesta}}</td>
-                    <td ><a href="#/encuesta/editdelete/{{encuesta.idEncuesta}}">{{encuesta.nombre}}</a></td>
+                    <td ><a href="#/encuesta/edit/{{encuesta.idEncuesta}}">{{encuesta.nombre}}</a></td>
                     <td ng-switch on="encuesta.habilitada" style="text-align: center"><img ng-switch-when="true" src="../../img/icons/check24x24.gif" alt="check"><img ng-switch-default src="../../img/icons/minus24x24.gif" alt="uncheck"></td>
                 </tr>
             </tbody>

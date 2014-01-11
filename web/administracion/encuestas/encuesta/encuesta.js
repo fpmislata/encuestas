@@ -3,18 +3,38 @@ app.config(['crudProvider', function(crudProvider) {
     }]);
 
 app.controller("EncuestaSearchController", ['$scope', 'crud', 'state', function($scope, crud, state) {
-        crud.extendsScopeFromSearchController("Encuesta", "idEncuesta", $scope, state);
+        crud.extendsScopeSearchController("Encuesta", "idEncuesta", $scope, state);
         $scope.orderBy = ['nombre ASC'];
         $scope.search();
     }]);
 
-app.controller("EncuestaDetailController", ['$scope', 'crud', 'state', function($scope, crud, state) {
-        crud.extendsScopeFromDetailController("Encuesta", "idEncuesta", $scope, state);
+app.controller("EncuestaNewController", ['$scope', 'crud', 'state', function($scope, crud, state) {
+        crud.extendsScopeNewController("Encuesta", "idEncuesta", $scope, state);
         $scope.getMetadata("Pregunta");
-        $scope.get();
+        
+    }]);
+app.controller("EncuestaEditController", ['$scope', 'crud', 'state', function($scope, crud, state) {
+        crud.extendsScopeEditController("Encuesta", "idEncuesta", $scope, state);
+        $scope.getMetadata("Pregunta");
+        $scope.getChild("preguntas");
+        $scope.buttonDelete=function() {
+            $scope.delete();
+        }        
+        
+    }]);
+app.controller("EncuestaViewController", ['$scope', 'crud', 'state', function($scope, crud, state) {
+        crud.extendsScopeViewController("Encuesta", "idEncuesta", $scope, state);
+        $scope.getMetadata("Pregunta");
         $scope.getChild("preguntas");
         
     }]);
+app.controller("EncuestaDeleteController", ['$scope', 'crud', 'state', function($scope, crud, state) {
+        crud.extendsScopeDeleteController("Encuesta", "idEncuesta", $scope, state);
+        $scope.getMetadata("Pregunta");
+        $scope.getChild("preguntas");
+    }]);
+
+
 
 
 

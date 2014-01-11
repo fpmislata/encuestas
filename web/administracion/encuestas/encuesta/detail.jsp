@@ -46,7 +46,7 @@
 <div class="row-fluid">
     <div class="span12">
         <legend>Preguntas</legend>
-        <a class="btn btn-primary" href="#/pregunta/new/encuesta.idEncuesta/{{model.idEncuesta}}" >Nueva Pregunta</a>
+        <a class="btn btn-primary" href="#/pregunta/new/encuesta.idEncuesta/{{model.idEncuesta}}" ng-show="controllerAction === 'EDIT'" >Nueva Pregunta</a>
         <br />
         <br />
         <table class="table table-bordered table-striped table-condensed">
@@ -60,7 +60,7 @@
             <tbody>
                 <tr ng-repeat="pregunta in models['preguntas']">
                     <td style="text-align: right">{{pregunta.idPregunta}}</td>
-                    <td ><a href="#/pregunta/editdelete/{{pregunta.idPregunta}}/encuesta.idEncuesta/{{model.idEncuesta}}">{{pregunta.pregunta}}</a></td>
+                    <td ><a href="#/pregunta/{{childAction}}/{{pregunta.idPregunta}}/encuesta.idEncuesta/{{model.idEncuesta}}">{{pregunta.pregunta}}</a></td>
                     <td style="white-space:nowrap;">{{metadata['Pregunta'].properties['tipoPregunta'].values[pregunta.tipoPregunta]}}</td>
                 </tr>
             </tbody>
@@ -69,9 +69,9 @@
 </div> 
 <div class="row-fluid" >
     <div class="span12">
-        <button class="btn btn-primary" ng-click="save()" ng-show="controllerAction !== 'VIEW'">Guardar</button>
-        <button class="btn" ng-click="exit()" >Volver</button>
-        <button class="btn btn-danger" ng-click="delete()" ng-show="(controllerAction === 'DELETE') || (controllerAction === 'EDIT_DELETE')" style="float: right;">Borrar</button>
+        <button class="btn btn-primary" ng-click="buttonOK()">{{labelButtonOK}}</button>
+        <button class="btn" ng-click="buttonCancel()" ng-show="controllerAction !== 'VIEW'">{{labelButtonCancel}}</button>
+        <button class="btn btn-danger" ng-click="buttonDelete()" ng-show="controllerAction === 'EDIT'" style="float: right;">Borrar</button>
     </div>
 </div>
 <div class="row-fluid">
