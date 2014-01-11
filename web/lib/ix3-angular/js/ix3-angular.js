@@ -251,9 +251,9 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                         scope.parentProperty = state.parentProperty;
                         scope.parentId = state.parentId;
                         scope.controllerAction = state.controllerAction;
-                        scope.labelButtonOK="Aceptar";
-                        scope.labelButtonCancel="Cancelar";
-                        scope.childAction="edit";
+                        scope.labelButtonOK = "Aceptar";
+                        scope.labelButtonCancel = "Cancelar";
+                        scope.childAction = "edit";
                         scope.model = {};
                         scope.models = {};
                         scope.metadata = {};
@@ -421,9 +421,9 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                         extendsScopeNewController: function(entityName, idName, scope, state) {
                             extendDetailController(entityName, idName, scope, state);
                             scope.create();
-                            scope.childAction="view";
-                            scope.labelButtonOK="Añadir";
-                            scope.labelButtonCancel="Cancelar";                            
+                            scope.childAction = "view";
+                            scope.labelButtonOK = "Añadir";
+                            scope.labelButtonCancel = "Cancelar";
                             scope.buttonOK = function() {
                                 scope.insert();
                             };
@@ -434,9 +434,9 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                         extendsScopeEditController: function(entityName, idName, scope, state) {
                             extendDetailController(entityName, idName, scope, state);
                             scope.get();
-                            scope.childAction="edit";
-                            scope.labelButtonOK="Guardar";
-                            scope.labelButtonCancel="Cancelar";                              
+                            scope.childAction = "edit";
+                            scope.labelButtonOK = "Guardar";
+                            scope.labelButtonCancel = "Cancelar";
                             scope.buttonOK = function() {
                                 scope.update();
                             };
@@ -447,9 +447,9 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                         extendsScopeViewController: function(entityName, idName, scope, state) {
                             extendDetailController(entityName, idName, scope, state);
                             scope.get();
-                            scope.childAction="view";
-                            scope.labelButtonOK="Salir";
-                            scope.labelButtonCancel="";                              
+                            scope.childAction = "view";
+                            scope.labelButtonOK = "Salir";
+                            scope.labelButtonCancel = "";
                             scope.buttonOK = function() {
                                 scope.finishOK();
                             };
@@ -460,9 +460,9 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                         extendsScopeDeleteController: function(entityName, idName, scope, state) {
                             extendDetailController(entityName, idName, scope, state);
                             scope.get();
-                            scope.childAction="view";
-                            scope.labelButtonOK="Borrar";
-                            scope.labelButtonCancel="Cancelar";                              
+                            scope.childAction = "view";
+                            scope.labelButtonOK = "Borrar";
+                            scope.labelButtonCancel = "Cancelar";
                             scope.buttonOK = function() {
                                 scope.delete();
                             };
@@ -495,13 +495,11 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
          * Esta es la clase DAO verdaderaque genera el Factory
          * @param {String} entityName Nombre de la entidad 
          * @param {String} idName El nombre de la clave primaria
-         * @param {boolean} cacheable Si se cachean las peticiones.
          * @param {Restangular} Restangular El servicio que realmente hace las peticiones REST
          */
-        function DAO(entityName, idName, cacheable, Restangular) {
+        function DAO(entityName, idName, Restangular) {
             this.entityName = entityName;
             this.idName = idName;
-            this.cacheable = cacheable;
             this.Restangular = Restangular;
         }
 
@@ -541,22 +539,11 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
 
         this.$get = ['Restangular', function(Restangular) {
                 return {
-                    cache: {},
-                    getDAO: function(entityName, idName, cacheable) {
-
-                        var dao = this.cache[entityName];
-                        if (!dao) {
-                            if (!idName) {
-                                idName = "id" + entityName.charAt(0).toUpperCase() + entityName.slice(1);
-                            }
-                            if (!cacheable) {
-                                cacheable = false;
-                            }
-
-                            dao = new DAO(entityName, idName, cacheable, Restangular);
-                            this.cache[entityName] = dao;
+                    getDAO: function(entityName, idName) {
+                        if (!idName) {
+                            idName = "id" + entityName.charAt(0).toUpperCase() + entityName.slice(1);
                         }
-
+                        var dao = new DAO(entityName, idName, Restangular);
                         return dao;
 
                     }
@@ -576,20 +563,19 @@ angular.module("es.logongas.ix3").directive('ix3Clear', function() {
             function setValue(obj, key, newValue) {
                 var keys = key.split('.');
                 for (var i = 0; i < keys.length - 1; i++) {
-                    obj = obj[keys[i]];
-                    if (obj === undefined) {
-                        return;
+                    if (!obj[keys[i]]) {
+                        obj[keys[i]] = {};
                     }
-                }
-                if (obj[keys[keys.length - 1]] === undefined) {
-                    return;
+                    obj = obj[keys[i]];
+
                 }
                 obj[keys[keys.length - 1]] = newValue;
             }
+            ;
 
 
-            var clear = attributes.clear;
-            var clearValue = attributes.clearValue;
+            var clear = attributes.ix3Clear;
+            var clearValue = attributes.ix3ClearValue;
             var ngModel = attributes.ngModel;
             if (clearValue === undefined) {
                 clearValue = "null";//Es un String pq luego se hace un "$eval"
@@ -600,9 +586,6 @@ angular.module("es.logongas.ix3").directive('ix3Clear', function() {
             }
 
             $scope.$watch(clear, function(newValue, oldValue) {
-                if (newValue === oldValue) {
-                    return;
-                }
                 if (newValue === true) {
                     setValue($scope, ngModel, $scope.$eval(clearValue));
                 }
