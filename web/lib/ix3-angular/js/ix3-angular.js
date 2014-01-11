@@ -267,7 +267,7 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
 
                             }
                             obj[keys[keys.length - 1]] = newValue;
-                        }
+                        };
 
                         scope.getMetadata = function(entity) {
                             daoFactory.getDAO(entity, null).metadata(function(data) {
@@ -282,13 +282,13 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                                         }];
                                 }
                             }, entity);
-                        }
+                        };
 
                         scope.get = function() {
                             scope.dao.get(scope.id, function(data) {
                                 scope.model = data;
                                 if (scope.parentProperty) {
-                                    scope.setValue(scope.model, scope.parentProperty, scope.parentId)
+                                    scope.setValue(scope.model, scope.parentProperty, scope.parentId);
                                 }
                             }, function(error) {
                                 if (error.status === 400) {
@@ -306,7 +306,7 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             scope.dao.create(function(data) {
                                 scope.model = data;
                                 if (scope.parentProperty) {
-                                    scope.setValue(scope.model, scope.parentProperty, scope.parentId)
+                                    scope.setValue(scope.model, scope.parentProperty, scope.parentId);
                                 }
                             }, function(error) {
                                 if (error.status === 400) {
@@ -371,7 +371,7 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                         };
                         scope.finishOK = function() {
                             $window.history.back();
-                        }
+                        };
                         scope.finishCancel = function() {
                             $window.history.back();
                         };
@@ -426,10 +426,10 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             scope.labelButtonCancel="Cancelar";                            
                             scope.buttonOK = function() {
                                 scope.insert();
-                            }
+                            };
                             scope.buttonCancel = function() {
                                 scope.finishCancel();
-                            }
+                            };
                         },
                         extendsScopeEditController: function(entityName, idName, scope, state) {
                             extendDetailController(entityName, idName, scope, state);
@@ -439,10 +439,10 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             scope.labelButtonCancel="Cancelar";                              
                             scope.buttonOK = function() {
                                 scope.update();
-                            }
+                            };
                             scope.buttonCancel = function() {
                                 scope.finishCancel();
-                            }
+                            };
                         },
                         extendsScopeViewController: function(entityName, idName, scope, state) {
                             extendDetailController(entityName, idName, scope, state);
@@ -452,10 +452,10 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             scope.labelButtonCancel="";                              
                             scope.buttonOK = function() {
                                 scope.finishOK();
-                            }
+                            };
                             scope.buttonCancel = function() {
 
-                            }
+                            };
                         },
                         extendsScopeDeleteController: function(entityName, idName, scope, state) {
                             extendDetailController(entityName, idName, scope, state);
@@ -465,10 +465,10 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             scope.labelButtonCancel="Cancelar";                              
                             scope.buttonOK = function() {
                                 scope.delete();
-                            }
+                            };
                             scope.buttonCancel = function() {
                                 scope.finishCancel();
-                            }
+                            };
                         }
                     };
                 }]
