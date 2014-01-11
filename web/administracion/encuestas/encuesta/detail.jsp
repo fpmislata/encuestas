@@ -46,7 +46,7 @@
 <div class="row-fluid">
     <div class="span12">
         <legend>Preguntas</legend>
-        <a class="btn btn-primary" href="#/pregunta/new/encuesta.idEncuesta/{{model.idEncuesta}}" ng-show="controllerAction === 'EDIT'" >Nueva Pregunta</a>
+        <a class="btn" href="#/pregunta/new/encuesta.idEncuesta/{{model.idEncuesta}}" ng-show="controllerAction === 'EDIT'" >Nueva Pregunta</a>
         <br />
         <br />
         <table class="table table-bordered table-striped table-condensed">

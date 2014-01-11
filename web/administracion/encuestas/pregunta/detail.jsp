@@ -57,6 +57,30 @@
 
     </div>
 </div> 
+<div class="row-fluid">
+    <div class="span12">
+        <legend>Items</legend>
+        <a class="btn" href="#/item/new/pregunta.idPregunta/{{model.idPregunta}}" ng-show="controllerAction === 'EDIT'" >Nuevo Item</a>
+        <br />
+        <br />
+        <table class="table table-bordered table-striped table-condensed">
+            <thead>
+                <tr>
+                    <th style="text-align: right">N&ordm;</th>
+                    <th width="100%">Item</th>
+                    <th style="text-align: center">Tipo&nbsp;Item</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in models['items']">
+                    <td style="text-align: right">{{item.idItem}}</td>
+                    <td ><a href="#/item/{{childAction}}/{{item.idItem}}/pregunta.idPregunta/{{model.idPregunta}}">{{item.nombre}}</a></td>
+                    <td style="white-space:nowrap;">{{metadata['Item'].properties['tipoItem'].values[item.tipoItem]}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div> 
 <div class="row-fluid" >
     <div class="span12">
         <button class="btn btn-primary" ng-click="buttonOK()">{{labelButtonOK}}</button>

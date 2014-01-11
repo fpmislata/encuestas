@@ -7,6 +7,7 @@
         <script type='text/javascript' src='main.js'></script>
         <script type='text/javascript' src='encuesta/encuesta.js'></script>   
         <script type='text/javascript' src='pregunta/pregunta.js'></script>   
+        <script type='text/javascript' src='item/item.js'></script>   
     </head>
     <body>
         <%@ include file="/template/top.jsp" %>
