@@ -2,10 +2,14 @@
 
 angular.module("es.logongas.ix3", ['restangular']);
 
+/**
+ * configuramos que si viene un String con forma de fecha en una petición http la
+ * transformamos en un objeto Date. http://aboutcode.net/2013/07/27/json-date-parsing-angularjs.html
+ */
 angular.module('es.logongas.ix3').config(["$httpProvider", function($httpProvider) {
         function convertDateStringsToDates(input) {
             if (typeof input !== "object") {
-                return input;
+                return;
             }
 
             for (var key in input) {
@@ -28,7 +32,6 @@ angular.module('es.logongas.ix3').config(["$httpProvider", function($httpProvide
             convertDateStringsToDates(responseData);
             return responseData;
         });
-
     }]);
 
 angular.module('es.logongas.ix3').provider("validator", [function() {
@@ -51,8 +54,6 @@ angular.module('es.logongas.ix3').provider("validator", [function() {
                     return new Validator($interpolate, this.mensajePatterns);
                 }];
         }
-
-
 
         function Validator($interpolate, mensajePatterns) {
             var that = this;
@@ -91,7 +92,7 @@ angular.module('es.logongas.ix3').provider("validator", [function() {
 
                 for (var attributeIndex in realInputElement.attributes) {
                     var attributeName = realInputElement.attributes[attributeIndex].nodeName;
-                    if (attributeName !== undefined) {
+                    if (attributeName) {
                         var value = realInputElement.attributes[attributeIndex].nodeValue;
                         var normalizeAttributeName = getNormalizeAttributeName(attributeName);
                         attributes[normalizeAttributeName] = value;
@@ -179,7 +180,7 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
 
                 $routeProvider.when('/' + lowerEntityName + '/new/:parentProperty?/:parentId?', {
                     templateUrl: lowerEntityName + '/detail.' + fileExtension,
-                    controller: upperCamelEntityName + 'DetailController',
+                    controller: upperCamelEntityName + 'NewController',
                     resolve: {
                         state: ['$route', function($route) {
                                 return {
@@ -195,7 +196,7 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
 
                 $routeProvider.when('/' + lowerEntityName + '/view/:id/:parentProperty?/:parentId?', {
                     templateUrl: lowerEntityName + '/detail.' + fileExtension,
-                    controller: upperCamelEntityName + 'DetailController',
+                    controller: upperCamelEntityName + 'ViewController',
                     resolve: {
                         state: ['$route', function($route) {
                                 return {
@@ -210,7 +211,7 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
 
                 $routeProvider.when('/' + lowerEntityName + '/edit/:id/:parentProperty?/:parentId?', {
                     templateUrl: lowerEntityName + '/detail.' + fileExtension,
-                    controller: upperCamelEntityName + 'DetailController',
+                    controller: upperCamelEntityName + 'EditController',
                     resolve: {
                         state: ['$route', function($route) {
                                 return {
@@ -226,7 +227,7 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
 
                 $routeProvider.when('/' + lowerEntityName + '/delete/:id/:parentProperty?/:parentId?', {
                     templateUrl: lowerEntityName + '/detail.' + fileExtension,
-                    controller: upperCamelEntityName + 'DetailController',
+                    controller: upperCamelEntityName + 'DeleteController',
                     resolve: {
                         state: ['$route', function($route) {
                                 return {
@@ -239,24 +240,163 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                     }
                 });
 
-                $routeProvider.when('/' + lowerEntityName + '/editdelete/:id/:parentProperty?/:parentId?', {
-                    templateUrl: lowerEntityName + '/detail.' + fileExtension,
-                    controller: upperCamelEntityName + 'DetailController',
-                    resolve: {
-                        state: ['$route', function($route) {
-                                return {
-                                    controllerAction: "EDIT_DELETE",
-                                    id: $route.current.params.id,
-                                    parentProperty: $route.current.params.parentProperty,
-                                    parentId: $route.current.params.parentId
-                                };
-                            }]
-                    }
-                });
             },
             $get: ['daoFactory', '$window', 'validator', function(daoFactory, $window, validator) {
+
+                    function extendDetailController(entityName, idName, scope, state) {
+                        scope.entityName = entityName;
+                        scope.idName = idName;
+                        scope.dao = daoFactory.getDAO(entityName, idName);
+                        scope.id = state.id;
+                        scope.parentProperty = state.parentProperty;
+                        scope.parentId = state.parentId;
+                        scope.controllerAction = state.controllerAction;
+                        scope.labelButtonOK="Aceptar";
+                        scope.labelButtonCancel="Cancelar";
+                        scope.childAction="edit";
+                        scope.model = {};
+                        scope.models = {};
+                        scope.metadata = {};
+                        scope.setValue = function(obj, key, newValue) {
+                            var keys = key.split('.');
+                            for (var i = 0; i < keys.length - 1; i++) {
+                                if (!obj[keys[i]]) {
+                                    obj[keys[i]] = {};
+                                }
+                                obj = obj[keys[i]];
+
+                            }
+                            obj[keys[keys.length - 1]] = newValue;
+                        }
+
+                        scope.getMetadata = function(entity) {
+                            daoFactory.getDAO(entity, null).metadata(function(data) {
+                                scope.metadata[entity] = data;
+                            }, function(error) {
+                                if (error.status === 400) {
+                                    scope.businessMessages = error.data;
+                                } else {
+                                    scope.businessMessages = [{
+                                            propertyName: null,
+                                            message: "Estado HTTP:" + error.status + "\n" + error.data
+                                        }];
+                                }
+                            }, entity);
+                        }
+
+                        scope.get = function() {
+                            scope.dao.get(scope.id, function(data) {
+                                scope.model = data;
+                                if (scope.parentProperty) {
+                                    scope.setValue(scope.model, scope.parentProperty, scope.parentId)
+                                }
+                            }, function(error) {
+                                if (error.status === 400) {
+                                    scope.businessMessages = error.data;
+                                } else {
+                                    scope.businessMessages = [{
+                                            propertyName: null,
+                                            message: "Estado HTTP:" + error.status + "\n" + error.data
+                                        }];
+                                }
+                            });
+                        };
+                        scope.create = function() {
+
+                            scope.dao.create(function(data) {
+                                scope.model = data;
+                                if (scope.parentProperty) {
+                                    scope.setValue(scope.model, scope.parentProperty, scope.parentId)
+                                }
+                            }, function(error) {
+                                if (error.status === 400) {
+                                    scope.businessMessages = error.data;
+                                } else {
+                                    scope.businessMessages = [{
+                                            propertyName: null,
+                                            message: "Estado HTTP:" + error.status + "\n" + error.data
+                                        }];
+                                }
+                            });
+                        };
+                        scope.insert = function() {
+                            scope.businessMessages = validator.validateForm(scope.mainForm);
+                            if (scope.businessMessages.length === 0) {
+                                scope.dao.insert(scope.model, function(data) {
+                                    scope.finishOK();
+                                }, function(error) {
+                                    if (error.status === 400) {
+                                        scope.businessMessages = error.data;
+                                    } else {
+                                        scope.businessMessages = [{
+                                                propertyName: null,
+                                                message: "Estado HTTP:" + error.status + "\n" + error.data
+                                            }];
+                                    }
+                                });
+
+                            }
+                        };
+                        scope.update = function() {
+                            scope.businessMessages = validator.validateForm(scope.mainForm);
+                            if (scope.businessMessages.length === 0) {
+                                scope.dao.update(scope.id, scope.model, function(data) {
+                                    scope.finishOK();
+                                }, function(error) {
+                                    if (error.status === 400) {
+                                        scope.businessMessages = error.data;
+                                    } else {
+                                        scope.businessMessages = [{
+                                                propertyName: null,
+                                                message: "Estado HTTP:" + error.status + "\n" + error.data
+                                            }];
+                                    }
+                                });
+
+                            }
+                        };
+                        scope.delete = function() {
+                            scope.dao.delete(scope.id, function(data) {
+                                scope.finishOK();
+                            }, function(error) {
+                                if (error.status === 400) {
+                                    scope.businessMessages = error.data;
+                                } else {
+                                    scope.businessMessages = [{
+                                            propertyName: null,
+                                            message: "Estado HTTP:" + error.status + "\n" + error.data
+                                        }];
+                                }
+                            });
+                        };
+                        scope.finishOK = function() {
+                            $window.history.back();
+                        }
+                        scope.finishCancel = function() {
+                            $window.history.back();
+                        };
+                        scope.getChild = function(child) {
+                            scope.dao.getChild(scope.id, child, function(data) {
+                                scope.models[child] = data;
+                            }, function(error) {
+                                if (error.status === 400) {
+                                    scope.businessMessages = error.data;
+                                } else {
+                                    scope.businessMessages = [{
+                                            propertyName: null,
+                                            message: "Estado HTTP:" + error.status + "\n" + error.data
+                                        }];
+                                }
+                            });
+                        };
+
+                        scope.getMetadata(scope.entityName);
+
+                    }
+
+
                     return {
-                        extendsScopeFromSearchController: function(entityName, idName, scope) {
+                        extendsScopeSearchController: function(entityName, idName, scope) {
                             scope.entityName = entityName;
                             scope.idName = idName;
                             scope.dao = daoFactory.getDAO(entityName, idName);
@@ -278,153 +418,57 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                                 });
                             };
                         },
-                        extendsScopeFromDetailController: function(entityName, idName, scope, state) {
-                            scope.entityName = entityName;
-                            scope.idName = idName;
-                            scope.dao = daoFactory.getDAO(entityName, idName);
-                            scope.id = state.id;
-                            scope.parentProperty = state.parentProperty;
-                            scope.parentId = state.parentId;
-                            scope.controllerAction = state.controllerAction;
-                            scope.model = {};
-                            scope.models = {};
-                            scope.metadata = {};
-                            scope.setValue = function(obj, key, newValue) {
-                                var keys = key.split('.');
-                                for (var i = 0; i < keys.length - 1; i++) {
-                                    if (!obj[keys[i]]) {
-                                        obj[keys[i]]={};
-                                    }
-                                    obj = obj[keys[i]];
-
-                                }
-                                obj[keys[keys.length - 1]] = newValue;
+                        extendsScopeNewController: function(entityName, idName, scope, state) {
+                            extendDetailController(entityName, idName, scope, state);
+                            scope.create();
+                            scope.childAction="view";
+                            scope.labelButtonOK="Añadir";
+                            scope.labelButtonCancel="Cancelar";                            
+                            scope.buttonOK = function() {
+                                scope.insert();
                             }
-
-                            scope.getMetadata = function(entity) {
-                                daoFactory.getDAO(entity, null).metadata(function(data) {
-                                    scope.metadata[entity] = data;
-                                }, function(error) {
-                                    if (error.status === 400) {
-                                        scope.businessMessages = error.data;
-                                    } else {
-                                        scope.businessMessages = [{
-                                                propertyName: null,
-                                                message: "Estado HTTP:" + error.status + "\n" + error.data
-                                            }];
-                                    }
-                                }, entity);
+                            scope.buttonCancel = function() {
+                                scope.finishCancel();
                             }
+                        },
+                        extendsScopeEditController: function(entityName, idName, scope, state) {
+                            extendDetailController(entityName, idName, scope, state);
+                            scope.get();
+                            scope.childAction="edit";
+                            scope.labelButtonOK="Guardar";
+                            scope.labelButtonCancel="Cancelar";                              
+                            scope.buttonOK = function() {
+                                scope.update();
+                            }
+                            scope.buttonCancel = function() {
+                                scope.finishCancel();
+                            }
+                        },
+                        extendsScopeViewController: function(entityName, idName, scope, state) {
+                            extendDetailController(entityName, idName, scope, state);
+                            scope.get();
+                            scope.childAction="view";
+                            scope.labelButtonOK="Salir";
+                            scope.labelButtonCancel="";                              
+                            scope.buttonOK = function() {
+                                scope.finishOK();
+                            }
+                            scope.buttonCancel = function() {
 
-                            scope.get = function() {
-
-                                if (scope.controllerAction === "NEW") {
-                                    scope.dao.create(function(data) {
-                                        scope.model = data;
-                                        if (scope.parentProperty) {
-                                            scope.setValue(scope.model,scope.parentProperty,scope.parentId)
-                                        }
-                                    }, function(error) {
-                                        if (error.status === 400) {
-                                            scope.businessMessages = error.data;
-                                        } else {
-                                            scope.businessMessages = [{
-                                                    propertyName: null,
-                                                    message: "Estado HTTP:" + error.status + "\n" + error.data
-                                                }];
-                                        }
-                                    });
-                                } else {
-
-                                    scope.dao.get(scope.id, function(data) {
-                                        scope.model = data;
-                                        if (scope.parentProperty) {
-                                            scope.setValue(scope.model,scope.parentProperty,scope.parentId)
-                                        }
-                                    }, function(error) {
-                                        if (error.status === 400) {
-                                            scope.businessMessages = error.data;
-                                        } else {
-                                            scope.businessMessages = [{
-                                                    propertyName: null,
-                                                    message: "Estado HTTP:" + error.status + "\n" + error.data
-                                                }];
-                                        }
-                                    });
-                                }
-                            };
-                            scope.save = function() {
-                                scope.businessMessages = validator.validateForm(scope.mainForm);
-                                if (scope.businessMessages.length === 0) {
-                                    if (scope.controllerAction === "NEW") {
-                                        scope.dao.insert(scope.model, function(data) {
-                                            $window.history.back();
-                                        }, function(error) {
-                                            if (error.status === 400) {
-                                                scope.businessMessages = error.data;
-                                            } else {
-                                                scope.businessMessages = [{
-                                                        propertyName: null,
-                                                        message: "Estado HTTP:" + error.status + "\n" + error.data
-                                                    }];
-                                            }
-                                        });
-                                    } else {
-
-                                        scope.dao.update(scope.id, scope.model, function(data) {
-                                            $window.history.back();
-                                        }, function(error) {
-                                            if (error.status === 400) {
-                                                scope.businessMessages = error.data;
-                                            } else {
-                                                scope.businessMessages = [{
-                                                        propertyName: null,
-                                                        message: "Estado HTTP:" + error.status + "\n" + error.data
-                                                    }];
-                                            }
-                                        });
-                                    }
-                                }
-                            };
-                            scope.delete = function() {
-                                scope.dao.delete(scope.id, function(data) {
-                                    $window.history.back();
-                                }, function(error) {
-                                    if (error.status === 400) {
-                                        scope.businessMessages = error.data;
-                                    } else {
-                                        scope.businessMessages = [{
-                                                propertyName: null,
-                                                message: "Estado HTTP:" + error.status + "\n" + error.data
-                                            }];
-                                    }
-                                });
-                            };
-                            scope.exit = function() {
-                                $window.history.back();
-                            };
-                            scope.getChild = function(child) {
-                                if (scope.controllerAction === "NEW") {
-                                    //Seguro que no hay hijos pq la fila es nueva.
-                                } else {
-                                    scope.dao.getChild(scope.id, child, function(data) {
-                                        scope.models[child] = data;
-                                    }, function(error) {
-                                        if (error.status === 400) {
-                                            scope.businessMessages = error.data;
-                                        } else {
-                                            scope.businessMessages = [{
-                                                    propertyName: null,
-                                                    message: "Estado HTTP:" + error.status + "\n" + error.data
-                                                }];
-                                        }
-                                    });
-                                }
-                            };
-
-                            scope.getMetadata(scope.entityName);
-
-
+                            }
+                        },
+                        extendsScopeDeleteController: function(entityName, idName, scope, state) {
+                            extendDetailController(entityName, idName, scope, state);
+                            scope.get();
+                            scope.childAction="view";
+                            scope.labelButtonOK="Borrar";
+                            scope.labelButtonCancel="Cancelar";                              
+                            scope.buttonOK = function() {
+                                scope.delete();
+                            }
+                            scope.buttonCancel = function() {
+                                scope.finishCancel();
+                            }
                         }
                     };
                 }]
@@ -449,10 +493,10 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
 
         /**
          * Esta es la clase DAO verdaderaque genera el Factory
-         * @param {type} entityName Nombre de la entidad 
-         * @param {type} idName El nombre de la clave primaria
-         * @param {type} cacheable Si se cachean las peticiones.
-         * @param {type} Restangular El servicio que realmente hace las peticiones REST
+         * @param {String} entityName Nombre de la entidad 
+         * @param {String} idName El nombre de la clave primaria
+         * @param {boolean} cacheable Si se cachean las peticiones.
+         * @param {Restangular} Restangular El servicio que realmente hace las peticiones REST
          */
         function DAO(entityName, idName, cacheable, Restangular) {
             this.entityName = entityName;
@@ -556,14 +600,12 @@ angular.module("es.logongas.ix3").directive('ix3Clear', function() {
             }
 
             $scope.$watch(clear, function(newValue, oldValue) {
-
                 if (newValue === oldValue) {
                     return;
                 }
                 if (newValue === true) {
                     setValue($scope, ngModel, $scope.$eval(clearValue));
                 }
-
             });
 
         }
@@ -696,7 +738,9 @@ angular.module("es.logongas.ix3").service("dateFormat", ['$locale', function($lo
                 return newFormat;
 
             },
-            defaultDateFormat: "mediumDate"
+            getDefaultDateFormat: function() {
+                return "mediumDate";
+            }
         };
 
 
@@ -711,7 +755,7 @@ angular.module("es.logongas.ix3").directive('ix3Date', ['$locale', 'dateFormat',
             require: 'ngModel',
             link: function($scope, element, attributes, ngModelController) {
                 if (!attributes.ix3Date) {
-                    attributes.ix3Date = dateFormat.getAngularFormatFromPredefined(dateFormat.defaultDateFormat);
+                    attributes.ix3Date = dateFormat.getAngularFormatFromPredefined(dateFormat.getDefaultDateFormat());
                 } else {
                     attributes.ix3Date = dateFormat.getAngularFormatFromPredefined(attributes.ix3Date);
                 }
@@ -783,7 +827,7 @@ angular.module("es.logongas.ix3").directive('ix3Date', ['$locale', 'dateFormat',
         };
     }]);
 angular.module("es.logongas.ix3").config(['validatorProvider', function(validatorProvider) {
-        //Incluir el mensaje de la nuea directiva de validacion
+        //Incluir el mensaje de la nueva directiva de validacion
         validatorProvider.getMensajePatterns().date = "El formato de la fecha debe ser '{{date}}'";
     }]);
 
@@ -795,7 +839,7 @@ angular.module("es.logongas.ix3").directive('ix3Datepicker', ['dateFormat', func
                 var format;
 
                 if (!attributes.ix3Date) {
-                    format = dateFormat.getJQueryDatepickerFormatFromAngularJSFormat(dateFormat.getAngularFormatFromPredefined(dateFormat.defaultDateFormat));
+                    format = dateFormat.getJQueryDatepickerFormatFromAngularJSFormat(dateFormat.getAngularFormatFromPredefined(dateFormat.getDefaultDateFormat()));
                 } else {
                     format = dateFormat.getJQueryDatepickerFormatFromAngularJSFormat(dateFormat.getAngularFormatFromPredefined(attributes.ix3Date));
                 }
