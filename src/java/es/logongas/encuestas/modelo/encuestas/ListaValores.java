@@ -104,4 +104,11 @@ public class ListaValores {
         this.contieneValoresNumericos = contieneValoresNumericos;
     }
 
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
+
+    
+    
 }

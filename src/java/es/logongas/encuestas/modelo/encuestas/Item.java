@@ -15,18 +15,29 @@
  */
 package es.logongas.encuestas.modelo.encuestas;
 
+import es.logongas.ix3.persistence.services.annotations.Caption;
+import es.logongas.ix3.persistence.services.annotations.ValuesList;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * Cada uno de los Item a los que se puede responder de una pregunta de la encuesta
  * @author Lorenzo González
  */
 public class Item implements Comparable<Item> {
     private int idItem;
+    @NotBlank
     private String nombre;
+    @NotNull
+    @Caption("Tipo de Item")
     private TipoItem tipoItem;
+    @ValuesList(shortLength = true)
     private ListaValores listaValores;
+    @NotNull
     private Pregunta pregunta;
     private boolean requerido;
     private String expresionRegular;
+    @Caption("Valor por defecto")
     private String valorDefecto;
     private int idx;
 

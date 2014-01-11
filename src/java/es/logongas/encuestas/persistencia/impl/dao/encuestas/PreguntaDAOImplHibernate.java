@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package es.logongas.encuestas.persistencia.impl.dao.encuestas;
 
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
@@ -23,19 +22,23 @@ import org.hibernate.Session;
 
 /**
  * DAO de Pregunta
+ *
  * @author Lorenzo
  */
-public class PreguntaDAOImplHibernate extends GenericDAOImplHibernate<Pregunta, Integer> implements PreguntaDAO  {
+public class PreguntaDAOImplHibernate extends GenericDAOImplHibernate<Pregunta, Integer> implements PreguntaDAO {
 
     @Override
-    protected void preInsertBeforeTransaction(Session session, Pregunta entity) {
-        entity.getEncuesta().getPreguntas().add(entity);
+    protected void postInsertInTransaction(Session session, Pregunta pregunta) {
+        if (pregunta != null) {
+            pregunta.getEncuesta().getPreguntas().add(pregunta);
+        }
     }
 
     @Override
-    protected void preDeleteInTransaction(Session session, Integer id, Pregunta entity) {
-        entity.getEncuesta().getPreguntas().remove(entity);
+    protected void postDeleteInTransaction(Session session, Integer id, Pregunta pregunta) {
+        if (pregunta != null) {
+            pregunta.getEncuesta().getPreguntas().remove(pregunta);
+        }
     }
-    
-    
+
 }

@@ -16,7 +16,9 @@
 package es.logongas.encuestas.modelo.encuestas;
 
 import java.util.List;
+import javax.validation.constraints.NotNull;
 import org.hibernate.Hibernate;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Cada una de las preguntas de una encuesta. Cada Pregunta tiene varios Items a
@@ -27,10 +29,13 @@ import org.hibernate.Hibernate;
 public class Pregunta implements Comparable<Pregunta> {
 
     private int idPregunta;
+    @NotBlank
     private String pregunta;
     private String pie;
+    @NotNull
     private Encuesta encuesta;
     private List<Item> items;
+    @NotNull
     private TipoPregunta tipoPregunta;
     private boolean ultimoItemIncluyeOtros;
     private boolean requerido;
