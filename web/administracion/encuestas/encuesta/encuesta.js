@@ -2,19 +2,24 @@ app.config(['crudProvider', function(crudProvider) {
         crudProvider.addAllRoutes("Encuesta", "jsp");
     }]);
 
-app.controller("EncuestaSearchController", ['$scope', 'crud', 'state', function($scope, crud, state) {
-        crud.extendsScopeSearchController("Encuesta", "idEncuesta", $scope, state);
+app.controller("EncuestaSearchController", ['$scope', 'crudState', function($scope, crudState) {
+        crudState.extendsScopeController($scope);
         $scope.orderBy = ['nombre ASC'];
         $scope.search();
     }]);
-
-app.controller("EncuestaNewController", ['$scope', 'crud', 'state', function($scope, crud, state) {
-        crud.extendsScopeNewController("Encuesta", "idEncuesta", $scope, state);
+app.controller("EncuestaSearchController", ['$scope', 'crudState', function($scope, crudState) {
+        crudState.extendsScopeController($scope);
+        
+        $scope.orderBy = ['nombre ASC'];
+        $scope.search();
+    }]);
+app.controller("EncuestaNewController", ['$scope', 'crudState', function($scope, crudState) {
+        crudState.extendsScopeController($scope);
         $scope.getMetadata("Pregunta");
         
     }]);
-app.controller("EncuestaEditController", ['$scope', 'crud', 'state', function($scope, crud, state) {
-        crud.extendsScopeEditController("Encuesta", "idEncuesta", $scope, state);
+app.controller("EncuestaEditController", ['$scope', 'crudState', function($scope, crudState) {
+        crudState.extendsScopeController($scope);
         $scope.getMetadata("Pregunta");
         $scope.getChild("preguntas");
         $scope.buttonDelete=function() {
@@ -22,14 +27,14 @@ app.controller("EncuestaEditController", ['$scope', 'crud', 'state', function($s
         }        
         
     }]);
-app.controller("EncuestaViewController", ['$scope', 'crud', 'state', function($scope, crud, state) {
-        crud.extendsScopeViewController("Encuesta", "idEncuesta", $scope, state);
+app.controller("EncuestaViewController", ['$scope', 'crudState', function($scope, crudState) {
+        crudState.extendsScopeController($scope);
         $scope.getMetadata("Pregunta");
         $scope.getChild("preguntas");
         
     }]);
-app.controller("EncuestaDeleteController", ['$scope', 'crud', 'state', function($scope, crud, state) {
-        crud.extendsScopeDeleteController("Encuesta", "idEncuesta", $scope, state);
+app.controller("EncuestaDeleteController", ['$scope', 'crudState', function($scope, crudState) {
+        crudState.extendsScopeController($scope);
         $scope.getMetadata("Pregunta");
         $scope.getChild("preguntas");
     }]);

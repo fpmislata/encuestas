@@ -18,6 +18,7 @@
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/lodash/js/lodash.js'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/restangular/js/restangular.js'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/ix3-angular.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/ix3-crud.js'></script>
 <script type='text/javascript' src="<%=request.getContextPath()%>/js/widgets.js"></script>
 <script type='text/javascript'>
     function getContextPath() {
