@@ -243,11 +243,12 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
             },
             $get: ['daoFactory', '$window', 'validator', function(daoFactory, $window, validator) {
 
-                    function extendDetailController(entityName, idName, scope, state) {
+                    function extendDetailController(entityName, idName, scope, state,expand) {
                         scope.entityName = entityName;
                         scope.idName = idName;
                         scope.dao = daoFactory.getDAO(entityName, idName);
                         scope.id = state.id;
+                        scope.expand=expand;
                         scope.parentProperty = state.parentProperty;
                         scope.parentId = state.parentId;
                         scope.controllerAction = state.controllerAction;
@@ -299,7 +300,7 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                                             message: "Estado HTTP:" + error.status + "\n" + error.data
                                         }];
                                 }
-                            });
+                            },scope.expand);
                         };
                         scope.create = function() {
 
@@ -418,8 +419,8 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                                 });
                             };
                         },
-                        extendsScopeNewController: function(entityName, idName, scope, state) {
-                            extendDetailController(entityName, idName, scope, state);
+                        extendsScopeNewController: function(entityName, idName, scope, state,expand) {
+                            extendDetailController(entityName, idName, scope, state,expand);
                             scope.create();
                             scope.childAction = "view";
                             scope.labelButtonOK = "Añadir";
@@ -431,8 +432,8 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                                 scope.finishCancel();
                             };
                         },
-                        extendsScopeEditController: function(entityName, idName, scope, state) {
-                            extendDetailController(entityName, idName, scope, state);
+                        extendsScopeEditController: function(entityName, idName, scope, state,expand) {
+                            extendDetailController(entityName, idName, scope, state,expand);
                             scope.get();
                             scope.childAction = "edit";
                             scope.labelButtonOK = "Guardar";
@@ -444,8 +445,8 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                                 scope.finishCancel();
                             };
                         },
-                        extendsScopeViewController: function(entityName, idName, scope, state) {
-                            extendDetailController(entityName, idName, scope, state);
+                        extendsScopeViewController: function(entityName, idName, scope, state,expand) {
+                            extendDetailController(entityName, idName, scope, state,expand);
                             scope.get();
                             scope.childAction = "view";
                             scope.labelButtonOK = "Salir";
@@ -457,8 +458,8 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
 
                             };
                         },
-                        extendsScopeDeleteController: function(entityName, idName, scope, state) {
-                            extendDetailController(entityName, idName, scope, state);
+                        extendsScopeDeleteController: function(entityName, idName, scope, state,expand) {
+                            extendDetailController(entityName, idName, scope, state,expand);
                             scope.get();
                             scope.childAction = "view";
                             scope.labelButtonOK = "Borrar";
@@ -506,8 +507,9 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
         DAO.prototype.create = function(fnOK, fnError) {
             this.Restangular.one(this.entityName, 'create').get().then(fnOK, fnError);
         };
-        DAO.prototype.get = function(id, fnOK, fnError) {
-            this.Restangular.one(this.entityName, id).get().then(fnOK, fnError);
+        DAO.prototype.get = function(id, fnOK, fnError,expand) {
+            expand=expand || "";
+            this.Restangular.one(this.entityName, id).get({$expand:expand}).then(fnOK, fnError);
         };
         DAO.prototype.insert = function(entity, fnOK, fnError) {
             this.Restangular.one(this.entityName).customPOST(entity).then(fnOK, fnError);
@@ -518,18 +520,20 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
         DAO.prototype.delete = function(id, fnOK, fnError) {
             this.Restangular.one(this.entityName, id).customDELETE().then(fnOK, fnError);
         };
-        DAO.prototype.search = function(filter, orderBy, fnOK, fnError) {
+        DAO.prototype.search = function(filter, orderBy, fnOK, fnError,expand) {
             filter = filter || {};
             orderBy = orderBy || [];
+            expand=expand || "";
 
             //El orden es otro parametro mas igual.
             filter.orderBy = orderBy.join(",");
-
+            filter.$expand=expand;
             this.Restangular.all(this.entityName).getList(filter).then(fnOK, fnError);
         };
 
-        DAO.prototype.getChild = function(id, child, fnOK, fnError) {
-            this.Restangular.one(this.entityName, id).getList(child).then(fnOK, fnError);
+        DAO.prototype.getChild = function(id, child, fnOK, fnError,expand) {
+            expand=expand || "";
+            this.Restangular.one(this.entityName, id).getList(child,{$expand:expand}).then(fnOK, fnError);
         };
 
         DAO.prototype.metadata = function(fnOK, fnError, entity) {
