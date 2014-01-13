@@ -201,22 +201,22 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
         DAO.prototype.delete = function(id, fnOK, fnError) {
             this.Restangular.one(this.entityName, id).customDELETE().then(fnOK, fnError);
         };
-        DAO.prototype.search = function(filter, order, fnOK, fnError, expand) {
-            filter = filter || {};
+        DAO.prototype.search = function(params, order, fnOK, fnError, expand) {
+            params = params || {};
             order =  order || [];
             expand = expand || "";
 
-            filter.$order = "";
+            params.$orderby = "";
             for (var i=0;i<order.length;i++) {
                 var simpleOrder=order[i];
-                if (filter.$order !== "") {
-                    filter.$order = filter.$order + ",";
+                if (params.$orderby !== "") {
+                    params.$orderby = params.$orderby + ",";
                 }
-                filter.$order = filter.$order + simpleOrder.fieldName + " " + simpleOrder.orderDirection;
+                params.$orderby = params.$orderby + simpleOrder.fieldName + " " + simpleOrder.orderDirection;
             }
 
-            filter.$expand = expand;
-            this.Restangular.all(this.entityName).getList(filter).then(fnOK, fnError);
+            params.$expand = expand;
+            this.Restangular.all(this.entityName).getList(params).then(fnOK, fnError);
         };
 
         DAO.prototype.getChild = function(id, child, fnOK, fnError, expand) {
