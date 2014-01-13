@@ -4,34 +4,50 @@ app.config(['crudProvider', function(crudProvider) {
 
 app.controller("EncuestaSearchController", ['$scope', 'crudState', function($scope, crudState) {
         crudState.extendsScopeController($scope);
-        $scope.orderBy = ['nombre ASC'];
+        $scope.order = ['nombre ASC'];
         $scope.search();
     }]);
 app.controller("EncuestaSearchController", ['$scope', 'crudState', function($scope, crudState) {
         crudState.extendsScopeController($scope);
-        
-        $scope.orderBy = ['nombre ASC'];
+
+        $scope.directions = [
+            {
+                orderDirection: 'ASC',
+                label: 'Ascendente'
+            },
+            {
+                orderDirection: 'DESC',
+                label: 'Descendente'
+            }
+        ];
+
+        $scope.order = [{fieldName: 'nombre', orderDirection: $scope.directions[0].orderDirection}];
         $scope.search();
+
+        $scope.$watch("order[0].orderDirection", function() {
+            $scope.search();
+        });
+
     }]);
 app.controller("EncuestaNewController", ['$scope', 'crudState', function($scope, crudState) {
         crudState.extendsScopeController($scope);
         $scope.getMetadata("Pregunta");
-        
+
     }]);
 app.controller("EncuestaEditController", ['$scope', 'crudState', function($scope, crudState) {
         crudState.extendsScopeController($scope);
         $scope.getMetadata("Pregunta");
         $scope.getChild("preguntas");
-        $scope.buttonDelete=function() {
+        $scope.buttonDelete = function() {
             $scope.delete();
-        }        
-        
+        }
+
     }]);
 app.controller("EncuestaViewController", ['$scope', 'crudState', function($scope, crudState) {
         crudState.extendsScopeController($scope);
         $scope.getMetadata("Pregunta");
         $scope.getChild("preguntas");
-        
+
     }]);
 app.controller("EncuestaDeleteController", ['$scope', 'crudState', function($scope, crudState) {
         crudState.extendsScopeController($scope);

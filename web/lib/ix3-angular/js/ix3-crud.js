@@ -15,12 +15,12 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                         crudState: ['$route', 'crud', function($route, crud) {
                                 return {
                                     extendsScopeController: function(scope, controllerConfig) {
-                                        controllerConfig=controllerConfig || {};
-                                        
-                                        controllerConfig.entity=entity;
-                                        
-                                        crud.extendsScopeSearchController(scope,controllerConfig);
-                                    }                                   
+                                        controllerConfig = controllerConfig || {};
+
+                                        controllerConfig.entity = entity;
+
+                                        crud.extendsScopeSearchController(scope, controllerConfig);
+                                    }
                                 };
                             }]
                     }
@@ -33,15 +33,15 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                         crudState: ['$route', 'crud', function($route, crud) {
                                 return {
                                     extendsScopeController: function(scope, controllerConfig) {
-                                        controllerConfig=controllerConfig || {};
-                                        
-                                        controllerConfig.entity=entity;
+                                        controllerConfig = controllerConfig || {};
+
+                                        controllerConfig.entity = entity;
                                         controllerConfig.controllerAction = "NEW";
                                         controllerConfig.id = null;
                                         controllerConfig.parentProperty = $route.current.params.parentProperty;
                                         controllerConfig.parentId = $route.current.params.parentId;
-                                        
-                                        crud.extendsScopeNewController(scope,controllerConfig);
+
+                                        crud.extendsScopeNewController(scope, controllerConfig);
                                     }
                                 };
                             }]
@@ -55,15 +55,15 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                         crudState: ['$route', 'crud', function($route, crud) {
                                 return {
                                     extendsScopeController: function(scope, controllerConfig) {
-                                        controllerConfig=controllerConfig || {};
-                                        
-                                        controllerConfig.entity=entity;
+                                        controllerConfig = controllerConfig || {};
+
+                                        controllerConfig.entity = entity;
                                         controllerConfig.controllerAction = "VIEW";
                                         controllerConfig.id = $route.current.params.id;
                                         controllerConfig.parentProperty = $route.current.params.parentProperty;
                                         controllerConfig.parentId = $route.current.params.parentId;
-                                        
-                                        crud.extendsScopeViewController(scope,controllerConfig);
+
+                                        crud.extendsScopeViewController(scope, controllerConfig);
                                     }
                                 };
                             }]
@@ -77,15 +77,15 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                         crudState: ['$route', 'crud', function($route, crud) {
                                 return {
                                     extendsScopeController: function(scope, controllerConfig) {
-                                        controllerConfig=controllerConfig || {};
-                                        
-                                        controllerConfig.entity=entity;
+                                        controllerConfig = controllerConfig || {};
+
+                                        controllerConfig.entity = entity;
                                         controllerConfig.controllerAction = "EDIT";
                                         controllerConfig.id = $route.current.params.id;
                                         controllerConfig.parentProperty = $route.current.params.parentProperty;
                                         controllerConfig.parentId = $route.current.params.parentId;
-                                        
-                                        crud.extendsScopeEditController(scope,controllerConfig);
+
+                                        crud.extendsScopeEditController(scope, controllerConfig);
                                     }
                                 };
                             }]
@@ -100,15 +100,15 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                         crudState: ['$route', 'crud', function($route, crud) {
                                 return {
                                     extendsScopeController: function(scope, controllerConfig) {
-                                        controllerConfig=controllerConfig || {};
-                                        
-                                        controllerConfig.entity=entity;
+                                        controllerConfig = controllerConfig || {};
+
+                                        controllerConfig.entity = entity;
                                         controllerConfig.controllerAction = "DELETE";
                                         controllerConfig.id = $route.current.params.id;
                                         controllerConfig.parentProperty = $route.current.params.parentProperty;
                                         controllerConfig.parentId = $route.current.params.parentId;
-                                        
-                                        crud.extendsScopeDeleteController(scope,controllerConfig);
+
+                                        crud.extendsScopeDeleteController(scope, controllerConfig);
                                     }
                                 };
                             }]
@@ -118,8 +118,8 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
             },
             $get: ['daoFactory', '$window', 'validator', function(daoFactory, $window, validator) {
 
-                    function extendDetailController(scope,controllerConfig) {
-                        angular.extend(scope,controllerConfig)
+                    function extendDetailController(scope, controllerConfig) {
+                        angular.extend(scope, controllerConfig)
                         scope.dao = daoFactory.getDAO(scope.entity, scope.idName);
                         scope.labelButtonOK = "Aceptar";
                         scope.labelButtonCancel = "Cancelar";
@@ -266,14 +266,15 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
 
 
                     return {
-                        extendsScopeSearchController: function(scope,controllerConfig) {
-                            angular.extend(scope,controllerConfig);
-                            scope.dao = daoFactory.getDAO(scope.entity,scope.idName);
+                        extendsScopeSearchController: function(scope, controllerConfig) {
+                            angular.extend(scope, controllerConfig);
+                            scope.dao = daoFactory.getDAO(scope.entity, scope.idName);
                             scope.models = {};
                             scope.filter = {};
-                            scope.orderBy = [];
+                            scope.order = []; //Array con objetos con las propiedades fieldName y orderDirection. La propiedad orderDirection soporta los valores "ASC" y "DESC"
+
                             scope.search = function() {
-                                scope.dao.search(scope.filter, scope.orderBy, function(data) {
+                                scope.dao.search(scope.filter, scope.order, function(data) {
                                     scope.models = data;
                                 }, function(error) {
                                     if (error.status === 400) {
@@ -287,8 +288,8 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                                 });
                             };
                         },
-                        extendsScopeNewController: function(scope,controllerConfig) {
-                            extendDetailController(scope,controllerConfig);
+                        extendsScopeNewController: function(scope, controllerConfig) {
+                            extendDetailController(scope, controllerConfig);
                             scope.childAction = "view";
                             scope.labelButtonOK = "Añadir";
                             scope.labelButtonCancel = "Cancelar";
@@ -300,8 +301,8 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             };
                             scope.create();
                         },
-                        extendsScopeEditController: function(scope,controllerConfig) {
-                            extendDetailController(scope,controllerConfig);
+                        extendsScopeEditController: function(scope, controllerConfig) {
+                            extendDetailController(scope, controllerConfig);
                             scope.childAction = "edit";
                             scope.labelButtonOK = "Guardar";
                             scope.labelButtonCancel = "Cancelar";
@@ -313,8 +314,8 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             };
                             scope.get();
                         },
-                        extendsScopeViewController: function(scope,controllerConfig) {
-                            extendDetailController(scope,controllerConfig);
+                        extendsScopeViewController: function(scope, controllerConfig) {
+                            extendDetailController(scope, controllerConfig);
                             scope.childAction = "view";
                             scope.labelButtonOK = "Salir";
                             scope.labelButtonCancel = "";
@@ -326,8 +327,8 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             };
                             scope.get();
                         },
-                        extendsScopeDeleteController: function(scope,controllerConfig) {
-                            extendDetailController(scope,controllerConfig);
+                        extendsScopeDeleteController: function(scope, controllerConfig) {
+                            extendDetailController(scope, controllerConfig);
                             scope.childAction = "view";
                             scope.labelButtonOK = "Borrar";
                             scope.labelButtonCancel = "Cancelar";

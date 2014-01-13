@@ -7,9 +7,13 @@
     <div class="span12">
         <form class="form-inline">
             <div class="input-append">     
-                <input type="text" class="input-large" ng-model="filter.nombre" placeholder="Escribe el nombre de la encuesta" /><button type="button" class="btn" ng-click="search()">Filtrar</button>
+                <input type="text" class="input-large" ng-model="filter.nombre" placeholder="Escribe el nombre de la encuesta" /><button type="button" class="btn btn-primary" ng-click="search()">Filtrar</button>
             </div>
-            <a href="#/encuesta/new"  class="btn btn-primary" >Nueva encuesta</a>
+            &nbsp;&nbsp;
+            orden:
+            <select ng-model="order[0].orderDirection" class="input-medium" ng-options="direction.orderDirection as direction.label for direction in directions"></select>
+            &nbsp;&nbsp;
+            <a href="#/encuesta/new"  class="btn" >Nueva encuesta</a>
         </form>
     </div>
 </div>

@@ -186,11 +186,11 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
         }
 
         DAO.prototype.create = function(fnOK, fnError) {
-            this.Restangular.one(this.entityName, 'create').get().then(fnOK, fnError);
+            this.Restangular.one(this.entityName, '$create').get().then(fnOK, fnError);
         };
-        DAO.prototype.get = function(id, fnOK, fnError,expand) {
-            expand=expand || "";
-            this.Restangular.one(this.entityName, id).get({$expand:expand}).then(fnOK, fnError);
+        DAO.prototype.get = function(id, fnOK, fnError, expand) {
+            expand = expand || "";
+            this.Restangular.one(this.entityName, id).get({$expand: expand}).then(fnOK, fnError);
         };
         DAO.prototype.insert = function(entity, fnOK, fnError) {
             this.Restangular.one(this.entityName).customPOST(entity).then(fnOK, fnError);
@@ -201,25 +201,32 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
         DAO.prototype.delete = function(id, fnOK, fnError) {
             this.Restangular.one(this.entityName, id).customDELETE().then(fnOK, fnError);
         };
-        DAO.prototype.search = function(filter, orderBy, fnOK, fnError,expand) {
+        DAO.prototype.search = function(filter, order, fnOK, fnError, expand) {
             filter = filter || {};
-            orderBy = orderBy || [];
-            expand=expand || "";
+            order =  order || [];
+            expand = expand || "";
 
-            //El orden es otro parametro mas igual.
-            filter.orderBy = orderBy.join(",");
-            filter.$expand=expand;
+            filter.$order = "";
+            for (var i=0;i<order.length;i++) {
+                var simpleOrder=order[i];
+                if (filter.$order !== "") {
+                    filter.$order = filter.$order + ",";
+                }
+                filter.$order = filter.$order + simpleOrder.fieldName + " " + simpleOrder.orderDirection;
+            }
+
+            filter.$expand = expand;
             this.Restangular.all(this.entityName).getList(filter).then(fnOK, fnError);
         };
 
-        DAO.prototype.getChild = function(id, child, fnOK, fnError,expand) {
-            expand=expand || "";
-            this.Restangular.one(this.entityName, id).getList(child,{$expand:expand}).then(fnOK, fnError);
+        DAO.prototype.getChild = function(id, child, fnOK, fnError, expand) {
+            expand = expand || "";
+            this.Restangular.one(this.entityName, id).getList(child, {$expand: expand}).then(fnOK, fnError);
         };
 
         DAO.prototype.metadata = function(fnOK, fnError, entity) {
             entity = entity || this.entityName;
-            this.Restangular.one(entity, 'metadata').get().then(fnOK, fnError);
+            this.Restangular.one(entity, '$metadata').get().then(fnOK, fnError);
         };
 
         this.$get = ['Restangular', function(Restangular) {
