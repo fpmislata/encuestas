@@ -3,14 +3,7 @@ app.config(['crudProvider', function(crudProvider) {
     }]);
 
 app.controller("EncuestaSearchController", ['$scope', 'crudState', function($scope, crudState) {
-        crudState.extendsScopeController($scope);
-        $scope.order = ['nombre ASC'];
-        $scope.search();
-    }]);
-app.controller("EncuestaSearchController", ['$scope', 'crudState', function($scope, crudState) {
-        crudState.extendsScopeController($scope);
-
-        $scope.directions = [
+         $scope.directions = [
             {
                 orderDirection: 'ASC',
                 label: 'Ascendente'
@@ -20,10 +13,19 @@ app.controller("EncuestaSearchController", ['$scope', 'crudState', function($sco
                 label: 'Descendente'
             }
         ];
+        
+        $scope.pageSizes=[
+           5,
+           10,
+           20
+        ];
 
-        $scope.order = [{fieldName: 'nombre', orderDirection: $scope.directions[0].orderDirection}];
-        $scope.search();
-
+        
+        crudState.extendsScopeController($scope,{
+            pageSize:10,
+            order:[{fieldName: 'nombre', orderDirection: $scope.directions[0].orderDirection}]
+        });
+        
         $scope.$watch("order[0].orderDirection", function() {
             $scope.search();
         });

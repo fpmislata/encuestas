@@ -201,21 +201,27 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
         DAO.prototype.delete = function(id, fnOK, fnError) {
             this.Restangular.one(this.entityName, id).customDELETE().then(fnOK, fnError);
         };
-        DAO.prototype.search = function(params, order, fnOK, fnError, expand) {
+        DAO.prototype.search = function(params, order, fnOK, fnError, expand, pageNumber, pageSize) {
             params = params || {};
-            order =  order || [];
-            expand = expand || "";
-
-            params.$orderby = "";
-            for (var i=0;i<order.length;i++) {
-                var simpleOrder=order[i];
-                if (params.$orderby !== "") {
-                    params.$orderby = params.$orderby + ",";
+            if (order) {
+                params.$orderby = "";
+                for (var i = 0; i < order.length; i++) {
+                    var simpleOrder = order[i];
+                    if (params.$orderby !== "") {
+                        params.$orderby = params.$orderby + ",";
+                    }
+                    params.$orderby = params.$orderby + simpleOrder.fieldName + " " + simpleOrder.orderDirection;
                 }
-                params.$orderby = params.$orderby + simpleOrder.fieldName + " " + simpleOrder.orderDirection;
             }
 
-            params.$expand = expand;
+            if (expand) {
+                params.$expand = expand;
+            }
+            if ((pageNumber >= 0) && (pageSize > 0)) {
+                params.$pagenumber = pageNumber;
+                params.$pagesize = pageSize;
+            }
+
             this.Restangular.all(this.entityName).getList(params).then(fnOK, fnError);
         };
 
@@ -563,6 +569,80 @@ angular.module('es.logongas.ix3').directive('ix3Visibility', function() {
     };
 });
 
+
+
+angular.module('es.logongas.ix3').directive('ix3Pagination', function() {
+    return {
+        restrict: 'E',
+        template: '<div class="pagination" style="margin-top:0px" ng-show="totalPages>0"> <ul class="pagination" style="margin-top:0px"> <li ng-class="{ disabled:pageNumber==0 }" ><a href="javascript:void(0)" ng-click="pageNumber=0">&laquo;</a></li> <li ng-class="{ active:$parent.pageNumber==pageNumber }" ng-repeat="pageNumber in rangePages(pageNumber,totalPages)" ><a href="javascript:void(0)" ng-click="$parent.pageNumber=pageNumber">{{pageNumber+1}}</a></li> <li ng-class="{ disabled:pageNumber==totalPages-1 }" ><a href="javascript:void(0)" ng-click="pageNumber=totalPages-1">&raquo;</a></li> </ul> </div>',
+        link: function($scope, element, attributes) {
+            $scope.rangePages = function(pageNumber, totalPages) {
+                if (!totalPages) {
+                    return [];
+                }
+                var numeroPaginasVisibles;
+                
+                var visiblePages=attributes.visiblePages;
+                if ((!visiblePages) || (visiblePages==="")) {
+                    numeroPaginasVisibles=5;
+                } else if (!isNaN(parseInt(visiblePages))) {
+                    numeroPaginasVisibles=parseInt(visiblePages);
+                } else {
+                    numeroPaginasVisibles=parseInt($scope.$eval(visiblePages));
+                    if (isNaN(numeroPaginasVisibles)===true) {
+                        throw new Error("La expresión '" + visiblePages + "' debe ser un número")
+                    }
+                }
+                
+                if (numeroPaginasVisibles<=0) {
+                    throw new Error("El número de paginas visibles debe ser como minimo 1." + numeroPaginasVisibles);
+                }
+                
+                var left = Math.ceil((numeroPaginasVisibles - 1) / 2);
+                var rigth = numeroPaginasVisibles - 1 - left;
+
+                var minPaginaVisible = pageNumber - left;
+                var maxPaginaVisible = pageNumber + rigth;
+
+                if ((minPaginaVisible >= 0) && (maxPaginaVisible < totalPages)) {
+                    //Todo OK
+                } else if ((minPaginaVisible < 0) && (maxPaginaVisible < totalPages)) {
+                    //Sobran por la izquierda, se añaden a la derecha
+                    var sobrantes = Math.abs(minPaginaVisible);
+                    minPaginaVisible = 0;
+                    maxPaginaVisible = maxPaginaVisible + sobrantes;
+
+                } else if ((minPaginaVisible >= 0) && (maxPaginaVisible >= totalPages)) {
+                    //Sobran por la derecha se añaden a la izquierda
+                    var sobrantes = (maxPaginaVisible - totalPages) + 1;
+                    minPaginaVisible = minPaginaVisible - sobrantes;
+                    maxPaginaVisible = totalPages - 1;
+                } else if ((minPaginaVisible < 0) && (maxPaginaVisible >= totalPages)) {
+                    //Sobran por los 2 lados
+                    minPaginaVisible = 0;
+                    maxPaginaVisible = totalPages - 1;
+                } else {
+                    throw Error("Error de logica:" + minPaginaVisible + " " + maxPaginaVisible);
+                }
+
+
+                if (minPaginaVisible < 0) {
+                    minPaginaVisible = 0;
+                }
+                if (maxPaginaVisible >= totalPages) {
+                    maxPaginaVisible = totalPages - 1;
+                }
+
+                var visiblePages = new Array();
+                for (var i = minPaginaVisible; i <= maxPaginaVisible; i++) {
+                    visiblePages.push(i);
+                }
+
+                return visiblePages;
+            };
+        }
+    };
+});
 
 angular.module('es.logongas.ix3').directive('ix3BusinessMessages', function() {
     return {
