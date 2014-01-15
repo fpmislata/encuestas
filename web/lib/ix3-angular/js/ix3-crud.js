@@ -274,22 +274,24 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             scope.order = []; //Array con objetos con las propiedades fieldName y orderDirection. La propiedad orderDirection soporta los valores "ASC" y "DESC"
                             scope.pageSize = undefined;
                             scope.pageNumber = 0;
-                            scope.totalPages = undefined; 
-                            scope.idName=undefined; //Por defecto es "id"+entity
-                            
+                            scope.totalPages = undefined;
+                            scope.idName = undefined; //Por defecto es "id"+entity
+
                             angular.extend(scope, controllerConfig);
-                            
+
                             scope.dao = daoFactory.getDAO(scope.entity, scope.idName);
-                            
+
                             scope.search = function() {
                                 scope.dao.search(scope.filter, scope.order, function(data) {
                                     if (angular.isArray(data)) {
                                         scope.models = data;
                                     } else {
-                                        scope.models = data.content;
-                                        scope.pageSize = data.pageSize;
-                                        scope.pageNumber = data.pageNumber;
-                                        scope.totalPages = data.totalPages;
+                                        if (scope.pageNumber === data.pageNumber) {
+                                            scope.models = data.content;
+                                            //scope.pageSize = data.pageSize;
+                                            //scope.pageNumber = data.pageNumber;
+                                            scope.totalPages = data.totalPages;
+                                        }
                                     }
                                 }, function(error) {
                                     if (error.status === 400) {
@@ -303,20 +305,20 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                                 }, undefined, scope.pageNumber, scope.pageSize);
                             };
                             scope.buttonSearch = function() {
-                                scope.pageNumber=0;
+                                scope.pageNumber = 0;
                                 scope.search();
-                            }                            
+                            }
                             scope.$watch("pageNumber", function() {
                                 scope.search();
                             });
                             scope.$watch("pageSize", function() {
-                                scope.pageNumber=0;
+                                scope.pageNumber = 0;
                                 scope.search();
-                            }); 
+                            });
                             scope.$watch("order", function() {
-                                scope.pageNumber=0;
+                                scope.pageNumber = 0;
                                 scope.search();
-                            },true);
+                            }, true);
                         },
                         extendsScopeNewController: function(scope, controllerConfig) {
                             scope.childAction = "view";
