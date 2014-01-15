@@ -35,11 +35,6 @@
                 </div>  
                 <div class="span2" ></div>                
             </div>
-
-
-
-
-
         </form>
     </div>
 </div>

@@ -25,10 +25,6 @@ app.controller("EncuestaSearchController", ['$scope', 'crudState', function($sco
             pageSize:10,
             order:[{fieldName: 'nombre', orderDirection: $scope.directions[0].orderDirection}]
         });
-        
-        $scope.$watch("order[0].orderDirection", function() {
-            $scope.search();
-        });
 
     }]);
 app.controller("EncuestaNewController", ['$scope', 'crudState', function($scope, crudState) {
