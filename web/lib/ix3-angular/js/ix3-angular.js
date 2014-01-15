@@ -574,30 +574,23 @@ angular.module('es.logongas.ix3').directive('ix3Visibility', function() {
 angular.module('es.logongas.ix3').directive('ix3Pagination', function() {
     return {
         restrict: 'E',
-        template: '<div class="pagination" style="margin-top:0px" ng-show="totalPages>0"> <ul class="pagination" style="margin-top:0px"> <li ng-class="{ disabled:pageNumber==0 }" ><a href="javascript:void(0)" ng-click="pageNumber=0">&laquo;</a></li> <li ng-class="{ active:$parent.pageNumber==pageNumber }" ng-repeat="pageNumber in rangePages(pageNumber,totalPages)" ><a href="javascript:void(0)" ng-click="$parent.pageNumber=pageNumber">{{pageNumber+1}}</a></li> <li ng-class="{ disabled:pageNumber==totalPages-1 }" ><a href="javascript:void(0)" ng-click="pageNumber=totalPages-1">&raquo;</a></li> </ul> </div>',
+        template: '<div class="pagination" style="margin-top:0px" ng-show="totalPages > 0"> ' +
+                '  <ul class="pagination" style="margin-top:0px"> ' +
+                '    <li ng-class="{ disabled:pageNumber == 0 }" ><a href="javascript:void(0)" ng-click="pageNumber = 0">&laquo;</a></li> ' +
+                '    <li ng-class="{ active:$parent.pageNumber === pageNumber,disable:pageNumber < 0 }" ng-switch="pageNumber" ng-repeat="pageNumber in rangePages(pageNumber, totalPages)" >' +
+                '      <span ng-switch-when="-1">...</span> ' +
+                '      <span ng-switch-when="-2">...</span> ' +
+                '      <a ng-switch-default href="javascript:void(0)" ng-click="$parent.$parent.pageNumber = pageNumber">{{pageNumber+1}}</a>' +
+                '    </li> ' +
+                '    <li ng-class="{ disabled:pageNumber == totalPages - 1 }" ><a href="javascript:void(0)" ng-click="pageNumber = totalPages - 1">&raquo;</a></li> ' +
+                '  </ul> ' +
+                '</div>',
         link: function($scope, element, attributes) {
             $scope.rangePages = function(pageNumber, totalPages) {
                 if (!totalPages) {
                     return [];
                 }
-                var numeroPaginasVisibles;
-                
-                var visiblePages=attributes.visiblePages;
-                if ((!visiblePages) || (visiblePages==="")) {
-                    numeroPaginasVisibles=5;
-                } else if (!isNaN(parseInt(visiblePages))) {
-                    numeroPaginasVisibles=parseInt(visiblePages);
-                } else {
-                    numeroPaginasVisibles=parseInt($scope.$eval(visiblePages));
-                    if (isNaN(numeroPaginasVisibles)===true) {
-                        throw new Error("La expresión '" + visiblePages + "' debe ser un número")
-                    }
-                }
-                
-                if (numeroPaginasVisibles<=0) {
-                    throw new Error("El número de paginas visibles debe ser como minimo 1." + numeroPaginasVisibles);
-                }
-                
+                var numeroPaginasVisibles = 5;
                 var left = Math.ceil((numeroPaginasVisibles - 1) / 2);
                 var rigth = numeroPaginasVisibles - 1 - left;
 
@@ -634,12 +627,35 @@ angular.module('es.logongas.ix3').directive('ix3Pagination', function() {
                 }
 
                 var visiblePages = new Array();
+
+                if (minPaginaVisible >= 3) {
+                    visiblePages.push(0);
+                    visiblePages.push(1);
+                    visiblePages.push(-1);
+                } else {
+                    for (var i = 0; i < minPaginaVisible; i++) {
+                        visiblePages.push(i);
+                    }
+                }
+
                 for (var i = minPaginaVisible; i <= maxPaginaVisible; i++) {
                     visiblePages.push(i);
                 }
 
+                if (maxPaginaVisible < (totalPages - 3)) {
+                    visiblePages.push(-2);
+                    visiblePages.push(totalPages - 2);
+                    visiblePages.push(totalPages - 1);
+
+                } else {
+                    for (var i = maxPaginaVisible + 1; i < totalPages; i++) {
+                        visiblePages.push(i);
+                    }
+                }
+
                 return visiblePages;
-            };
+            }
+            ;
         }
     };
 });
