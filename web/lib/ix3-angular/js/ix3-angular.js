@@ -1,6 +1,7 @@
 "use strict"
 
 angular.module("es.logongas.ix3", ['restangular']);
+angular.module("es.logongas.ix3.datepicker.jquery", []);
 
 /**
  * configuramos que si viene un String con forma de fecha en una petición http la
@@ -513,7 +514,7 @@ angular.module("es.logongas.ix3").config(['validatorProvider', function(validato
     }]);
 
 
-angular.module("es.logongas.ix3").directive('ix3Datepicker', ['dateFormat', function(dateFormat) {
+angular.module("es.logongas.ix3.datepicker.jquery").directive('ix3Datepicker', ['dateFormat', function(dateFormat) {
         return {
             restrict: 'A',
             link: function($scope, element, attributes) {
