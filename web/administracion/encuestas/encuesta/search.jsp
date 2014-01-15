@@ -11,7 +11,7 @@
             </div>
             &nbsp;&nbsp;
             orden:
-            <select ng-model="order[0].orderDirection" class="input-medium" ng-options="direction.orderDirection as direction.label for direction in directions"></select>
+            <select ng-model="order[0]" class="input-medium" ng-options="order.label for order in orders"></select>
             &nbsp;&nbsp;
             <a href="#/encuesta/new"  class="btn" >Nueva encuesta</a>
         </form>
