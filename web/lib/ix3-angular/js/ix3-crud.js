@@ -307,7 +307,7 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             scope.buttonSearch = function() {
                                 scope.pageNumber = 0;
                                 scope.search();
-                            }
+                            };
                             scope.$watch("pageNumber", function() {
                                 scope.search();
                             });
