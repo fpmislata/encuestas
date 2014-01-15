@@ -578,8 +578,8 @@ angular.module('es.logongas.ix3').directive('ix3Pagination', function() {
                 '  <ul class="pagination" style="margin-top:0px"> ' +
                 '    <li ng-class="{ disabled:pageNumber == 0 }" ><a href="javascript:void(0)" ng-click="pageNumber = 0">&laquo;</a></li> ' +
                 '    <li ng-class="{ active:$parent.pageNumber === pageNumber,disable:pageNumber < 0 }" ng-switch="pageNumber" ng-repeat="pageNumber in rangePages(pageNumber, totalPages)" >' +
-                '      <span ng-switch-when="-1">...</span> ' +
-                '      <span ng-switch-when="-2">...</span> ' +
+                '      <span ng-switch-when="-100">...</span> ' +
+                '      <span ng-switch-when="-200">...</span> ' +
                 '      <a ng-switch-default href="javascript:void(0)" ng-click="$parent.$parent.pageNumber = pageNumber">{{pageNumber+1}}</a>' +
                 '    </li> ' +
                 '    <li ng-class="{ disabled:pageNumber == totalPages - 1 }" ><a href="javascript:void(0)" ng-click="pageNumber = totalPages - 1">&raquo;</a></li> ' +
@@ -627,35 +627,75 @@ angular.module('es.logongas.ix3').directive('ix3Pagination', function() {
                 }
 
                 var visiblePages = new Array();
-
-                if (minPaginaVisible >= 3) {
-                    visiblePages.push(0);
-                    visiblePages.push(1);
-                    visiblePages.push(-1);
-                } else {
-                    for (var i = 0; i < minPaginaVisible; i++) {
-                        visiblePages.push(i);
-                    }
-                }
-
                 for (var i = minPaginaVisible; i <= maxPaginaVisible; i++) {
                     visiblePages.push(i);
                 }
 
-                if (maxPaginaVisible < (totalPages - 3)) {
-                    visiblePages.push(-2);
+                if (minPaginaVisible===0) { 
+                    visiblePages.push(maxPaginaVisible+1);
+                    visiblePages.push(maxPaginaVisible+2);
+                    maxPaginaVisible=maxPaginaVisible+2;
+                } else if (minPaginaVisible===1) {
+                    visiblePages.unshift(0);
+                    visiblePages.push(maxPaginaVisible+1);
+                    minPaginaVisible=0;
+                    maxPaginaVisible=maxPaginaVisible+1;
+                } else if (minPaginaVisible===2) { 
+                    visiblePages.unshift(1);
+                    visiblePages.unshift(0);
+                    minPaginaVisible=0;
+                } 
+
+
+                if (maxPaginaVisible===totalPages-1) { 
+                    visiblePages.unshift(minPaginaVisible-1);
+                    visiblePages.unshift(minPaginaVisible-2);
+                    minPaginaVisible=minPaginaVisible-2;
+                } else if (maxPaginaVisible===totalPages-2) {
+                    visiblePages.unshift(minPaginaVisible-1);
+                    visiblePages.push(maxPaginaVisible+1);
+                    minPaginaVisible=minPaginaVisible-1;
+                    maxPaginaVisible=maxPaginaVisible+1;
+                } else if (maxPaginaVisible===totalPages-3) { 
+                    visiblePages.push(totalPages-2);
+                    visiblePages.push(totalPages-1);
+                    maxPaginaVisible=totalPages-1;
+                } 
+
+
+                if (minPaginaVisible>=3) {
+                    visiblePages.unshift(-100);
+                    visiblePages.unshift(1);
+                    visiblePages.unshift(0);
+                } else if (minPaginaVisible===2) {
+                    visiblePages.unshift(1);
+                    visiblePages.unshift(0);
+                } else if (minPaginaVisible===1) {
+                    visiblePages.unshift(0);
+                }
+                
+                if (maxPaginaVisible<totalPages-3) {
+                    visiblePages.push(-200);
                     visiblePages.push(totalPages - 2);
                     visiblePages.push(totalPages - 1);
+                } else if (maxPaginaVisible===totalPages-3) {
+                    visiblePages.push(totalPages - 2);
+                    visiblePages.push(totalPages - 1);
+                } else if (maxPaginaVisible<totalPages-2) {
+                    visiblePages.push(totalPages - 1);
+                }           
 
-                } else {
-                    for (var i = maxPaginaVisible + 1; i < totalPages; i++) {
-                        visiblePages.push(i);
+                for(var i=visiblePages.length-1;i>=0;i--) {
+                    if ((visiblePages[i]<0) && (visiblePages[i]>-100)) {
+                        visiblePages.splice(i,1);
                     }
+                    if (visiblePages[i]>=totalPages)  {
+                        visiblePages.splice(i,1);
+                    }                    
                 }
 
                 return visiblePages;
-            }
-            ;
+            };
         }
     };
 });
