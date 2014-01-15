@@ -4,6 +4,7 @@
     <head>
         <title>Encuestas</title>
         <%@ include file="/template/header.jsp" %>
+        <script type='text/javascript' src='index.js'></script>
         <script type='text/javascript' src='main.js'></script>
         <script type='text/javascript' src='encuesta/encuesta.js'></script>   
         <script type='text/javascript' src='pregunta/pregunta.js'></script>   
