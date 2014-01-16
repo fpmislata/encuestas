@@ -277,10 +277,6 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             scope.totalPages = undefined;
                             scope.idName = undefined; //Por defecto es "id"+entity
 
-                            angular.extend(scope, controllerConfig);
-
-                            scope.dao = daoFactory.getDAO(scope.entity, scope.idName);
-
                             scope.search = function() {
                                 scope.dao.search(scope.filter, scope.order, function(data) {
                                     if (angular.isArray(data)) {
@@ -319,6 +315,10 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                                 scope.pageNumber = 0;
                                 scope.search();
                             }, true);
+                            
+                            angular.extend(scope, controllerConfig);
+                            scope.dao = daoFactory.getDAO(scope.entity, scope.idName);  
+                            
                         },
                         extendsScopeNewController: function(scope, controllerConfig) {
                             scope.childAction = "view";
