@@ -3,61 +3,85 @@ app.config(['crudProvider', function(crudProvider) {
     }]);
 
 app.controller("EncuestaSearchController", ['$scope', 'crudState', function($scope, crudState) {
-         $scope.orders = [
+        $scope.orders = [
             {
                 orderDirection: '',
-                fieldName:'',
+                fieldName: '',
                 label: 'Sin orden'
-            },             
+            },
             {
                 orderDirection: 'ASC',
-                fieldName:'nombre',
+                fieldName: 'nombre',
                 label: 'Ascendente'
             },
             {
                 orderDirection: 'DESC',
-                fieldName:'nombre',
+                fieldName: 'nombre',
                 label: 'Descendente'
             }
         ];
-        
-        $scope.pageSizes=[
-           5,
-           10,
-           20
+
+        $scope.pageSizes = [
+            5,
+            10,
+            20
         ];
 
-        
-        crudState.extendsScopeController($scope,{
-            pageSize:10,
-            order:[$scope.orders[0]]
+
+        crudState.extendsScopeController($scope, {
+            pageSize: 10,
+            order: [$scope.orders[0]]
         });
 
     }]);
-app.controller("EncuestaNewController", ['$scope', 'crudState', function($scope, crudState) {
+app.controller("EncuestaNewController", ['$scope', 'crudState','$location', function($scope, crudState,$location) {
         crudState.extendsScopeController($scope);
         $scope.getMetadata("Pregunta");
-
+        $scope.finishOK = function() {
+            $location.path("/encuesta/search");
+        };
+        $scope.finishCancel = function() {
+            $location.path("/encuesta/search");
+        };
+        
     }]);
-app.controller("EncuestaEditController", ['$scope', 'crudState', function($scope, crudState) {
+app.controller("EncuestaEditController", ['$scope', 'crudState','$location', function($scope, crudState,$location) {
         crudState.extendsScopeController($scope);
         $scope.getMetadata("Pregunta");
         $scope.getChild("preguntas");
         $scope.buttonDelete = function() {
             $scope.delete();
         }
-
+        $scope.finishOK = function() {
+            $location.path("/encuesta/search");
+        };
+        $scope.finishCancel = function() {
+            $location.path("/encuesta/search");
+        };
+        
     }]);
-app.controller("EncuestaViewController", ['$scope', 'crudState', function($scope, crudState) {
+app.controller("EncuestaViewController", ['$scope', 'crudState','$location', function($scope, crudState,$location) {
         crudState.extendsScopeController($scope);
         $scope.getMetadata("Pregunta");
         $scope.getChild("preguntas");
-
+        $scope.finishOK = function() {
+            $location.path("/encuesta/search");
+        };
+        $scope.finishCancel = function() {
+            $location.path("/encuesta/search");
+        };
+        
     }]);
-app.controller("EncuestaDeleteController", ['$scope', 'crudState', function($scope, crudState) {
+app.controller("EncuestaDeleteController", ['$scope', 'crudState','$location', function($scope, crudState,$location) {
         crudState.extendsScopeController($scope);
         $scope.getMetadata("Pregunta");
         $scope.getChild("preguntas");
+        $scope.finishOK = function() {
+            $location.path("/encuesta/search");
+        };
+        $scope.finishCancel = function() {
+            $location.path("/encuesta/search");
+        };        
     }]);
 
 

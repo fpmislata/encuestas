@@ -1,11 +1,16 @@
 <div class="row-fluid" >
+    <div class="span12">
+        <ol class="breadcrumb">
+            <li><a href="#/encuesta/edit/{{model.encuesta.idEncuesta}}">Encuesta ({{model.encuesta.nombre | limitTo: 25}})</a> <span class="divider">/</span></li>
+            <li class="active">Pregunta</li>
+        </ol>
+    </div>
+</div>
+<div class="row-fluid" >
     <div class="span12" >
         <form class="form-horizontal" name="mainForm" id="mainForm">
             <fieldset>
-
-                <!-- Form Name -->
                 <legend>Pregunta</legend>
-
                 <div class="control-group">
                     <label class="control-label" for="tipoPregunta">Tipo de Pregunta</label>
                     <div class="controls">

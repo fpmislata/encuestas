@@ -1,17 +1,23 @@
 <div class="row-fluid" >
     <div class="span12">
-        <legend>Item</legend>
+        <ol class="breadcrumb">
+            
+            <li><a href="#/encuesta/edit/{{model.pregunta.encuesta.idEncuesta}}">Encuesta ({{model.pregunta.encuesta.nombre | limitTo: 25}})</a> <span class="divider">/</span></li>
+            <li><a href="#/pregunta/edit/{{model.pregunta.idPregunta}}/encuesta.idEncuesta/{{model.pregunta.encuesta.idEncuesta}}">Pregunta ({{model.pregunta.pregunta | limitTo: 25}})</a> <span class="divider">/</span></li>
+            <li class="active">Item</li>
+        </ol>
     </div>
 </div>
 <div class="row-fluid" >
     <div class="span12" >
         <form name="mainForm" id="mainForm" >
             <fieldset>
+                <legend>Item</legend>
                 <!-- Text input-->
                 <div class="control-group">
                     <label class="control-label" for="nombre">Nombre</label>
                     <div class="controls">
-                        <input id="nombre" name="nombre" ng-model="model.nombre" type="text" placeholder="Nombre del Item" class="input-large" >
+                        <input id="nombre" name="nombre" ng-model="model.nombre" type="text" placeholder="Nombre del Item" class="input-block-level" >
 
                     </div>
                 </div>
