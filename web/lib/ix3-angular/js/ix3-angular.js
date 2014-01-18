@@ -469,7 +469,7 @@ angular.module("es.logongas.ix3").directive('ix3Date', ['$locale', 'dateFormat',
                 });
                 ngModelController.$parsers.push(function(value) {
                     if (value) {
-                        var fecha = moment(value, pattern, true).zone("00:00");
+                        var fecha = moment.utc(value, pattern, true);
                         if (fecha.isValid()) {
 
                             if (fecha.year() < 100) {
