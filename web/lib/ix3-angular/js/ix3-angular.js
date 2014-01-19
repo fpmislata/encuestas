@@ -186,12 +186,22 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
             this.Restangular = Restangular;
         }
 
-        DAO.prototype.create = function(fnOK, fnError) {
-            this.Restangular.one(this.entityName, '$create').get().then(fnOK, fnError);
+        DAO.prototype.create = function(fnOK, fnError,expand,parent) {
+            var params = {}; 
+            if (parent) {
+                angular.extend(params,parent);
+            }               
+            if (expand) {
+                params.$expand = expand;
+            }
+            this.Restangular.one(this.entityName, '$create').get(params).then(fnOK, fnError);
         };
         DAO.prototype.get = function(id, fnOK, fnError, expand) {
-            expand = expand || "";
-            this.Restangular.one(this.entityName, id).get({$expand: expand}).then(fnOK, fnError);
+            var params = {}; 
+            if (expand) {
+                params.$expand = expand;
+            }             
+            this.Restangular.one(this.entityName, id).get(params).then(fnOK, fnError);
         };
         DAO.prototype.insert = function(entity, fnOK, fnError) {
             this.Restangular.one(this.entityName).customPOST(entity).then(fnOK, fnError);
@@ -202,8 +212,11 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
         DAO.prototype.delete = function(id, fnOK, fnError) {
             this.Restangular.one(this.entityName, id).customDELETE().then(fnOK, fnError);
         };
-        DAO.prototype.search = function(params, order, fnOK, fnError, expand, pageNumber, pageSize) {
-            params = params || {};
+        DAO.prototype.search = function(filter, order, fnOK, fnError, expand, pageNumber, pageSize) {
+            var params = {};
+            if (filter) {
+                angular.extend(params,filter);
+            }            
             if (order) {
                 params.$orderby = "";
                 for (var i = 0; i < order.length; i++) {
@@ -227,13 +240,19 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
         };
 
         DAO.prototype.getChild = function(id, child, fnOK, fnError, expand) {
-            expand = expand || "";
-            this.Restangular.one(this.entityName, id).getList(child, {$expand: expand}).then(fnOK, fnError);
+            var params = {}; 
+            if (expand) {
+                params.$expand = expand;
+            }
+            this.Restangular.one(this.entityName, id).getList(child, params).then(fnOK, fnError);
         };
 
-        DAO.prototype.metadata = function(fnOK, fnError, entity) {
-            entity = entity || this.entityName;
-            this.Restangular.one(entity, '$metadata').get().then(fnOK, fnError);
+        DAO.prototype.metadata = function(fnOK, fnError, expand) {
+            var params = {}; 
+            if (expand) {
+                params.$expand = expand;
+            }            
+            this.Restangular.one(this.entityName, '$metadata').get(params).then(fnOK, fnError);
         };
 
         this.$get = ['Restangular', function(Restangular) {
@@ -269,8 +288,7 @@ angular.module("es.logongas.ix3").directive('ix3Clear', function() {
 
                 }
                 obj[keys[keys.length - 1]] = newValue;
-            }
-            ;
+            };
 
 
             var clear = attributes.ix3Clear;
