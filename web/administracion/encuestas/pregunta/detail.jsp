@@ -1,7 +1,7 @@
 <div class="row-fluid" >
     <div class="span12">
         <ol class="breadcrumb">
-            <li><a href="#/encuesta/edit/{{model.encuesta.idEncuesta}}">Encuesta ({{model.encuesta.nombre | limitTo: 25}})</a> <span class="divider">/</span></li>
+            <li><a href="#/encuesta/edit/{{model.encuesta.idEncuesta}}">Encuesta ({{model.encuesta.nombre| limitTo: 25}})</a> <span class="divider">/</span></li>
             <li class="active">Pregunta</li>
         </ol>
     </div>
@@ -42,7 +42,7 @@
                     <div class="controls">
                         <label class="checkbox inline" for="ultimoItemIncluyeOtros" style="white-space:nowrap;">
                             <input type="checkbox" name="ultimoItemIncluyeOtros" id="ultimoItemIncluyeOtros" ng-model="model.ultimoItemIncluyeOtros"  id="ultimoItemIncluyeOtros" >
-                                   El último Item incluirá un texto libre para "Otros".
+                            El último Item incluirá un texto libre para "Otros".
                         </label>
                     </div>
                 </div>
@@ -64,12 +64,17 @@
 </div> 
 <div class="row-fluid">
     <div class="span12">
-        <legend>Items</legend>
-        <a class="btn" href="#/item/new/pregunta.idPregunta/{{model.idPregunta}}" ng-show="controllerAction === 'EDIT'" >Nuevo Item</a>
-        <br />
-        <br />
+        <div >
+            <button class="btn" ng-click="buttonNewChild('item',null,'pregunta.idPregunta','model.idPregunta')"  >Nuevo Item</button>
+            <br />
+            <br />
+        </div>
+
         <table class="table table-bordered table-striped table-condensed">
             <thead>
+                <tr>
+                    <th colspan="3" >Items de la pregunta</th>
+                </tr>                
                 <tr>
                     <th style="text-align: right">N&ordm;</th>
                     <th width="100%">Item</th>
@@ -77,10 +82,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in models['items']">
+                <tr ng-repeat="item in model.items">
                     <td style="text-align: right">{{item.idItem}}</td>
-                    <td ><a href="#/item/{{childAction}}/{{item.idItem}}/pregunta.idPregunta/{{model.idPregunta}}">{{item.nombre}}</a></td>
-                    <td style="white-space:nowrap;">{{metadata['Item'].properties['tipoItem'].values[item.tipoItem]}}</td>
+                    <td ><a href="javascript:void(0)" ng-click="buttonEditChild('item',item.idItem,'pregunta.idPregunta','model.idPregunta')">{{item.nombre}}</a></td>
+                    <td style="white-space:nowrap;">{{metadata['Pregunta'].properties['items'].properties['tipoItem'].values[item.tipoItem]}}</td>
                 </tr>
             </tbody>
         </table>

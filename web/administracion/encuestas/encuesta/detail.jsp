@@ -45,12 +45,14 @@
 </div>
 <div class="row-fluid">
     <div class="span12">
-        <legend>Preguntas</legend>
-        <a class="btn" href="#/pregunta/new/encuesta.idEncuesta/{{model.idEncuesta}}" ng-show="controllerAction === 'EDIT'" >Nueva Pregunta</a>
+        <button class="btn" ng-click="buttonNewChild('pregunta', null, 'encuesta.idEncuesta', 'model.idEncuesta')" >Nueva Pregunta</button>
         <br />
         <br />
         <table class="table table-bordered table-striped table-condensed">
             <thead>
+                <tr>
+                    <th colspan="3">Preguntas de la encuesta</th>
+                </tr>                
                 <tr>
                     <th style="text-align: right">N&ordm;</th>
                     <th width="100%">Pregunta</th>
@@ -58,10 +60,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="pregunta in models['preguntas']">
+                <tr ng-repeat="pregunta in model.preguntas">
                     <td style="text-align: right">{{pregunta.idPregunta}}</td>
-                    <td ><a href="#/pregunta/{{childAction}}/{{pregunta.idPregunta}}/encuesta.idEncuesta/{{model.idEncuesta}}">{{pregunta.pregunta}}</a></td>
-                    <td style="white-space:nowrap;">{{metadata['Pregunta'].properties['tipoPregunta'].values[pregunta.tipoPregunta]}}</td>
+                    <td ><a href="javascript:void(0)" ng-click="buttonEditChild('pregunta', pregunta.idPregunta, 'encuesta.idEncuesta', 'model.idEncuesta')" >{{pregunta.pregunta}}</a></td>
+                    <td style="white-space:nowrap;">{{metadata['Encuesta'].properties['preguntas'].properties['tipoPregunta'].values[pregunta.tipoPregunta]}}</td>
                 </tr>
             </tbody>
         </table>
