@@ -203,11 +203,19 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
             }             
             this.Restangular.one(this.entityName, id).get(params).then(fnOK, fnError);
         };
-        DAO.prototype.insert = function(entity, fnOK, fnError) {
-            this.Restangular.one(this.entityName).customPOST(entity).then(fnOK, fnError);
+        DAO.prototype.insert = function(entity, fnOK, fnError, expand) {
+            var params = {}; 
+            if (expand) {
+                params.$expand = expand;
+            }             
+            this.Restangular.one(this.entityName).customPOST(entity,undefined,params).then(fnOK, fnError);
         };
-        DAO.prototype.update = function(id, entity, fnOK, fnError) {
-            this.Restangular.one(this.entityName, id).customPUT(entity).then(fnOK, fnError);
+        DAO.prototype.update = function(id, entity, fnOK, fnError, expand) {
+            var params = {}; 
+            if (expand) {
+                params.$expand = expand;
+            }             
+            this.Restangular.one(this.entityName, id).customPUT(entity,undefined,params).then(fnOK, fnError);
         };
         DAO.prototype.delete = function(id, fnOK, fnError) {
             this.Restangular.one(this.entityName, id).customDELETE().then(fnOK, fnError);
