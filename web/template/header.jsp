@@ -17,8 +17,20 @@
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/angular-ui/js/angular-ui.js'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/lodash/js/lodash.js'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/restangular/js/restangular.js'></script>
-<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/ix3-angular.js'></script>
-<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/ix3-crud.js'></script>
+<!-- build:js js/ix3-angular.min.js -->
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/ix3-modules.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/ix3-config.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/services/crud.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/services/daofactory.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/services/dateFormat.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/services/validator.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/directives/ix3businessmessages.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/directives/ix3clear.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/directives/ix3date.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/directives/ix3pagination.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/directives/ix3visibility.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/directives/jquery-ui/ix3datepicker.js'></script>
+<!-- endbuild -->
 <script type='text/javascript' src="<%=request.getContextPath()%>/js/widgets.js"></script>
 <script type='text/javascript'>
     function getContextPath() {
