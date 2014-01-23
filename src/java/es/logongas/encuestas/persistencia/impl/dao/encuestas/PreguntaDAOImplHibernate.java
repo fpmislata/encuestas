@@ -30,14 +30,19 @@ public class PreguntaDAOImplHibernate extends GenericDAOImplHibernate<Pregunta, 
     @Override
     protected void postInsertInTransaction(Session session, Pregunta pregunta) {
         if (pregunta != null) {
-            pregunta.getEncuesta().getPreguntas().add(pregunta);
+            if (pregunta.getEncuesta().getPreguntas().contains(pregunta) == false) {
+                pregunta.getEncuesta().getPreguntas().add(pregunta);
+
+            }
         }
     }
 
     @Override
     protected void postDeleteInTransaction(Session session, Integer id, Pregunta pregunta) {
         if (pregunta != null) {
-            pregunta.getEncuesta().getPreguntas().remove(pregunta);
+            if (pregunta.getEncuesta().getPreguntas().contains(pregunta) == true) {
+                pregunta.getEncuesta().getPreguntas().remove(pregunta);
+            }
         }
     }
 
