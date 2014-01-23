@@ -149,8 +149,6 @@ public class Pregunta implements Comparable<Pregunta> {
         }
     }
 
-
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -167,12 +165,8 @@ public class Pregunta implements Comparable<Pregunta> {
         int dato1 = getIdPregunta();
         int dato2 = usuario.getIdPregunta();
 
-        if (dato1 <= 0) {
-            if (dato2 <= 0) {
-                return true;
-            } else {
-                return false;
-            }
+        if ((dato1 == 0) && (dato2 == 0)) {
+            return false;
         } else if (dato1 == dato2) {
             return true;
         } else {
@@ -192,20 +186,20 @@ public class Pregunta implements Comparable<Pregunta> {
 
     @Override
     public int compareTo(Pregunta pregunta) {
-        if (pregunta==null) {
+        if (pregunta == null) {
             return -1;
         }
 
-        int indexThis=this.getEncuesta().getPreguntas().indexOf(this);
-        int indexOther=pregunta.getEncuesta().getPreguntas().indexOf(pregunta);
-        if (indexThis<indexOther) {
+        int indexThis = this.getEncuesta().getPreguntas().indexOf(this);
+        int indexOther = pregunta.getEncuesta().getPreguntas().indexOf(pregunta);
+        if (indexThis < indexOther) {
             return -1;
-        } else if (indexThis>indexOther) {
+        } else if (indexThis > indexOther) {
             return 1;
-        } else if (indexThis==indexOther) {
+        } else if (indexThis == indexOther) {
             return 0;
         } else {
-            throw new RuntimeException("Error de lógica:"+indexThis + "  " +indexOther) ;
+            throw new RuntimeException("Error de lógica:" + indexThis + "  " + indexOther);
         }
     }
 

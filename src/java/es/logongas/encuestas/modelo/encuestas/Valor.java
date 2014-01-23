@@ -15,6 +15,8 @@
  */
 package es.logongas.encuestas.modelo.encuestas;
 
+import org.hibernate.Hibernate;
+
 /**
  * Cada uno de los valores de la lista de valores
  * @author Lorenzo González
@@ -80,4 +82,40 @@ public class Valor {
     public void setValorNumerico(Double valorNumerico) {
         this.valorNumerico = valorNumerico;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (Hibernate.getClass(this) != Hibernate.getClass(obj)) {
+            return false;
+        }
+
+        Valor valor = (Valor) obj;
+        int dato1 = getIdValor();
+        int dato2 = valor.getIdValor();
+
+        if ((dato1 == 0) && (dato2 == 0)) {
+            return false;
+        } else if (dato1 == dato2) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int dato1 = getIdValor();
+        int resultado = 45;
+
+        resultado = 31 * resultado + dato1;
+
+        return resultado;
+    }    
+        
 }

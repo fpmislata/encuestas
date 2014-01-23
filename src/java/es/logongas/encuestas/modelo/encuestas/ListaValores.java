@@ -17,6 +17,7 @@ package es.logongas.encuestas.modelo.encuestas;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.Hibernate;
 
 /**
  * Lista con los posibles valores de una respuesta de un Item
@@ -109,6 +110,39 @@ public class ListaValores {
         return this.nombre;
     }
 
-    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (Hibernate.getClass(this) != Hibernate.getClass(obj)) {
+            return false;
+        }
+
+        ListaValores listaValores = (ListaValores) obj;
+        int dato1 = getIdListaValores();
+        int dato2 = listaValores.getIdListaValores();
+
+        if ((dato1 == 0) && (dato2 == 0)) {
+            return false;
+        } else if (dato1 == dato2) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int dato1 = getIdListaValores();
+        int resultado = 45;
+
+        resultado = 31 * resultado + dato1;
+
+        return resultado;
+    }    
     
 }

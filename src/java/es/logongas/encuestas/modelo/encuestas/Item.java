@@ -18,6 +18,7 @@ package es.logongas.encuestas.modelo.encuestas;
 import es.logongas.ix3.persistence.services.annotations.Caption;
 import es.logongas.ix3.persistence.services.annotations.ValuesList;
 import javax.validation.constraints.NotNull;
+import org.hibernate.Hibernate;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -185,4 +186,41 @@ public class Item implements Comparable<Item> {
     public void setValorDefecto(String valorDefecto) {
         this.valorDefecto = valorDefecto;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (Hibernate.getClass(this) != Hibernate.getClass(obj)) {
+            return false;
+        }
+
+        Item item = (Item) obj;
+        int dato1 = getIdItem();
+        int dato2 = item.getIdItem();
+
+        if ((dato1 == 0) && (dato2 == 0)) {
+            return false;
+        } else if (dato1 == dato2) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int dato1 = getIdItem();
+        int resultado = 45;
+
+        resultado = 31 * resultado + dato1;
+
+        return resultado;
+    }
+    
+    
 }
