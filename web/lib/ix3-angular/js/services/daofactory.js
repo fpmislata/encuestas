@@ -18,45 +18,43 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
         /**
          * Esta es la clase DAO verdaderaque genera el Factory
          * @param {String} entityName Nombre de la entidad 
-         * @param {String} idName El nombre de la clave primaria
          * @param {Restangular} Restangular El servicio que realmente hace las peticiones REST
          */
-        function DAO(entityName, idName, Restangular) {
+        function DAO(entityName, Restangular) {
             this.entityName = entityName;
-            this.idName = idName;
             this.Restangular = Restangular;
         }
 
-        DAO.prototype.create = function(fnOK, fnError,expand,parent) {
-            var params = {}; 
+        DAO.prototype.create = function(fnOK, fnError, expand, parent) {
+            var params = {};
             if (parent) {
-                angular.extend(params,parent);
-            }               
+                angular.extend(params, parent);
+            }
             if (expand) {
                 params.$expand = expand;
             }
             this.Restangular.one(this.entityName, '$create').get(params).then(fnOK, fnError);
         };
         DAO.prototype.get = function(id, fnOK, fnError, expand) {
-            var params = {}; 
+            var params = {};
             if (expand) {
                 params.$expand = expand;
-            }             
+            }
             this.Restangular.one(this.entityName, id).get(params).then(fnOK, fnError);
         };
         DAO.prototype.insert = function(entity, fnOK, fnError, expand) {
-            var params = {}; 
+            var params = {};
             if (expand) {
                 params.$expand = expand;
-            }             
-            this.Restangular.one(this.entityName).customPOST(entity,undefined,params).then(fnOK, fnError);
+            }
+            this.Restangular.one(this.entityName).customPOST(entity, undefined, params).then(fnOK, fnError);
         };
         DAO.prototype.update = function(id, entity, fnOK, fnError, expand) {
-            var params = {}; 
+            var params = {};
             if (expand) {
                 params.$expand = expand;
-            }             
-            this.Restangular.one(this.entityName, id).customPUT(entity,undefined,params).then(fnOK, fnError);
+            }
+            this.Restangular.one(this.entityName, id).customPUT(entity, undefined, params).then(fnOK, fnError);
         };
         DAO.prototype.delete = function(id, fnOK, fnError) {
             this.Restangular.one(this.entityName, id).customDELETE().then(fnOK, fnError);
@@ -64,8 +62,8 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
         DAO.prototype.search = function(filter, order, fnOK, fnError, expand, pageNumber, pageSize) {
             var params = {};
             if (filter) {
-                angular.extend(params,filter);
-            }            
+                angular.extend(params, filter);
+            }
             if (order) {
                 params.$orderby = "";
                 for (var i = 0; i < order.length; i++) {
@@ -89,7 +87,7 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
         };
 
         DAO.prototype.getChild = function(id, child, fnOK, fnError, expand) {
-            var params = {}; 
+            var params = {};
             if (expand) {
                 params.$expand = expand;
             }
@@ -97,20 +95,17 @@ angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider',
         };
 
         DAO.prototype.metadata = function(fnOK, fnError, expand) {
-            var params = {}; 
+            var params = {};
             if (expand) {
                 params.$expand = expand;
-            }            
+            }
             this.Restangular.one(this.entityName, '$metadata').get(params).then(fnOK, fnError);
         };
 
         this.$get = ['Restangular', function(Restangular) {
                 return {
-                    getDAO: function(entityName, idName) {
-                        if (!idName) {
-                            idName = "id" + entityName.charAt(0).toUpperCase() + entityName.slice(1);
-                        }
-                        var dao = new DAO(entityName, idName, Restangular);
+                    getDAO: function(entityName) {
+                        var dao = new DAO(entityName, Restangular);
                         return dao;
 
                     }
