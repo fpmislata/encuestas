@@ -10,7 +10,7 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                 var camelEntityName = entity.charAt(0).toLowerCase() + entity.slice(1);
                 var upperCamelEntityName = entity.charAt(0).toUpperCase() + entity.slice(1);
 
-                $routeProvider.when('/' + lowerEntityName + '/search', {
+                $routeProvider.when('/' + lowerEntityName + '/search/:parentProperty?/:parentId?', {
                     templateUrl: lowerEntityName + '/search.' + fileExtension,
                     controller: upperCamelEntityName + 'SearchController',
                     resolve: {
@@ -20,7 +20,8 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                                         controllerConfig = controllerConfig || {};
 
                                         controllerConfig.entity = entity;
-
+                                        controllerConfig.parentProperty = $route.current.params.parentProperty;
+                                        controllerConfig.parentId = $route.current.params.parentId;
                                         crud.extendsScopeSearchController(scope, controllerConfig);
                                     }
                                 };
@@ -161,7 +162,7 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
 
                             scope.dao.get(scope.id, function(data) {
                                 scope.model = data;
-                                scope.businessMessages =null;
+                                scope.businessMessages = null;
                                 fnOK();
                             }, function(error) {
                                 if (error.status === 400) {
@@ -188,7 +189,7 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
 
                             scope.dao.create(function(data) {
                                 scope.model = data;
-                                scope.businessMessages =null;
+                                scope.businessMessages = null;
                                 fnOK();
                             }, function(error) {
                                 if (error.status === 400) {
@@ -213,7 +214,7 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             if (scope.businessMessages.length === 0) {
                                 scope.dao.insert(scope.model, function(data) {
                                     scope.model = data;
-                                    scope.businessMessages =null;
+                                    scope.businessMessages = null;
                                     scope.controllerAction = "EDIT";
                                     fnOK();
                                 }, function(error) {
@@ -240,7 +241,7 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             if (scope.businessMessages.length === 0) {
                                 scope.dao.update(scope.id, scope.model, function(data) {
                                     scope.model = data;
-                                    scope.businessMessages =null;
+                                    scope.businessMessages = null;
                                     fnOK();
                                 }, function(error) {
                                     if (error.status === 400) {
@@ -263,29 +264,7 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             };
 
                             scope.dao.delete(scope.id, function(data) {
-                                scope.businessMessages =null;
-                                fnOK();
-                            }, function(error) {
-                                if (error.status === 400) {
-                                    scope.businessMessages = error.data;
-                                } else {
-                                    scope.businessMessages = [{
-                                            propertyName: null,
-                                            message: "Estado HTTP:" + error.status + "\n" + error.data
-                                        }];
-                                }
-                                fnError();
-                            });
-                        };
-                        scope.getChild = function(child,fnOK, fnError) {
-                            fnOK = fnOK || function() {
-                            };
-                            fnError = fnError || function() {
-                            };        
-                            
-                            scope.dao.getChild(scope.id, child, function(data) {
-                                scope.models[child] = data;
-                                scope.businessMessages =null;
+                                scope.businessMessages = null;
                                 fnOK();
                             }, function(error) {
                                 if (error.status === 400) {
@@ -316,12 +295,12 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                          * @returns {String} El Path a navegar. No se incluye la "#".
                          */
                         function getPathChildAction(actionName, entity, pk, parentProperty, parentId) {
-                            var path = "/" + entity + "/" + actionName;
+                            var path = "/" + entity.toLowerCase() + "/" + actionName;
                             if (pk) {
                                 path = path + "/" + pk;
                             }
                             if ((parentProperty) && (parentId)) {
-                                if (typeof(parentId)!=="string") {
+                                if (typeof (parentId) !== "string") {
                                     throw Error("El tipo del argumento parentId debe ser un String pq es el nombre de una propiedad y no su valor");
                                 }
                                 
@@ -406,6 +385,27 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             }
                         };
 
+                        scope.buttonDefaultChild = function(entity, pk, parentProperty, parentId) {
+                            var action;
+                            switch (scope.controllerAction) {
+                                case "NEW":
+                                    action = "edit";
+                                    break;
+                                case "EDIT":
+                                    action = "edit";
+                                    break;
+                                case "VIEW":
+                                    action = "view";
+                                    break;
+                                case "DELETE":
+                                    action = "view";
+                                    break;
+                                default:
+                                    throw Error("scope.controllerAction desconocida:" + scope.controllerAction);
+                            }
+                            scope.childAction(action, entity, pk, parentProperty, parentId);
+                        };
+
                         scope.buttonNewChild = function(entity, pk, parentProperty, parentId) {
                             scope.childAction("new", entity, pk, parentProperty, parentId);
                         };
@@ -437,6 +437,10 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                             scope.idName = undefined; //Por defecto es "id"+entity
 
                             scope.search = function() {
+                                if (scope.parentProperty && scope.parentId) {
+                                    scope.filter[scope.parentProperty] = scope.parentId;
+                                }
+
                                 scope.dao.search(scope.filter, scope.order, function(data) {
                                     if (angular.isArray(data)) {
                                         scope.models = data;
@@ -461,6 +465,48 @@ angular.module('es.logongas.ix3').provider("crud", ['$routeProvider', function($
                                 scope.pageNumber = 0;
                                 scope.search();
                             };
+
+                            /**
+                             * Obtiene el path a navegar para una acción "hija" de un formulario
+                             * @param {String} actionName La accion:"new","edit","delete" o "view". Corresponde a las parte del path de las rutas.
+                             * @param {String} entity El nombre de la entidad 
+                             * @param {Object} pk El valor de la clave primaria
+                             * @param {String} parentProperty El nombre de la propiedad padre que se asocia
+                             * @param {Object} parentId El valor de la propiedad 'parentProperty'
+                             * @returns {String} El Path a navegar. No se incluye la "#".
+                             */
+                            function getPathAction(actionName, entity, pk, parentProperty, parentId) {
+                                var path = "/" + entity.toLowerCase() + "/" + actionName;
+                                if (pk) {
+                                    path = path + "/" + pk;
+                                }
+                                if ((parentProperty) && (parentId)) {
+                                    if (typeof (parentId) !== "string") {
+                                        throw Error("El tipo del argumento parentId debe ser un String pq es el nombre de una propiedad y no su valor");
+                                    }
+
+                                    path = path + "/" + parentProperty + "/" + parentId;
+                                }
+                                return path;
+                            }
+
+                            scope.buttonNew = function() {
+                                var newPath = getPathAction("new", scope.entity, undefined, scope.parentProperty, scope.parentId);
+                                $location.path(newPath);
+                            };
+                            scope.buttonEdit = function(id) {
+                                var newPath = getPathAction("edit", scope.entity, id, scope.parentProperty, scope.parentId);
+                                $location.path(newPath);
+                            };
+                            scope.buttonDelete = function(id) {
+                                var newPath = getPathAction("delete", scope.entity, id, scope.parentProperty, scope.parentId);
+                                $location.path(newPath);
+                            };
+                            scope.buttonView = function(id) {
+                                var newPath = getPathAction("view", scope.entity, id, scope.parentProperty, scope.parentId);
+                                $location.path(newPath);
+                            };
+
                             scope.$watch("pageNumber", function() {
                                 scope.search();
                             });
