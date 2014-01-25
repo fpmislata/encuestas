@@ -62,7 +62,7 @@
             <tbody>
                 <tr ng-repeat="pregunta in model.preguntas">
                     <td style="text-align: right">{{pregunta.idPregunta}}</td>
-                    <td ><a href="javascript:void(0)" ng-click="buttonEditChild('pregunta', pregunta.idPregunta, 'encuesta.idEncuesta', 'model.idEncuesta')" >{{pregunta.pregunta}}</a></td>
+                    <td ><a href="javascript:void(0)" ng-click="buttonDefaultChild('pregunta', pregunta.idPregunta, 'encuesta.idEncuesta', 'model.idEncuesta')" >{{pregunta.pregunta}}</a></td>
                     <td style="white-space:nowrap;">{{metadata['Encuesta'].properties['preguntas'].properties['tipoPregunta'].values[pregunta.tipoPregunta]}}</td>
                 </tr>
             </tbody>
