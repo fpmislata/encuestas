@@ -3,18 +3,24 @@
 angular.module('es.logongas.ix3').directive('ix3Pagination', function() {
     return {
         restrict: 'E',
-        template: '<div class="pagination" style="margin-top:0px" ng-show="totalPages > 0"> ' +
+        template: '<div class="pagination" style="margin-top:0px" ng-show="page.totalPages > 0"> ' +
                 '  <ul class="pagination" style="margin-top:0px"> ' +
-                '    <li ng-class="{ disabled:pageNumber == 0 }" ><a href="javascript:void(0)" ng-click="pageNumber = 0">&laquo;</a></li> ' +
-                '    <li ng-class="{ active:$parent.pageNumber === pageNumber,disable:pageNumber < 0 }" ng-switch="pageNumber" ng-repeat="pageNumber in rangePages(pageNumber, totalPages)" >' +
+                '    <li ng-class="{ disabled:page.pageNumber == 0 }" ><a href="javascript:void(0)" ng-click="page.pageNumber = 0">&laquo;</a></li> ' +
+                '    <li ng-class="{ active:$parent.page.pageNumber === pageNumber,disable:page.pageNumber < 0 }" ng-switch="pageNumber" ng-repeat="pageNumber in rangePages(page.pageNumber, page.totalPages)" >' +
                 '      <span ng-switch-when="-100">...</span> ' +
                 '      <span ng-switch-when="-200">...</span> ' +
-                '      <a ng-switch-default href="javascript:void(0)" ng-click="$parent.$parent.pageNumber = pageNumber">{{pageNumber+1}}</a>' +
+                '      <a ng-switch-default href="javascript:void(0)" ng-click="page.pageNumber = pageNumber">{{pageNumber+1}}</a>' +
                 '    </li> ' +
-                '    <li ng-class="{ disabled:pageNumber == totalPages - 1 }" ><a href="javascript:void(0)" ng-click="pageNumber = totalPages - 1">&raquo;</a></li> ' +
+                '    <li ng-class="{ disabled:page.pageNumber == page.totalPages - 1 }" ><a href="javascript:void(0)" ng-click="page.pageNumber = page.totalPages - 1">&raquo;</a></li> ' +
                 '  </ul> ' +
                 '</div>',
+        scope: {
+            
+        },
         link: function($scope, element, attributes) {
+            var pageName=attributes.page || "page";
+            $scope.page=$scope.$parent[pageName];
+            
             $scope.rangePages = function(pageNumber, totalPages) {
                 if (!totalPages) {
                     return [];
