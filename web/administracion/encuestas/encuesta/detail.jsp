@@ -57,6 +57,7 @@
                     <th style="text-align: right">N&ordm;</th>
                     <th width="100%">Pregunta</th>
                     <th style="text-align: center">Tipo&nbsp;Pregunta</th>
+                    <th ng-show="allowChildAction('delete') || allowChildAction('view')" style="min-width:85px;text-align: center" >Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -64,6 +65,10 @@
                     <td style="text-align: right">{{pregunta.idPregunta}}</td>
                     <td ><a href="javascript:void(0)" ng-click="buttonDefaultChild('pregunta', pregunta.idPregunta, 'encuesta.idEncuesta', 'model.idEncuesta')" >{{pregunta.pregunta}}</a></td>
                     <td style="white-space:nowrap;">{{metadata['Encuesta'].properties['preguntas'].properties['tipoPregunta'].values[pregunta.tipoPregunta]}}</td>
+                    <td ng-show="allowChildAction('delete') || allowChildAction('view')">
+                        <button ng-show="allowChildAction('delete')" class="btn btn-danger btn-mini" type="button" ng-click="buttonDeleteChild('pregunta', pregunta.idPregunta, 'encuesta.idEncuesta', 'model.idEncuesta')">Borrar</button>
+                        <button ng-show="allowChildAction('view')" class="btn btn-success btn-mini" type="button" ng-click="buttonViewChild('pregunta', pregunta.idPregunta, 'encuesta.idEncuesta', 'model.idEncuesta')">Ver</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
