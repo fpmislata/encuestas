@@ -1,9 +1,11 @@
+"use strict"
+
 app.config(['crudProvider', function(crudProvider) {
         crudProvider.addAllRoutes("Encuesta", "jsp");
     }]);
 
 app.controller("EncuestaSearchController", ['$scope', 'crudState', function($scope, crudState) {
-        $scope.orders = [
+        $scope.ordersby = [
             {
                 orderDirection: '',
                 fieldName: '',
@@ -29,21 +31,19 @@ app.controller("EncuestaSearchController", ['$scope', 'crudState', function($sco
 
 
         crudState.extendsScopeController($scope, {
-            pageSize: 10,
-            order: [$scope.orders[0]]
+            page: {
+                pageSize: 10
+            },
+            orderby: [$scope.ordersby[0]]
         });
-
+        
+        $scope.search();
+        
     }]);
 app.controller("EncuestaNewEditController", ['$scope', 'crudState','$location', function($scope, crudState,$location) {
         crudState.extendsScopeController($scope,{
             expand:"preguntas"
         });
-        $scope.finishOK = function() {
-            $location.path("/encuesta/search");
-        };
-        $scope.finishCancel = function() {
-            $location.path("/encuesta/search");
-        };
         $scope.buttonDelete = function() {
             $scope.delete();
         }
@@ -53,24 +53,12 @@ app.controller("EncuestaViewController", ['$scope', 'crudState','$location', fun
         crudState.extendsScopeController($scope,{
             expand:"preguntas"
         });
-        $scope.finishOK = function() {
-            $location.path("/encuesta/search");
-        };
-        $scope.finishCancel = function() {
-            $location.path("/encuesta/search");
-        };
         
     }]);
 app.controller("EncuestaDeleteController", ['$scope', 'crudState','$location', function($scope, crudState,$location) {
         crudState.extendsScopeController($scope,{
             expand:"preguntas"
-        });
-        $scope.finishOK = function() {
-            $location.path("/encuesta/search");
-        };
-        $scope.finishCancel = function() {
-            $location.path("/encuesta/search");
-        };        
+        });     
     }]);
 
 
