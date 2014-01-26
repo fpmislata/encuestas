@@ -12,7 +12,7 @@
             </div>
             &nbsp;&nbsp;
             orden:
-            <select ng-model="order[0]" class="input-medium" ng-options="order.label for order in orders"></select>
+            <select ng-model="orderby[0]" class="input-medium" ng-options="order.label for order in ordersby"></select>
             &nbsp;&nbsp;
             <button  class="btn btn-primary"   ng-click="buttonNew()" >Nueva encuesta</button>
         </form>
@@ -54,7 +54,7 @@
             <div class="form-group">
                 <label class="control-label" for="pageSize" style="text-wrap:none;text-align: right">Resultados por p&aacute;gina:</label>
                 <div class="controls">
-                    <select ng-model="pageSize" id="pageSize" class="input-small" ng-options="pageSize for pageSize in pageSizes" ></select>
+                    <select ng-model="page.pageSize" id="pageSize" class="input-small" ng-options="pageSize for pageSize in pageSizes" ></select>
                 </div>
             </div> 
         </form>
