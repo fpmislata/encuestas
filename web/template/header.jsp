@@ -26,6 +26,7 @@
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/services/validator.js'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/directives/ix3businessmessages.js'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/directives/ix3clear.js'></script>
+<script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/directives/ix3input.js'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/directives/ix3date.js'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/directives/ix3pagination.js'></script>
 <script type='text/javascript' src='<%=request.getContextPath()%>/lib/ix3-angular/js/directives/ix3visibility.js'></script>

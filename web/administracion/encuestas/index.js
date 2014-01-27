@@ -8,3 +8,7 @@ app.config(['$routeProvider','daoFactoryProvider',function($routeProvider,daoFac
     daoFactoryProvider.setBaseURL(getContextPath()+"/api");
         
 }]);
+
+app.constant("bootstrap",{
+    version:2
+});
