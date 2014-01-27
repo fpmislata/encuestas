@@ -15,6 +15,7 @@
  */
 package es.logongas.encuestas.modelo.encuestas;
 
+import es.logongas.ix3.persistence.services.annotations.Caption;
 import java.util.List;
 import javax.validation.constraints.NotNull;
 import org.hibernate.Hibernate;
@@ -36,7 +37,9 @@ public class Pregunta implements Comparable<Pregunta> {
     private Encuesta encuesta;
     private List<Item> items;
     @NotNull
+    @Caption("Tipo de Pregunta")
     private TipoPregunta tipoPregunta;
+    @Caption("El último Item es 'Otros'")
     private boolean ultimoItemIncluyeOtros;
     private boolean requerido;
     private int idx;

@@ -32,6 +32,7 @@ public class Item implements Comparable<Item> {
     @Caption("Tipo de Item")
     private TipoItem tipoItem;
     @ValuesList(shortLength = true)
+    @Caption("Lista de Valores")
     private ListaValores listaValores;
     @NotNull
     private Pregunta pregunta;
