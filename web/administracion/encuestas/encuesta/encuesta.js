@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 app.config(['crudProvider', function(crudProvider) {
         crudProvider.addAllRoutes("Encuesta", "jsp");
@@ -46,7 +46,7 @@ app.controller("EncuestaNewEditController", ['$scope', 'crudState','$location', 
         });
         $scope.buttonDelete = function() {
             $scope.delete();
-        }
+        };
     }]);
 
 app.controller("EncuestaViewController", ['$scope', 'crudState','$location', function($scope, crudState,$location) {

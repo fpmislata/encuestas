@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 app.config(['crudProvider', function(crudProvider) {
         crudProvider.addAllRoutes("Item", "jsp");
