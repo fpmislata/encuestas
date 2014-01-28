@@ -6,9 +6,10 @@ app.config(['$routeProvider',function($routeProvider) {
     });
 }]);
 
-function MainController($scope) {
+app.controller('MainController', ['$scope',function($scope) {
     
-}
+}]);
+
 
 
 
