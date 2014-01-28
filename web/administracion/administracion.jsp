@@ -23,7 +23,7 @@
                 </a>
             </div>
             <div class="span4" >
-                <a href="<%=request.getContextPath()%>/administracion/seguridad/seguridad.jsp" class="main-button" >
+                <a href="<%=request.getContextPath()%>/administracion/seguridad/index.jsp" class="main-button" >
                     <span class="main-text">Seguridad y usuarios</span>
                     <br />
                     <img src="<%=request.getContextPath()%>/img/icons/lock.png" alt="usuarios y seguridad" class="center" />
