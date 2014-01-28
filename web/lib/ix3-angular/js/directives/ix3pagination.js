@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 angular.module('es.logongas.ix3').directive('ix3Pagination', function() {
     return {

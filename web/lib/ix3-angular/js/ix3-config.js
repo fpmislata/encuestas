@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 /**
  * configuramos que si viene un String con forma de fecha en una petición http la

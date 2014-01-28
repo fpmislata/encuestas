@@ -1,6 +1,6 @@
  
 (function() {
-    "use strict"
+    "use strict";
 
     function CRUD(daoFactory, $window, validator, $location, $rootScope) {
         this.extendsScopeSearchController = function(scope, controllerConfig) {
@@ -282,6 +282,7 @@
 
             /**
              * Obtiene el path a navegar para una acción "hija" de un formulario
+             * @param {Scope} scope El scope para obtener los datos de la PK
              * @param {String} actionName La accion:"new","edit","delete" o "view". Corresponde a las parte del path de las rutas.
              * @param {String} entity El nombre de la entidad 
              * @param {Object} pk El valor de la clave primaria
@@ -335,7 +336,7 @@
                 }
 
                 return allow;
-            }
+            };
 
             scope.childAction = function(actionName, entity, pk, parentProperty, parentId) {
 
@@ -480,7 +481,7 @@
                     throw Error("scope.controllerAction desconocida:" + scope.controllerAction);
             }
 
-        }
+        };
 
 
     }

@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 angular.module("es.logongas.ix3.datepicker.jquery").directive('ix3Datepicker', ['dateFormat', function(dateFormat) {
         return {

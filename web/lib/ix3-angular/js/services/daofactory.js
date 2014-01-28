@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 angular.module("es.logongas.ix3").provider("daoFactory", ['RestangularProvider', function(RestangularProvider) {
         this._baseURL;
