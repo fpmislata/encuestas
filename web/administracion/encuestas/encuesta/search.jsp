@@ -65,6 +65,6 @@
 
 <div class="row-fluid" >
     <div class="span12">
-        <ix3-business-messages />
+        <ix3-business-messages></ix3-business-messages>
     </div>
 </div>
