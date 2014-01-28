@@ -2,7 +2,12 @@
 
 angular.module('es.logongas.ix3').directive('ix3Input', ['bootstrap', '$compile', function(bootstrap, $compile) {
 
-        function hasProperty(obj) {
+        /**
+         * Obtiene si el objeto values tiene algun valor
+         * @param {type} obj El objeto del que se averigua si tiene "values"
+         * @returns {Boolean} Retorna 'true' si tiene values
+         */
+        function hasValues(obj) {
             var has = false;
             for (var property in obj) {
                 if (obj.hasOwnProperty(property)) {
@@ -151,7 +156,7 @@ angular.module('es.logongas.ix3').directive('ix3Input', ['bootstrap', '$compile'
         function getHTML(name, metadata) {
             var html;
 
-            if ((hasProperty(metadata.values) === true) || (metadata.dependProperties.length > 0) || (metadata.urlValues !== null)) {
+            if ((hasValues(metadata.values) === true) || (metadata.dependProperties.length > 0) || (metadata.urlValues !== null)) {
                 html = getHTMLSelect(name, metadata);
             } else {
                 switch (metadata.type) {
