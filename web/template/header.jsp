@@ -106,11 +106,11 @@
                 type: 'DELETE',
                 url:getContextPath()+"/api/session",
                 success: function(data) {
-                    window.location.href=getContextPath();
+                    window.location.href=getContextPath()+"/";
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     alert("Ocurrió un error al cerrar la sesión");
-                    window.location.href=getContextPath();
+                    window.location.href=getContextPath()+"/";
                 }
             });
         });

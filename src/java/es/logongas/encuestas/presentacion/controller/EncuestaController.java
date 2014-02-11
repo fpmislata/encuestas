@@ -98,7 +98,7 @@ public class EncuestaController {
 
         try {
             if ((request.getParameter("backURI") == null) || (request.getParameter("backURI").trim().equals(""))) {
-                backURI = new URI(request.getContextPath());
+                backURI = new URI(request.getContextPath()+"/");
             } else {
                 backURI = new URI(request.getParameter("backURI"));
             }
