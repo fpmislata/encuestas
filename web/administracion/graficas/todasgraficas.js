@@ -6,7 +6,7 @@ function TodasGraficasController($scope,$http,$location) {
         $scope.encuesta=data;
     });
 
-    $http.get(getContextPath()+'/api/Pregunta/?orderBy=idx&encuesta.idEncuesta='+idEncuesta).success(function(data) {
+    $http.get(getContextPath()+'/api/Pregunta/?$orderBy=idx&encuesta.idEncuesta='+idEncuesta).success(function(data) {
         var preguntas = data;
         for(var i=0;i<preguntas.length;i++) {
             var pregunta=preguntas[i];
@@ -20,7 +20,7 @@ function TodasGraficasController($scope,$http,$location) {
             if ($scope.isPreguntaAllowChart(pregunta)) {
 
                 (function(idPregunta) {
-                    $http.get(getContextPath()+'/api/Encuesta/namedsearch/getResultadoPregunta?pregunta='+pregunta.idPregunta).success(function(resultado) {
+                    $http.get(getContextPath()+'/api/Encuesta/$namedsearch/getResultadoPregunta?pregunta='+pregunta.idPregunta).success(function(resultado) {
                         var chartElement=createChartElement("idPregunta"+idPregunta);
                         showChart(chartElement,resultado);
                     }).error(function(data, status, headers, config) {
@@ -30,7 +30,7 @@ function TodasGraficasController($scope,$http,$location) {
 
             } else {
                 (function(idPregunta) {
-                    $http.get(getContextPath()+'/api/Item/?orderBy=idx&pregunta.idPregunta='+pregunta.idPregunta).success(function(data) {
+                    $http.get(getContextPath()+'/api/Item/?$orderBy=idx&pregunta.idPregunta='+pregunta.idPregunta).success(function(data) {
                         var items=data;
                         for(var j=0;j<items.length;j++) {
                             var item=items[j];
@@ -44,7 +44,7 @@ function TodasGraficasController($scope,$http,$location) {
                             if ($scope.isItemAllowChart(item)==true) {
 
                                 (function(idItem) {
-                                    $http.get(getContextPath()+'/api/Encuesta/namedsearch/getResultadoItem?item='+item.idItem).success(function(resultado) {
+                                    $http.get(getContextPath()+'/api/Encuesta/$namedsearch/getResultadoItem?item='+item.idItem).success(function(resultado) {
                                         var chartElement=createChartElement("idItem"+idItem);
                                         showChart(chartElement,resultado);
                                     }).error(function(data, status, headers, config) {
