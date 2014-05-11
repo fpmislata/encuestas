@@ -130,7 +130,7 @@
 
 
 
-    <target name="-pre-compile" depends="-pre-compile-configureDesarrollo,-pre-compile-configureProduccion">
+    <target name="-pre-compile" depends="-pre-compile-configureDesarrollo,-pre-compile-configureProduccion,-pre-compile-configureOpenShift">
     </target>
 
     <target name="-pre-compile-configureDesarrollo" unless="enableProduccion">
@@ -141,7 +141,7 @@
         <delete file="${build.web.dir}/META-INF/context.xml"/>
     </target>
 
-    <target name="-pre-dist" depends="-pre-dist-configureDesarrollo,-pre-dist-configureProduccion">
+    <target name="-pre-dist" depends="-pre-dist-configureDesarrollo,-pre-dist-configureProduccion,-pre-dist-configureOpenShift">
     </target>
 
     <target name="-pre-dist-configureDesarrollo" unless="enableProduccion" >
@@ -250,6 +250,29 @@
 
     </target>
 
+    <target name="distOpenShift" depends="-configureAnt,-enableOpenShift,dist" >
+        <move file="${dist.dir}/${war.name}" tofile="${dist.dir}/ROOT.war" />
+    </target>  
+    <target name="-enableOpenShift"  >
+        <property name="enableOpenShift" value="yes"/>
+    </target>    
+    <target name="-pre-compile-configureOpenShift" if="enableOpenShift">
+        <delete file="${build.web.dir}/META-INF/context.xml"/>
+        <delete file="${build.web.dir}/WEB-INF/classes/hibernate.cfg.xml"/>
+        <delete file="${dist.dir}/ROOT.war"/>
+    </target>    
+    <target name="-pre-dist-configureOpenShift" if="enableOpenShift" >        
+        <!-- Quitar el datasource pq usamos el de openshift -->
+        <xmltask source="${build.web.dir}/META-INF/context.xml" dest="${build.web.dir}/META-INF/context.xml"  encoding="utf-8" >
+            <remove path="/Context/Resource[@type='javax.sql.DataSource']"/>
+        </xmltask>
+        
+        <!-- Decirle a hibernate que usamos el de openshift -->
+        <xmltask source="${build.web.dir}/WEB-INF/classes/hibernate.cfg.xml" dest="${build.web.dir}/WEB-INF/classes/hibernate.cfg.xml" encoding="utf-8" >
+            <replace path="/hibernate-configuration/session-factory/property[@name='connection.datasource']/text()" withText="java:/comp/env/jdbc/MysqlDS" />
+        </xmltask>
 
+
+    </target>
 
 </project>
