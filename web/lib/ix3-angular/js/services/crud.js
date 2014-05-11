@@ -1,4 +1,4 @@
- 
+
 (function() {
     "use strict";
 
@@ -8,7 +8,8 @@
             scope.models = {};
             scope.filter = {};
             scope.orderby = []; //Array con objetos con las propiedades fieldName y orderDirection. La propiedad orderDirection soporta los valores "ASC" y "DESC"
-
+            scope.metadata = {};
+            
             scope.search = function() {
                 if (scope.parentProperty && scope.parentId) {
                     scope.filter[scope.parentProperty] = scope.parentId;
@@ -41,6 +42,27 @@
                     }
                 }, undefined, scope.page.pageNumber, scope.page.pageSize);
             };
+            scope.getMetadata = function(entity, expand,fnOK, fnError) {
+                fnOK = fnOK || function() {
+                };
+                fnError = fnError || function() {
+                };                
+                
+                daoFactory.getDAO(entity).metadata(function(data) {
+                    scope.metadata[entity] = data;
+                    fnOK();
+                }, function(error) {
+                    if (error.status === 400) {
+                        scope.businessMessages = error.data;
+                    } else {
+                        scope.businessMessages = [{
+                                propertyName: null,
+                                message: "Estado HTTP:" + error.status + "\n" + error.data
+                            }];
+                    }
+                    fnError();
+                }, expand);
+            };            
             scope.buttonSearch = function() {
                 scope.page.pageNumber = 0;
                 scope.search();
@@ -124,6 +146,8 @@
                 scope.search();
             }, true);
 
+            scope.getMetadata(scope.entity, scope.expand);
+
         };
 
         this.extendDetailController = function(scope, controllerConfig) {
@@ -142,9 +166,15 @@
                 }
                 obj[keys[keys.length - 1]] = newValue;
             };
-            scope.getMetadata = function(entity, expand) {
+            scope.getMetadata = function(entity, expand,fnOK, fnError) {
+                fnOK = fnOK || function() {
+                };
+                fnError = fnError || function() {
+                };                
+                
                 daoFactory.getDAO(entity).metadata(function(data) {
                     scope.metadata[entity] = data;
+                    fnOK();
                 }, function(error) {
                     if (error.status === 400) {
                         scope.businessMessages = error.data;
@@ -154,6 +184,7 @@
                                 message: "Estado HTTP:" + error.status + "\n" + error.data
                             }];
                     }
+                    fnError();
                 }, expand);
             };
             scope.get = function(fnOK, fnError) {
@@ -412,8 +443,6 @@
             if (!scope.idName) {
                 scope.idName = "id" + scope.entity;
             }
-            scope.dao = daoFactory.getDAO(scope.entity);
-            scope.getMetadata(scope.entity, scope.expand);
 
 
             scope.buttonCancel = function() {
@@ -440,46 +469,53 @@
 
             };
 
-            //El valor de los "labels" de los botones
-            switch (scope.controllerAction) {
-                case "NEW":
-                    scope.labelButtonOK = "Guardar";
-                    scope.labelButtonCancel = "Salir";
-                    break;
-                case "EDIT":
-                    scope.labelButtonOK = "Guardar";
-                    scope.labelButtonCancel = "Salir";
-                    break;
-                case "VIEW":
-                    scope.labelButtonOK = "Salir";
-                    scope.labelButtonCancel = "";
-                    break;
-                case "DELETE":
-                    scope.labelButtonOK = "Borrar";
-                    scope.labelButtonCancel = "Salir";
-                    break;
-                default:
-                    throw Error("scope.controllerAction desconocida:" + scope.controllerAction);
-            }
-
+            scope.$watch("controllerAction", function(controllerAction) {
+                switch (controllerAction) {
+                    case "NEW":
+                        scope.labelButtonOK = "Guardar";
+                        scope.labelButtonCancel = "Salir";
+                        break;
+                    case "EDIT":
+                        scope.labelButtonOK = "Actualizar";
+                        scope.labelButtonCancel = "Salir";
+                        break;
+                    case "VIEW":
+                        scope.labelButtonOK = "Salir";
+                        scope.labelButtonCancel = "";
+                        break;
+                    case "DELETE":
+                        scope.labelButtonOK = "Borrar";
+                        scope.labelButtonCancel = "Salir";
+                        break;
+                    default:
+                        throw Error("scope.controllerAction desconocida:" + scope.controllerAction);
+                }
+            });
 
             //Accion a realizar al iniciar el controlador
-            switch (scope.controllerAction) {
-                case "NEW":
-                    scope.create();
-                    break;
-                case "EDIT":
-                    scope.get();
-                    break;
-                case "VIEW":
-                    scope.get();
-                    break;
-                case "DELETE":
-                    scope.get();
-                    break;
-                default:
-                    throw Error("scope.controllerAction desconocida:" + scope.controllerAction);
-            }
+            scope.initialAction = function() {
+                switch (scope.controllerAction) {
+                    case "NEW":
+                        scope.create();
+                        break;
+                    case "EDIT":
+                        scope.get();
+                        break;
+                    case "VIEW":
+                        scope.get();
+                        break;
+                    case "DELETE":
+                        scope.get();
+                        break;
+                    default:
+                        throw Error("scope.controllerAction desconocida:" + scope.controllerAction);
+                }
+            };
+
+            scope.dao = daoFactory.getDAO(scope.entity);
+            scope.getMetadata(scope.entity, scope.expand,function() {
+                scope.initialAction();
+            });
 
         };
 

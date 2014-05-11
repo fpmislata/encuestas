@@ -4,43 +4,43 @@ angular.module('es.logongas.ix3').directive('ix3Input', ['bootstrap', '$compile'
 
         /**
          * Obtiene si el objeto values tiene algun valor
-         * @param {type} obj El objeto del que se averigua si tiene "values"
+         * @param {type} values El objeto del que se averigua si tiene "values"
          * @returns {Boolean} Retorna 'true' si tiene values
          */
-        function hasValues(obj) {
-            var has = false;
-            for (var property in obj) {
-                if (obj.hasOwnProperty(property)) {
-                    has = true;
-                    break;
-                }
+        function hasValues(values) {
+            if (values===null) {
+                return false;
+            } else {
+               if (angular.isArray(values)===false) {
+                  throw Error("El contenido de la propiedad Values debe ser un array pero es:"+typeof(values)); 
+               } 
+               
+               return true;
             }
-
-            return has;
         }
 
         function getValidationAttributes(metadata) {
             var validationAttributes;
-            
-            if (metadata.required===true) {
-                validationAttributes=validationAttributes + ' ng-required="true" ';
+
+            if (metadata.required === true) {
+                validationAttributes = validationAttributes + ' ng-required="true" ';
             }
-            if ((metadata.pattern) && (metadata.type==="STRING")) {
-                validationAttributes=validationAttributes + ' ng-pattern="' + metadata.pattern + '" ';
-            }  
-            if ((metadata.minimum) && (metadata.type==="INTEGER")) {
-                validationAttributes=validationAttributes + ' min="' + metadata.minimum + '" ';
-            }          
-            if ((metadata.maximum) && (metadata.type==="INTEGER")) {
-                validationAttributes=validationAttributes + ' max="' + metadata.maximum + '" ';
-            }          
-            if ((metadata.minLength) && (metadata.type==="STRING")) {
-                validationAttributes=validationAttributes + ' ng-minlength="' + metadata.minLength + '" ';
-            }          
-            if ((metadata.maxlength) && (metadata.type==="STRING")) {
-                validationAttributes=validationAttributes + ' ng-maxlength="' + metadata.maxLength + '" ';
-            }          
-         
+            if ((metadata.pattern) && (metadata.type === "STRING")) {
+                validationAttributes = validationAttributes + ' ng-pattern="/' + metadata.pattern + '/" ';
+            }
+            if ((metadata.minimum) && (metadata.type === "INTEGER")) {
+                validationAttributes = validationAttributes + ' min="' + metadata.minimum + '" ';
+            }
+            if ((metadata.maximum) && (metadata.type === "INTEGER")) {
+                validationAttributes = validationAttributes + ' max="' + metadata.maximum + '" ';
+            }
+            if ((metadata.minLength) && (metadata.type === "STRING")) {
+                validationAttributes = validationAttributes + ' ng-minlength="' + metadata.minLength + '" ';
+            }
+            if ((metadata.maxlength) && (metadata.type === "STRING")) {
+                validationAttributes = validationAttributes + ' ng-maxlength="' + metadata.maxLength + '" ';
+            }
+
 
             return validationAttributes;
         }
@@ -51,25 +51,35 @@ angular.module('es.logongas.ix3').directive('ix3Input', ['bootstrap', '$compile'
             var cssClassControlLabel;
             var cssClassDivInputCol;
             if (bootstrap.version >= 3) {
-                cssClassLabelCol = "col-sm-2";
+                cssClassLabelCol = "col-sm-3";
                 cssClassControlLabel = "control-label";
-                cssClassDivInputCol = "col-sm-10";
+                cssClassDivInputCol = "col-sm-9";
             } else {
                 cssClassLabelCol = "";
                 cssClassControlLabel = "control-label";
                 cssClassDivInputCol = "controls";
             }
 
-            var attributes=getValidationAttributes(metadata);
+            var attributes = getValidationAttributes(metadata);
 
-            var label=metadata.label.charAt(0).toUpperCase() + metadata.label.slice(1);
+            var label = metadata.label.charAt(0).toUpperCase() + metadata.label.slice(1);
 
             var id = "field." + name + "." + (new Date()).getTime();
 
-            var html = '    <label for="' + id + '" class="' + cssClassLabelCol + '  ' + cssClassControlLabel + '">' + label + '</label>\n' +
+            var ngOptions;
+            var ngModel;
+            if (metadata.type === "OBJECT") {
+                ngOptions = "value.key." + metadata.primaryKeyPropertyName + " as value.description for value in metadata.values";
+                ngModel="model." + name+ "."+ metadata.primaryKeyPropertyName;          
+            } else {
+                ngOptions = "value.key as value.description for value in metadata.values";
+                ngModel="model." + name;
+            }
+
+            var html = ' <label for="' + id + '" class="' + cssClassLabelCol + '  ' + cssClassControlLabel + '">' + label + '</label>\n' +
                     '    <div class="' + cssClassDivInputCol + '">\n' +
-                    '        <select id="' + id + '" ng-model="model.' + name + '" name="' + name + '" ' + attributes + ' ng-options="key as value for (key , value) in metadata.values" >\n' + 
-                    '           <option>--- Elige opci&oacute;n ---' +
+                    '        <select id="' + id + '" ng-model="' + ngModel + '" name="' + name + '" ' + attributes + ' ng-options="' + ngOptions + '" >\n' +
+                    '           <option value="">--- Elige opci&oacute;n ---</option>' +
                     '        </select>\n' +
                     '    </div>\n';
             return html;
@@ -80,9 +90,9 @@ angular.module('es.logongas.ix3').directive('ix3Input', ['bootstrap', '$compile'
             var cssClassControlLabel;
             var cssClassDivInputCol;
             if (bootstrap.version >= 3) {
-                cssClassLabelCol = "col-sm-2";
+                cssClassLabelCol = "col-sm-3";
                 cssClassControlLabel = "control-label";
-                cssClassDivInputCol = "col-sm-10";
+                cssClassDivInputCol = "col-sm-9";
             } else {
                 cssClassLabelCol = "control-label";
                 cssClassControlLabel = "";
@@ -107,11 +117,11 @@ angular.module('es.logongas.ix3').directive('ix3Input', ['bootstrap', '$compile'
                     throw Error("El tipo de datos no es valido para un escalar:" + metadata.type);
             }
 
-            attributes=attributes+getValidationAttributes(metadata);
+            attributes = attributes + getValidationAttributes(metadata);
 
             var id = "field." + name + "." + (new Date()).getTime();
-            var label=metadata.label.charAt(0).toUpperCase() + metadata.label.slice(1);
-            
+            var label = metadata.label.charAt(0).toUpperCase() + metadata.label.slice(1);
+
             var html = '<label for="' + id + '" class="' + cssClassLabelCol + '  ' + cssClassControlLabel + '">' + label + '</label>\n' +
                     '    <div class="' + cssClassDivInputCol + '">\n' +
                     '        <input type="text" id="' + id + '" ng-model="model.' + name + '" name="' + name + '" ' + attributes + ' ></input>\n' +
@@ -122,17 +132,17 @@ angular.module('es.logongas.ix3').directive('ix3Input', ['bootstrap', '$compile'
         function getHTMLBoolean(name, metadata) {
             var cssClassDiv;
             if (bootstrap.version >= 3) {
-                cssClassDiv = "col-sm-offset-2 col-sm-10";
+                cssClassDiv = "col-sm-offset-3 col-sm-9";
 
             } else {
                 cssClassDiv = "controls";
             }
 
-            var attributes=getValidationAttributes(metadata);
+            var attributes = getValidationAttributes(metadata);
 
             var id = "field." + name + "." + (new Date()).getTime();
-            var label=metadata.label.charAt(0).toUpperCase() + metadata.label.slice(1);
-            
+            var label = metadata.label.charAt(0).toUpperCase() + metadata.label.slice(1);
+
             var html = '<div class="' + cssClassDiv + '">' +
                     '<div class="checkbox">' +
                     '<label style="white-space:nowrap;height:30px"><input type="checkbox" id="' + id + '" ng-model="model.' + name + '" name="' + name + '" ' + attributes + ' >' + label + '</label>' +
@@ -144,10 +154,29 @@ angular.module('es.logongas.ix3').directive('ix3Input', ['bootstrap', '$compile'
         }
 
         function getHTMLSearch(name, metadata) {
-            var html;
+            var cssClassLabelCol;
+            var cssClassControlLabel;
+            var cssClassDivInputCol;
+            if (bootstrap.version >= 3) {
+                cssClassLabelCol = "col-sm-3";
+                cssClassControlLabel = "control-label";
+                cssClassDivInputCol = "col-sm-9";
+            } else {
+                cssClassLabelCol = "control-label";
+                cssClassControlLabel = "";
+                cssClassDivInputCol = "controls";
+            }
 
+            var attributes;
+            attributes = attributes + getValidationAttributes(metadata);
 
+            var id = "field." + name + "." + (new Date()).getTime();
+            var label = metadata.label.charAt(0).toUpperCase() + metadata.label.slice(1);
 
+            var html = '<label for="' + id + '" class="' + cssClassLabelCol + '  ' + cssClassControlLabel + '">' + label + '</label>\n' +
+                    '    <div class="' + cssClassDivInputCol + '">\n' +
+                    '        <input type="text" id="' + id + '" ng-model="model.' + name + '" name="' + name + '" ' + attributes + ' ></input>\n' +
+                    '    </div>\n';
             return html;
         }
 
@@ -186,48 +215,84 @@ angular.module('es.logongas.ix3').directive('ix3Input', ['bootstrap', '$compile'
             return html;
         }
 
+        function getMetadataProperty(obj, key) {
+            var keys = key.split('.');
+            for (var i = 0; i < keys.length; i++) {
+                if (!obj.properties[keys[i]]) {
+                    throw Error("No xiste el objeto:" + key);
+                }
+                obj = obj.properties[keys[i]];
+
+            }
+            return obj;
+        }
+        function setValue(obj, key, newValue) {
+            var keys = key.split('.');
+            for (var i = 0; i < keys.length - 1; i++) {
+                if (!obj[keys[i]]) {
+                    obj[keys[i]] = {};
+                }
+                obj = obj[keys[i]];
+
+            }
+            obj[keys[keys.length - 1]] = newValue;
+        }
+
         return {
             restrict: 'E',
             template: '<div  ng-class="{\'form-group\':bootstrap.version===3,\'control-group\':bootstrap.version===2}"></div>',
             replace: true,
             scope: {
-                name:"@model"
+                name: "@model"
             },
             link: function($scope, element, attributes) {
                 $scope.bootstrap = bootstrap;
                 $scope.entity = $scope.$parent.entity;
                 $scope.model = {};
-                $scope.model[$scope.name] = null;
-                var watchProperty = "$parent.metadata." + $scope.entity + ".properties." + $scope.name;
-                
-                $scope.$watch(watchProperty, function(newValue, oldValue) {
+                setValue($scope.model, $scope.name, null);
+
+                var watchMetadata = "$parent.metadata." + $scope.entity;
+
+                $scope.$watch(watchMetadata, function(newValue, oldValue) {
                     if (newValue === oldValue) {
                         return;
                     }
-                    if (typeof(newValue)!=="object") {
+                    var metadata = newValue;
+                    if (typeof (metadata) !== "object") {
                         return;
                     }
-                    $scope.metadata = newValue;
-
+                    $scope.metadata = getMetadataProperty(metadata, $scope.name);
                     element.html(getHTML($scope.name, $scope.metadata));
                     $compile(element)($scope);
-                });
 
-                $scope.$watch("$parent.model." + $scope.name, function(newValue, oldValue) {
-                    if (newValue === oldValue) {
-                        return;
+                    var watchInputProperty;
+                    var watchParentProperty;
+                    if (metadata.type === "OBJECT") {
+                        watchInputProperty="model." + $scope.name+"."+metadata.primaryKeyPropertyName;
+                        watchParentProperty="$parent.model." + $scope.name+"."+metadata.primaryKeyPropertyName;;
+                    } else {
+                        watchInputProperty="model." + $scope.name;
+                        watchParentProperty="$parent.model." + $scope.name;
                     }
+                    
+                    $scope.$watch(watchInputProperty, function(newValue, oldValue) {
+                        if (newValue === oldValue) {
+                            return;
+                        }
+                        setValue($scope, watchParentProperty, newValue);
+                    });
+                    $scope.$watch(watchParentProperty, function(newValue, oldValue) {
+                        if (newValue === oldValue) {
+                            return;
+                        }
+                        setValue($scope, watchInputProperty, newValue);
+                    });
 
-                    $scope.model[$scope.name] = newValue;
-                });
-                $scope.$watch("model." + $scope.name, function(newValue, oldValue) {
-                    if (newValue === oldValue) {
-                        return;
-                    }
 
-                    $scope.$parent.model[$scope.name] = newValue;
                 });
-                
+
+
+
             }
         };
     }]);

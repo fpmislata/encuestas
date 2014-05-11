@@ -32,3 +32,10 @@ angular.module('es.logongas.ix3').config(["$httpProvider", function($httpProvide
         });
     }]);
 
+angular.module('es.logongas.ix3').config(["$controllerProvider", function($controllerProvider) {
+        //Esto es para poder cargar a posteriori controladores.
+        //Se usa en las ventanas modales.
+        angular.lazyController=$controllerProvider.register;
+}]);
+
+angular.module('es.logongas.ix3').value("apiurl","../api");
