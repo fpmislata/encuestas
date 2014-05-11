@@ -72,9 +72,9 @@
             ajaxWait($('#loginModal'));
             jQuery.ajax({
                 type: 'POST',
-                contentType: 'application/json',
                 dataType: "json",
-                url:getContextPath()+"/api/session?" + jQuery.param(params) ,
+                data:jQuery.param(params),
+                url:getContextPath()+"/api/session",
                 success: function(data) {
                     ajaxHide();
                     window.location.href=getContextPath()+"/administracion/administracion.jsp";
