@@ -69,60 +69,20 @@
 
     -->
 
-    <target name="deployProduction" depends="-configureAnt,-enableProduccion,dist,-deployProduccion,-deployDataBase" >
-        <!--
-            El fichero ${proyecto.productionFile} debe tener las siguientes propiedades:
-            tomcat.production.url
-            tomcat.production.user  <- Opcional. Por defecto es admin
-            tomcat.producion.password
-
-            datasource.datos.url
-            datasource.datos.username
-            datasource.datos.password
-            datasource.datos.factory        El valor del atributo factory del datasource. Por defecto es "org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
-            datasource.deploy.datos.url     La URL que usa flyway para desplegar en la base de datos. Por defecto es la misma que datasource.datos.url
-
-            javadoc.rootpath:               Path deonde Donde colocar el JavaDoc generado.
-                                            Por defecto en "/var/www/vhosts/default/htdocs/proyectos"
-            databaseschema.rootpath:        Path donde colocar la documentación HTML de la base de datos.
-                                            Por defecto en "/var/www/vhosts/default/htdocs/proyectos"
-        -->
-    </target>
-
-    <target name="compilar" depends="-configureAnt,dist" >
-        <!-- Permite compilar el código sin que esté NetBeans instalado -->
-    </target>
+    <target name="distOpenShift" depends="-configureAnt,-enableProduccion,dist" >
+    </target>  
 
     <target name="-configureAnt">
         <echo>Configurando Ant</echo>
 
-        <property name="libAnt.path" value="libant" />
 
-        <path id="libAnt.classpath">
-            <fileset dir="${libAnt.path}">
-                <include name="**/*.jar" />
-            </fileset>
-            <fileset dir="lib">
-                <include name="**/*.jar" />
-            </fileset>
-        </path>
-
-        <property name="libs.CopyLibs.classpath" value="${libAnt.path}/org-netbeans-modules-java-j2seproject-copylibstask.jar" />
-        <property name="j2ee.server.home" value="${libAnt.path}" />
+        <property name="libs.CopyLibs.classpath" value="ant/lib/org-netbeans-modules-java-j2seproject-copylibstask.jar" />
+        <property name="j2ee.server.home" value="ant" />
 
         <!-- Para tener el try-cath -->
-        <taskdef classpathref="libAnt.classpath" resource="net/sf/antcontrib/antcontrib.properties"/>
+        <taskdef  resource="net/sf/antcontrib/antcontrib.properties"/>
         <!-- Manejo de ficheros XML -->
-        <taskdef classpathref="libAnt.classpath" name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
-
-        <!-- Tareas de Tomcat -->
-        <taskdef classpathref="libAnt.classpath" name="deploy" classname="org.apache.catalina.ant.DeployTask" />
-        <taskdef classpathref="libAnt.classpath" name="start" classname="org.apache.catalina.ant.StartTask" />
-        <taskdef classpathref="libAnt.classpath" name="stop" classname="org.apache.catalina.ant.StopTask" />
-        <taskdef classpathref="libAnt.classpath" name="undeploy" classname="org.apache.catalina.ant.UndeployTask" />
-
-        <!-- Cargar las taks de FlyWay para Ant -->
-        <taskdef classpathref="libAnt.classpath" resource="com/googlecode/flyway/ant/antlib.xml" />
+        <taskdef  name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask"/>
 
         <!-- Propiedades del proyecto -->
         <property file="nbproject/project.properties"/>
@@ -130,149 +90,34 @@
 
 
 
-    <target name="-pre-compile" depends="-pre-compile-configureDesarrollo,-pre-compile-configureProduccion,-pre-compile-configureOpenShift">
+    <target name="-pre-compile" depends="-pre-compile-configureProduccion">
     </target>
 
-    <target name="-pre-compile-configureDesarrollo" unless="enableProduccion">
-
-    </target>
 
     <target name="-pre-compile-configureProduccion" if="enableProduccion">
         <delete file="${build.web.dir}/META-INF/context.xml"/>
+        <delete file="${build.web.dir}/WEB-INF/classes/hibernate.cfg.xml"/>
     </target>
 
-    <target name="-pre-dist" depends="-pre-dist-configureDesarrollo,-pre-dist-configureProduccion,-pre-dist-configureOpenShift">
+    <target name="-pre-dist" depends="-pre-dist-configureProduccion">
     </target>
 
-    <target name="-pre-dist-configureDesarrollo" unless="enableProduccion" >
-
-    </target>
 
     <target name="-pre-dist-configureProduccion" if="enableProduccion" >
-        <echo>Configurando para producción ${Context(path)}</echo>
-        <echo>Fichero de configuración:${proyecto.productionFile}</echo>
-
-        <!-- propiedades del entorno de producción -->
-        <property file="${proyecto.productionFile}" />
-        <!--
-            OJO:siempre despues de cargar el fichero de propiedades
-            Pq al ser las propiedades inmutables, si no tiene valor se pone por defecto.
-        -->
-        <property name="tomcat.production.user" value="admin"/>
-        <property name="datasource.datos.factory" value="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"/>
-
         <!-- Poner los datos de la conexión de producción -->
-        <xmltask source="${build.web.dir}/META-INF/context.xml" dest="${build.web.dir}/META-INF/context.xml" >
-            <replace path="/Context/Resource[@type='javax.sql.DataSource']/@url" withText="${datasource.datos.url}" />
-            <replace path="/Context/Resource[@type='javax.sql.DataSource']/@username" withText="${datasource.datos.username}" />
-            <replace path="/Context/Resource[@type='javax.sql.DataSource']/@password" withText="${datasource.datos.password}" />
-            <attr path="/Context/Resource[@type='javax.sql.DataSource']" attr="factory" value="${datasource.datos.factory}"/>
+        <xmltask source="${build.web.dir}/META-INF/context.xml" dest="${build.web.dir}/META-INF/context.xml" preservetype="true" standalone="false">
+            <remove path="/Context/Resource[@type='javax.sql.DataSource']"/>
         </xmltask>
+        
+        <!-- Cambiar el datasource de Hibernate -->
+        <replace file="${build.web.dir}/WEB-INF/classes/hibernate.cfg.xml" token="java:/comp/env/jdbc/encuestas" value="java:/comp/env/jdbc/MySQLDS"/>
+ 
 
-        <!-- Cargar el context.xml para averiguar la ruta de la app -->
-        <xmlproperty file="${build.web.dir}/META-INF/context.xml" />
+
     </target>
 
     <target name="-enableProduccion"  >
         <property name="enableProduccion" value="yes"/>
-    </target>
-
-    <target name="-deployProduccion" depends="-undeployProduccion"  >
-        <echo>Desplegado aplicación ........</echo>
-        <deploy url="${tomcat.production.url}/manager/text" username="${tomcat.production.user}" password="${tomcat.production.password}" path="${Context(path)}" war="${basedir}/${dist.war}" update="true"/>
-        <start url="${tomcat.production.url}/manager/text" username="${tomcat.production.user}" password="${tomcat.production.password}" path="${Context(path)}" />
-    </target>
-
-
-    <target name="-undeployProduccion">
-        <trycatch property="exception" >
-            <try>
-                <stop url="${tomcat.production.url}/manager/text" username="${tomcat.production.user}" password="${tomcat.production.password}" path="${Context(path)}"/>
-            </try>
-            <catch>
-                <echo>No se pudo parar la aplicacion en Tomcat.Excepcion ${exception}</echo>
-            </catch>
-        </trycatch>
-        <trycatch property="exception">
-            <try>
-                <undeploy url="${tomcat.production.url}/manager/text" username="${tomcat.production.user}" password="${tomcat.production.password}" path="${Context(path)}"/>
-            </try>
-            <catch>
-                <echo>No se pudo replegar la aplicación en Tomcat.Excepcion ${exception}</echo>
-            </catch>
-        </trycatch>
-    </target>
-
-    <target name="-deployDataBase" depends="-configureAnt">
-        <echo>Desplegando en la base de datos</echo>
-
-        <!-- Nombre de la carpeta donde se encuentran los ficheros sql -->
-        <property name="sqlfiles.dir" value="${basedir}/database"/>
-
-        <!-- Cargar el context.xml para averiguar la ruta de la app -->
-        <xmlproperty file="${build.web.dir}/META-INF/context.xml" />
-
-        <!-- URL de la base de datos -->
-        <property name="datasource.deploy.datos.url" value="${Context.Resource(url)}"/>
-
-        <path id="flyway.classpath">
-            <!-- Aqui están los Drivers de MySQL -->
-            <fileset dir="lib" includes="*.jar"/>
-        </path>
-        <property name="flyway.driver" value="${Context.Resource(driverClassName)}"/>
-        <property name="flyway.url" value="${datasource.deploy.datos.url}"/>
-        <property name="flyway.user" value="${Context.Resource(username)}"/>
-        <property name="flyway.password" value="${Context.Resource(password)}"/>
-        <property name="flyway.initOnMigrate" value="true"/> <!-- Si la DB está vacia que la inicialice -->
-        <property name="flyway.initVersion" value="0"/>
-        <property name="flyway.validateOnMigrate" value="true"/>
-
-        <echo>Iniciando migración desde el directorio '${sqlfiles.dir}' a  la base de datos '${flyway.url}' con usuario '${Context.Resource(username)}'</echo>
-        <migrate>
-            <locations>
-                <location  path="filesystem:${sqlfiles.dir}"/>
-            </locations>
-        </migrate>
-
-    </target>
-
-
-    <target name="-javadoc" depends="javadoc" if="enableProduccion">
-        <property name="javadoc.rootpath" value="/var/www/vhosts/default/htdocs/proyectos"/>
-        <property name="javadoc.path" value="${javadoc.rootpath}/${Context(path)}/javadoc" />
-
-        <delete dir="${javadoc.path}" quiet="true" />
-
-        <move file="${dist.dir}/javadoc" todir="${javadoc.rootpath}/${Context(path)}" />
-    </target>
-
-    <target name="-databaseschema"  if="enableProduccion">
-
-    </target>
-
-    <target name="distOpenShift" depends="-configureAnt,-enableOpenShift,dist" >
-        <move file="${dist.dir}/${war.name}" tofile="${dist.dir}/ROOT.war" />
-    </target>  
-    <target name="-enableOpenShift"  >
-        <property name="enableOpenShift" value="yes"/>
-    </target>    
-    <target name="-pre-compile-configureOpenShift" if="enableOpenShift">
-        <delete file="${build.web.dir}/META-INF/context.xml"/>
-        <delete file="${build.web.dir}/WEB-INF/classes/hibernate.cfg.xml"/>
-        <delete file="${dist.dir}/ROOT.war"/>
-    </target>    
-    <target name="-pre-dist-configureOpenShift" if="enableOpenShift" >        
-        <!-- Quitar el datasource pq usamos el de openshift -->
-        <xmltask source="${build.web.dir}/META-INF/context.xml" dest="${build.web.dir}/META-INF/context.xml"  encoding="utf-8" >
-            <remove path="/Context/Resource[@type='javax.sql.DataSource']"/>
-        </xmltask>
-        
-        <!-- Decirle a hibernate que usamos el de openshift -->
-        <xmltask source="${build.web.dir}/WEB-INF/classes/hibernate.cfg.xml" dest="${build.web.dir}/WEB-INF/classes/hibernate.cfg.xml" encoding="utf-8" >
-            <replace path="/hibernate-configuration/session-factory/property[@name='connection.datasource']/text()" withText="java:/comp/env/jdbc/MysqlDS" />
-        </xmltask>
-
-
     </target>
 
 </project>
