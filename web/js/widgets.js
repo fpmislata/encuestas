@@ -40,8 +40,8 @@ function changeCheck(inputCheck) {
             $(inputCheck).next("label").removeClass('checkedd').addClass('uncheckedd');
            visibility="hidden";
         }
-        if ($(inputCheck).nextAll("input[type=text]").length == 1) {
-            $(inputCheck).nextAll("input[type=text]").css({
+        if ($(inputCheck).parent().nextAll("input[type=text]").length == 1) {
+            $(inputCheck).parent().nextAll("input[type=text]").css({
                 visibility:visibility
             })
         }
@@ -56,8 +56,8 @@ function changeCheck(inputCheck) {
                 $(this).next("label").removeClass('checkedd').addClass('uncheckedd');
                 visibility="hidden";
             }
-            if ($(this).nextAll("input[type=text]").length == 1) {
-                $(this).nextAll("input[type=text]").css({
+            if ($(this).parent().nextAll("input[type=text]").length == 1) {
+                $(this).parent().nextAll("input[type=text]").css({
                     visibility:visibility
                 })
             }

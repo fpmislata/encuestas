@@ -70,7 +70,7 @@ public class RespuestaPreguntaWidget {
 
     private void generateCabecera(RespuestaPregunta respuestaPregunta, StringBuilder sb) {
         sb.append("<div class=\"row-fluid\" style=\"margin-top: 2em;\">\n");
-        sb.append("  <div class=\"span12 main-text lead\" >" + HTMLUtil.toHTML(respuestaPregunta.getPregunta().getPregunta(),true) + ":</div>\n");
+        sb.append("  <div class=\"span12 main-text lead\" >" + HTMLUtil.toHTML(respuestaPregunta.getPregunta().getPregunta(), true) + ":</div>\n");
         sb.append("</div>\n");
         sb.append("<form  id=\"formRespuestas\" action=\"\" method=\"POST\" style='margin:0;'>\n");
         sb.append("<div class=\"row-fluid\">\n");
@@ -83,9 +83,9 @@ public class RespuestaPreguntaWidget {
         sb.append("  </div>\n");
         sb.append("</div>\n");
         sb.append("</form>\n");
-        if (respuestaPregunta.getPregunta().getPie()!=null) {
+        if (respuestaPregunta.getPregunta().getPie() != null) {
             sb.append("<div class=\"row-fluid\">\n");
-            sb.append("  <div class=\"span12 lead\" style='text-align:left;padding:0px;margin:0px' ><p class='text-error'>" + HTMLUtil.toHTML(respuestaPregunta.getPregunta().getPie(),true) + "</p></div>\n");
+            sb.append("  <div class=\"span12 lead\" style='text-align:left;padding:0px;margin:0px' ><p class='text-error'>" + HTMLUtil.toHTML(respuestaPregunta.getPregunta().getPie(), true) + "</p></div>\n");
             sb.append("</div>\n");
         }
         generateBusinessMessages(businessMessages, sb);
@@ -93,7 +93,7 @@ public class RespuestaPreguntaWidget {
     }
 
     private void generateBusinessMessages(List<BusinessMessage> businessMessages, StringBuilder sb) {
-        BusinessMessagesWidget businessMessagesWidget=new BusinessMessagesWidget(businessMessages);
+        BusinessMessagesWidget businessMessagesWidget = new BusinessMessagesWidget(businessMessages);
 
         sb.append(businessMessagesWidget.toHTML());
     }
@@ -120,13 +120,13 @@ public class RespuestaPreguntaWidget {
             sb.append("        <div class=\"radiobutton\">\n");
             sb.append("          <input class=\"radiobutton\" type=\"radio\" value=\"" + respuestaPregunta.getPregunta().getItems().get(i).getIdItem() + "\"  name=\"check1\" " + checked + " />\n");
             sb.append("          <label class=\"" + cssClassChecked + "\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + HTMLUtil.toHTML(item.getNombre()) + "</label>\n");
+            sb.append("        </div>\n");
             if ((i + 1) == respuestaPregunta.getPregunta().getItems().size()) {
                 //Estamos en el último
                 if (respuestaPregunta.getPregunta().isUltimoItemIncluyeOtros() == true) {
                     sb.append("          <input class=\"input-xxlarge\" type=\"text\" name=\"valor" + respuestaPregunta.getPregunta().getItems().get(i).getIdItem() + "\" placeholder=\"Altres\"  style=\"visibility:" + cssStyleVisibility + "\" value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\">\n");
                 }
             }
-            sb.append("        </div>\n");
             sb.append("      </td></tr>\n");
         }
 
@@ -163,10 +163,10 @@ public class RespuestaPreguntaWidget {
             sb.append("        <div class=\"checkbox\">\n");
             sb.append("          <input class=\"checkbox\" type=\"checkbox\" value=\"" + respuestaItem.getItem().getIdItem() + "\"  name=\"check" + respuestaItem.getItem().getIdItem() + "\"  " + checked + " />\n");
             sb.append("          <label class=\"" + cssClassChecked + "\" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre()) + "</label>\n");
+            sb.append("        </div>\n");
             if (showText == true) {
                 sb.append("          <input class=\"input-xxlarge\" type=\"text\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\" placeholder=\"Altres expectatives\" style=\"visibility:" + cssStyleVisibility + "\" value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" >\n");
             }
-            sb.append("        </div>\n");
             sb.append("      </td></tr>\n");
         }
     }
@@ -235,17 +235,17 @@ public class RespuestaPreguntaWidget {
             throw new RuntimeException("listaValores no puede ser null");
         }
 
-        String emptyValue="&nbsp;&nbsp;&nbsp;&nbsp;";
+        String emptyValue = "&nbsp;&nbsp;&nbsp;&nbsp;";
         String currentValue;
-        if (respuestaItem.getValor()==null) {
-            currentValue="&nbsp;&nbsp;&nbsp;&nbsp;";
+        if (respuestaItem.getValor() == null) {
+            currentValue = "&nbsp;&nbsp;&nbsp;&nbsp;";
         } else {
-            currentValue=HTMLUtil.toHTML(respuestaItem.getValor());
+            currentValue = HTMLUtil.toHTML(respuestaItem.getValor());
         }
 
         sb.append("      <tr>\n");
         sb.append("            <td class=\"simple-text lead\" style=\"text-align: left;padding-left: 20px;vertical-align:top;padding-top:10px;\" >\n");
-        sb.append("                <img src=\"img/icons/bullet.png\" />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre(),true) + ":\n");
+        sb.append("                <img src=\"img/icons/bullet.png\" />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre(), true) + ":\n");
         sb.append("            </td>\n");
         sb.append("            <td >\n");
         sb.append("                <div class=\"btn-group\">\n");
@@ -267,7 +267,7 @@ public class RespuestaPreguntaWidget {
     private void generateItemTexto(RespuestaItem respuestaItem, StringBuilder sb) {
         sb.append("      <tr>\n");
         sb.append("            <td class=\"simple-text lead\" style=\"text-align: left;padding-left: 20px;vertical-align:top\" >\n");
-        sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre(),true) + ":\n");
+        sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre(), true) + ":\n");
         sb.append("            </td>\n");
         sb.append("            <td valign='middle'>\n");
         sb.append("                <input type=\"text\" class=\"input-xlarge\" name=\"valor" + respuestaItem.getItem().getIdItem() + "\"  value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
@@ -278,7 +278,7 @@ public class RespuestaPreguntaWidget {
     private void generateItemFecha(RespuestaItem respuestaItem, StringBuilder sb) {
         sb.append("      <tr>\n");
         sb.append("            <td class=\"simple-text lead\" style=\"text-align: left;padding-left: 20px;vertical-align:top\" >\n");
-        sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre(),true) + ":\n");
+        sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre(), true) + ":\n");
         sb.append("            </td >\n");
         sb.append("            <td valign='middle'>\n");
         sb.append("                <input type=\"text\" id=\"valor" + respuestaItem.getItem().getIdItem() + "\" class=\"input-medium\"  name=\"valor" + respuestaItem.getItem().getIdItem() + "\"  value=\"" + HTMLUtil.toHTML(respuestaItem.getValor()) + "\" />\n");
@@ -314,18 +314,17 @@ public class RespuestaPreguntaWidget {
 
         if ((pregunta == null) || (pregunta.trim().equals(""))) {
             showPregunta = false;
-        } else if (respuestaItem.getRespuestaPregunta().getPregunta().getItems().size()==1) {
+        } else if (respuestaItem.getRespuestaPregunta().getPregunta().getItems().size() == 1) {
             //Si solo hay un item y es de "Area de Texto" no hae falta que mostremos su item
             showPregunta = false;
         } else {
             showPregunta = true;
         }
 
-
         if (showPregunta == true) {
             sb.append("        <tr>\n");
             sb.append("            <td colspan='2' class=\"simple-text lead\" style=\"text-align: left;padding-left: 20px\" >\n");
-            sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre(),true) + ":\n");
+            sb.append("                <img src=\"img/icons/bullet.png\"  />&nbsp;" + HTMLUtil.toHTML(respuestaItem.getItem().getNombre(), true) + ":\n");
             sb.append("            </td >\n");
             sb.append("        </tr>\n");
         }
