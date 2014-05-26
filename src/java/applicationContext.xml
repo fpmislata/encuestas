@@ -13,8 +13,8 @@
     <!-- <context:component-scan base-package="es.fpmislata.examen.datos"/> -->
 
     <bean class="es.logongas.ix3.persistence.impl.hibernate.dao.DAOFactoryImplHibernate" >
-        <property name="domainBasePackageName"  value="es.logongas.encuestas.modelo" />
-        <property name="daoBasePackageName"     value="es.logongas.encuestas.persistencia.services.dao" />
-        <property name="daoImplBasePackageName" value="es.logongas.encuestas.persistencia.impl.dao" />
-    </bean>
+        <property name="domainBasePackageName"     value="es.logongas.encuestas.modelo" />
+        <property name="interfaceBasePackageName"  value="es.logongas.encuestas.persistencia.services.dao" />
+        <property name="implBasePackageName"       value="es.logongas.encuestas.persistencia.impl.dao" />
+    </bean>   
 </beans>
