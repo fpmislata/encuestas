@@ -24,5 +24,14 @@
                 <bean class="es.logongas.ix3.security.impl.authentication.AuthenticationProviderImplMoodle" />
             </list>
         </property>
-    </bean>      
+    </bean>
+    
+    <bean id="authorizationManager" class="es.logongas.ix3.security.impl.authorization.AuthorizationManagerImpl"  >
+        <property name="authorizationProviders">
+            <list>
+                <bean class="es.logongas.ix3.security.impl.authorization.AuthorizationProviderImplIdentity" />
+            </list>
+        </property>
+    </bean>    
+                
 </beans>
