@@ -16,5 +16,13 @@
         <property name="domainBasePackageName"     value="es.logongas.encuestas.modelo" />
         <property name="interfaceBasePackageName"  value="es.logongas.encuestas.persistencia.services.dao" />
         <property name="implBasePackageName"       value="es.logongas.encuestas.persistencia.impl.dao" />
-    </bean>   
+    </bean>  
+    
+    <bean id="authenticationManager" class="es.logongas.ix3.security.impl.authentication.AuthenticationManagerImpl"  >
+        <property name="authenticationProviders">
+            <list>
+                <bean class="es.logongas.ix3.security.impl.authentication.AuthenticationProviderImplMoodle" />
+            </list>
+        </property>
+    </bean>      
 </beans>

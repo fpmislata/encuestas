@@ -15,7 +15,6 @@
  */
 package es.logongas.encuestas.presentacion.developer;
 
-import es.logongas.ix3.model.User;
 import es.logongas.ix3.security.services.authentication.AuthenticationManager;
 import es.logongas.ix3.security.services.authentication.Principal;
 import java.io.Serializable;
