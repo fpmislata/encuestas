@@ -1,6 +1,6 @@
 <%@page import="es.logongas.encuestas.presentacion.widget.TextWidget"%>
 <%@page import="org.springframework.web.util.HtmlUtils"%>
-<%@page import="es.logongas.ix3.persistence.services.dao.BusinessMessage"%>
+<%@page import="es.logongas.ix3.core.BusinessMessage"%>
 <%@page import="java.util.List"%>
 <%@page import="es.logongas.encuestas.modelo.respuestas.RespuestaPregunta"%>
 <%@page import="es.logongas.encuestas.presentacion.widget.RespuestaPreguntaWidget"%>

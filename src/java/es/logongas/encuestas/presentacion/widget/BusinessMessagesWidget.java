@@ -16,7 +16,7 @@
 package es.logongas.encuestas.presentacion.widget;
 
 import es.logongas.encuestas.presentacion.util.HTMLUtil;
-import es.logongas.ix3.persistence.services.dao.BusinessMessage;
+import es.logongas.ix3.core.BusinessMessage;
 import java.util.List;
 
 /**

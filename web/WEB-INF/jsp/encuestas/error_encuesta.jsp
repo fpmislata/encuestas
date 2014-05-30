@@ -2,7 +2,7 @@
 <%@page import="es.logongas.encuestas.presentacion.widget.TextWidget"%>
 <%@page import="es.logongas.encuestas.presentacion.widget.BusinessMessagesWidget"%>
 <%@page import="es.logongas.encuestas.presentacion.widget.RespuestaPreguntaWidget"%>
-<%@page import="es.logongas.ix3.persistence.services.dao.BusinessMessage"%>
+<%@page import="es.logongas.ix3.core.BusinessMessage"%>
 <%@page import="java.util.List"%>
 <%@page import="java.net.URI"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

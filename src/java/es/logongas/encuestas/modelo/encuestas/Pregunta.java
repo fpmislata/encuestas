@@ -15,7 +15,7 @@
  */
 package es.logongas.encuestas.modelo.encuestas;
 
-import es.logongas.ix3.persistence.services.annotations.Caption;
+import es.logongas.ix3.core.annotations.Caption;
 import java.util.List;
 import javax.validation.constraints.NotNull;
 import org.hibernate.Hibernate;

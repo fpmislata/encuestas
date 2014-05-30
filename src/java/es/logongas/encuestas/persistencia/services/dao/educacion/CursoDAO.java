@@ -16,7 +16,7 @@
 package es.logongas.encuestas.persistencia.services.dao.educacion;
 
 import es.logongas.encuestas.modelo.educacion.Curso;
-import es.logongas.ix3.persistence.services.dao.GenericDAO;
+import es.logongas.ix3.dao.GenericDAO;
 
 /**
  * DAO del modelo Curso

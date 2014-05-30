@@ -16,7 +16,7 @@
 package es.logongas.encuestas.persistencia.services.dao.respuestas;
 
 import es.logongas.encuestas.modelo.respuestas.RespuestaEncuesta;
-import es.logongas.ix3.persistence.services.dao.GenericDAO;
+import es.logongas.ix3.dao.GenericDAO;
 import es.logongas.util.seguridad.CodigoVerificacionSeguro;
 
 /**

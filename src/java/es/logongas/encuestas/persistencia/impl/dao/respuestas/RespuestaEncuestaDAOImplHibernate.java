@@ -7,7 +7,7 @@ package es.logongas.encuestas.persistencia.impl.dao.respuestas;
 import es.logongas.encuestas.modelo.educacion.Curso;
 import es.logongas.encuestas.modelo.respuestas.RespuestaEncuesta;
 import es.logongas.encuestas.persistencia.services.dao.respuestas.RespuestaEncuestaDAO;
-import es.logongas.ix3.persistence.impl.hibernate.dao.GenericDAOImplHibernate;
+import es.logongas.ix3.dao.impl.GenericDAOImplHibernate;
 import es.logongas.util.seguridad.CodigoVerificacionSeguro;
 import org.hibernate.Criteria;
 import org.hibernate.Session;

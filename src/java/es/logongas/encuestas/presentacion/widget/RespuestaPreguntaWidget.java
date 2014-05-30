@@ -21,7 +21,7 @@ import es.logongas.encuestas.modelo.encuestas.Valor;
 import es.logongas.encuestas.modelo.respuestas.RespuestaItem;
 import es.logongas.encuestas.modelo.respuestas.RespuestaPregunta;
 import es.logongas.encuestas.presentacion.util.HTMLUtil;
-import es.logongas.ix3.persistence.services.dao.BusinessMessage;
+import es.logongas.ix3.core.BusinessMessage;
 import java.util.List;
 
 /**

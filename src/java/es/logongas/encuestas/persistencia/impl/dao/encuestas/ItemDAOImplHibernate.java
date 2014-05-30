@@ -7,7 +7,7 @@ package es.logongas.encuestas.persistencia.impl.dao.encuestas;
 
 import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.encuestas.persistencia.services.dao.encuestas.ItemDAO;
-import es.logongas.ix3.persistence.impl.hibernate.dao.GenericDAOImplHibernate;
+import es.logongas.ix3.dao.impl.GenericDAOImplHibernate;
 import org.hibernate.Session;
 
 /**

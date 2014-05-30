@@ -19,7 +19,7 @@ import es.logongas.encuestas.modelo.encuestas.Encuesta;
 import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
 import es.logongas.encuestas.modelo.resultados.Resultado;
-import es.logongas.ix3.persistence.services.dao.GenericDAO;
+import es.logongas.ix3.dao.GenericDAO;
 
 /**
  *

@@ -15,7 +15,7 @@
  */
 package es.logongas.encuestas.modelo.encuestas;
 
-import es.logongas.ix3.persistence.services.annotations.Caption;
+import es.logongas.ix3.core.annotations.Caption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,10 +31,10 @@ public class Encuesta {
     @NotBlank
     private String nombre;
     private boolean habilitada;
-    @es.logongas.ix3.persistence.services.annotations.Date
+    @es.logongas.ix3.core.annotations.Date
     @Caption("Fecha de inicio")
     private Date fechaInicio;
-    @es.logongas.ix3.persistence.services.annotations.Date  
+    @es.logongas.ix3.core.annotations.Date  
     @Caption("Fecha de fin")
     private Date fechaFin;
     private boolean imprimir;

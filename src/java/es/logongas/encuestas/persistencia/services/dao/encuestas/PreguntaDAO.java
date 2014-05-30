@@ -16,7 +16,7 @@
 package es.logongas.encuestas.persistencia.services.dao.encuestas;
 
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
-import es.logongas.ix3.persistence.services.dao.GenericDAO;
+import es.logongas.ix3.dao.GenericDAO;
 
 /**
  *
