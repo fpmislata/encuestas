@@ -15,8 +15,8 @@
  */
 package es.logongas.encuestas.presentacion.developer;
 
-import es.logongas.ix3.security.services.authentication.AuthenticationManager;
-import es.logongas.ix3.security.services.authentication.Principal;
+import es.logongas.ix3.security.authentication.AuthenticationManager;
+import es.logongas.ix3.security.authentication.Principal;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;

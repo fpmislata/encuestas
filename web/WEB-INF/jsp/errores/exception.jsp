@@ -1,6 +1,6 @@
-<%@page import="es.logongas.ix3.persistence.services.dao.BusinessMessage"%>
+<%@page import="es.logongas.ix3.core.BusinessMessage"%>
 <%@page import="org.springframework.web.util.HtmlUtils"%>
-<%@page import="es.logongas.ix3.persistence.services.dao.BusinessException"%>
+<%@page import="es.logongas.ix3.core.BusinessException"%>
 <%@page contentType="text/html" pageEncoding="UTF-8" isErrorPage="true" %>
 <%
     String msg;

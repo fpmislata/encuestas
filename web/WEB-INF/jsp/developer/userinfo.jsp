@@ -1,9 +1,9 @@
-<%@page import="es.logongas.ix3.model.Identity"%>
-<%@page import="es.logongas.ix3.model.ACE"%>
+<%@page import="es.logongas.ix3.security.model.Identity"%>
+<%@page import="es.logongas.ix3.security.model.ACE"%>
 <%@page import="java.util.List"%>
-<%@page import="es.logongas.ix3.model.GroupMember"%>
+<%@page import="es.logongas.ix3.security.model.GroupMember"%>
 <%@page import="java.util.Set"%>
-<%@page import="es.logongas.ix3.model.Group"%>
+<%@page import="es.logongas.ix3.security.model.Group"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
