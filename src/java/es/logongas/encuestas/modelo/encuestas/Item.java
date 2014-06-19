@@ -15,7 +15,7 @@
  */
 package es.logongas.encuestas.modelo.encuestas;
 
-import es.logongas.ix3.core.annotations.Caption;
+import es.logongas.ix3.core.annotations.Label;
 import es.logongas.ix3.core.annotations.ValuesList;
 import javax.validation.constraints.NotNull;
 import org.hibernate.Hibernate;
@@ -29,16 +29,16 @@ public class Item implements Comparable<Item> {
     private int idItem;
     @NotBlank
     private String nombre;
-    @Caption("Tipo de Item")
+    @Label("Tipo de Item")
     private TipoItem tipoItem;
     @ValuesList(shortLength = true)
-    @Caption("Lista de Valores")
+    @Label("Lista de Valores")
     private ListaValores listaValores;
     @NotNull
     private Pregunta pregunta;
     private boolean requerido;
     private String expresionRegular;
-    @Caption("Valor por defecto")
+    @Label("Valor por defecto")
     private String valorDefecto;
     private int idx;
 

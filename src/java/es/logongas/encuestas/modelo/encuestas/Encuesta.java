@@ -15,7 +15,7 @@
  */
 package es.logongas.encuestas.modelo.encuestas;
 
-import es.logongas.ix3.core.annotations.Caption;
+import es.logongas.ix3.core.annotations.Label;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,10 +32,10 @@ public class Encuesta {
     private String nombre;
     private boolean habilitada;
     @es.logongas.ix3.core.annotations.Date
-    @Caption("Fecha de inicio")
+    @Label("Fecha de inicio")
     private Date fechaInicio;
     @es.logongas.ix3.core.annotations.Date  
-    @Caption("Fecha de fin")
+    @Label("Fecha de fin")
     private Date fechaFin;
     private boolean imprimir;
     private List<Pregunta> preguntas=new ArrayList<Pregunta>();
