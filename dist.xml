@@ -42,8 +42,7 @@
             <elseif>
                 <equals arg1="${APP_ENVIRONMENT}" arg2="PRUEBAS" />
                 <then>
-                    <git command="fetch" options="origin" dir="../ix3" />
-                    <git command="checkout" options="-b ${ix3.pruebas.branch} origin/${ix3.pruebas.branch}" dir="../ix3" />
+                    <ix3DownloadChangeJarAll ix3version="${ix3.pruebas.version}"/>
                 </then>
             </elseif>                      
             <else>
