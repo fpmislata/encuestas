@@ -56,7 +56,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class AuthenticationProviderImplMoodle implements AuthenticationProvider {
 
-    private String moodleLoginURL = "https://www.fpmislata.com/moodle/login/index.php";
+    private String moodleLoginURL = "https://www.fpmislata.com/moodle2/login/index.php";
     private String fqcnIdentity=Identity.class.getName();
     @Autowired
     DAOFactory daoFactory;
