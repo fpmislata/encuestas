@@ -15,6 +15,7 @@
             <select ng-model="orderby[0]" class="input-medium" ng-options="order.label for order in ordersby"></select>
             &nbsp;&nbsp;
             <button  class="btn btn-primary"   ng-click="buttonNew()" >Nueva encuesta</button>
+            <button class="btn btn-danger " type="button" ng-click="buttonDeleteDatos(encuesta.idEncuesta)">Borrar Todos los Datos</button>
         </form>
     </div>
 </div>

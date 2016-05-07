@@ -279,4 +279,14 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
 
         return data;
     }
+
+    @Override
+    public void deleteAllData() {
+        Session session = sessionFactory.getCurrentSession();
+
+        session.createQuery("delete from RespuestaItem").executeUpdate();
+        session.createQuery("delete from RespuestaPregunta").executeUpdate();
+        session.createQuery("delete from RespuestaEncuesta").executeUpdate();
+        
+    }
 }
