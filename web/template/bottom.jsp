@@ -5,7 +5,7 @@
 <div class="row-fluid no-print" style="margin-top: 1em">
     <div class="span1"  ></div>
     <div class="span2"  ><img src="<%=request.getContextPath()%>/img/icons/europa.png" alt="fse" /></div>
-    <div class="span6" style="text-align: center" >&copy; 2013 - Lorenzo González para el CIPFP Mislata</div><!-- codigo fuente en github.com/logongas/encuestas -->
+    <div class="span6" style="text-align: center" >&copy; 2013 - Lorenzo González para el CIPFP Mislata. v201703211257</div><!-- codigo fuente en github.com/logongas/encuestas -->
     <div class="span2"  ><img src="<%=request.getContextPath()%>/img/icons/bureauVeritas.png" alt="certificado calidad" align="right"  /></div>
     <div class="span1"  ></div>
 </div>

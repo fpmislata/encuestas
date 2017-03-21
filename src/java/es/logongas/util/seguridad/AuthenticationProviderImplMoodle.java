@@ -43,6 +43,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -57,51 +58,65 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AuthenticationProviderImplMoodle implements AuthenticationProvider {
 
     private String moodleLoginURL = "https://www.fpmislata.com/moodle2/login/index.php";
-    private String fqcnIdentity=Identity.class.getName();
+    private final String loginAdmin = "admin";
+    private final String passwordAdmin = "FZQIZovmvGp1SYghu/XTDQjTWBpigkCVkZxIVVjLs2xQ5OJhZNaoMfjYI9r1AeU7";
+    private String fqcnIdentity = Identity.class.getName();
     @Autowired
     DAOFactory daoFactory;
 
     protected final Log log = LogFactory.getLog(getClass());
-    
-    
+
     @Override
     public Principal authenticate(Credential credential) {
         try {
+            StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+
             if ((credential instanceof CredentialImplLoginPassword) == false) {
                 return null;
             }
+
             CredentialImplLoginPassword credentialImplLoginPassword = (CredentialImplLoginPassword) credential;
-            HostnameVerifier hostnameVerifier=org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
-            HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
-            DefaultHttpClient httpClientPost = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost(moodleLoginURL);
-            List<NameValuePair> nvps = new ArrayList<NameValuePair>();
-            nvps.add(new BasicNameValuePair("username", credentialImplLoginPassword.getLogin()));
-            nvps.add(new BasicNameValuePair("password", credentialImplLoginPassword.getPassword()));
-            httpPost.setEntity(new UrlEncodedFormEntity(nvps));
-            HttpResponse response1 = httpClientPost.execute(httpPost);
-            InputStream inputStream = response1.getEntity().getContent();
-            Document document = Jsoup.parse(inputStreamToString(inputStream));
 
-            Elements divElements = document.getElementsByClass("logininfo");
-            if (divElements.size() == 0) {
-                return null;
+            if (loginAdmin.equalsIgnoreCase(credentialImplLoginPassword.getLogin())) {
+                
+                if (passwordEncryptor.checkPassword( credentialImplLoginPassword.getPassword(), passwordAdmin) == false) {
+                    return null;
+                }
+
+            } else {
+
+                HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+                HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+                DefaultHttpClient httpClientPost = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost(moodleLoginURL);
+                List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+                nvps.add(new BasicNameValuePair("username", credentialImplLoginPassword.getLogin()));
+                nvps.add(new BasicNameValuePair("password", credentialImplLoginPassword.getPassword()));
+                httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+                HttpResponse response1 = httpClientPost.execute(httpPost);
+                InputStream inputStream = response1.getEntity().getContent();
+                Document document = Jsoup.parse(inputStreamToString(inputStream));
+
+                Elements divElements = document.getElementsByClass("logininfo");
+                if (divElements.size() == 0) {
+                    return null;
+                }
+                Element divElement = divElements.get(0);
+                Elements aElements = divElement.getElementsByTag("a");
+                if (aElements.size() == 0) {
+                    return null;
+                }
+                Element aElement = aElements.get(aElements.size() - 1);
+                if (aElement.attr("href").indexOf("logout") < 0) {
+                    return null;
+                }
+
+                DefaultHttpClient httpclient2 = new DefaultHttpClient();
+                HttpGet httpGet = new HttpGet(aElement.attr("href"));
+
+                httpclient2.execute(httpGet);
+
             }
-            Element divElement = divElements.get(0);
-            Elements aElements = divElement.getElementsByTag("a");
-            if (aElements.size() == 0) {
-                return null;
-            }
-            Element aElement = aElements.get(aElements.size() - 1);
-            if (aElement.attr("href").indexOf("logout") < 0) {
-                return null;
-            }
-
-            DefaultHttpClient httpclient2 = new DefaultHttpClient();
-            HttpGet httpGet = new HttpGet(aElement.attr("href"));
-
-            httpclient2.execute(httpGet);
-
             GenericDAO<Identity, Integer> genericDAO = daoFactory.getDAO(Identity.class);
             Identity identity = genericDAO.readByNaturalKey(credentialImplLoginPassword.getLogin());
 
