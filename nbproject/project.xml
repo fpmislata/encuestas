@@ -151,6 +151,10 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
+                    <file>${file.reference.jasypt-1.9.2.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
                     <file>${reference.ix3core.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
