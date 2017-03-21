@@ -59,7 +59,7 @@ public class AuthenticationProviderImplMoodle implements AuthenticationProvider 
 
     private String moodleLoginURL = "https://www.fpmislata.com/moodle2/login/index.php";
     private final String loginAdmin = "admin";
-    private final String passwordAdmin = "E9Vll6W9t+fKI281ZrOdbHbykp5JQATdyrqaiXjI9zCw4lAkv/0uyTPBQfQaGqbz";
+    private final String passwordAdmin = "FZQIZovmvGp1SYghu/XTDQjTWBpigkCVkZxIVVjLs2xQ5OJhZNaoMfjYI9r1AeU7";
     private String fqcnIdentity = Identity.class.getName();
     @Autowired
     DAOFactory daoFactory;
