@@ -59,7 +59,7 @@
 
     <target name="-pre-dist-configureProduccion"  >       
         <!-- Poner los datos de la conexión de producción -->
-        <replace file="${build.web.dir}/META-INF/context.xml" token="localhost:3306/fpempresa" value="database-fpempresa-${env.APP_ENVIRONMENT}:3306/fpempresa"/>
+        <replace file="${build.web.dir}/META-INF/context.xml" token="localhost:3306/encuestas" value="database-encuestas-${env.APP_ENVIRONMENT}:3306/encuestas"/>
         
     </target>
 
