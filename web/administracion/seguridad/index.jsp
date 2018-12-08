@@ -18,6 +18,7 @@
                         <li><a href="#/user/search">Usuarios</a></li>
                         <li><a href="#/group/search">Grupos</a></li>
                         <li><a href="#/secureresourcetype/search">Tipos</a></li>
+                        <li><a href="<%=request.getContextPath()%>/monitoring">Monitor Rendimiento</a></li>
                     </ul>
                 </div>                
             </div>
