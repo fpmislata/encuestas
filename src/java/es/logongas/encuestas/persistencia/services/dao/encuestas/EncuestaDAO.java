@@ -20,6 +20,7 @@ import es.logongas.encuestas.modelo.encuestas.Item;
 import es.logongas.encuestas.modelo.encuestas.Pregunta;
 import es.logongas.encuestas.modelo.resultados.Resultado;
 import es.logongas.ix3.dao.GenericDAO;
+import java.util.Date;
 
 /**
  *
@@ -30,5 +31,5 @@ public interface EncuestaDAO extends GenericDAO<Encuesta,Integer>  {
     Resultado getResultadoItem(Item item);
     Resultado getResultadoPregunta(Pregunta pregunta);
     public long getNumRespuestas(Encuesta encuesta);
-    void deleteAllData();
+    void deleteAllData(Date date);
 }
