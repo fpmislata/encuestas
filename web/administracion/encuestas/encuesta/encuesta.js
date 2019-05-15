@@ -30,12 +30,25 @@ app.controller("EncuestaSearchController", ['$scope', 'crudState','$http', funct
         ];
 
 
-        $scope.buttonDeleteDatos=function(idEncuesta) {
-            var response = confirm("¿Estas seguro de que deseas borrar todos los datos de las encuestas?\nNo podrás deshacer esta acción");
-            if (response == true) {
+        $scope.buttonDeleteDatos=function() {
+            
+            var mensaje;
+            var fechaBorrado;
+
+
+            if (($scope.model) && ($scope.model.fechaBorrado) ){
+                fechaBorrado=$scope.model.fechaBorrado.toISOString();
+                mensaje="¿Estas seguro de que deseas borrar todos los datos de las encuestas  hasta la fecha '" + $scope.model.fechaBorrado.toLocaleDateString() + "'?\nNo podrás deshacer esta acción";
+            } else {
+                mensaje="¿Estas seguro de que deseas borrar todos los datos de las encuestas?\nNo podrás deshacer esta acción";
+                fechaBorrado="";
+            }
+            
+            var response = confirm(mensaje);
+            if (response === true) {
                 $http({
                   method: 'DELETE', 
-                  url: getContextPath()+"/api/Encuesta"
+                  url: getContextPath()+"/api/Encuesta?fechaBorrado=" + fechaBorrado
                 }).success(function(data, status, headers, config) {
                     alert("Se han borrado correctamente todos los datos de las encuestas")
                 }).error(function(data, status, headers, config) {

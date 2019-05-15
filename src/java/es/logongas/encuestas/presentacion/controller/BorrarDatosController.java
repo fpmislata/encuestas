@@ -7,10 +7,12 @@ package es.logongas.encuestas.presentacion.controller;
 
 import es.logongas.encuestas.modelo.encuestas.Encuesta;
 import es.logongas.encuestas.persistencia.services.dao.encuestas.EncuestaDAO;
+import es.logongas.ix3.core.conversion.Conversion;
 import es.logongas.ix3.dao.DAOFactory;
 import es.logongas.ix3.dao.metadata.MetaDataFactory;
 import es.logongas.ix3.web.controllers.RESTController;
 import es.logongas.ix3.web.json.JsonFactory;
+import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
@@ -35,6 +37,8 @@ public class BorrarDatosController {
     ConversionService conversionService;
     @Autowired
     JsonFactory jsonFactory;
+    @Autowired
+    Conversion conversion;    
     private static final Log log = LogFactory.getLog(RESTController.class);
     
    
@@ -44,7 +48,15 @@ public class BorrarDatosController {
         try {
             EncuestaDAO encuestaDAO = (EncuestaDAO)daoFactory.getDAO(Encuesta.class);
 
-            encuestaDAO.deleteAllData();
+            Date fechaBorrado;
+            String parameterfechaBorrado=httpRequest.getParameter("fechaBorrado");
+            if ((parameterfechaBorrado==null) || (parameterfechaBorrado.trim().isEmpty())) {
+                fechaBorrado=null;
+            } else {
+                fechaBorrado=(Date)conversion.convertFromString(parameterfechaBorrado, Date.class);
+            }
+            
+            encuestaDAO.deleteAllData(fechaBorrado);
 
             noCache(httpServletResponse);
             httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);

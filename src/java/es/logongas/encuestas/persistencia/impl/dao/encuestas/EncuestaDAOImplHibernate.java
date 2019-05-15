@@ -30,6 +30,7 @@ import es.logongas.ix3.dao.NamedSearch;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -281,12 +282,55 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
     }
 
     @Override
-    public void deleteAllData() {
+    public void deleteAllData(Date date) {
         Session session = sessionFactory.getCurrentSession();
 
-        session.createQuery("delete from RespuestaItem").executeUpdate();
-        session.createQuery("delete from RespuestaPregunta").executeUpdate();
-        session.createQuery("delete from RespuestaEncuesta").executeUpdate();
+        if (date==null) {
+            session.createQuery("delete from RespuestaItem").executeUpdate();
+            session.createQuery("delete from RespuestaPregunta").executeUpdate();
+            session.createQuery("delete from RespuestaEncuesta").executeUpdate();
+        } else {
+            
+            String sqlDeleteRespuestaItem=
+                "delete\n" +
+                "    	 respuestaitem\n" +
+                "from \n" +
+                "	respuestaitem \n" +
+                "		inner join respuestapregunta on respuestaitem.idRespuestaPregunta=respuestapregunta.idRespuestaPregunta\n" +
+                "		inner join respuestaencuesta on respuestapregunta.idRespuestaEncuesta=respuestaencuesta.idRespuestaEncuesta\n" +
+                "where\n" +
+                "	DATE(respuestaencuesta.fechaRespuesta)<=DATE(?)";
+            Query queryDeleteRespuestaItem = session.createSQLQuery(sqlDeleteRespuestaItem);
+            queryDeleteRespuestaItem.setDate(0,date );
+            queryDeleteRespuestaItem.executeUpdate();
+            
+            
+            
+            
+            String sqlDeleteRespuestaPregunta=
+                "delete\n" +
+                "    	 respuestapregunta\n" +
+                "from \n" +
+                "	 respuestapregunta \n" +
+                "		inner join respuestaencuesta on respuestapregunta.idRespuestaEncuesta=respuestaencuesta.idRespuestaEncuesta\n" +
+                "where\n" +
+                "	DATE(respuestaencuesta.fechaRespuesta)<=DATE(?)";
+            Query queryDeleteRespuestaPregunta = session.createSQLQuery(sqlDeleteRespuestaPregunta);
+            queryDeleteRespuestaPregunta.setDate(0,date );
+            queryDeleteRespuestaPregunta.executeUpdate();   
+            
+            String sqlDeleteRespuestaEncuesta=
+                 "delete\n" +
+                "    	 respuestaencuesta\n" +
+                "from \n" +
+                " respuestaencuesta \n" +
+                "where\n" +
+                "	DATE(respuestaencuesta.fechaRespuesta)<=DATE(?)";
+            Query queryDeleteRespuestaEncuesta = session.createSQLQuery(sqlDeleteRespuestaEncuesta);
+            queryDeleteRespuestaEncuesta.setDate(0,date );
+            queryDeleteRespuestaEncuesta.executeUpdate();            
+            
+        }
         
     }
 }
