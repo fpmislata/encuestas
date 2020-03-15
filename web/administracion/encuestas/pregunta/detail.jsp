@@ -42,7 +42,7 @@
                 <tr ng-repeat="item in model.items">
                     <td style="text-align: right">{{item.idItem}}</td>
                     <td ><a href="javascript:void(0)" ng-click="buttonDefaultChild('item',item.idItem,'pregunta.idPregunta','model.idPregunta')">{{item.nombre}}</a></td>
-                    <td style="white-space:nowrap;">{{metadata['Pregunta'].properties['items'].properties['tipoItem'].values[item.tipoItem]}}</td>
+                    <td style="white-space:nowrap;">{{(metadata['Pregunta'].properties['items'].properties['tipoItem'].values | filter:{ key:item.tipoItem }:true)[0].description }}</td>
                 </tr>
             </tbody>
         </table>
