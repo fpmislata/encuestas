@@ -81,7 +81,7 @@ public class EncuestaDAOImplHibernate extends GenericDAOImplHibernate<Encuesta, 
                             if (item.getListaValores().isContieneValoresNumericos()==true) {
                                 orderBy = " ri.valorNumerico ASC ";
                             } else {
-                                orderBy = " count(*) DESC ";
+                                orderBy = " ri.idRespuestaItem ASC ";
                             }
 
                             break;
