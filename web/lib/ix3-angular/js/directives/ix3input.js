@@ -69,7 +69,7 @@ angular.module('es.logongas.ix3').directive('ix3Input', ['bootstrap', '$compile'
             var ngOptions;
             var ngModel;
             if (metadata.type === "OBJECT") {
-                ngOptions = "value.key." + metadata.primaryKeyPropertyName + " as value.description for value in metadata.values";
+                ngOptions = "value." + metadata.primaryKeyPropertyName + " as value.nombre for value in metadata.values";
                 ngModel="model." + name+ "."+ metadata.primaryKeyPropertyName;          
             } else {
                 ngOptions = "value.key as value.description for value in metadata.values";
@@ -185,7 +185,15 @@ angular.module('es.logongas.ix3').directive('ix3Input', ['bootstrap', '$compile'
         function getHTML(name, metadata) {
             var html;
 
-            if ((hasValues(metadata.values) === true) || (metadata.dependProperties.length > 0) || (metadata.urlValues !== null)) {
+            var length;
+            if (metadata.dependProperties) {
+                length=metadata.dependProperties.length;
+            } else {
+                length=0;
+            }
+
+
+            if ((hasValues(metadata.values) === true) || (length > 0) || ((typeof(metadata.urlValues)==="string") && (metadata.urlValues!==""))) {
                 html = getHTMLSelect(name, metadata);
             } else {
                 switch (metadata.type) {
