@@ -335,6 +335,7 @@ public class EncuestaController {
 
             model.put("codigoVerificacionSeguro", codigoVerificacionSeguro);
             model.put("backURI", backURI);
+            model.put("imprimir", respuestaEncuesta.getEncuesta().isImprimir());
             viewName = "encuestas/finalizar";
         }
 
